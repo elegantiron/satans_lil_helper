@@ -64,16 +64,6 @@ class Entity:
         clone = copy.deepcopy(self)
         clone.x = x
         clone.y = y
-        if clone.name == "random":
-            clone.name = self.name_list.make_name(
-                exclude_real_names=True,
-                exclude_history=True,
-                add_to_history=True,
-                n_candidates=5,
-                pref_candidate=namemaker.MAX,
-                max_attempts=1000,
-            )
-            print(clone.name)
         clone.parent = gamemap
         gamemap.entities.add(clone)
         return clone
