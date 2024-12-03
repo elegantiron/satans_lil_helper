@@ -1,3 +1,4 @@
+"""A place for Entity implementations."""
 from __future__ import annotations
 
 import copy
@@ -22,22 +23,21 @@ T = TypeVar("T", bound="Entity")
 
 
 class Entity:
-    """
-    A generic object to represetn playes, enemies, items, etc.
-    """
+    """A generic object to represent playes, enemies, items, etc."""
 
     parent: GameMap | Inventory
 
     def __init__(
         self,
         parent: Optional[GameMap] = None,
-        x: int = 0,
+        x: int = 0, # x coordinate
         y: int = 0,
         img: int = None,
         name: str = "<Unnamed>",
         blocks_movement: bool = False,
         render_order: RenderOrder = RenderOrder.CORPSE,
     ):
+        """Initialize the Entity."""
         self.x = x
         self.y = y
         self.img = img
@@ -45,7 +45,7 @@ class Entity:
         self.blocks_movement = blocks_movement
         self.render_order = render_order
         if parent:
-            # If parent isn't provided not, it wil be set later
+            # If parent isn't provided now, it wil be set later
             self.parent = parent
             parent.entities.add(self)
         names = namemaker.get_names_from_file(join("assets", "name_lists", "orc.txt"))
@@ -57,6 +57,7 @@ class Entity:
 
     @property
     def gamemap(self) -> GameMap:
+        """Return this Entity's GameMap"""
         return self.parent.gamemap
 
     def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
@@ -80,18 +81,17 @@ class Entity:
             gamemap.entities.add(self)
 
     def distance(self, x: int, y: int) -> float:
-        """
-        Return the distance between the current entity and the given
-        (x, y) coordinates.
-        """
+        """Return the distance between the current entity and the given (x, y) coordinates."""
         return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
 
     def move(self, dx: int, dy: int) -> None:
+        """Move this Entity."""
         self.x += dx
         self.y += dy
 
 
 class Actor(Entity):
+    """An entity that can take actions."""
     def __init__(
         self,
         *,
@@ -132,10 +132,12 @@ class Actor(Entity):
 
     @property
     def is_alive(self) -> bool:
+        """Returns whether this Entity is currently alive."""
         return bool(self.ai)
 
 
 class Item(Entity):
+    """An Entity that is an item."""
     def __init__(
         self,
         *,
