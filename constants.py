@@ -1,51 +1,73 @@
+from __future__ import annotations
+from enum import Enum, Flag, IntEnum, auto
 from os.path import join
 
-
-class SCREEN:
-    PIXEL_WIDTH = 1280
-    PIXEL_HEIGHT = 720
-    TILE_WIDTH = int(PIXEL_WIDTH / 32)
-    TILE_HEIGHT = int(PIXEL_HEIGHT / 32)
+import pygame
 
 
-class CAMERA:
-    WIDTH = int(2 * SCREEN.TILE_WIDTH / 3)
-    HEIGHT = int(SCREEN.TILE_HEIGHT)
+DIRS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+class EQUIPMENT(Flag):
+    HEAD = auto()
+    MUNDANE = auto()
+    MAGICAL = auto()
+    ONE_HAND = auto()
+    TWO_HAND = auto()
+    WAND = auto()
+    SECONDARY_WEAPON = auto()
+    SECONDARY_SHIELD = auto()
+    BODY = auto()
+    HANDS = auto()
+    FEET = auto()
+    LEGS = auto()
+
+class KEYS:
+    MOVEMENT = {
+        pygame.K_KP1: (-1, 1),
+        pygame.K_KP2: (0, 1),
+        pygame.K_KP3: (1, 1),
+        pygame.K_KP4: (-1, 0),
+        pygame.K_KP6: (1, 0),
+        pygame.K_KP7: (-1, -1),
+        pygame.K_KP8: (0, -1),
+        pygame.K_KP9: (1, -1),
+        pygame.K_UP: (0, -1),
+        pygame.K_DOWN: (0, 1),
+        pygame.K_RIGHT: (1, 0),
+        pygame.K_LEFT: (-1, 0),
+    }
+    CONFIRMATION = {
+        pygame.K_RETURN,
+        pygame.K_KP_ENTER,
+    }
 
 
-class STATUS:
-    WIDTH = int(SCREEN.PIXEL_WIDTH / 3)
-    HEIGHT = SCREEN.PIXEL_HEIGHT
+class PRIORITY(IntEnum):
+    """Priority order for esper processing."""
+    # esper executes processors in order of priority, starting at the highest and proceeding toward 0
+    RENDER = auto()
+    ACTION = auto()
 
 
-class PATHS:
-    FOREST_FLOOR = join("assets", "images", "tiles", "forest", "floor", "000.png")
-    FOREST_WALL = join("assets", "images", "tiles", "forest", "wall", "1.png")
-    PLAYER = join("assets", "images", "player", "player.png")
-    ORC = join("assets", "images", "enemies", "orc.png")
-    SACK = join("assets", "images", "items", "sack.png")
-    ROBOTO = join("assets", "fonts", "roboto-slab.ttf")
-    F25 = join("assets", "fonts", "F25_Bank_Printer.ttf")
+class SPRITES(Enum):
+    FOREST_FLOOR = auto()
+    FOREST_WALL = auto()
+    FOREST_ORC = auto()
+    PLAYER = auto()
+    SACK = auto()
 
 
-class TILES:
-    FOREST_FLOOR = 0
-    FOREST_WALL = 1
-    DOWN_STAIRS = 2
+PATHS = {
+    (
+        SPRITES.FOREST_FLOOR,
+        join("assets", "images", "tiles", "forest", "floor", "000.png"),
+    ),
+    (
+        SPRITES.FOREST_WALL,
+        join("assets", "images", "tiles", "forest", "wall", "000.png"),
+    ),
+    (SPRITES.FOREST_ORC, join("assets", "images", "enemies", "orc.png")),
+    (SPRITES.PLAYER, join("assets", "images", "player", "player.png")),
+}
 
-
-class ENTITIES:
-    PLAYER = 0
-    ORC = 1
-    SACK = 2
-    TROLL = PLAYER
-    SCROLL = PLAYER
-    POTION = PLAYER
-    DAGGER = PLAYER
-    LEATHER_ARMOR = PLAYER
-    CHAIN_MAIL = PLAYER
-    SWORD = PLAYER
-
-AREA_NAMES = [
-    "Forest"
-]
+TILE_SIZE = 32

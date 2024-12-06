@@ -1,33 +1,44 @@
-import numpy as np
-from constants import TILES
+from __future__ import annotations
 
-tile_dt = np.dtype([("walkable", bool), ("transparent", bool), ("sprite", "1B")])
+import numpy as np
+
+from constants import SPRITES
+
+floor = 0
+wall = 0
+
+
+tile_dt = np.dtype(
+    [
+        ("walkable", bool),
+        ("transparent", bool),
+        ("sprite_id", SPRITES),
+    ]
+)
+
+new_tile_dt = np.dtype(
+    [
+        ("walkable", bool),
+        ("transparent", bool),
+        ("explored", bool),
+        ("sprite_id", SPRITES),
+    ]
+)
 
 
 def new_tile(
     *,
     walkable: int,
     transparent: int,
-    sprite: int,
-) -> np.ndarray:
-    """Helper function for defining individual tile types."""
-    return np.array((walkable, transparent, sprite), dtype=tile_dt)
+    sprite_id: SPRITES,
+):
+    return np.array((walkable, transparent, sprite_id), dtype=tile_dt)
 
 
-floor = new_tile(
+forest_floor = new_tile(
     walkable=True,
     transparent=True,
-    sprite=TILES.FOREST_FLOOR,
+    sprite_id=SPRITES.FOREST_FLOOR,
 )
 
-wall = new_tile(
-    walkable=False,
-    transparent=False,
-    sprite=TILES.FOREST_WALL,
-)
-
-down_stairs = new_tile(
-    walkable=True,
-    transparent=True,
-    sprite=TILES.DOWN_STAIRS,
-)
+forest_wall = new_tile(walkable=False, transparent=False, sprite_id=SPRITES.FOREST_WALL)
