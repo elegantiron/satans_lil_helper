@@ -1,50 +1,34 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import tcod.ecs
 
-import esper
+from components import NextAction
+from exceptions import MissingComponent
 
-from components import NextAction, Position, Renderable
-from constants import SPRITES, TILE_SIZE
-
-if TYPE_CHECKING:
-    from pygame import Surface
-
-
-class RenderProcessor:
-    def __init__(self, surface: Surface, sprites: dict[SPRITES, Surface]):
-        self.surface = surface
-        self.sprites = sprites
-
-    def process(self):
-        blitlist = []
-        for ent, (pos, rend) in esper.get_components(Position, Renderable):
-            blitlist.append(
-                (self.sprites[rend.image], (pos.x * TILE_SIZE, pos.y * TILE_SIZE))
-            )
-
-        self.surface.blits(blitlist)
 
 
 class ActionProcessor:
-    def __init__(self, player):
+    def __init__(self, player: tcod.ecs.Entity):
         self.player = player
+        player_next_action = self.player.components.get(NextAction, None)
+        if player_next_action:
+            self.next_player_action = player_next_action.dur
+        else:
+            raise MissingComponent("The Player doesn't seem to have an action timer.")
 
     def process(self):
         """Handle processing entities' turns.
 
-        Processes NPC entity turns until the player's turn comes up again.
-        @todo Handle enemy actions"""
+        Processes NPC entity turns until the player's turn comes up again."""
 
         # Check to see if the player is next and advance turns
-        player_action = esper.try_component(self.player, NextAction)
-        player_wait = player_action.dur
-
-        if player_wait != 0:
-            for ent, act in esper.get_component(NextAction):
-                if act.dur > 0:
-                    act.dur -= 1
-                elif act.dur == 0:
-                    # Do an action here
+        if self.next_player_action != 0:
+            for ent in self.player.registry.Q.all_of(components=[NextAction]):
+                dur = ent.components[NextAction].dur
+                if dur > 0:
+                    dur -= 1
+                elif dur == 0 and ent is not self.player:
+                    # TODO Get the entity's FOV
+                    # TODO Process NPC turns
                     pass
 

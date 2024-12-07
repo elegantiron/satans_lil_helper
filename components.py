@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass as component
-from dataclasses import field
+import attrs
 from typing import TYPE_CHECKING
 
 from constants import EQUIPMENT
@@ -10,65 +9,96 @@ if TYPE_CHECKING:
     from pygame import Surface
 
 
-@component
+@attrs.define(frozen=True)
 class Renderable:
     image: Surface
 
 
-@component
+@attrs.define(frozen=True)
 class Position:
     x: int
     y: int
 
 
-@component
+@attrs.define(frozen=True)
+class LastSeen:
+    x: int
+    y: int
+
+
+@attrs.define(frozen=True)
+class Name:
+    name: str
+
+
+@attrs.define(frozen=True)
 class Health:
-    def __init__(self, hp):
-        self._hp = hp
-        self.max_hp = hp
-
-    @property
-    def hp(self) -> int:
-        return self._hp
-
-    @hp.setter
-    def hp(self, value: int) -> None:
-        self._hp = max(0, min(value, self.max_hp))
+    def __init__(self, hp: int, per_level: int = 0):
+        self.hp = hp
+        self.max_hp: int = hp
+        self.per_level = per_level
 
 
-@component
+@attrs.define(frozen=True)
 class Mana:
-    def __init__(self, mp):
-        self._mp = mp
+    def __init__(self, mp, per_level: int = 0):
+        self.mp = mp
         self.max_mp = mp
-
-    @property
-    def mp(self) -> int:
-        return self._mp
-
-    @mp.setter
-    def mp(self, value: int) -> None:
-        self._mp = max(0, min(value, self.max_mp))
+        self.per_level = per_level
 
 
-@component
-class Stats:
-    str: int = 0
-    mag: int = 0
-    pdef: int = 0
-    mdef: int = 0
-    eva: int = 0
-    crit: int = 0
-    agi: int = 0
-    fov: int = 0
+@attrs.define(frozen=True)
+class Stat:
+    base: int
+    level: float
 
 
-@component
+@attrs.define(frozen=True)
+class Strength(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class Magic(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class PhysicalDefense(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class MagicDefense(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class Evade(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class Crit(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class Agility(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
+class LightRadius(Stat):
+    pass
+
+
+@attrs.define(frozen=True)
 class NextAction:
     dur: int
 
 
-@component
+@attrs.define(frozen=True)
 class Equipment:
     def __init__(
         self,
@@ -100,62 +130,67 @@ class Equipment:
         }
 
 
-@component
-class Equipped:
-    pass
-
-@component
-class IsItem:
-    pass
-
-@component
+@attrs.define(frozen=True)
 class OneHandWeapon:
     dice: int
     sides: int
-    slot: int = field(init=False, default=EQUIPMENT.ONE_HAND | EQUIPMENT.MUNDANE)
+    slot: int = EQUIPMENT.ONE_HAND | EQUIPMENT.MUNDANE
 
 
-@component
+@attrs.define(frozen=True)
 class TwoHandWeapon:
     dice: int
     sides: int
-    slot: EQUIPMENT = field(init=False, default=EQUIPMENT.TWO_HAND | EQUIPMENT.MUNDANE)
+    slot: EQUIPMENT = EQUIPMENT.TWO_HAND | EQUIPMENT.MUNDANE
 
 
-@component
+@attrs.define(frozen=True)
 class Staff:
     dice: int
     sides: int
-    slot: int = field(init=False, default=EQUIPMENT.TWO_HAND | EQUIPMENT.MAGICAL)
+    slot: int = EQUIPMENT.TWO_HAND | EQUIPMENT.MAGICAL
 
 
-@component
+@attrs.define(frozen=True)
 class Wand:
     dice: int
     sides: int
-    slot: int = field(init=False, default=EQUIPMENT.WAND | EQUIPMENT.MAGICAL)
+    slot: int = EQUIPMENT.WAND | EQUIPMENT.MAGICAL
 
 
-@component
+@attrs.define(frozen=True)
 class HeadArmor:
-    slot: int = field(init=False, default=EQUIPMENT.HEAD)
+    slot: int = EQUIPMENT.HEAD
 
 
-@component
+@attrs.define(frozen=True)
 class BodyArmor:
-    slot: int = field(init=False, default=EQUIPMENT.BODY)
+    slot: int = EQUIPMENT.BODY
 
 
-@component
+@attrs.define(frozen=True)
 class Gloves:
-    slot: int = field(init=False, default=EQUIPMENT.HANDS)
+    slot: int = EQUIPMENT.HANDS
 
 
-@component
+@attrs.define(frozen=True)
 class Boots:
-    slot: int = field(init=False, default=EQUIPMENT.FEET)
+    slot: int = EQUIPMENT.FEET
 
 
-@component
+@attrs.define(frozen=True)
 class Pants:
-    slot: int = field(init=False, default=EQUIPMENT.LEGS)
+    slot: int = EQUIPMENT.LEGS
+
+
+@attrs.define(frozen=True)
+class Inventory:
+    size: int
+
+
+@attrs.define(frozen=True)
+class Level:
+    def __init__(self, *, level: int = 0, xp: int = 0, xp_granted: int = 0):
+        self.level = level
+        self.xp = xp
+        self.xp_granted = xp_granted

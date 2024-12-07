@@ -1,5 +1,5 @@
 from __future__ import annotations
-from enum import Enum, Flag, IntEnum, auto
+from enum import Enum, Flag, auto
 from os.path import join
 
 import pygame
@@ -42,13 +42,6 @@ class KEYS:
     }
 
 
-class PRIORITY(IntEnum):
-    """Priority order for esper processing."""
-    # esper executes processors in order of priority, starting at the highest and proceeding toward 0
-    RENDER = auto()
-    ACTION = auto()
-
-
 class SPRITES(Enum):
     FOREST_FLOOR = auto()
     FOREST_WALL = auto()
@@ -71,3 +64,25 @@ PATHS = {
 }
 
 TILE_SIZE = 32
+
+class CLASSES(Enum):
+    WARRIOR = auto()
+
+class TAGS(Enum):
+    FRIENDLY = auto()
+    HOSTILE = auto()
+    EQUIPPED = auto()
+    ITEM = auto()
+    BLOCKING = auto()
+    PLAYER = auto()
+    WARRIOR = auto()
+    HELD_BY = auto()
+    HOLDING = auto()
+
+class STRINGS:
+    NEW_GAME = "New Game"
+    EXIT = "Exit"
+    TITLE = "Satan's Lil Helper"
+    CLASSES = {
+        CLASSES.WARRIOR: "Warrior"
+    }

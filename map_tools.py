@@ -3,14 +3,9 @@ from __future__ import annotations
 import datetime
 import random
 
-import esper
 import numpy as np
-import numpy.typing as npt
-import pygame
 
-from components import Position, Renderable
-from constants import DIRS, SPRITES, TILE_SIZE
-import tile_types
+from constants import DIRS
 
 
 class MapGenerator:
@@ -77,51 +72,3 @@ class CellularGenerator(MapGenerator):
             pass
         return self.map
 
-
-class GameMap:
-    def __init__(
-        self,
-        width: int,
-        height: int,
-        surface: pygame.Surface,
-        sprites: dict[SPRITES, pygame.Surface],
-        generator: MapGenerator | None = None,
-    ) -> None:
-        self.width = width
-        self.height = height
-        self.surface = surface
-        self.sprites = sprites
-        if generator:
-            self.generator = generator
-        else:
-            self.generator = CellularGenerator()
-
-        self.tiles: npt.NDArray = self.generator.get_new_map(
-            wall=tile_types.forest_wall, floor=tile_types.forest_floor
-        )
-
-        self.visible = np.full(self.tiles.shape, fill_value=False, order="F")
-        self.explored = np.full(self.tiles.shape, fill_value=False, order="F")
-        self.fog = pygame.surface.Surface((32, 32))
-        self.fog.set_alpha(0xB3)
-        self.fog.fill((0, 0, 0))
-
-    def render(self, start: tuple[int, int], stop: tuple[int, int]):
-        sx, sy = start
-        ex, ey = stop
-        blitlist = []
-        for ix, iy in np.ndindex(self.tiles[sx:ex, sy:ey].shape):
-            if self.explored[ix, iy]:
-                blitlist.append(
-                    self.sprites[self.tiles["sprite_id"][ix + sx, iy + sy]],
-                    (ix * 32, iy * 32),
-                )
-                if not self.visible[ix + sx, iy + sy]:
-                    blitlist.append(self.fog, (ix * 32, iy * 32))
-        for ent, (pos, rend) in esper.get_components(Position, Renderable):
-            blitlist.append(
-                (self.sprites[rend.image], (pos.x * TILE_SIZE, pos.y * TILE_SIZE))
-            )
-
-        self.surface.blits(blitlist)
-        self.surface.blits(blitlist)
