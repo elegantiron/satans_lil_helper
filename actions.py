@@ -1,3 +1,5 @@
+"""Defines actions that an acting entity might take."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -18,6 +20,7 @@ if TYPE_CHECKING:
 
 
 class Action:
+    """Base action that other actions inherit from."""
     def __init__(self, entity: tcod.ecs.Entity):
         self.entity = entity
 
@@ -26,6 +29,10 @@ class Action:
 
 
 class PickupAction(Action):
+    """Picks up items.
+    
+    Picks up any item on the same tile as the given entity. Also checks to
+    be sure that the entity has enough space in its inventory."""
     def perform(self) -> None:
         inventory = self.entity.components.get(Inventory, None)
         if inventory is None:
@@ -76,6 +83,10 @@ class PickupAction(Action):
 
 
 class ActionWithDirection(Action):
+    """Class to implement directional acitons.
+    
+    This class only implements some common functions for every action
+    that involves one of the adjacent tiles."""
     def __init__(self, entity: int, direction: tuple[int, int]):
         super().__init__(entity)
         self.direction = direction
@@ -110,7 +121,12 @@ class ActionWithDirection(Action):
 
 
 class MeleeAction(ActionWithDirection):
+    """Strike an adjacent entity."""
     def perform(self) -> None:
+        """Perform a melee attack action.
+        
+        .. todo::
+           - [ ] Log the attack description to the message log"""
         target = self.target_entity
         actor_name = self.entity.components[Name].name
         target_name = self.target_entity.components[Name].name
@@ -136,26 +152,33 @@ class MeleeAction(ActionWithDirection):
             del self.target_entity.registry[self.target_entity]
         else:
             description = f"{description}."
-        # TODO Log the attack description to the message log
 
 
 class MeleeItemAction(ActionWithDirection):
-    # TODO Implement using an item against an adjacent entity
+    """Uses an item as part of a melee range action.
+    
+    .. todo::
+       - [ ] Implement melee item action"""
     pass
 
 
 class MovementAction(ActionWithDirection):
+    """Moves an entity."""
     def perform(self) -> None:
+        """Performs the movement.
+        
+        .. todo::
+           - [ ] Check if the destination is in bounds
+           - [ ] Check if the destination is walkable
+           - [ ] Check if the destination has a blocking entity
+           """
         pass
-        # TODO Check if the destination is in bounds
         in_bounds = True
         if not in_bounds:
             raise PathBlocked
-        # TODO Check if the destination is walkable
         walkable = True
         if not walkable:
             raise PathBlocked
-        # TODO Check if the destination has a blocking entity
         blocking_entity = False
         if blocking_entity:
             raise PathBlocked
@@ -166,11 +189,19 @@ class MovementAction(ActionWithDirection):
 
 
 class TalkAction(ActionWithDirection):
-    # TODO Implement talking action
+    """Talk to a friendly NPC
+    
+    .. todo::
+       - [ ] Implement talking action"""
     pass
 
 
 class BumpAction(ActionWithDirection):
+    """Perform an action based on what's in the target tile.
+    
+    Useful to allow the player to attempt to walk into an enemy or
+    a friendly NPC and interact with them instead of just failing
+    to move into the tile."""
     def perform(self) -> None:
         if self.target_entity:
             if TAGS.HOSTILE in self.target_entity.tags:

@@ -2,3 +2,5 @@
 .vscode
 slh-pygame.code-workspace
 docs
+docs.bak
+__pycache__

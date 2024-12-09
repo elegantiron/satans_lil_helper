@@ -1,3 +1,10 @@
+"""Contains component definitions for use with the ECS framework.
+
+.. todo::
+   - [ ] Implement special attacks
+
+"""
+
 from __future__ import annotations
 
 import attrs
@@ -8,112 +15,119 @@ from constants import EQUIPMENT
 if TYPE_CHECKING:
     from pygame import Surface
 
-
-@attrs.define(frozen=True)
+@attrs.define
 class Renderable:
+    """Image to use when drawing this entity to the screen."""
     image: Surface
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Position:
     x: int
     y: int
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class LastSeen:
     x: int
     y: int
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Name:
     name: str
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Health:
+    hp: int
+    max_hp: int
+    per_level: int
     def __init__(self, hp: int, per_level: int = 0):
         self.hp = hp
         self.max_hp: int = hp
         self.per_level = per_level
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Mana:
+    mp: int
+    max_mp: int
+    per_level: int
     def __init__(self, mp, per_level: int = 0):
         self.mp = mp
         self.max_mp = mp
         self.per_level = per_level
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Stat:
     base: int
-    level: float
+    level: float = 0
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Strength(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Magic(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class PhysicalDefense(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class MagicDefense(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Evade(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Crit(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Agility(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class LightRadius(Stat):
     pass
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class NextAction:
     dur: int
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Equipment:
+    usable: dict[EQUIPMENT, bool]
     def __init__(
         self,
         *,
-        one_hand: bool,
-        two_hand: bool,
-        mundane: bool,
-        magical: bool,
-        sec_weap: bool,
-        sec_shield: bool,
-        body: bool = True,
-        hands: bool = True,
-        feet: bool = True,
-        legs: bool = True,
-        head: bool = True,
+        one_hand: bool = False,
+        two_hand: bool = False,
+        mundane: bool = False,
+        magical: bool = False,
+        sec_weap: bool = False,
+        shield: bool = False,
+        body: bool = False,
+        hands: bool = False,
+        feet: bool = False,
+        legs: bool = False,
+        head: bool = False,
     ):
         self.usable = {
             EQUIPMENT.HEAD: head,
@@ -122,75 +136,27 @@ class Equipment:
             EQUIPMENT.MUNDANE: mundane,
             EQUIPMENT.MAGICAL: magical,
             EQUIPMENT.SECONDARY_WEAPON: sec_weap,
-            EQUIPMENT.SECONDARY_SHIELD: sec_shield,
+            EQUIPMENT.SHIELD: shield,
             EQUIPMENT.BODY: body,
             EQUIPMENT.HANDS: hands,
             EQUIPMENT.FEET: feet,
             EQUIPMENT.LEGS: legs,
         }
 
-
-@attrs.define(frozen=True)
-class OneHandWeapon:
+@attrs.define
+class Damage:
     dice: int
     sides: int
-    slot: int = EQUIPMENT.ONE_HAND | EQUIPMENT.MUNDANE
+    slot: int = 0
 
 
-@attrs.define(frozen=True)
-class TwoHandWeapon:
-    dice: int
-    sides: int
-    slot: EQUIPMENT = EQUIPMENT.TWO_HAND | EQUIPMENT.MUNDANE
-
-
-@attrs.define(frozen=True)
-class Staff:
-    dice: int
-    sides: int
-    slot: int = EQUIPMENT.TWO_HAND | EQUIPMENT.MAGICAL
-
-
-@attrs.define(frozen=True)
-class Wand:
-    dice: int
-    sides: int
-    slot: int = EQUIPMENT.WAND | EQUIPMENT.MAGICAL
-
-
-@attrs.define(frozen=True)
-class HeadArmor:
-    slot: int = EQUIPMENT.HEAD
-
-
-@attrs.define(frozen=True)
-class BodyArmor:
-    slot: int = EQUIPMENT.BODY
-
-
-@attrs.define(frozen=True)
-class Gloves:
-    slot: int = EQUIPMENT.HANDS
-
-
-@attrs.define(frozen=True)
-class Boots:
-    slot: int = EQUIPMENT.FEET
-
-
-@attrs.define(frozen=True)
-class Pants:
-    slot: int = EQUIPMENT.LEGS
-
-
-@attrs.define(frozen=True)
+@attrs.define
 class Inventory:
     size: int
 
 
-@attrs.define(frozen=True)
+@attrs.define
 class Level:
-    def __init__(self, *, level: int = 0, xp: int = 0, xp_granted: int = 0):
-        self.level = level
-        self.xp = xp
-        self.xp_granted = xp_granted
+    level: int = 1
+    xp: int = 0
+    xp_granted: int = 0

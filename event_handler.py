@@ -5,6 +5,8 @@ import pygame
 
 
 T = TypeVar("T")
+
+
 class EventDispatcher:
     def dispatch(self, event: pygame.Event) -> T | None:
         if event.type is None:
@@ -24,6 +26,12 @@ class EventDispatcher:
             )
             return None
         return func(event)
+
+    def ev_textinput(self, event):
+        pass
+
+    def ev_windowfocuslost(self, event):
+        pass
 
     def ev_keydown(self, event):
         pass
@@ -107,4 +115,13 @@ class EventDispatcher:
         pass
 
     def ev_windowleave(self, event):
+        pass
+
+    def ev_windowdiwsplaychanged(self, event):
+        pass
+
+    def ev_windowiccprofchanged(self, event):
+        pass
+
+    def ev_windowmoved(self, event):
         pass

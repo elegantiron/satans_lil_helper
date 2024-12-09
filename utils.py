@@ -1,67 +1,43 @@
+"""Various functions to help with miscellaneous activities"""
+
 from __future__ import annotations
 
-import os
-from typing import TYPE_CHECKING
-
 from pygame import Rect, Surface, display
-import pygame
 import pygame.freetype as freetype
 
-from components import (
-    Crit,
-    Evade,
-    Health,
-    Inventory,
-    Level,
-    LightRadius,
-    Magic,
-    MagicDefense,
-    Mana,
-    Name,
-    NextAction,
-    PhysicalDefense,
-    Renderable,
-    Strength,
-)
-from constants import CLASSES, TAGS
 
-if TYPE_CHECKING:
-    import tcod.ecs
-
-
-# TODO Decide on FOV calculator inputs and output
 def calculate_fov():
-    # TODO Implement FOV algorithm
+    """calculates the fov for a supplied entity, area, and visibility map.
+    
+    .. todo::
+       - [ ] Decide on FOV calculator inputs and outputs
+       - [ ] Implement FOV calculation"""
     pass
 
 
-def get_damage_factor(*, target_level: int, actor_level: int):
-    # TODO Implement damage factor calculation
+def get_damage_factor(*, target_level: int, actor_level: int) -> float:
+    """Calculates a damage factor.
+
+    :param target_level: Level of the target entity
+    :param actor_level: Level of the acting entity
+    :return: Damage factor for the attack
+
+    .. todo::
+       - [ ] Implement calculating the damage factor"""
     pass
 
 
-def get_damage(*, damage_factor: float, dice: int, sides: int):
-    # TODO Calculate damage for an arbitrary attack
+def get_damage(*, damage_factor: float, dice: int, sides: int) -> int:
+    """Calculates the damage for an arbitrary attack.
+    
+    :param damage_factor: The attack's damage factor
+    :param dice: The weapon's die count
+    :param sides: The number of sides per die
+    :return: Damage for the attack
+    
+    .. todo::
+       - [ ] Implement damage calculator"""
     pass
-
-
-def setup_player(entity: tcod.ecs.Entity, player_class: CLASSES) -> None:
-    """Adds the necessary components to an entity to make it a player."""
-    entity.components[Renderable] = Renderable(
-        pygame.image.load(
-            os.path.join("assets", "images", "player", "player.png")
-        ).convert_alpha()
-    )
-    entity.components[Name] = Name("Player")
-    entity.components[NextAction] = NextAction(0)
-    entity.components[Inventory] = Inventory(26)
-    entity.components[Level] = Level(level=1, xp=0, xp_granted=0)
-
-    entity.tags.add(TAGS.PLAYER)
-    entity.tags.add(TAGS.BLOCKING)
-    match player_class:
-        case CLASSES.WARRIOR:
-            make_warrior(entity)
 
 
 def get_shade_surface(*, dims: tuple[int, int]) -> Surface:
@@ -69,42 +45,6 @@ def get_shade_surface(*, dims: tuple[int, int]) -> Surface:
     surface.set_alpha(0x50)
     surface.fill("black")
     return surface
-
-
-def make_warrior(entity: tcod.ecs.Entity):
-    """Sets up an entity to be a warrior.
-
-    The Warrior's stats are:
-    HP  : ? + ?    / level
-    MP  : 5 + 1    / level
-    STR : 5 + 0.5  / level
-    MAG : 0 + 0.25 / level
-    PDEF: 7 + 0.5  / level
-    MDEF: 2 + 0.25 / level
-    EVA : 0 + 0    / level
-    CRIT: 0 + 0    / level
-    SPD : 2 tiles/round
-    LITE: 6 tiles
-
-    EQUIPMENT SLOTS
-    1-H weapon
-    Shield
-    Armor
-    Helm
-    Gauntlets
-    Boots"""
-    entity.components[Health] = Health(30, 10)
-    entity.components[Mana] = Mana(5, 1)
-    entity.components[Strength] = Strength(5, 0.5)
-    entity.components[Magic] = Magic(0, 0.25)
-    entity.components[PhysicalDefense] = PhysicalDefense(7, 0.5)
-    entity.components[MagicDefense] = MagicDefense(2, 0.25)
-    entity.components[Evade] = Evade(0, 0)
-    entity.components[Crit] = Crit(0, 0)
-    entity.components[LightRadius] = LightRadius(6, 0)
-
-    entity.tags.add(TAGS.WARRIOR)
-    pass
 
 
 class Menu:
