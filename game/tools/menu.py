@@ -1,51 +1,7 @@
-"""Various functions to help with miscellaneous activities"""
-
 from __future__ import annotations
 
 from pygame import Rect, Surface, display
 import pygame.freetype as freetype
-
-
-def calculate_fov():
-    """calculates the fov for a supplied entity, area, and visibility map.
-    
-    .. todo::
-       - [ ] Decide on FOV calculator inputs and outputs
-       - [ ] Implement FOV calculation"""
-    pass
-
-
-def get_damage_factor(*, target_level: int, actor_level: int) -> float:
-    """Calculates a damage factor.
-
-    :param target_level: Level of the target entity
-    :param actor_level: Level of the acting entity
-    :return: Damage factor for the attack
-
-    .. todo::
-       - [ ] Implement calculating the damage factor"""
-    pass
-
-
-def get_damage(*, damage_factor: float, dice: int, sides: int) -> int:
-    """Calculates the damage for an arbitrary attack.
-    
-    :param damage_factor: The attack's damage factor
-    :param dice: The weapon's die count
-    :param sides: The number of sides per die
-    :return: Damage for the attack
-    
-    .. todo::
-       - [ ] Implement damage calculator"""
-    pass
-
-
-def get_shade_surface(*, dims: tuple[int, int]) -> Surface:
-    surface = Surface(dims)
-    surface.set_alpha(0x50)
-    surface.fill("black")
-    return surface
-
 
 class Menu:
     """A class to handle displaying and interacting with a text menu."""

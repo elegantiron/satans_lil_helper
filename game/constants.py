@@ -110,3 +110,9 @@ class STRINGS:
 class MAPS:
     FOREST_WIDTH = 100
     FOREST_HEIGHT = 100
+
+class TILE:
+    WALKABLE = "walkable"
+    TRANSPARENT = "transparent"
+    EXPLORED = "explored"
+    SPRITE = "sprite"

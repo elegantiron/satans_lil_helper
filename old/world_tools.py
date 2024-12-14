@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING
 import numpy as np
 import tcod.ecs
 
-from components import Position, Renderable
-from constants import CLASSES, MAPS, SPRITES, TAGS
-from entity_factories import make_floor, make_wall, setup_player
+from game.components import Position, Renderable
+from game.constants import CLASSES, MAPS, SPRITES, TAGS
+from game.entity_factories import make_floor, make_wall, setup_player
 from map_tools import CellularGenerator
 
 

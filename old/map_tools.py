@@ -7,7 +7,7 @@ import random
 
 import numpy as np
 
-from constants import DIRS
+from game.constants import DIRS
 
 
 class MapGenerator:
@@ -24,7 +24,7 @@ class MapGenerator:
         self.height = height
         self.rng = rng if rng else random.Random(int(time.time()))
 
-    def _new_map(self, fill) ->None:
+    def new_map(self, fill) ->None:
         self.map = np.full((self.width, self.height), fill_value=fill, order="F")
 
     def get_new_map(self):
@@ -54,11 +54,11 @@ class CellularGenerator(MapGenerator):
         self.born = [5, 6, 7, 8]
         self.survive = [4, *self.born]
 
-    def _randomize(self):
+    def randomize(self):
         for ix, iy in np.ndindex(self.map.shape):
                 self.map[ix][iy] = 1 if self.rng.random() < self.prob else 0
 
-    def _process(self) -> bool:
+    def process(self) -> bool:
         changed = False
         neighbors = np.full(self.map.shape, fill_value=0, dtype=np.int8)
         max_x, max_y = self.map.shape
@@ -88,8 +88,8 @@ class CellularGenerator(MapGenerator):
         before appling the CGOL algorithm to them.
         
         :rtype: list[list[int]]"""
-        self._new_map(fill=0)
-        self._randomize()
-        while self._process():
+        self.new_map(fill=0)
+        self.randomize()
+        while self.process():
             pass
         return self.map

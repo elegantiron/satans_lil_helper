@@ -41,3 +41,9 @@ class ActionProcessor:
                 elif dur == 0 and ent is not self.player:
                     pass
 
+class DamageStatusProcessor:
+    def __init__(self):
+        pass
+
+    def process(self):
+        pass

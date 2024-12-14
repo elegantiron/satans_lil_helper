@@ -13,7 +13,7 @@ from components import (
 )
 from constants import TAGS
 from exceptions import Impossible, InventoryFull, MissingComponent, PathBlocked
-from utils import get_damage, get_damage_factor
+from tools import get_damage, get_damage_factor
 
 if TYPE_CHECKING:
     import tcod.ecs
