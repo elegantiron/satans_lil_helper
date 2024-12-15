@@ -53,7 +53,7 @@ class GameWorld:
             ),
         ]
         self._early_forest_gen.rule1_iters = 4
-        self._early_forest_gen.rule2_iters = 3
+        self._early_forest_gen.rule2_iters = 6
         self._current_map = self._maps[0]
         self._current_map.tiles = self._early_forest_gen.generate_map()
 
