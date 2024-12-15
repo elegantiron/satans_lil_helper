@@ -1,15 +1,22 @@
-class Impossible(Exception):
-    """Raised for actions that are impossible."""
+from __future__ import annotations
 
-class InventoryFull(Impossible):
-    """Raised when the inventory is full."""
-    def __init__(self, message):
-        super().__init__(message if message else "Your inventory is full.")
+class QuitWithoutSaving(SystemExit):
+    pass
 
-class MissingComponent(Impossible):
-    """Raised if an entity is missing a component."""
+class GameReset(BaseException):
+    pass
 
-class PathBlocked(Impossible):
-    """Raised when the path is blocked in a direction."""
-    def __init__(self, message):
-        super().__init__(message if message else "That way is blocked.")
+class LoadGame(BaseException):
+    pass
+
+class MissingComponent(BaseException):
+    pass
+
+class InventoryFull(BaseException):
+    pass
+
+class Impossible(BaseException):
+    pass
+
+class PathBlocked(BaseException):
+    pass

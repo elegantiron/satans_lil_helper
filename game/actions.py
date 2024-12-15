@@ -1,27 +1,22 @@
-"""Defines actions that an acting entity might take."""
-
 from __future__ import annotations
-
 from typing import TYPE_CHECKING
 
-from components import (
-    Health,
-    Inventory,
-    Level,
-    Name,
-    Position,
-)
-from constants import TAGS
-from exceptions import Impossible, InventoryFull, MissingComponent, PathBlocked
-from tools import get_damage, get_damage_factor
+import numpy as np
+
+from game.components import Health, Inventory, Level, Name, Position
+from game.constants import Tags, Tile
+from game.exceptions import Impossible, InventoryFull, MissingComponent, PathBlocked
+from game.utils import get_damage, get_damage_factor
 
 if TYPE_CHECKING:
     import tcod.ecs
+    from random import Random
+    import numpy.typing as npt
 
 
 class Action:
-    """Base action that other actions inherit from."""
-    def __init__(self, entity: tcod.ecs.Entity):
+    def __init__(self, entity: tcod.ecs.Entity, rng: Random):
+        self.rng = rng
         self.entity = entity
 
     def perform(self) -> None:
@@ -29,22 +24,16 @@ class Action:
 
 
 class PickupAction(Action):
-    """Picks up items.
-    
-    Picks up any item on the same tile as the given entity. Also checks to
-    be sure that the entity has enough space in its inventory."""
     def perform(self) -> None:
         inventory = self.entity.components.get(Inventory, None)
         if inventory is None:
-            raise MissingComponent(
-                "An entity without an inventory is trying to pick up an item."
-            )
+            raise MissingComponent
         if (
             len(
                 set(
                     self.entity.registry.Q.all_of(
-                        tags=[TAGS.ITEM], components=[Position]
-                    ).none_of(relations=[..., TAGS.HOLDING, None])
+                        tags=[Tags.Item], components=[Position]
+                    ).none_of(relations=[..., Tags.Holding, None])
                 )
             )
             >= inventory.size
@@ -52,13 +41,11 @@ class PickupAction(Action):
             raise InventoryFull
         location = self.entity.components.get(Position, None)
         if location is None:
-            raise MissingComponent(
-                "An entity without a position component is trying to pick up an item."
-            )
+            raise MissingComponent
         for ent in (
             entity
             for entity in self.entity.registry.Q.all_of(
-                components=[Position], tags=[TAGS.ITEM]
+                components=[Position], tags=[Tags.Item]
             )
             if (
                 entity.components[Position].x == location.x
@@ -69,28 +56,31 @@ class PickupAction(Action):
                 len(
                     set(
                         self.entity.registry.Q.all_of(
-                            relations=[self.entity, TAGS.HOLDING, None]
+                            relations=[self.entity, Tags.Holding, None]
                         )
                     )
                 )
                 >= inventory.size
             ):
                 raise InventoryFull
-            ent.relation_tag[TAGS.HELD_BY] = self.entity
-            self.entity.relation_tags_many[TAGS.HOLDING].add(ent)
+            ent.relation_tag[Tags.HeldBy] = self.entity
+            self.entity.relation_tags_many[Tags.Holding].add(ent)
 
             del ent[Position]
 
 
 class ActionWithDirection(Action):
-    """Class to implement directional acitons.
-    
-    This class only implements some common functions for every action
-    that involves one of the adjacent tiles."""
-    def __init__(self, entity: int, direction: tuple[int, int]):
-        super().__init__(entity)
+    def __init__(
+        self,
+        entity: tcod.ecs.Entity,
+        direction: tuple[int, int],
+        rng: Random,
+        gamemap: npt.NDArray,
+    ):
+        super().__init__(entity=entity, rng=rng)
+        self.gamemap = gamemap
         self.direction = direction
-        position = entity[Position]
+        position = entity.components[Position]
         self.target_xy = (self.dx + position.x, self.dy + position.y)
         self.target_entity = None
         for ent in (
@@ -121,26 +111,31 @@ class ActionWithDirection(Action):
 
 
 class MeleeAction(ActionWithDirection):
-    """Strike an adjacent entity."""
     def perform(self) -> None:
-        """Perform a melee attack action.
-        
-        .. todo::
-           - [ ] Log the attack description to the message log"""
         target = self.target_entity
-        actor_name = self.entity.components[Name].name
-        target_name = self.target_entity.components[Name].name
+        actor_name = self.entity.components.get(Name, "the mysterious stranger")
+        if isinstance(actor_name, Name):
+            actor_name = actor_name.name
+        target_name = self.target_entity.components.get(Name, "the mysterious stranger")
+        if isinstance(target_name, Name):
+            target_name = target_name.name
+
         description = f"{actor_name.capitalize()} attacks {target_name.capitalize()}"
         if not target:
-            raise Impossible("There is nothing to attack.")
-        target_level = self.target_entity.components[Level]
-        actor_level = self.entity.components[Level]
+            raise Impossible
+        target_level = self.target_entity.components.get(Level, None)
+        actor_level = self.entity.components.get(Level, None)
+        if actor_level is None or target_level is None:
+            raise MissingComponent
         damage_factor = get_damage_factor(
-            target_level=target_level.level, actor_level=actor_level
+            target_level=target_level, actor_level=actor_level, rng=self.rng
         )
-        damage = get_damage(damage_factor=damage_factor)
-
-        target_health = self.target_entity.components[Health]
+        dice = 1
+        sides = 8
+        damage = get_damage(
+            damage_factor=damage_factor, dice=dice, sides=sides, rng=self.rng
+        )
+        target_health = self.target_entity.components.get(Health, None)
         target_health.hp -= damage
         if damage == 0:
             description = f"{description} but deals no damage."
@@ -154,33 +149,13 @@ class MeleeAction(ActionWithDirection):
             description = f"{description}."
 
 
-class MeleeItemAction(ActionWithDirection):
-    """Uses an item as part of a melee range action.
-    
-    .. todo::
-       - [ ] Implement melee item action"""
-    pass
-
-
 class MovementAction(ActionWithDirection):
-    """Moves an entity."""
     def perform(self) -> None:
-        """Performs the movement.
-        
-        .. todo::
-           - [ ] Check if the destination is in bounds
-           - [ ] Check if the destination is walkable
-           - [ ] Check if the destination has a blocking entity
-           """
-        pass
-        in_bounds = True
-        if not in_bounds:
+        if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.shape):
             raise PathBlocked
-        walkable = True
-        if not walkable:
+        if not self.gamemap[Tile.Walkable]:
             raise PathBlocked
-        blocking_entity = False
-        if blocking_entity:
+        if self.target_entity is not None:
             raise PathBlocked
 
         position = self.entity.components[Position]
@@ -188,24 +163,14 @@ class MovementAction(ActionWithDirection):
         position.y += self.dy
 
 
-class TalkAction(ActionWithDirection):
-    """Talk to a friendly NPC
-    
-    .. todo::
-       - [ ] Implement talking action"""
-    pass
-
-
 class BumpAction(ActionWithDirection):
-    """Perform an action based on what's in the target tile.
-    
-    Useful to allow the player to attempt to walk into an enemy or
-    a friendly NPC and interact with them instead of just failing
-    to move into the tile."""
     def perform(self) -> None:
         if self.target_entity:
-            if TAGS.HOSTILE in self.target_entity.tags:
-                return MeleeAction(self.entity, self.direction)
-            elif TAGS.FRIENDLY in self.target_entity.tags:
-                return TalkAction(self.entity, self.direction)
-        return MovementAction(self.entity, self.direction)
+            if Tags.Hostile in self.target_entity.tags:
+                return MeleeAction(self.entity, self.direction).perform()
+            elif Tags.Friendly in self.target_entity.tags:
+                return TalkAction(self.entity, self.direction).perform()
+
+
+class TalkAction(ActionWithDirection):
+    pass

@@ -3,6 +3,9 @@ from __future__ import annotations
 from pygame import Rect, Surface, display
 import pygame.freetype as freetype
 
+from game.definitions import Color
+
+
 class Menu:
     """A class to handle displaying and interacting with a text menu."""
 
@@ -10,10 +13,9 @@ class Menu:
         self,
         *,
         items: list[str],
-        font: freetype.Font,
-        fgcolor: tuple[int, int, int, int],
-        selcolor: tuple[int, int, int, int] | None,
-        bgcolor: tuple[int, int, int, int] = (0, 0, 0, 0),
+        fgcolor: Color,
+        selcolor: Color,
+        bgcolor: Color = Color(0, 0, 0, 0),
         dimensions: tuple[int, int] | None = None,
         line_spacing: int = 5,
     ):
@@ -25,26 +27,26 @@ class Menu:
         self.line_spacing = line_spacing
         self.idx = 0
 
-        self.font = font
-        self.font.fgcolor = fgcolor
-        self.font.bgcolor = bgcolor
-        self.total_height = (
-            len(self.items) * (self.font.get_sized_glyph_height() + self.line_spacing)
+        self.fgcolor = fgcolor
+        self.bgcolor = bgcolor
+
+    def render(self, surface: Surface, font: freetype.Font):
+        total_height = (
+            len(self.items) * (font.get_sized_glyph_height() + self.line_spacing)
             - self.line_spacing
         )
-
-    def render(self, surface: Surface):
-        dest = Rect()
+        dest = Rect(0, 0, 0, 0)
         surf = surface.get_rect()
-        dest.y = (surf.h - self.total_height) // 2
+        dest.y = (surf.h - total_height) // 2
         for i in range(len(self.items)):
-            temp = self.font.get_rect(text=self.items[i])
+            temp = font.get_rect(text=self.items[i])
             dest.x = (self.dimensions[0] - temp.w) // 2
-            self.font.render_to(
+            font.render_to(
                 surf=surface,
                 dest=dest,
                 text=None,
-                fgcolor=self.selcolor if i == self.idx else None,
+                fgcolor=self.selcolor.rgba if i == self.idx else self.fgcolor.rgba,
+                bgcolor=self.bgcolor.rgba,
             )
             dest.y = dest.y + temp.h + self.line_spacing
 

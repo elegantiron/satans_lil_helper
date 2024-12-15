@@ -1,118 +1,120 @@
-"""Constants used throughout the app.
-
-There should only be one source of truth!"""
-
 from __future__ import annotations
-from enum import Enum, Flag, auto
-import os
-import sys
+from enum import Enum, IntEnum, StrEnum, auto
+from os.path import abspath
 
 import pygame
 
 
-DIRS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+def resolve_path(path: str) -> str:
+    return abspath(path)
 
 
-class EQUIPMENT(Flag):
-    HEAD = auto()
-    MUNDANE = auto()
-    MAGICAL = auto()
-    ONE_HAND = auto()
-    TWO_HAND = auto()
-    WAND = auto()
-    SECONDARY_WEAPON = auto()
-    SHIELD = auto()
-    BODY = auto()
-    HANDS = auto()
-    FEET = auto()
-    LEGS = auto()
+TILE_SIZE: int = 32
 
 
-class KEYS:
-    MOVEMENT = {
-        pygame.K_KP1: (-1, 1),
-        pygame.K_KP2: (0, 1),
-        pygame.K_KP3: (1, 1),
-        pygame.K_KP4: (-1, 0),
-        pygame.K_KP6: (1, 0),
-        pygame.K_KP7: (-1, -1),
-        pygame.K_KP8: (0, -1),
-        pygame.K_KP9: (1, -1),
-        pygame.K_UP: (0, -1),
-        pygame.K_DOWN: (0, 1),
-        pygame.K_RIGHT: (1, 0),
-        pygame.K_LEFT: (-1, 0),
-    }
-    CONFIRMATION = {
-        pygame.K_RETURN,
-        pygame.K_KP_ENTER,
-    }
+MOVEMENT_KEYS = {
+    pygame.K_KP1: (-1, 1),
+    pygame.K_KP2: (0, 1),
+    pygame.K_KP3: (1, 1),
+    pygame.K_KP4: (-1, 0),
+    pygame.K_KP6: (1, 0),
+    pygame.K_KP7: (-1, -1),
+    pygame.K_KP8: (0, -1),
+    pygame.K_KP9: (1, -1),
+    pygame.K_UP: (0, -1),
+    pygame.K_DOWN: (0, 1),
+    pygame.K_RIGHT: (1, 0),
+    pygame.K_LEFT: (-1, 0),
+    pygame.K_HOME: (-1, -1),
+    pygame.K_END: (-1, 1),
+    pygame.K_PAGEUP: (1, -1),
+    pygame.K_PAGEDOWN: (1, 1),
+}
+
+CONFIRMATION_KEYS = {
+    pygame.K_RETURN,
+    pygame.K_KP_ENTER,
+}
 
 
-class SPRITES(Enum):
+class Sprites(Enum):
+    PLAYER = auto()
     FOREST_FLOOR = auto()
     FOREST_WALL = auto()
-    FOREST_ORC = auto()
-    PLAYER = auto()
-    SACK = auto()
 
-def resource_path(relative_path):
-    """Get absolute path to resource."""
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath('.')
-
-    return os.path.join(base_path, relative_path)
 
 SPRITEPATHS = {
-    (SPRITES.FOREST_FLOOR, resource_path("assets/images/tiles/forest/floor/000.png")),
-    (SPRITES.FOREST_WALL, resource_path("assets/images/tiles/forest/wall/000.png")),
-    (SPRITES.FOREST_ORC, resource_path("assets/images/enemies/orc.png")),
-    (SPRITES.PLAYER, resource_path("assets/images/player/player.png")),
-    
+    Sprites.PLAYER: resolve_path("assets/images/player/player.png"),
+    Sprites.FOREST_FLOOR: resolve_path("assets/images/tiles/forest/floor/000.png"),
+    Sprites.FOREST_WALL: resolve_path("assets/images/tiles/forest/wall/000.png"),
 }
 
-PATHS = {
-    "F25": resource_path("assets/fonts/F25_Bank_Printer.ttf")
+
+class FontDict(Enum):
+    MainMenu = auto()
+    GameStatus = auto()
+    GameMenu = MainMenu
+    # TitleText = auto()
+    # ByLineText = auto()
+
+
+FONT_SETTINGS = {
+    FontDict.MainMenu: (
+        resolve_path("assets/foNts/F25_Bank_Printer.ttf"),
+        20,
+        (0xFF, 0xFF, 0xFF, 0xFF),
+        (0x00, 0x00, 0x00, 0x00),
+    ),
+    FontDict.GameStatus: (
+        resolve_path("assets/fonts/F25_Bank_Printer.ttf"),
+        15,
+        (0xFF, 0xFF, 0xFF, 0xFF),
+        (0x00, 0x00, 0x00, 0x00),
+    ),
 }
-TILE_SIZE = 32
 
 
-class CLASSES(Enum):
-    WARRIOR = auto()
+class Strings(StrEnum):
+    New_Game = "New Game"
+    QuitToDesktop = "Quit to Desktop"
+    LoadGame = "Continue"
+    Bestiary = "Bestiary"
+    QuitToMenu = "Main Menu"
+    QuitWithSave = "Save and Quit"
+    QuitNoSave = "Quit without Saving"
+    Resume = "Resume"
 
 
-class TAGS(Enum):
-    FRIENDLY = auto()
-    HOSTILE = auto()
-    EQUIPPED = auto()
-    ITEM = auto()
-    BLOCKING = auto()
-    PLAYER = auto()
-    WARRIOR = auto()
-    HELD_BY = auto()
-    HOLDING = auto()
-    TILE = auto()
-    TRANSPARENT = auto()
+class Durations(IntEnum):
+    PlayerMovement = 5
 
 
-class STRINGS:
-    NEW_GAME = "New Game"
-    EXIT = "Exit"
-    TITLE = "Satan's Lil Helper"
-    CLASSES = {CLASSES.WARRIOR: "Warrior"}
-    CONTINUE = "Continue"
-    EXIT_TO_MENU = "Exit to Main Menu"
-    EXIT_TO_DESKTOP = "Exit to Desktop"
+class Professions(StrEnum):
+    Warrior = "Warrior"
 
 
-class MAPS:
-    FOREST_WIDTH = 100
-    FOREST_HEIGHT = 100
+class Tile(StrEnum):
+    Walkable = "walkable"
+    Transparent = "transparent"
+    Explored = "explored"
+    SpriteID = "sprite_id"
 
-class TILE:
-    WALKABLE = "walkable"
-    TRANSPARENT = "transparent"
-    EXPLORED = "explored"
-    SPRITE = "sprite"
+
+class EnemyType(StrEnum):
+    Wolf = "Wolf"
+
+
+class EnemyDescriptions:
+    EnemyType.Wolf
+
+class Tags(Enum):
+    Friendly = auto()
+    Hostile = auto()
+    Equipped = auto()
+    Item = auto()
+    Blocking = auto()
+    Player = auto()
+    Warrior = auto()
+    HeldBy = auto()
+    Holding = auto()
+    Transparent = auto()
