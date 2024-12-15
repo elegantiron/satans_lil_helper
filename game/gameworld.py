@@ -8,6 +8,7 @@ from pyrotkit.constants import DIRS
 from game.constants import Sprites
 from game.definitions import tile_dt
 from game.gamemap import GameMap
+from game.messagelog import MessageLog
 from game.utils import new_tile
 
 if TYPE_CHECKING:
@@ -17,8 +18,8 @@ if TYPE_CHECKING:
     import pyrotkit.tools as pyrotools
 
 
-MAP_WIDTH = 50
-MAP_HEIGHT = 50
+MAP_WIDTH = 75
+MAP_HEIGHT = 75
 
 FOREST_FLOOR = new_tile(
     walkable=True, transparent=True, sprite_id=Sprites.FOREST_FLOOR, dtype=tile_dt
@@ -40,7 +41,7 @@ class GameWorld:
             dirs=DIRS.DIR8,
             rng=self.rng,
             dtype=tile_dt,
-            prob=0.40,
+            prob=0.42,
         )
         self._maps = [
             GameMap(
@@ -53,9 +54,10 @@ class GameWorld:
             ),
         ]
         self._early_forest_gen.rule1_iters = 4
-        self._early_forest_gen.rule2_iters = 6
+        self._early_forest_gen.rule2_iters = 5
         self._current_map = self._maps[0]
         self._current_map.tiles = self._early_forest_gen.generate_map()
+        self.message_log = MessageLog()
 
     def render(
         self,

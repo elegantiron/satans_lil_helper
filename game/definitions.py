@@ -26,6 +26,7 @@ tile_dt = dtype(
         (Tile.Walkable, bool),
         (Tile.Transparent, bool),
         (Tile.Explored, bool),
+        (Tile.Safe, bool),
         (Tile.SpriteID, Sprites),
     ]
 )

@@ -6,6 +6,8 @@
 
 
 from __future__ import annotations
+import hashlib
+import hmac
 import lzma
 from pathlib import Path
 import pickle
@@ -15,8 +17,8 @@ import pygame
 import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
-from game.constants import FontDict
-from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
+from game.constants import HMAC_KEY, FontDict
+from game.exceptions import GameReset, Haxx0red, LoadGame, QuitWithoutSaving
 from game.input_handlers import (
     BaseInputHandler,
     GameMenuInputHandler,
@@ -29,18 +31,30 @@ Handler = TypeVar("Handler", bound="BaseInputHandler")
 
 def save_data(data, filename):
     if isinstance(data, GameMenuInputHandler):
-        data = data.handle_key(pygame.K_ESCAPE, None, None, None)
+        data = data._parent
     save_data = lzma.compress(pickle.dumps(data))
+    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
+    signer.update(save_data)
+    mac_result = signer.digest()
     with open(filename, "wb") as f:
+        f.write(mac_result)
+    with open(filename, "ab") as f:
         f.write(save_data)
 
 
 def load_data(filename):
+    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
     save_data = ""
     try:
         with open(filename, "rb") as f:
+            mac_data = f.read(signer.digest_size)
             save_data = f.read()
-        return pickle.loads(lzma.decompress(save_data))
+        signer.update(save_data)
+        computed_mac = signer.digest()
+        if computed_mac == mac_data:
+            return pickle.loads(lzma.decompress(save_data))
+        else:
+            raise Haxx0red
     except FileNotFoundError:
         return None
 

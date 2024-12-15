@@ -22,7 +22,7 @@ def new_tile(
     sprite_id: Sprites,
     dtype: npt.DTypeLike,
 ):
-    return np.array((walkable, transparent, False, sprite_id), dtype=dtype)
+    return np.array((walkable, transparent, False, False, sprite_id), dtype=dtype)
 
 
 def get_damage_factor(

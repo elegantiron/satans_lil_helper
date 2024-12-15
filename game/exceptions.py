@@ -20,3 +20,6 @@ class Impossible(BaseException):
 
 class PathBlocked(BaseException):
     pass
+
+class Haxx0red(BaseException):
+    pass

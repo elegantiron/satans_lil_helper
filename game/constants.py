@@ -85,6 +85,9 @@ class Strings(StrEnum):
     Resume = "Resume"
 
 
+HMAC_KEY = b"special_key_for_slh"
+
+
 class Durations(IntEnum):
     PlayerMovement = 5
 
@@ -97,6 +100,7 @@ class Tile(StrEnum):
     Walkable = "walkable"
     Transparent = "transparent"
     Explored = "explored"
+    Safe = "Safe"
     SpriteID = "sprite_id"
 
 
