@@ -95,18 +95,22 @@ class ActionWithDirection(Action):
 
     @property
     def dx(self) -> int:
+        """change in the x axis"""
         return self.direction[0]
 
     @property
     def dy(self) -> int:
+        """change in the y axis"""
         return self.direction[1]
 
     @property
     def target_x(self) -> int:
+        """x coordinate of the target tile"""
         return self.target_xy[0]
 
     @property
     def target_y(self) -> int:
+        """y coordinate of the target tile"""
         return self.target_xy[1]
 
 
