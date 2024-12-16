@@ -22,7 +22,7 @@ class PathBlocked(Impossible):
 
 
 class Haxx0red(BaseException):
-    pass
+    """Raised when a file load fails because of a hashing mismatch"""
 
 
 class InventoryFull(Impossible):
