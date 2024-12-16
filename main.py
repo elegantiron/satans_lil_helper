@@ -3,6 +3,7 @@
 # nuitka-project: --include-data-dir=assets=assets
 # nuitka-project: --output-filename=slh.exe
 # nuitka-project: --windows-console-mode=disable
+# nuitka-project: --deployment
 
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ import pygame
 import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
-from game.constants import HMAC_KEY, FontDict
+from game.constants import HMAC_KEY
 from game.exceptions import GameReset, Haxx0red, LoadGame, QuitWithoutSaving
 from game.input_handlers import (
     BaseInputHandler,
@@ -78,7 +79,7 @@ def main():
     while running:
         window.fill("black")
         handler.render(surface=window, sprites=sprites, fonts=fonts)
-        fonts[FontDict.GameStatus].render_to(window, (0, 0), text=str(clock.get_fps()))
+        # fonts[FontDict.GameStatus].render_to(window, (0, 0), text=str(clock.get_fps()))
         pygame.display.flip()
         try:
             for event in pygame.event.get(
