@@ -101,6 +101,7 @@ class Tile(StrEnum):
     Transparent = "transparent"
     Explored = "explored"
     Safe = "Safe"
+    Visible = "Visible"
     SpriteID = "sprite_id"
 
 
@@ -110,6 +111,7 @@ class EnemyType(StrEnum):
 
 class EnemyDescriptions:
     EnemyType.Wolf
+
 
 class Tags(Enum):
     Friendly = auto()
