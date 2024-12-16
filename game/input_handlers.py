@@ -5,6 +5,7 @@ from random import Random
 from time import time
 from typing import TYPE_CHECKING, Any, Callable, TypeVar
 
+import numpy as np
 import pygame.locals as Locals
 import pygame.gfxdraw as gfxdraw
 
@@ -136,13 +137,19 @@ class MainGameInputHandler(BaseInputHandler):
                 dx, dy = MOVEMENT_KEYS[key]
                 x, y = self.world.player.components[Position].xy
                 targetx, targety = x + dx, y + dy
-                if self.world.is_walkable_tile(targetx, targety):
+                if self.world.is_walkable_tile(
+                    targetx, targety
+                ) and self.world.player.components[Position].xy in np.ndindex(
+                    self.world._current_map.tiles.shape
+                ):
                     self.world.player.components[Position].x += dx
                     self.world.player.components[Position].y += dy
                     self.world.player.components[CoolDown].dur = int(
                         Durations.PlayerMovement
                     )
-                    self.world.camera.set_center(*self.world.player.components[Position].xy)
+                    self.world.camera.set_center(
+                        *self.world.player.components[Position].xy
+                    )
                 return self
             case Locals.K_ESCAPE:
                 return GameMenuInputHandler(

@@ -47,6 +47,7 @@ class GameMap:
             lock_view=True,
         )
 
+
     def render(self, *, surface: Surface, sprites: dict[Sprites, Surface]):
         blitlist = [
             (
