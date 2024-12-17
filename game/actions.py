@@ -4,19 +4,18 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from game.components import Health, Inventory, Level, Name, Position
-from game.constants import Tags, Tile
+from game.constants import Tags, TileDict
 from game.exceptions import Impossible, InventoryFull, MissingComponent, PathBlocked
 from game.utils import get_damage, get_damage_factor
 
 if TYPE_CHECKING:
     import tcod.ecs
     from random import Random
-    import numpy.typing as npt
+    from game.gamemap import GameMap
 
 
 class Action:
-    def __init__(self, entity: tcod.ecs.Entity, rng: Random):
-        self.rng = rng
+    def __init__(self, entity: tcod.ecs.Entity):
         self.entity = entity
 
     def perform(self) -> None:
@@ -31,7 +30,8 @@ class PickupAction(Action):
         if (
             len(
                 set(
-                    self.entity.registry.Q.all_of(
+                    entity
+                    for entity in self.entity.registry.Q.all_of(
                         tags=[Tags.Item], components=[Position]
                     ).none_of(relations=[..., Tags.Holding, None])
                 )
@@ -47,10 +47,7 @@ class PickupAction(Action):
             for entity in self.entity.registry.Q.all_of(
                 components=[Position], tags=[Tags.Item]
             )
-            if (
-                entity.components[Position].x == location.x
-                and entity.components[Position].y == location.y
-            )
+            if (entity.components[Position].xy == location.xy)
         ):
             if (
                 len(
@@ -74,10 +71,9 @@ class ActionWithDirection(Action):
         self,
         entity: tcod.ecs.Entity,
         direction: tuple[int, int],
-        rng: Random,
-        gamemap: npt.NDArray,
+        gamemap: GameMap,
     ):
-        super().__init__(entity=entity, rng=rng)
+        super().__init__(entity=entity)
         self.gamemap = gamemap
         self.direction = direction
         position = entity.components[Position]
@@ -115,6 +111,10 @@ class ActionWithDirection(Action):
 
 
 class MeleeAction(ActionWithDirection):
+    def __init__(self, entity, direction, gamemap, rng: Random):
+        super().__init__(entity=entity, direction=direction, gamemap=gamemap)
+        self.rng = rng
+
     def perform(self) -> None:
         target = self.target_entity
         actor_name = self.entity.components.get(Name, "the mysterious stranger")
@@ -155,9 +155,9 @@ class MeleeAction(ActionWithDirection):
 
 class MovementAction(ActionWithDirection):
     def perform(self) -> None:
-        if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.shape):
+        if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.tiles.shape):
             raise PathBlocked
-        if not self.gamemap[Tile.Walkable]:
+        if not self.gamemap.tiles[TileDict.Walkable][self.target_xy]:
             raise PathBlocked
         if self.target_entity is not None:
             raise PathBlocked
@@ -168,12 +168,33 @@ class MovementAction(ActionWithDirection):
 
 
 class BumpAction(ActionWithDirection):
+    def __init__(
+        self,
+        entity: tcod.ecs.Entity,
+        direction: tuple[int, int],
+        gamemap: GameMap,
+        rng: Random,
+    ):
+        super().__init__(entity, direction, gamemap)
+        self.rng = rng
+
     def perform(self) -> None:
         if self.target_entity:
             if Tags.Hostile in self.target_entity.tags:
-                return MeleeAction(self.entity, self.direction).perform()
+                return MeleeAction(
+                    entity=self.entity,
+                    direction=self.direction,
+                    gamemap=self.gamemap,
+                    rng=self.rng,
+                ).perform()
             elif Tags.Friendly in self.target_entity.tags:
-                return TalkAction(self.entity, self.direction).perform()
+                return TalkAction(
+                    entity=self.entity, direction=self.direction, gamemap=self.gamemap
+                ).perform()
+        else:
+            return MovementAction(
+                entity=self.entity, direction=self.direction, gamemap=self.gamemap
+            ).perform()
 
 
 class TalkAction(ActionWithDirection):

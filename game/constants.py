@@ -96,20 +96,21 @@ class Professions(StrEnum):
     Warrior = "Warrior"
 
 
-class Tile(StrEnum):
+class TileDict(StrEnum):
     Walkable = "walkable"
     Transparent = "transparent"
     Explored = "explored"
     Safe = "Safe"
     Visible = "Visible"
     SpriteID = "sprite_id"
+    MovementCost = "movement_cost"
 
 
 class EnemyType(StrEnum):
     Wolf = "Wolf"
 
 
-class EnemyDescriptions:
+class BestiaryDescriptions:
     EnemyType.Wolf
 
 
@@ -124,3 +125,38 @@ class Tags(Enum):
     HeldBy = auto()
     Holding = auto()
     Transparent = auto()
+
+class Generators(Enum):
+    EarlyForest = auto()
+
+class MapSettings:
+    Width: int = 0
+    Height: int = 0
+
+    @property
+    def RandomEntranceX(self) -> tuple[int, int]:
+        return 0, self.Width - 1
+    
+    @property
+    def RandomEntranceY(self) -> tuple[int, int]:
+        return 0, self.Height - 1
+    
+    @property
+    def RandomExitX(self) -> tuple[int, int]:
+        return 0 ,self.Width - 1
+    
+    @property
+    def RandomExitY(self) -> tuple[int, int]:
+        return 0, self.Height - 1
+
+class Forest:
+    Width = 125
+    Height = 125
+    
+    @property
+    def RandomEntranceY(self) -> tuple[int, int]:
+        return 0, 15
+    
+    @property
+    def RandomExitY(self) -> tuple[int, int]:
+        return self.Height - 16, self.Height - 1

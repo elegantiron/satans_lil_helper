@@ -1,26 +1,29 @@
 from __future__ import annotations
-from multiprocessing import Process
+import lzma
+from multiprocessing import Process, Queue
 from pathlib import Path
 from random import Random
 from time import time
-from typing import TYPE_CHECKING, Any, Callable, TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
-import numpy as np
+import dill
 import pygame.locals as Locals
 import pygame.gfxdraw as gfxdraw
+from pygame import display as pygdisp
 
 
-from game.components import CoolDown, Position
+from game import loaders
+import game.colors as colors
+from game.actions import BumpAction
+from game.components import Position
 from game.constants import (
     CONFIRMATION_KEYS,
     MOVEMENT_KEYS,
-    TILE_SIZE,
-    Durations,
     FontDict,
     Sprites,
     Strings,
 )
-from game.exceptions import LoadGame, QuitWithoutSaving
+from game.exceptions import AsyncException, LoadGame, PathBlocked, QuitWithoutSaving
 from game.gameworld import GameWorld
 from game.menu import Menu
 from game.definitions import Color
@@ -100,10 +103,7 @@ class MainMenuInputHandler(BaseInputHandler):
         match choice:
             case Strings.New_Game:
                 rng = Random(time())
-                world = GameWorld(rng, tile_size=TILE_SIZE)
-                return MainGameInputHandler(
-                    world=world, rng=rng, bestiary=self.bestiary
-                )
+                return LoadNewGameHandler(rng=rng, bestiary=self.bestiary)
             case Strings.QuitToDesktop:
                 raise QuitWithoutSaving
             case Strings.LoadGame:
@@ -112,6 +112,46 @@ class MainMenuInputHandler(BaseInputHandler):
                 return BestiaryInputHandler(bestiary=self.bestiary)
             case _:
                 return self
+
+
+class LoadNewGameHandler(BaseInputHandler):
+    def __init__(self, bestiary: Bestiary, rng: Random, parent: Handler | None = None):
+        super().__init__(bestiary, parent)
+        self.rng = rng
+        self.q = Queue()
+        self.process = Process(
+            target=loaders.get_new_world,
+            kwargs={
+                "rng": self.rng,
+                "q": self.q,
+                "screen_size": pygdisp.get_window_size(),
+            },
+        )
+        self.process.start()
+
+    def handle_key(self, key, mod, unicode, scancode):
+        if self.process.exitcode is None:
+            return self
+        elif self.process.exitcode == 0:
+            world = dill.loads(lzma.decompress(self.q.get_nowait()))
+            self.process.close()
+            return MainGameInputHandler(
+                world=world, rng=self.rng, bestiary=self.bestiary
+            )
+        else:
+            raise AsyncException
+
+    def render(self, surface, sprites, fonts):
+        if self.process.exitcode is None:
+            fonts[FontDict.MainMenu].render_to(surface, (0, 0), "Loading")
+        elif self.process.exitcode == 0:
+            fonts[FontDict.MainMenu].render_to(
+                surface, (0, 0), "Press any key to continue"
+            )
+        else:
+            fonts[FontDict.MainMenu].render_to(
+                surface, (0, 0), f"Error encountered! Exit code {self.process.exitcode}"
+            )
 
 
 class MainGameInputHandler(BaseInputHandler):
@@ -134,21 +174,19 @@ class MainGameInputHandler(BaseInputHandler):
     def handle_key(self, key, mod, unicode, scancode) -> Handler:
         match key:
             case move if move in MOVEMENT_KEYS:
-                dx, dy = MOVEMENT_KEYS[key]
-                x, y = self.world.player.components[Position].xy
-                targetx, targety = x + dx, y + dy
-                if self.world.is_walkable_tile(
-                    targetx, targety
-                ) and self.world.player.components[Position].xy in np.ndindex(
-                    self.world._current_map.tiles.shape
-                ):
-                    self.world.player.components[Position].x += dx
-                    self.world.player.components[Position].y += dy
-                    self.world.player.components[CoolDown].dur = int(
-                        Durations.PlayerMovement
-                    )
+                try:
+                    BumpAction(
+                        entity=self.world.player,
+                        direction=MOVEMENT_KEYS[key],
+                        gamemap=self.world.current_map,
+                        rng=self.rng,
+                    ).perform()
                     self.world.camera.set_center(
                         *self.world.player.components[Position].xy
+                    )
+                except PathBlocked:
+                    self.world.message_log.add_message(
+                        text="The way is blocked", color=colors.Impossible
                     )
                 return self
             case Locals.K_ESCAPE:
@@ -165,7 +203,7 @@ class GameMenuInputHandler(MainGameInputHandler):
         world: GameWorld,
         rng: Random,
         bestiary: Bestiary,
-        parent: Handler | None = None,
+        parent: Handler,
     ):
         super().__init__(world=world, rng=rng, bestiary=bestiary, parent=parent)
         items = [Strings.Resume, Strings.QuitWithSave, Strings.QuitNoSave]
@@ -233,14 +271,3 @@ class BestiaryInputHandler(BaseInputHandler):
             bgcolor=(0x00, 0x00, 0x00, 0x00),
         )
 
-
-class LoadingHandler(BaseInputHandler):
-    def __init__(
-        self,
-        bestiary,
-        proc_func: Callable[[Any], None | Any],
-        arguments: tuple[Any, ...],
-        parent=None,
-    ):
-        super().__init__(bestiary=bestiary, parent=parent)
-        self.process = Process(target=proc_func, args=arguments)

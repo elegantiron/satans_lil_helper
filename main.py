@@ -2,8 +2,9 @@
 # nuitka-project: --follow-imports
 # nuitka-project: --include-data-dir=assets=assets
 # nuitka-project: --output-filename=slh.exe
-# nuitka-project: --windows-console-mode=disable
-# nuitka-project: --deployment
+### nuitka-project: --windows-console-mode=disable
+### nuitka-project: --deployment
+# nuitka-project: --output-dir=build
 
 
 from __future__ import annotations
@@ -15,18 +16,11 @@ import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
 from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
-from game.input_handlers import (
-    BaseInputHandler,
-    GameMenuInputHandler,
-    MainMenuInputHandler,
-)
+import game.input_handlers as input_handlers
 from game.setup import load_fonts, load_sprites
-from game.utils import load_data, save_data
+from game.save_funcs import load_data, save_data
 
-Handler = TypeVar("Handler", bound="BaseInputHandler")
-
-
-
+Handler = TypeVar("Handler", bound="input_handlers.BaseInputHandler")
 
 
 def main():
@@ -43,7 +37,10 @@ def main():
         bestiary = load_data(bestiary_filepath)
     else:
         bestiary = Bestiary()
-    handler = MainMenuInputHandler(bestiary=bestiary)
+    handler = input_handlers.MainMenuInputHandler(bestiary=bestiary)
+    pygame.event.set_allowed(
+        [pygame.QUIT, pygame.KEYDOWN, pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN]
+    )
 
     while running:
         window.fill("black")
@@ -74,14 +71,14 @@ def main():
             running = False
             continue
         except GameReset:
-            if isinstance(handler, GameMenuInputHandler):
+            if isinstance(handler, input_handlers.GameMenuInputHandler):
                 handler = handler._parent
             save_data(handler, "./savegame.dat")
             save_data(handler.bestiary, "./bestiary.data")
-            handler = MainMenuInputHandler(fonts=fonts)
+            handler = input_handlers.MainMenuInputHandler(fonts=fonts)
             continue
         except SystemExit:
-            if isinstance(handler, GameMenuInputHandler):
+            if isinstance(handler, input_handlers.GameMenuInputHandler):
                 handler = handler._parent
             save_data(handler, "./savegame.dat")
             save_data(handler.bestiary, "./bestiary.dat")

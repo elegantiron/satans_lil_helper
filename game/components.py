@@ -1,11 +1,12 @@
 from __future__ import annotations
-from dataclasses import dataclass as component
 from typing import TYPE_CHECKING
+
+import attrs
 
 if TYPE_CHECKING:
     from constants import Sprites
 
-@component
+@attrs.define
 class Position:
     x: int
     y: int
@@ -17,34 +18,34 @@ class Position:
     def scaled(self, factor:int=32) -> tuple[int, int]:
         return self.x*factor, self.y*factor
     
-@component
+@attrs.define
 class CoolDown:
     dur: int
 
-@component
+@attrs.define
 class Inventory:
     size: int
 
-@component
+@attrs.define
 class Renderable:
     sprite: Sprites
 
-@component
+@attrs.define
 class Name:
     name: str
 
-@component
+@attrs.define
 class Sight:
     light: int
     vision: int
 
-@component
+@attrs.define
 class Level:
     level: int
     xp: int
     xp_granted: int
 
-@component
+@attrs.define
 class Health:
     def __init__(self, hp: int) -> None:
         self.hp = hp

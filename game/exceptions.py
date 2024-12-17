@@ -31,3 +31,6 @@ class InventoryFull(Impossible):
 
 class MissingComponent(Impossible):
     """Raised when an action can't be completed because the entity is missing a required component"""
+    
+class AsyncException(BaseException):
+    """Raised when the subprocess doesn't return as expected."""
