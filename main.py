@@ -12,9 +12,11 @@ from pathlib import Path
 from typing import TypeVar
 
 import pygame
+from pygame.event import Event
 import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
+from game.constants import GameSettings
 from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
 import game.input_handlers as input_handlers
 from game.setup import load_fonts, load_sprites
@@ -24,7 +26,8 @@ Handler = TypeVar("Handler", bound="input_handlers.BaseInputHandler")
 
 
 def main():
-    window = pygame.display.set_mode((1280, 720), display=0, vsync=1)
+    window = pygame.display.set_mode(GameSettings.WindowSize, display=0, vsync=1)
+    working_surface = pygame.Surface(GameSettings.WindowSize)
     pygame.display.set_caption("Satan's Lil Helper")
     freetype.init()
     clock = pygame.time.Clock()
@@ -43,29 +46,34 @@ def main():
     )
 
     while running:
+        """Rendering code"""
+        working_surface.fill((0, 0, 0, 0))
         window.fill("black")
-        handler.render(surface=window, sprites=sprites, fonts=fonts)
-        # fonts[FontDict.GameStatus].render_to(window, (0, 0), text=str(clock.get_fps()))
+        handler.render(
+            surface=window,
+            working_surface=working_surface,
+            sprites=sprites,
+            fonts=fonts,
+        )
         pygame.display.flip()
+
+        """Event Handling"""
         try:
-            for event in pygame.event.get(
-                [
-                    pygame.QUIT,
-                    pygame.KEYDOWN,
-                    pygame.MOUSEMOTION,
-                    pygame.MOUSEBUTTONDOWN,
-                ]
-            ):
-                match event.type:
-                    case pygame.QUIT:
+            for event in pygame.event.get():
+                match event:
+                    case Event(type=pygame.QUIT):
                         raise SystemExit
-                    case pygame.KEYDOWN:
+                    case Event(type=pygame.KEYDOWN):
                         handler = handler.handle_key(
                             event.key, event.mod, event.unicode, event.scancode
                         )
-                    case pygame.MOUSEMOTION:
+                    case Event(type=pygame.MOUSEMOTION):
                         handler = handler.handle_mousemotion(
                             event.pos, event.rel, event.buttons, event.touch
+                        )
+                    case Event(type=pygame.MOUSEBUTTONDOWN):
+                        handler = handler.handle_mousebuttondown(
+                            event.pos, event.button, event.touch
                         )
         except QuitWithoutSaving:
             running = False
@@ -87,6 +95,7 @@ def main():
         except LoadGame:
             handler = load_data("./savegame.dat")
             continue
+
         clock.tick(144)
 
     pygame.quit()

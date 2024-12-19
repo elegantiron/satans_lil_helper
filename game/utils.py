@@ -2,31 +2,14 @@ from __future__ import annotations
 import os
 from typing import TYPE_CHECKING
 
-import numpy as np
 
-from game.constants import Sprites
 
 if TYPE_CHECKING:
-    import numpy.typing as npt
     import random
 
 
 def resolve_path(path: str) -> str:
     return os.path.abspath(path)
-
-
-def new_tile(
-    *,
-    walkable: int,
-    transparent: int,
-    sprite_id: Sprites,
-    dtype: npt.DTypeLike,
-    movement_cost: int,
-):
-    return np.array(
-        (walkable, transparent, False, False, False, movement_cost, sprite_id),
-        dtype=dtype,
-    )
 
 
 def get_damage_factor(

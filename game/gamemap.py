@@ -37,7 +37,7 @@ class GameMap:
         self.camera = Camera(
             map=self.dims,
             screen=self.screen_dimensions,
-            center=(MapTile(*self.player.components[Position].xy)),
+            center=(MapTile(0, 0)),
             lock_view=True,
         )
         self.fov_calc = PrecisePermissiveView(

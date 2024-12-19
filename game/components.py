@@ -50,3 +50,7 @@ class Health:
     def __init__(self, hp: int) -> None:
         self.hp = hp
         self.max_hp = hp
+        
+@attrs.define
+class EntityAI:
+    type: str

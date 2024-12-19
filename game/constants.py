@@ -1,8 +1,15 @@
 from __future__ import annotations
 from enum import Enum, IntEnum, StrEnum, auto
 from os.path import abspath
+from typing import TYPE_CHECKING
 
 import pygame
+import numpy as np
+
+from game import colors
+
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
 
 def resolve_path(path: str) -> str:
@@ -54,6 +61,7 @@ class FontDict(Enum):
     MainMenu = auto()
     GameStatus = auto()
     GameMenu = MainMenu
+    ChooseClass = auto()
     # TitleText = auto()
     # ByLineText = auto()
 
@@ -71,6 +79,12 @@ FONT_SETTINGS = {
         (0xFF, 0xFF, 0xFF, 0xFF),
         (0x00, 0x00, 0x00, 0x00),
     ),
+    FontDict.ChooseClass: (
+        resolve_path("assets/fonts/FairyDustB.ttf"),
+        35,
+        colors.White,
+        colors.Transparent,
+    ),
 }
 
 
@@ -83,6 +97,7 @@ class Strings(StrEnum):
     QuitWithSave = "Save and Quit"
     QuitNoSave = "Quit without Saving"
     Resume = "Resume"
+    ChoosePlayerClass = "Choose Your Class"
 
 
 HMAC_KEY = b"special_key_for_slh"
@@ -126,37 +141,67 @@ class Tags(Enum):
     Holding = auto()
     Transparent = auto()
 
+
 class Generators(Enum):
     EarlyForest = auto()
 
-class MapSettings:
-    Width: int = 0
-    Height: int = 0
 
-    @property
-    def RandomEntranceX(self) -> tuple[int, int]:
-        return 0, self.Width - 1
-    
-    @property
-    def RandomEntranceY(self) -> tuple[int, int]:
-        return 0, self.Height - 1
-    
-    @property
-    def RandomExitX(self) -> tuple[int, int]:
-        return 0 ,self.Width - 1
-    
-    @property
-    def RandomExitY(self) -> tuple[int, int]:
-        return 0, self.Height - 1
+tile_dt = np.dtype(
+    [
+        (TileDict.Walkable, bool),
+        (TileDict.Transparent, bool),
+        (TileDict.Explored, bool),
+        (TileDict.Visible, bool),
+        (TileDict.Safe, bool),
+        (TileDict.MovementCost, int),
+        (TileDict.SpriteID, Sprites),
+    ]
+)
+
+
+def new_tile(
+    *,
+    walkable: int,
+    transparent: int,
+    sprite_id: Sprites,
+    dtype: npt.DTypeLike,
+    movement_cost: int,
+):
+    return np.array(
+        (walkable, transparent, False, False, False, movement_cost, sprite_id),
+        dtype=dtype,
+    )
+
 
 class Forest:
-    Width = 125
-    Height = 125
-    
-    @property
-    def RandomEntranceY(self) -> tuple[int, int]:
-        return 0, 15
-    
-    @property
-    def RandomExitY(self) -> tuple[int, int]:
-        return self.Height - 16, self.Height - 1
+    Width = 75
+    Height = 75
+    EarlyProb = 0.42
+    Floor = new_tile(
+        walkable=True,
+        transparent=True,
+        sprite_id=Sprites.FOREST_FLOOR,
+        dtype=tile_dt,
+        movement_cost=1,
+    )
+
+    Wall = new_tile(
+        walkable=False,
+        transparent=False,
+        sprite_id=Sprites.FOREST_WALL,
+        dtype=tile_dt,
+        movement_cost=0,
+    )
+
+
+class Status(Enum):
+    Hostile = auto()
+    Confused = auto()
+    Wandering = auto()
+
+
+DIRS = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
+
+
+class GameSettings:
+    WindowSize = (1280, 720)
