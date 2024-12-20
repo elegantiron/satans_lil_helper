@@ -4,3 +4,4 @@ slh-pygame.code-workspace
 docs
 docs.bak
 __pycache__
+.venv

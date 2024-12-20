@@ -45,15 +45,17 @@ CONFIRMATION_KEYS = {
 
 
 class Sprites(Enum):
-    PLAYER = auto()
-    FOREST_FLOOR = auto()
-    FOREST_WALL = auto()
+    Player = auto()
+    ForestFloor = auto()
+    ForestWall = auto()
+    
+
 
 
 SPRITEPATHS = {
-    Sprites.PLAYER: resolve_path("assets/images/player/player.png"),
-    Sprites.FOREST_FLOOR: resolve_path("assets/images/tiles/forest/floor/000.png"),
-    Sprites.FOREST_WALL: resolve_path("assets/images/tiles/forest/wall/000.png"),
+    Sprites.Player: resolve_path("assets/images/player/player.png"),
+    Sprites.ForestFloor: resolve_path("assets/images/tiles/forest/floor/000.png"),
+    Sprites.ForestWall: resolve_path("assets/images/tiles/forest/wall/000.png"),
 }
 
 
@@ -62,7 +64,7 @@ class FontDict(Enum):
     GameStatus = auto()
     GameMenu = MainMenu
     ChooseClass = auto()
-    # TitleText = auto()
+    TitleText = auto()
     # ByLineText = auto()
 
 
@@ -85,6 +87,12 @@ FONT_SETTINGS = {
         colors.White,
         colors.Transparent,
     ),
+    FontDict.TitleText: (
+        resolve_path("assets/fonts/FairyDustB.ttf"),
+        75,
+        colors.Title,
+        colors.Transparent,
+    ),
 }
 
 
@@ -98,6 +106,7 @@ class Strings(StrEnum):
     QuitNoSave = "Quit without Saving"
     Resume = "Resume"
     ChoosePlayerClass = "Choose Your Class"
+    Title = "Satan's Lil Helper"
 
 
 HMAC_KEY = b"special_key_for_slh"
@@ -105,10 +114,6 @@ HMAC_KEY = b"special_key_for_slh"
 
 class Durations(IntEnum):
     PlayerMovement = 5
-
-
-class Professions(StrEnum):
-    Warrior = "Warrior"
 
 
 class TileDict(StrEnum):
@@ -174,13 +179,13 @@ def new_tile(
 
 
 class Forest:
-    Width = 75
-    Height = 75
-    EarlyProb = 0.42
+    Width = 600
+    Height = 600
+    EarlyProb = 0.38
     Floor = new_tile(
         walkable=True,
         transparent=True,
-        sprite_id=Sprites.FOREST_FLOOR,
+        sprite_id=Sprites.ForestFloor,
         dtype=tile_dt,
         movement_cost=1,
     )
@@ -188,7 +193,7 @@ class Forest:
     Wall = new_tile(
         walkable=False,
         transparent=False,
-        sprite_id=Sprites.FOREST_WALL,
+        sprite_id=Sprites.ForestWall,
         dtype=tile_dt,
         movement_cost=0,
     )

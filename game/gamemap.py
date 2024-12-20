@@ -98,29 +98,3 @@ class GameMap:
             15,
             self.make_set_safety_function(),
         )
-
-    def setup_pathfinder(self) -> None:
-        graph = tcod.path.SimpleGraph(
-            cost=self.tiles[TileDict.MovementCost], cardinal=2, diagonal=3
-        )
-        self.pathfinder = tcod.path.Pathfinder(graph)
-
-    def reset_pathfinder(self) -> None:
-        if self.pathfinder is None:
-            self.setup_pathfinder()
-        self.pathfinder.clear()
-
-    def add_pathfinder_root(self, target: MapTile) -> None:
-        if self.pathfinder is None:
-            self.setup_pathfinder()
-        self.pathfinder.add_root(target.coords)
-
-    def get_path_to(self, target: MapTile) -> list[tuple[int, int]]:
-        if self.pathfinder is None:
-            self.setup_pathfinder()
-        return self.pathfinder.path_to(target.coords)[1:].tolist()
-
-    def get_path_from(self, start: MapTile) -> list[tuple[int, int]]:
-        if self.pathfinder is None:
-            self.setup_pathfinder()
-        return self.pathfinder.path_from(start.coords)[1:].tolist()

@@ -16,7 +16,7 @@ from pygame.event import Event
 import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
-from game.constants import GameSettings
+from game.constants import GameSettings, Strings
 from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
 import game.input_handlers as input_handlers
 from game.setup import load_fonts, load_sprites
@@ -28,7 +28,7 @@ Handler = TypeVar("Handler", bound="input_handlers.BaseInputHandler")
 def main():
     window = pygame.display.set_mode(GameSettings.WindowSize, display=0, vsync=1)
     working_surface = pygame.Surface(GameSettings.WindowSize)
-    pygame.display.set_caption("Satan's Lil Helper")
+    pygame.display.set_caption(Strings.Title)
     freetype.init()
     clock = pygame.time.Clock()
     running = True

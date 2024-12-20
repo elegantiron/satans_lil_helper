@@ -21,6 +21,7 @@ from game.components import Position
 from game.constants import (
     CONFIRMATION_KEYS,
     MOVEMENT_KEYS,
+    TILE_SIZE,
     FontDict,
     Sprites,
     Strings,
@@ -68,6 +69,70 @@ class BaseInputHandler(metaclass=abc.ABCMeta):
     def on_exit(self, *args) -> Handler:
         pass
 
+    def _receive_process_data(self, data):
+        raise NotImplementedError
+
+
+class LoadingHandler(BaseInputHandler, metaclass=abc.ABCMeta):
+    """Base class for loading/processing data in a separate process.
+
+    Allows for performing longer operations without causing the operating system
+    to think that we have frozen."""
+
+    def __init__(
+        self,
+        bestiary: Bestiary,
+        rng: Random,
+        process: Process,
+        queue: Queue,
+        parent: Handler,
+    ):
+        super().__init__(bestiary, parent)
+        self.rng = rng
+        self.process = process
+        self.queue = queue
+        
+    def render(
+        self,
+        *,
+        surface: Surface,
+        working_surface: Surface,
+        sprites: dict[Sprites, Surface],
+        fonts: dict[FontDict, freetype.Font],
+    ):
+        if self.process.exitcode is None:
+            size = fonts[FontDict.MainMenu].get_rect(
+                text=f"Loading{['.' for _ in range((time() * 4) % 4)]}"
+            )
+            dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
+            fonts[FontDict.MainMenu].render_to(surface, dest, text=None)
+        elif self.process.exitcode == 0:
+            size = fonts[FontDict.MainMenu].get_rect(
+                text="Press any key to cotinue"
+            )
+            dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
+            fonts[FontDict.MainMenu].render_to(
+                surface, dest, "Press any key to continue"
+            )
+        else:
+            size = fonts[FontDict.MainMenu].get_rect(
+                text=f"Error encountered! Exit code {self.process.exitcode}"
+            )
+            dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
+            fonts[FontDict.MainMenu].render_to(
+                surface, dest, f"Error encountered! Exit code {self.process.exitcode}"
+            )
+    
+    def handle_key(self, key, mod, unicode, scancode):
+        if self.process.exitcode is None:
+            return self
+        elif self.process.exitcode == 0:
+            data = self.queue.get()
+            self._parent._receive_process_data(data)
+            return self._parent
+        else:
+            return self
+
 
 class MainMenuInputHandler(BaseInputHandler):
     def __init__(self, bestiary):
@@ -94,6 +159,10 @@ class MainMenuInputHandler(BaseInputHandler):
         fonts: dict[FontDict, freetype.Font],
     ):
         self.menu.render(surface=surface, font=fonts[FontDict.MainMenu])
+        dest = fonts[FontDict.TitleText].get_rect(text=Strings.Title)
+        fonts[FontDict.TitleText].render_to(
+            surf=surface, dest=((surface.get_width() - dest.w) // 2, 15), text=None
+        )
 
     def handle_key(self, key, mod, unicode, scancode):
         match key:
@@ -132,7 +201,10 @@ class SelectPlayerClassHandler(BaseInputHandler):
 
     def handle_key(self, key, mod, unicode, scancode):
         rng = Random(time())
-        return LoadNewGameHandler(bestiary=self.bestiary, rng=rng)
+        world = GameWorld(
+            rng=rng, tile_size=TILE_SIZE, screen_size=pygdisp.get_window_size()
+        )
+        return MainGameInputHandler(world=world, rng=rng, bestiary=self.bestiary)
 
 
 class LoadNewGameHandler(BaseInputHandler):
@@ -171,11 +243,11 @@ class LoadNewGameHandler(BaseInputHandler):
         fonts: dict[FontDict, freetype.Font],
     ):
         if self.process.exitcode is None:
-            size = fonts[FontDict.MainMenu].get_rect(text=f"Loading{"." if time()%60 <30 else ""}")
-            dest = Rect((surface.get_width()-size.w)//2, 35, 0 , 0)
-            fonts[FontDict.MainMenu].render_to(
-                surface, dest, text=None
+            size = fonts[FontDict.MainMenu].get_rect(
+                text=f"Loading{['.' for _ in range((time() * 4) % 4)]}"
             )
+            dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
+            fonts[FontDict.MainMenu].render_to(surface, dest, text=None)
         elif self.process.exitcode == 0:
             fonts[FontDict.MainMenu].render_to(
                 surface, (0, 0), "Press any key to continue"

@@ -1,14 +1,14 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+import numpy as np
 import tcod.ecs
-from pyrotkit.generators import CellularGenerator
-from pyrotkit.constants import DIRS
 
-from game.components import Position
+from game.components import Position, Renderable
 from game.constants import Forest, Generators, Sprites, TileDict
 from game.definitions import tile_dt
 from game.gamemap import GameMap
+from game.generators import CellularGenerator
 from game.messagelog import MessageLog
 
 if TYPE_CHECKING:
@@ -22,17 +22,10 @@ class GameWorld:
     def __init__(self, rng: Random, tile_size: int, screen_size: tuple[int, int]):
         self.rng = rng
         self._early_forest_gen = CellularGenerator(
-            width=Forest.Width,
-            height=Forest.Height,
-            wall=Forest.Wall,
-            floor=Forest.Floor,
-            dirs=DIRS.DIR8,
+            dimensions=(Forest.Width, Forest.Height),
             rng=self.rng,
-            dtype=tile_dt,
             prob=Forest.EarlyProb,
         )
-        self._early_forest_gen.rule1_iters = 4
-        self._early_forest_gen.rule2_iters = 3
         self.current_map = GameMap(
             width=Forest.Width,
             height=Forest.Height,
@@ -43,7 +36,14 @@ class GameWorld:
         self.map_index = self._maps.index(self.current_map)
         self._tile_size = tile_size
         self._screen_size = screen_size
-        self.current_map.tiles = self._early_forest_gen.generate_map()
+        self.current_map.tiles = np.ndarray(
+            (Forest.Width, Forest.Height), dtype=tile_dt, order="F"
+        )
+        temp_map = self._early_forest_gen.generate_map()
+        for ix, iy in np.ndindex(self.current_map.tiles.shape):
+            self.current_map.tiles[ix, iy] = (
+                Forest.Wall if temp_map[ix][iy] == 1 else Forest.Floor
+            )
         picked = False
         while not picked:
             x = rng.randint(0, Forest.Width)
@@ -53,6 +53,8 @@ class GameWorld:
                 picked = True
         # self.current_map.set_safe_squares()
         self.message_log = MessageLog()
+        self.current_map.camera.set_center(*self.player.components[Position].xy)
+        self.player.components[Renderable] = Renderable(Sprites.Player)
 
     def render(
         self,
