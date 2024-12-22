@@ -52,9 +52,9 @@ class Sprites(Enum):
 
 
 SPRITEPATHS = {
-    Sprites.Player: resolve_path("assets/images/player/player.png"),
-    Sprites.ForestFloor: resolve_path("assets/images/tiles/forest/floor/000.png"),
-    Sprites.ForestWall: resolve_path("assets/images/tiles/forest/wall/000.png"),
+    Sprites.Player: "assets/images/player/player.png",
+    Sprites.ForestFloor: "assets/images/tiles/forest/floor/000.png",
+    Sprites.ForestWall: "assets/images/tiles/forest/wall/000.png",
 }
 
 
@@ -69,25 +69,25 @@ class FontDict(Enum):
 
 FONT_SETTINGS = {
     FontDict.MainMenu: (
-        resolve_path("assets/foNts/F25_Bank_Printer.ttf"),
+        "assets/fonts/F25_Bank_Printer.ttf",
         20,
         (0xFF, 0xFF, 0xFF, 0xFF),
         (0x00, 0x00, 0x00, 0x00),
     ),
     FontDict.GameStatus: (
-        resolve_path("assets/fonts/F25_Bank_Printer.ttf"),
+        "assets/fonts/F25_Bank_Printer.ttf",
         15,
         (0xFF, 0xFF, 0xFF, 0xFF),
         (0x00, 0x00, 0x00, 0x00),
     ),
     FontDict.ChooseClass: (
-        resolve_path("assets/fonts/FairyDustB.ttf"),
+        "assets/fonts/FairyDustB.ttf",
         35,
         colors.White,
         colors.Transparent,
     ),
     FontDict.TitleText: (
-        resolve_path("assets/fonts/FairyDustB.ttf"),
+        "assets/fonts/FairyDustB.ttf",
         75,
         colors.Title,
         colors.Transparent,
