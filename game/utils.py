@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os
 from typing import TYPE_CHECKING
-
+import sys
 
 
 if TYPE_CHECKING:
@@ -9,7 +9,12 @@ if TYPE_CHECKING:
 
 
 def resolve_path(path: str) -> str:
-    return os.path.abspath(path)
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        print("didn't find _MEIPASS")
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, path)
 
 
 def get_damage_factor(
