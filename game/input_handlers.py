@@ -298,6 +298,7 @@ class MainGameInputHandler(BaseInputHandler):
                     self.world.camera.set_center(
                         *self.world.player.components[Position].xy
                     )
+                    self.world.current_map.update_player_fov()
                 except PathBlocked:
                     self.world.message_log.add_message(
                         text="The way is blocked", color=colors.Impossible
