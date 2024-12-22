@@ -1,5 +1,5 @@
 numpy==2.2
-pygame==2.6.1
+pygame-ce==2.5.2
 namemaker==1.2
 tcod-ecs==5.2.3
 tcod==16.2.3
