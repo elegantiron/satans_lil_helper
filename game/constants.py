@@ -48,8 +48,7 @@ class Sprites(Enum):
     Player = auto()
     ForestFloor = auto()
     ForestWall = auto()
-    
-
+    FogTile = auto()
 
 
 SPRITEPATHS = {
@@ -179,8 +178,8 @@ def new_tile(
 
 
 class Forest:
-    Width = 600
-    Height = 600
+    Width = 400
+    Height = 400
     EarlyProb = 0.38
     Floor = new_tile(
         walkable=True,
