@@ -58,7 +58,12 @@ class MessageLog:
         messages: Reversible[Message],
     ) -> None:
         dest = Rect(rect.left, rect.top, rect.w, rect.h)
+        temp_rect = None
         for message in reversed(messages):
             for line in reversed(list(cls.wrap(message.full_text, rect.w))):
                 temp_rect = font.render_to(surface, dest, line, message.color)
-                dest.top = dest.top + temp_rect.h
+                dest.top = dest.top + temp_rect.h + 3
+                if temp_rect.bottom + temp_rect.h + 3 >= surface.height:
+                    break
+            if temp_rect.bottom + temp_rect.h + 3 >= surface.height:
+                break
