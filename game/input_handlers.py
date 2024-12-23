@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, TypeVar
 import dill
 import pygame.gfxdraw as gfxdraw
 import pygame.locals as Locals
-from pygame import Rect
+from pygame import Rect, draw
 from pygame import display as pygdisp
 
 import game.colors as colors
@@ -23,6 +23,8 @@ from game.constants import (
     MOVEMENT_KEYS,
     TILE_SIZE,
     FontDict,
+    Profession,
+    ProfessionDescriptions,
     Sprites,
     Strings,
 )
@@ -91,7 +93,7 @@ class LoadingHandler(BaseInputHandler, metaclass=abc.ABCMeta):
         self.rng = rng
         self.process = process
         self.queue = queue
-        
+
     def render(
         self,
         *,
@@ -107,9 +109,7 @@ class LoadingHandler(BaseInputHandler, metaclass=abc.ABCMeta):
             dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
             fonts[FontDict.MainMenu].render_to(surface, dest, text=None)
         elif self.process.exitcode == 0:
-            size = fonts[FontDict.MainMenu].get_rect(
-                text="Press any key to cotinue"
-            )
+            size = fonts[FontDict.MainMenu].get_rect(text="Press any key to cotinue")
             dest = Rect((surface.get_width() - size.w) // 2, 35, 0, 0)
             fonts[FontDict.MainMenu].render_to(
                 surface, dest, "Press any key to continue"
@@ -122,7 +122,7 @@ class LoadingHandler(BaseInputHandler, metaclass=abc.ABCMeta):
             fonts[FontDict.MainMenu].render_to(
                 surface, dest, f"Error encountered! Exit code {self.process.exitcode}"
             )
-    
+
     def handle_key(self, key, mod, unicode, scancode):
         if self.process.exitcode is None:
             return self
@@ -193,18 +193,57 @@ class MainMenuInputHandler(BaseInputHandler):
 class SelectPlayerClassHandler(BaseInputHandler):
     def __init__(self, bestiary: Bestiary, parent: Handler | None = None):
         super().__init__(bestiary, parent)
+        self.idx = 0
 
     def render(self, *, surface, working_surface, sprites, fonts):
-        size = fonts[FontDict.ChooseClass].get_rect(Strings.ChoosePlayerClass)
-        dest = Rect((surface.get_width() - size.w) // 2, 20, 0, 0)
-        fonts[FontDict.ChooseClass].render_to(surf=surface, dest=dest, text=None)
+        size1 = fonts[FontDict.TitleText].get_rect(Strings.ChoosePlayerClass)
+        dest = Rect((surface.get_width() - size1.w) // 2, 20, 0, 0)
+        fonts[FontDict.TitleText].render_to(surf=surface, dest=dest, text=None)
+        text = ProfessionDescriptions[self.idx][1]
+        size2 = fonts[FontDict.ClassName].get_rect(text)
+        dest = Rect((surface.get_width() - size2.w) // 2, size1.bottom + 20, 0, 0)
+        fonts[FontDict.ClassName].render_to(surf=surface, dest=dest, text=None)
+        dest = Rect(
+            (surface.get_width() - 150) // 2,
+            (surface.get_height() - 300) // 2,
+            150,
+            300,
+        )
+        draw.rect(surface, colors.Impossible, dest)
+        dest.bottom += 25
+        for text in ProfessionDescriptions[self.idx][2]:
+            size1 = fonts[FontDict.GameStatus].get_rect(text)
+            dest = Rect(
+                (surface.get_width() - size1.w) // 2, dest.bottom + 5, size1.w, size1.h
+            )
+            fonts[FontDict.GameStatus].render_to(surface, dest, text=None)
 
     def handle_key(self, key, mod, unicode, scancode):
-        rng = Random(time())
-        world = GameWorld(
-            rng=rng, tile_size=TILE_SIZE, screen_size=pygdisp.get_window_size()
-        )
-        return MainGameInputHandler(world=world, rng=rng, bestiary=self.bestiary)
+        match key:
+            case Locals.K_ESCAPE:
+                raise QuitWithoutSaving
+            case key if key in MOVEMENT_KEYS and MOVEMENT_KEYS[key][0] != 0:
+                self.idx += MOVEMENT_KEYS[key][0]
+                if self.idx < 0:
+                    self.idx = len(ProfessionDescriptions) - 1
+                self.idx = self.idx % len(ProfessionDescriptions)
+            case key if key in CONFIRMATION_KEYS:
+                rng = Random(time())
+                world = GameWorld(
+                    rng=rng, tile_size=TILE_SIZE, screen_size=pygdisp.get_window_size()
+                )
+                return MainGameInputHandler(
+                    world=world, rng=rng, bestiary=self.bestiary
+                )
+            case _:
+                rng = Random(time())
+                world = GameWorld(
+                    rng=rng, tile_size=TILE_SIZE, screen_size=pygdisp.get_window_size()
+                )
+                return MainGameInputHandler(
+                    world=world, rng=rng, bestiary=self.bestiary
+                )
+        return self
 
 
 class LoadNewGameHandler(BaseInputHandler):
@@ -264,6 +303,7 @@ class MainGameInputHandler(BaseInputHandler):
         world: GameWorld,
         rng: Random,
         bestiary: Bestiary,
+        player_class: Profession | None = Profession.Warrior,
         parent: Handler | None = None,
     ):
         super().__init__(bestiary=bestiary, parent=parent)

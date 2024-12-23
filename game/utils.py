@@ -12,7 +12,6 @@ def resolve_path(path: str) -> str:
     try:
         base_path = sys._MEIPASS
     except Exception:
-        print("didn't find _MEIPASS")
         base_path = os.path.abspath(".")
     return os.path.join(base_path, path)
 

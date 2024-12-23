@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from enum import Enum, IntEnum, StrEnum, auto
 from os.path import join
 from typing import TYPE_CHECKING
 
-import pygame
 import numpy as np
+import pygame
 
 from game import colors
 
@@ -60,9 +61,10 @@ class FontDict(Enum):
     MainMenu = auto()
     GameStatus = auto()
     GameMenu = MainMenu
-    ChooseClass = auto()
+    ClassName = auto()
     TitleText = auto()
     # ByLineText = auto()
+    ChooseClass = auto()
 
 
 FONT_SETTINGS = {
@@ -78,7 +80,7 @@ FONT_SETTINGS = {
         (0xFF, 0xFF, 0xFF, 0xFF),
         (0x00, 0x00, 0x00, 0x00),
     ),
-    FontDict.ChooseClass: (
+    FontDict.ClassName: (
         "assets/fonts/FairyDustB.ttf",
         35,
         colors.White,
@@ -88,6 +90,12 @@ FONT_SETTINGS = {
         "assets/fonts/FairyDustB.ttf",
         75,
         colors.Title,
+        colors.Transparent,
+    ),
+    FontDict.ChooseClass: (
+        "assets/fonts/FairyDustB.ttf",
+        75,
+        colors.ChooseClass,
         colors.Transparent,
     ),
 }
@@ -207,3 +215,37 @@ DIRS = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
 
 class GameSettings:
     WindowSize = (1280, 720)
+
+
+class Profession(Enum):
+    Warrior = auto()
+    Thief = auto()
+    Wizard = auto()
+
+
+ProfessionDescriptions = [
+    [
+        Profession.Warrior,
+        "Warrior",
+        [
+            "A basic warrior class.",
+            "",
+            "Proficient with one handed weapons, shields, and all",
+            "armor types.",
+        ],
+    ],
+    # [
+    #     Professions.Thief,
+    #     "Thief",
+    #     [
+    #         "A basic thief class.",
+    #         "",
+    #         "Proficient with one handed weapons and light armor.",
+    #     ],
+    # ],
+    # [
+    #     Professions.Wizard,
+    #     "Wizard",
+    #     ["A basic wizard class.", "", "Proficient with magic weapons."],
+    # ],
+]
