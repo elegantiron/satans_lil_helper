@@ -3,10 +3,12 @@ from __future__ import annotations
 import textwrap
 from typing import TYPE_CHECKING
 
+from pygame import Rect
+
 if TYPE_CHECKING:
     from typing import Iterable, Reversible
 
-    from pygame import Color, Rect, Surface
+    from pygame import Color, Surface
     from pygame.freetype import Font
 
 
@@ -34,7 +36,7 @@ class MessageLog:
         *,
         stack: bool = True,
     ) -> None:
-        if stack and self.messages and text == self.messages[-1].plain_text:
+        if stack and self.messages and text == self.messages[-1].plain_text and False:
             self.messages[-1].count += 1
         else:
             self.messages.append(Message(text, color))
