@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import tcod.ecs
+from pygame import Rect
 
 from game.components import Position, Renderable, Sight
 from game.constants import Forest, Generators, Sprites, TileDict
@@ -28,7 +29,7 @@ class GameWorld:
             rng=self.rng,
             prob=Forest.EarlyProb,
         )
-        game_screen = (screen_size[0]*2/3,screen_size[1])
+        game_screen = (screen_size[0] * 2 / 3, screen_size[1])
         self.current_map = GameMap(
             width=Forest.Width,
             height=Forest.Height,
@@ -55,12 +56,20 @@ class GameWorld:
                 self.player.components[Position] = Position(x, y)
                 picked = True
         # self.current_map.set_safe_squares()
-        self.player.components[Sight] = Sight(7,7)
+        self.player.components[Sight] = Sight(7, 7)
         self.message_log = MessageLog()
         self.current_map.camera.set_center(*self.player.components[Position].xy)
         self.current_map.setup_fov_calc()
         self.current_map.update_player_fov()
         self.player.components[Renderable] = Renderable(Sprites.Player)
+        self.rects = {
+            "message_box": Rect(
+                screen_size[0] * 2 // 3,
+                screen_size[1] * 4 // 5,
+                screen_size[0] // 2,
+                screen_size[1] // 5,
+            )
+        }
 
     def render(
         self,
@@ -70,6 +79,9 @@ class GameWorld:
         font: freetype.Font,
     ):
         self.current_map.render(surface=surface, sprites=sprites)
+        self.message_log.render(
+            surface=surface, rect=self.rects["message_box"], font=font
+        )
 
     @property
     def player(self) -> tcod.ecs.Entity:
