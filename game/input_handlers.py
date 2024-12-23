@@ -200,11 +200,15 @@ class SelectPlayerClassHandler(BaseInputHandler):
         fonts[FontDict.ChooseClass].render_to(surf=surface, dest=dest, text=None)
 
     def handle_key(self, key, mod, unicode, scancode):
-        rng = Random(time())
-        world = GameWorld(
+        match key:
+            case Locals.K_ESCAPE:
+                raise QuitWithoutSaving
+            case _:
+                rng = Random(time())
+                world = GameWorld(
             rng=rng, tile_size=TILE_SIZE, screen_size=pygdisp.get_window_size()
         )
-        return MainGameInputHandler(world=world, rng=rng, bestiary=self.bestiary)
+                return MainGameInputHandler(world=world, rng=rng, bestiary=self.bestiary)
 
 
 class LoadNewGameHandler(BaseInputHandler):
