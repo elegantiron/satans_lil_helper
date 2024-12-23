@@ -341,7 +341,7 @@ class MainGameInputHandler(BaseInputHandler):
                     self.world.current_map.update_player_fov()
                 except PathBlocked:
                     self.world.message_log.add_message(
-                        text="The way is blocked", color=colors.Impossible
+                        text=Strings.PathBlocked, color=colors.Impossible
                     )
                 return self
             case Locals.K_ESCAPE:
