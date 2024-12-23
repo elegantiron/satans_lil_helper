@@ -112,6 +112,7 @@ class Strings(StrEnum):
     Resume = "Resume"
     ChoosePlayerClass = "Choose Your Class"
     Title = "Satan's Lil Helper"
+    PathBlocked = "The way is blocked."
 
 
 HMAC_KEY = b"special_key_for_slh"
