@@ -1,84 +1,104 @@
-import traceback
+# nuitka-project: --onefile
+# nuitka-project: --follow-imports
+# nuitka-project: --include-data-dir=assets=assets
+# nuitka-project: --output-filename=slh.exe
+### nuitka-project: --windows-console-mode=disable
+### nuitka-project: --deployment
+# nuitka-project: --output-dir=build
+
+
+from __future__ import annotations
+from pathlib import Path
+from typing import TypeVar
 
 import pygame
-import pygame.freetype
+from pygame.event import Event
+import pygame.freetype as freetype
 
-# import color
-# import exceptions
-import setup_game
-import input_handlers
+from game.bestiary import Bestiary
+from game.constants import GameSettings, Strings
+from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
+import game.input_handlers as input_handlers
+from game.setup import load_fonts, load_sprites
+from game.save_funcs import load_data, save_data
 
-from constants import SCREEN, PATHS
-
-
-def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
-    """If the current event handler has an active Engine, then save it."""
-    if isinstance(handler, input_handlers.EventHandler):
-        handler.engine.save_as(filename)
-        print("Game saved.")
+Handler = TypeVar("Handler", bound="input_handlers.BaseInputHandler")
 
 
-def main() -> None:
-    pygame.display.init()
-    pygame.font.init()
-    pygame.freetype.init()
-
-    handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
-
-    flags = pygame.SRCALPHA
-    surface = pygame.display.set_mode(
-        (SCREEN.PIXEL_WIDTH, SCREEN.PIXEL_HEIGHT), flags=flags
-    )
+def main():
+    window = pygame.display.set_mode(GameSettings.WindowSize, display=0, vsync=1)
+    working_surface = pygame.Surface(GameSettings.WindowSize)
+    pygame.display.set_caption(Strings.Title)
+    freetype.init()
     clock = pygame.time.Clock()
-    tile_sprites = [
-        pygame.image.load(PATHS.FOREST_FLOOR).convert(),
-        pygame.image.load(PATHS.FOREST_WALL).convert(),
-    ]
-    entity_sprites = [
-        pygame.image.load(PATHS.PLAYER).convert_alpha(),
-        pygame.image.load(PATHS.ORC).convert_alpha(),
-        pygame.image.load(PATHS.SACK).convert_alpha(),
-    ]
-    f25 = pygame.freetype.Font(file=PATHS.F25, size=15)
     running = True
 
-    # try:
+    sprites = load_sprites()
+    fonts = load_fonts()
+    bestiary_filepath = Path("./bestiary.dat")
+    if bestiary_filepath.exists():
+        bestiary = load_data(bestiary_filepath)
+    else:
+        bestiary = Bestiary()
+    handler = input_handlers.MainMenuInputHandler(bestiary=bestiary)
+    pygame.event.set_allowed(
+        [pygame.QUIT, pygame.KEYDOWN, pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN]
+    )
+
     while running:
-        surface.fill("black")
-        handler.on_render(
-            surface=surface,
-            tile_sprites=tile_sprites,
-            entity_sprites=entity_sprites,
-            font=f25,
+        """Rendering code"""
+        working_surface.fill((0, 0, 0, 0))
+        window.fill("black")
+        handler.render(
+            surface=window,
+            working_surface=working_surface,
+            sprites=sprites,
+            fonts=fonts,
         )
         pygame.display.flip()
 
+        """Event Handling"""
         try:
-            for event in pygame.event.get(
-                eventtype=[
-                    pygame.KEYDOWN,
-                    pygame.MOUSEMOTION,
-                    pygame.MOUSEBUTTONDOWN,
-                    pygame.QUIT,
-                ]
-            ):
-                handler = handler.handle_events(event)
-        except Exception:  # Handle exceptions in game
-            traceback.print_exc()  # Print error to stderr
-            # Then print the error to the message log.
-            #     if isinstance(handler, input_handlers.EventHandler):
-            #         handler.engine.message_log.add_message(
-            #             traceback.format_exc(), color.error
-            #         )
-        clock.tick()
-    # except exceptions.QuitWithoutSaving:
-    #     running = False
-    # except SystemExit:  # Save and exit
-    #     save_game(handler, "savegame.sav")
-    #     running = False
-    # except BaseException:  # Save on any other unexpected exception.
-    #     save_game(handler, "savegame.sav")
-    #     running = False
+            for event in pygame.event.get():
+                match event:
+                    case Event(type=pygame.QUIT):
+                        raise SystemExit
+                    case Event(type=pygame.KEYDOWN):
+                        handler = handler.handle_key(
+                            event.key, event.mod, event.unicode, event.scancode
+                        )
+                    case Event(type=pygame.MOUSEMOTION):
+                        handler = handler.handle_mousemotion(
+                            event.pos, event.rel, event.buttons, event.touch
+                        )
+                    case Event(type=pygame.MOUSEBUTTONDOWN):
+                        handler = handler.handle_mousebuttondown(
+                            event.pos, event.button, event.touch
+                        )
+        except QuitWithoutSaving:
+            running = False
+            continue
+        except GameReset:
+            if isinstance(handler, input_handlers.GameMenuInputHandler):
+                handler = handler._parent
+            save_data(handler, "./savegame.dat")
+            save_data(handler.bestiary, "./bestiary.data")
+            handler = input_handlers.MainMenuInputHandler(fonts=fonts)
+            continue
+        except SystemExit:
+            if isinstance(handler, input_handlers.GameMenuInputHandler):
+                handler = handler._parent
+            save_data(handler, "./savegame.dat")
+            save_data(handler.bestiary, "./bestiary.dat")
+            running = False
+            continue
+        except LoadGame:
+            handler = load_data("./savegame.dat")
+            continue
+
+        clock.tick(144)
+
+    pygame.quit()
 
 
 if __name__ == "__main__":
