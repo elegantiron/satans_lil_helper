@@ -1,6 +1,6 @@
 from __future__ import annotations
 from enum import Enum, IntEnum, StrEnum, auto
-from os.path import abspath
+from os.path import join
 from typing import TYPE_CHECKING
 
 import pygame
@@ -10,10 +10,6 @@ from game import colors
 
 if TYPE_CHECKING:
     import numpy.typing as npt
-
-
-def resolve_path(path: str) -> str:
-    return abspath(path)
 
 
 TILE_SIZE: int = 32
@@ -52,9 +48,11 @@ class Sprites(Enum):
 
 
 SPRITEPATHS = {
-    Sprites.Player: "assets/images/player/player.png",
-    Sprites.ForestFloor: "assets/images/tiles/forest/floor/000.png",
-    Sprites.ForestWall: "assets/images/tiles/forest/wall/000.png",
+    Sprites.Player: join("assets", "images", "player", "player.png"),
+    Sprites.ForestFloor: join(
+        "assets", "images", "tiles", "forest", "floor", "000.png"
+    ),
+    Sprites.ForestWall: join("assets", "images", "tiles", "forest", "wall", "000.png"),
 }
 
 
