@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from enum import Enum, IntEnum, StrEnum, auto
 from os.path import join
 from typing import TYPE_CHECKING
 
-import pygame
 import numpy as np
+import pygame
 
 from game import colors
 
@@ -96,7 +97,7 @@ FONT_SETTINGS = {
         75,
         colors.ChooseClass,
         colors.Transparent,
-    )
+    ),
 }
 
 
@@ -216,15 +217,35 @@ class GameSettings:
     WindowSize = (1280, 720)
 
 
-class Professions(Enum):
+class Profession(Enum):
     Warrior = auto()
+    Thief = auto()
+    Wizard = auto()
 
 
 ProfessionDescriptions = [
     [
-        Professions.Warrior,
+        Profession.Warrior,
         "Warrior",
-        "A basic warrior class.\n\n"
-        "Proficient with one handed weapons and all armor types. ",
-    ]
+        [
+            "A basic warrior class.",
+            "",
+            "Proficient with one handed weapons, shields, and all",
+            "armor types.",
+        ],
+    ],
+    # [
+    #     Professions.Thief,
+    #     "Thief",
+    #     [
+    #         "A basic thief class.",
+    #         "",
+    #         "Proficient with one handed weapons and light armor.",
+    #     ],
+    # ],
+    # [
+    #     Professions.Wizard,
+    #     "Wizard",
+    #     ["A basic wizard class.", "", "Proficient with magic weapons."],
+    # ],
 ]
