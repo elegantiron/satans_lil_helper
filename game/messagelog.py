@@ -1,12 +1,13 @@
 from __future__ import annotations
+
 import textwrap
 from typing import TYPE_CHECKING
 
-
 if TYPE_CHECKING:
+    from typing import Iterable, Reversible
+
     from pygame import Color, Rect, Surface
     from pygame.freetype import Font
-    from typing import Iterable, Reversible
 
 
 class Message:
@@ -38,28 +39,24 @@ class MessageLog:
         else:
             self.messages.append(Message(text, color))
 
-    def render(
-            self, surface: Surface, rect: Rect, font: Font
-    ):
+    def render(self, surface: Surface, rect: Rect, font: Font):
         self.render_messages(surface, rect, font, self.messages)
 
     @staticmethod
     def wrap(string: str, width: int) -> Iterable[str]:
         for line in string.splitlines():
-            yield from textwrap.wrap(
-                line, width, expand_tabs=True
-            )
+            yield from textwrap.wrap(line, width, expand_tabs=True)
 
     @classmethod
     def render_messages(
         cls,
         surface: Surface,
         rect: Rect,
+        font: Font,
         messages: Reversible[Message],
     ) -> None:
-        y_offset = rect.h-1
-        y_offset += y_offset
+        dest = Rect(rect.left, rect.top, rect.w, rect.h)
         for message in reversed(messages):
             for line in reversed(list(cls.wrap(message.full_text, rect.w))):
-                # TODO: render the messages
-                pass
+                temp_rect = font.render_to(surface, dest, line, message.color)
+                dest.top = dest.top + temp_rect.h
