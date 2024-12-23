@@ -60,9 +60,10 @@ class FontDict(Enum):
     MainMenu = auto()
     GameStatus = auto()
     GameMenu = MainMenu
-    ChooseClass = auto()
+    ClassName = auto()
     TitleText = auto()
     # ByLineText = auto()
+    ChooseClass = auto()
 
 
 FONT_SETTINGS = {
@@ -78,7 +79,7 @@ FONT_SETTINGS = {
         (0xFF, 0xFF, 0xFF, 0xFF),
         (0x00, 0x00, 0x00, 0x00),
     ),
-    FontDict.ChooseClass: (
+    FontDict.ClassName: (
         "assets/fonts/FairyDustB.ttf",
         35,
         colors.White,
@@ -90,6 +91,12 @@ FONT_SETTINGS = {
         colors.Title,
         colors.Transparent,
     ),
+    FontDict.ChooseClass: (
+        "assets/fonts/FairyDustB.ttf",
+        75,
+        colors.ChooseClass,
+        colors.Transparent,
+    )
 }
 
 
@@ -207,3 +214,17 @@ DIRS = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
 
 class GameSettings:
     WindowSize = (1280, 720)
+
+
+class Professions(Enum):
+    Warrior = auto()
+
+
+ProfessionDescriptions = [
+    [
+        Professions.Warrior,
+        "Warrior",
+        "A basic warrior class.\n\n"
+        "Proficient with one handed weapons and all armor types. ",
+    ]
+]
