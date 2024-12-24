@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from random import Random
 from typing import TypeVar
 
 import pygame.freetype as freetype
@@ -12,7 +11,6 @@ import game.input_handlers.maingamehandler
 
 from ..constants import CONFIRMATION_KEYS, MOVEMENT_KEYS, FontDict, Sprites, Strings
 from ..exceptions import QuitWithoutSaving
-from ..gameworld import GameWorld
 from ..menu import Menu
 
 Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
@@ -21,11 +19,9 @@ Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHan
 class GameMenuInputHandler(game.input_handlers.maingamehandler.MainGameInputHandler):
     def __init__(
         self,
-        world: GameWorld,
-        rng: Random,
         parent: Handler,
     ):
-        super().__init__(world=world, rng=rng, parent=parent)
+        super().__init__(parent=parent)
         items = [Strings.Resume, Strings.QuitWithSave, Strings.QuitNoSave]
         self.menu = Menu(
             items=items,
@@ -62,8 +58,8 @@ class GameMenuInputHandler(game.input_handlers.maingamehandler.MainGameInputHand
             case item if item in CONFIRMATION_KEYS:
                 match self.menu.item_text:
                     case Strings.Resume:
-                        if self._parent is not None:
-                            return self._parent
+                        if self.parent is not None:
+                            return self.parent
                         else:
                             return self.on_exit(Strings.Resume)
                     case Strings.QuitNoSave:
