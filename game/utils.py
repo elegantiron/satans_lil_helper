@@ -6,6 +6,8 @@ import sys
 
 if TYPE_CHECKING:
     import random
+    import pygame
+    import pygame.freetype
 
 
 def resolve_path(path: str) -> str:
@@ -39,3 +41,12 @@ def get_damage(
     for _ in range(dice):
         dmg += rng.randint(1, sides)
     return int(dmg * damage_factor)
+
+
+def write_centered(
+    *, surface: pygame.Surface, font: pygame.freetype.Font, text: str, rect: pygame.Rect
+) -> pygame.Rect:
+    temp_rect = font.get_rect(text=text)
+    rect.left = rect.left + ((rect.w - temp_rect.w) // 2)
+    font.render_to(surface, rect, None)
+    return rect
