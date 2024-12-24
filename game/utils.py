@@ -47,6 +47,6 @@ def write_centered(
     *, surface: pygame.Surface, font: pygame.freetype.Font, text: str, rect: pygame.Rect
 ) -> pygame.Rect:
     temp_rect = font.get_rect(text=text)
-    rect.left = rect.left + ((rect.w - temp_rect.w) // 2)
-    font.render_to(surface, rect, None)
-    return rect
+    temp_rect.left = rect.left + ((rect.w - temp_rect.w) // 2)
+    font.render_to(surf=surface, dest=temp_rect, text=None)
+    return temp_rect
