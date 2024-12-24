@@ -8,8 +8,10 @@ PyInstaller.__main__.run(
         "-F",
         "--add-data=assets:./assets",
         "-y",
-        "--clean",
         "--log-level=WARN",
         "--hide-console=hide-early",
+        "--workpath=./build/.build",
+        "--distpath=./build/dist",
+        "--name=slh",
     ]
 )
