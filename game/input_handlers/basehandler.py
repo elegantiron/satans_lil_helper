@@ -7,15 +7,13 @@ if TYPE_CHECKING:
     import pygame.freetype as freetype
     from pygame import Surface
 
-    from ..bestiary import Bestiary
     from ..constants import FontDict, Sprites
 
 Handler = TypeVar("Handler", bound="BaseInputHandler")
 
 
 class BaseInputHandler(metaclass=abc.ABCMeta):
-    def __init__(self, bestiary: Bestiary, parent: Handler | None = None):
-        self.bestiary = bestiary
+    def __init__(self, parent: Handler | None = None):
         self._parent = parent
 
     @abc.abstractmethod

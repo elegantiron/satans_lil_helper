@@ -15,7 +15,8 @@ Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHan
 
 class BestiaryInputHandler(game.input_handlers.basehandler.BaseInputHandler):
     def __init__(self, bestiary, parent: Handler | None = None):
-        super().__init__(bestiary=bestiary, parent=parent)
+        super().__init__(parent=parent)
+        self.bestiary = bestiary
 
     def handle_key(self, key, mod, unicode, scancode):
         match key:

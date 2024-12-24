@@ -11,7 +11,6 @@ import game.colors as colors
 import game.input_handlers.basehandler
 
 from ..actions import BumpAction
-from ..bestiary import Bestiary
 from ..components import Position
 from ..exceptions import PathBlocked
 from ..gameworld import GameWorld
@@ -28,11 +27,10 @@ class MainGameInputHandler(game.input_handlers.basehandler.BaseInputHandler):
         self,
         world: GameWorld,
         rng: Random,
-        bestiary: Bestiary,
         player_class: Profession | None = Profession.Warrior,
         parent: Handler | None = None,
     ):
-        super().__init__(bestiary=bestiary, parent=parent)
+        super().__init__(parent=parent)
         self.world = world
         self.rng = rng
 

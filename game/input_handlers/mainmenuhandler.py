@@ -10,12 +10,11 @@ from pygame import Color
 if TYPE_CHECKING:
     from pygame import Surface
     import pygame.freetype as freetype
-    from ..bestiary import Bestiary
 
 Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
 class MainMenuInputHandler(game.input_handlers.basehandler.BaseInputHandler):
-    def __init__(self, bestiary: Bestiary):
-        super().__init__(bestiary=bestiary)
+    def __init__(self):
+        super().__init__()
         save_game = Path("./savegame.dat")
         items = []
         if save_game.exists():

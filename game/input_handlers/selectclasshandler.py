@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeVar
+from typing import TypeVar
 
 import colors
 import pygame.locals as Locals
@@ -17,16 +17,13 @@ from ..constants import (
 )
 from ..exceptions import QuitWithoutSaving
 
-if TYPE_CHECKING:
-    from ..bestiary import Bestiary
-
 
 Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
 
 
 class SelectClassInputHandler(game.input_handlers.basehandler.BaseInputHandler):
-    def __init__(self, bestiary: Bestiary, parent: Handler | None = None):
-        super().__init__(bestiary, parent)
+    def __init__(self, parent: Handler | None = None):
+        super().__init__(parent)
         self.idx = 0
 
     def render(self, *, surface, working_surface, sprites, fonts):

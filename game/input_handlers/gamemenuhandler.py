@@ -10,7 +10,6 @@ from pygame import Color, Surface
 import game.input_handlers.basehandler
 import game.input_handlers.maingamehandler
 
-from ..bestiary import Bestiary
 from ..constants import CONFIRMATION_KEYS, MOVEMENT_KEYS, FontDict, Sprites, Strings
 from ..exceptions import QuitWithoutSaving
 from ..gameworld import GameWorld
@@ -24,10 +23,9 @@ class GameMenuInputHandler(game.input_handlers.maingamehandler.MainGameInputHand
         self,
         world: GameWorld,
         rng: Random,
-        bestiary: Bestiary,
         parent: Handler,
     ):
-        super().__init__(world=world, rng=rng, bestiary=bestiary, parent=parent)
+        super().__init__(world=world, rng=rng, parent=parent)
         items = [Strings.Resume, Strings.QuitWithSave, Strings.QuitNoSave]
         self.menu = Menu(
             items=items,
