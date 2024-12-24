@@ -6,14 +6,14 @@ import pygame.freetype as freetype
 import pygame.locals as Locals
 from pygame import Surface, gfxdraw
 
-import game.input_handlers.basehandler
+from . import basehandler
 
 from ..constants import FontDict, Sprites
 
-Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
+Handler = TypeVar("Handler", bound="basehandler.BaseInputHandler")
 
 
-class BestiaryInputHandler(game.input_handlers.basehandler.BaseInputHandler):
+class BestiaryInputHandler(basehandler.BaseInputHandler):
     def __init__(self, bestiary, parent: Handler | None = None):
         super().__init__(parent=parent)
         self.bestiary = bestiary
@@ -21,8 +21,8 @@ class BestiaryInputHandler(game.input_handlers.basehandler.BaseInputHandler):
     def handle_key(self, key, mod, unicode, scancode):
         match key:
             case Locals.K_ESCAPE:
-                if self._parent is not None:
-                    return self._parent
+                if self.parent is not None:
+                    return self.parent
                 else:
                     raise NotImplementedError
             case _:

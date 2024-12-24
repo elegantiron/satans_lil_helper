@@ -12,7 +12,7 @@ from game.exceptions import Haxx0red
 
 def save_data(data, filename):
     if isinstance(data, input_handlers.GameMenuInputHandler):
-        data = data._parent
+        data = data.parent
     raw_data = pickle.dumps(data)
     save_data = lzma.compress(raw_data)
     signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)

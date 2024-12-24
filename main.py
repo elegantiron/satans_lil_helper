@@ -9,20 +9,16 @@
 
 from __future__ import annotations
 from pathlib import Path
-from typing import TypeVar
 
 import pygame
-from pygame.event import Event
 import pygame.freetype as freetype
 
 from game.bestiary import Bestiary
 from game.constants import GameSettings, Strings
-from game.exceptions import GameReset, LoadGame, QuitWithoutSaving
-import game.input_handlers as input_handlers
+from game.exceptions import GameReset, QuitWithoutSaving
 from game.setup import load_fonts, load_sprites
-from game.save_funcs import load_data, save_data
-
-Handler = TypeVar("Handler", bound="input_handlers.BaseInputHandler")
+from game.save_funcs import load_data
+from game.engine import Engine
 
 
 def main():
@@ -35,12 +31,12 @@ def main():
 
     sprites = load_sprites()
     fonts = load_fonts()
-    bestiary_filepath = Path("./bestiary.dat")
+    bestiary_filepath = Path(Strings.BestiaryPath)
     if bestiary_filepath.exists():
         bestiary = load_data(bestiary_filepath)
     else:
         bestiary = Bestiary()
-    handler = input_handlers.MainMenuInputHandler(bestiary=bestiary)
+    engine = Engine(bestiary)
     pygame.event.set_allowed(
         [pygame.QUIT, pygame.KEYDOWN, pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN]
     )
@@ -49,7 +45,7 @@ def main():
         """Rendering code"""
         working_surface.fill((0, 0, 0, 0))
         window.fill("black")
-        handler.render(
+        engine.render(
             surface=window,
             working_surface=working_surface,
             sprites=sprites,
@@ -60,40 +56,14 @@ def main():
         """Event Handling"""
         try:
             for event in pygame.event.get():
-                match event:
-                    case Event(type=pygame.QUIT):
-                        raise SystemExit
-                    case Event(type=pygame.KEYDOWN):
-                        handler = handler.handle_key(
-                            event.key, event.mod, event.unicode, event.scancode
-                        )
-                    case Event(type=pygame.MOUSEMOTION):
-                        handler = handler.handle_mousemotion(
-                            event.pos, event.rel, event.buttons, event.touch
-                        )
-                    case Event(type=pygame.MOUSEBUTTONDOWN):
-                        handler = handler.handle_mousebuttondown(
-                            event.pos, event.button, event.touch
-                        )
+                engine.dispatch_event(event)
         except QuitWithoutSaving:
             running = False
             continue
         except GameReset:
-            if isinstance(handler, input_handlers.GameMenuInputHandler):
-                handler = handler._parent
-            save_data(handler, "./savegame.dat")
-            save_data(handler.bestiary, "./bestiary.data")
-            handler = input_handlers.MainMenuInputHandler(fonts=fonts)
-            continue
+            raise NotImplementedError
         except SystemExit:
-            if isinstance(handler, input_handlers.GameMenuInputHandler):
-                handler = handler._parent
-            save_data(handler, "./savegame.dat")
-            save_data(handler.bestiary, "./bestiary.dat")
             running = False
-            continue
-        except LoadGame:
-            handler = load_data("./savegame.dat")
             continue
 
         clock.tick(144)

@@ -113,6 +113,8 @@ class Strings(StrEnum):
     ChoosePlayerClass = "Choose Your Class"
     Title = "Satan's Lil Helper"
     PathBlocked = "The way is blocked."
+    BestiaryPath = "./bestiary.dat"
+    WorldPath = "./game.dat"
 
 
 HMAC_KEY = b"special_key_for_slh"
@@ -250,3 +252,16 @@ ProfessionDescriptions = [
     #     ["A basic wizard class.", "", "Proficient with magic weapons."],
     # ],
 ]
+
+
+class HandlerActions(Enum):
+    ShowBestiary = auto()
+    ShowMainMenu = auto()
+    ShowGameMenu = auto()
+    ShowClassSelect = auto()
+    ShowPrevious = auto()
+    ShowParent = auto()
+    ShowGame = auto()
+    Noop = auto()
+    LoadGame = auto()
+    NewGame = auto()

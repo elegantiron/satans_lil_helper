@@ -14,7 +14,7 @@ Handler = TypeVar("Handler", bound="BaseInputHandler")
 
 class BaseInputHandler(metaclass=abc.ABCMeta):
     def __init__(self, parent: Handler | None = None):
-        self._parent = parent
+        self.parent = parent
 
     @abc.abstractmethod
     def handle_key(self, key: int, mod: int, unicode, scancode: int) -> Handler:

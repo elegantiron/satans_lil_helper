@@ -5,18 +5,17 @@ from typing import TypeVar
 import pygame.freetype as freetype
 import pygame.locals as Locals
 from pygame import Color, Surface
+from . import basehandler
 
-import game.input_handlers.basehandler
-import game.input_handlers.maingamehandler
 
-from ..constants import CONFIRMATION_KEYS, MOVEMENT_KEYS, FontDict, Sprites, Strings
+from ..constants import CONFIRMATION_KEYS, MOVEMENT_KEYS, FontDict, Sprites, Strings, HandlerActions
 from ..exceptions import QuitWithoutSaving
 from ..menu import Menu
 
-Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
+Handler = TypeVar("Handler", bound="basehandler.BaseInputHandler")
 
 
-class GameMenuInputHandler(game.input_handlers.maingamehandler.MainGameInputHandler):
+class GameMenuInputHandler(basehandler.BaseInputHandler):
     def __init__(
         self,
         parent: Handler,
@@ -51,24 +50,17 @@ class GameMenuInputHandler(game.input_handlers.maingamehandler.MainGameInputHand
     def handle_key(self, key, mod, unicode, scancode) -> Handler:
         match key:
             case Locals.K_ESCAPE:
-                return self.on_exit(Strings.Resume)
+                return HandlerActions.ShowParent
             case item if item in MOVEMENT_KEYS:
                 self.menu.move(MOVEMENT_KEYS[key][1])
-                return self
+                return HandlerActions.Noop
             case item if item in CONFIRMATION_KEYS:
                 match self.menu.item_text:
                     case Strings.Resume:
-                        if self.parent is not None:
-                            return self.parent
-                        else:
-                            return self.on_exit(Strings.Resume)
+                        return HandlerActions.ShowParent
                     case Strings.QuitNoSave:
                         raise QuitWithoutSaving
                     case Strings.QuitWithSave:
                         raise SystemExit
         return self
 
-    def on_exit(self, selection: Strings) -> Handler:
-        match selection:
-            case Strings.Resume:
-                raise NotImplementedError

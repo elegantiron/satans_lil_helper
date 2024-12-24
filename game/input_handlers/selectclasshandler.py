@@ -2,26 +2,26 @@ from __future__ import annotations
 
 from typing import TypeVar
 
-import colors
 import pygame.locals as Locals
 from pygame import Rect, draw
 
-import game.input_handlers.basehandler
+import game.colors as colors
 
 from ..constants import (
     CONFIRMATION_KEYS,
     MOVEMENT_KEYS,
     FontDict,
+    HandlerActions,
     ProfessionDescriptions,
     Strings,
 )
 from ..exceptions import QuitWithoutSaving
+from . import basehandler
+
+Handler = TypeVar("Handler", bound="basehandler.BaseInputHandler")
 
 
-Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
-
-
-class SelectClassInputHandler(game.input_handlers.basehandler.BaseInputHandler):
+class SelectClassInputHandler(basehandler.BaseInputHandler):
     def __init__(self, parent: Handler | None = None):
         super().__init__(parent)
         self.idx = 0
@@ -59,7 +59,7 @@ class SelectClassInputHandler(game.input_handlers.basehandler.BaseInputHandler):
                     self.idx = len(ProfessionDescriptions) - 1
                 self.idx = self.idx % len(ProfessionDescriptions)
             case key if key in CONFIRMATION_KEYS:
-                raise NotImplementedError
+                return HandlerActions.NewGame
             case _:
-                raise NotImplementedError
+                return HandlerActions.Noop
         return self

@@ -1,18 +1,32 @@
 from __future__ import annotations
-from typing import TypeVar, TYPE_CHECKING
-from ..constants import Strings, FontDict, MOVEMENT_KEYS, CONFIRMATION_KEYS, Sprites
-from ..exceptions import QuitWithoutSaving, LoadGame
-from pathlib import Path
-import pygame.locals as Locals
-import game.input_handlers.basehandler
-from ..menu import Menu
-from pygame import Color
-if TYPE_CHECKING:
-    from pygame import Surface
-    import pygame.freetype as freetype
 
-Handler = TypeVar("Handler", bound="game.input_handlers.basehandler.BaseInputHandler")
-class MainMenuInputHandler(game.input_handlers.basehandler.BaseInputHandler):
+from pathlib import Path
+from typing import TYPE_CHECKING, TypeVar
+
+import pygame.locals as Locals
+from pygame import Color
+
+from . import basehandler
+
+from ..constants import (
+    CONFIRMATION_KEYS,
+    MOVEMENT_KEYS,
+    FontDict,
+    HandlerActions,
+    Sprites,
+    Strings,
+)
+from ..exceptions import QuitWithoutSaving
+from ..menu import Menu
+
+if TYPE_CHECKING:
+    import pygame.freetype as freetype
+    from pygame import Surface
+
+Handler = TypeVar("Handler", bound="basehandler.BaseInputHandler")
+
+
+class MainMenuInputHandler(basehandler.BaseInputHandler):
     def __init__(self):
         super().__init__()
         save_game = Path("./savegame.dat")
@@ -47,7 +61,7 @@ class MainMenuInputHandler(game.input_handlers.basehandler.BaseInputHandler):
             case item if item in MOVEMENT_KEYS:
                 if MOVEMENT_KEYS[key][1] != 0:
                     self.menu.move(MOVEMENT_KEYS[key][1])
-                    return self
+                    return HandlerActions.Noop
             case Locals.K_ESCAPE:
                 raise QuitWithoutSaving
             case item if item in CONFIRMATION_KEYS:
@@ -57,12 +71,12 @@ class MainMenuInputHandler(game.input_handlers.basehandler.BaseInputHandler):
     def on_exit(self, choice: str) -> Handler:
         match choice:
             case Strings.New_Game:
-                raise NotImplementedError
+                return HandlerActions.NewGame
             case Strings.QuitToDesktop:
                 raise QuitWithoutSaving
             case Strings.LoadGame:
-                raise LoadGame
+                return HandlerActions.LoadGame
             case Strings.Bestiary:
-                raise NotImplementedError
+                return HandlerActions.ShowBestiary
             case _:
                 return self
