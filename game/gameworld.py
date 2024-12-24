@@ -6,7 +6,7 @@ import numpy as np
 import tcod.ecs
 from pygame import Rect
 
-from game.components import Position, Renderable, Sight
+from game.components import Position, Renderable, Sight, Health, Mana
 from game.constants import Forest, Generators, Sprites, TileDict, Strings
 from game.definitions import tile_dt
 from game.gamemap import GameMap
@@ -62,7 +62,11 @@ class GameWorld:
         self.current_map.camera.set_center(*self.player.components[Position].xy)
         self.current_map.setup_fov_calc()
         self.current_map.update_player_fov()
-        self.player.components[Renderable] = Renderable(Sprites.Player)
+        self.player.components |= {
+            Renderable: Renderable(Sprites.Player),
+            Health: Health(30),
+            Mana: Mana(5),
+        }
         self.rects = {
             "message_box": Rect(
                 screen_size[0] * 2 // 3,
@@ -83,18 +87,7 @@ class GameWorld:
         self.message_log.render(
             surface=surface, rect=self.rects["message_box"], font=font
         )
-        dest = Rect(surface.width * 2 // 3, 5, surface.width // 3, surface.height)
-        rect = write_centered(
-            surface=surface, font=font, text=Strings.Status, rect=dest
-        )
-        dest.top = dest.top + rect.height + 5
-        text = f"Location: {self.player.components[Position].x},{self.player.components[Position].y}"
-        rect = font.render_to(
-            surf=surface,
-            text=text,
-            dest=dest,
-        )
-        dest.update(dest.left, rect.bottom + 5, dest.width, dest.height)
+        self.render_status(surface, font)
 
     @property
     def player(self) -> tcod.ecs.Entity:
@@ -120,3 +113,23 @@ class GameWorld:
                 )
         self._maps.append(new_map)
         self.current_map = new_map
+
+    def render_status(self, surface: Surface, font: freetype.Font) -> None:
+        dest = Rect(surface.width * 2 // 3, 5, surface.width // 3, surface.height)
+        rect = write_centered(
+            surface=surface, font=font, text=Strings.Status, rect=dest
+        )
+        dest.top = dest.top + rect.height + 5
+        text = f"Location: {self.player.components[Position].x},{self.player.components[Position].y}"
+        rect = font.render_to(
+            surf=surface,
+            text=text,
+            dest=dest,
+        )
+        dest.top = dest.top + rect.height + 5
+        text = f"Health: {self.player.components[Health].hp}/{self.player.components[Health].max_hp}\t\tMana: {self.player.components[Mana].mp}/{self.player.components[Mana].max_mp}"
+        rect = font.render_to(
+            surf=surface,
+            text=text,
+            dest=dest,
+        )

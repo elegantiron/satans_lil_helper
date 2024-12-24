@@ -6,6 +6,7 @@ import attrs
 if TYPE_CHECKING:
     from constants import Sprites
 
+
 @attrs.define
 class Position:
     x: int
@@ -14,30 +15,36 @@ class Position:
     @property
     def xy(self) -> tuple[int, int]:
         return self.x, self.y
-    
-    def scaled(self, factor:int=32) -> tuple[int, int]:
-        return self.x*factor, self.y*factor
-    
+
+    def scaled(self, factor: int = 32) -> tuple[int, int]:
+        return self.x * factor, self.y * factor
+
+
 @attrs.define
 class CoolDown:
     dur: int
+
 
 @attrs.define
 class Inventory:
     size: int
 
+
 @attrs.define
 class Renderable:
     sprite: Sprites
+
 
 @attrs.define
 class Name:
     name: str
 
+
 @attrs.define
 class Sight:
     light: int
     vision: int
+
 
 @attrs.define
 class Level:
@@ -45,12 +52,27 @@ class Level:
     xp: int
     xp_granted: int
 
+
 @attrs.define
 class Health:
+    hp: int
+    max_hp: int
+
     def __init__(self, hp: int) -> None:
         self.hp = hp
         self.max_hp = hp
-        
+
+
 @attrs.define
 class EntityAI:
     type: str
+
+
+@attrs.define
+class Mana:
+    mp: int
+    max_mp: int
+
+    def __init__(self, mp: int) -> None:
+        self.mp = mp
+        self.max_mp = mp
