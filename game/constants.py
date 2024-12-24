@@ -115,6 +115,7 @@ class Strings(StrEnum):
     PathBlocked = "The way is blocked."
     BestiaryPath = "./bestiary.dat"
     WorldPath = "./game.dat"
+    Status = "Status"
 
 
 HMAC_KEY = b"special_key_for_slh"

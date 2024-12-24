@@ -7,11 +7,12 @@ import tcod.ecs
 from pygame import Rect
 
 from game.components import Position, Renderable, Sight
-from game.constants import Forest, Generators, Sprites, TileDict
+from game.constants import Forest, Generators, Sprites, TileDict, Strings
 from game.definitions import tile_dt
 from game.gamemap import GameMap
 from game.generators import CellularGenerator
 from game.messagelog import MessageLog
+from game.utils import write_centered
 
 if TYPE_CHECKING:
     from random import Random
@@ -82,6 +83,18 @@ class GameWorld:
         self.message_log.render(
             surface=surface, rect=self.rects["message_box"], font=font
         )
+        dest = Rect(surface.width * 2 // 3, 5, surface.width // 3, surface.height)
+        rect = write_centered(
+            surface=surface, font=font, text=Strings.Status, rect=dest
+        )
+        dest.top = dest.top + rect.height + 5
+        text = f"Location: {self.player.components[Position].x},{self.player.components[Position].y}"
+        rect = font.render_to(
+            surf=surface,
+            text=text,
+            dest=dest,
+        )
+        dest.update(dest.left, rect.bottom + 5, dest.width, dest.height)
 
     @property
     def player(self) -> tcod.ecs.Entity:
