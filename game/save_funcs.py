@@ -24,7 +24,6 @@ def save_data(data, filename):
     if not os.path.exists(path):
         os.makedirs(path)
     path = f"{path}{filename}"
-    print(path)
     with open(path, "wb") as f:
         f.write(mac_result)
     with open(path, "ab") as f:
