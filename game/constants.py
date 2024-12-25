@@ -274,3 +274,5 @@ class EquipmentSlot(Enum):
     Feet = auto()
     Hands = auto()
     Body = auto()
+    Mundane = auto()
+    Magic = auto()
