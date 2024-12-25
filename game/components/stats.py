@@ -34,7 +34,7 @@ class Evasion(Stat):
     pass
 
 
-@attrs.deine
+@attrs.define
 class Crit(Stat):
     pass
 
