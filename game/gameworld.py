@@ -7,7 +7,7 @@ import tcod.ecs
 from pygame import Rect
 
 from game.components import Position, Renderable, Sight, Health, Mana
-from game.constants import Forest, Generators, Sprites, TileDict, Strings
+from game.constants import EquipmentSlot, Forest, Generators, Sprites, TileDict, Strings
 from game.definitions import tile_dt
 from game.gamemap import GameMap
 from game.generators import CellularGenerator
@@ -57,16 +57,21 @@ class GameWorld:
                 self.player.components[Position] = Position(x, y)
                 picked = True
         # self.current_map.set_safe_squares()
-        self.player.components[Sight] = Sight(7, 7)
+        self.player.components |= {
+            Sight: Sight(7, 7),
+            Renderable: Renderable(Sprites.Player),
+            Health: Health(30),
+            Mana: Mana(5),
+            EquipmentSlot.Head: True,
+            EquipmentSlot.Body: False,
+        }
+        print(
+            f"{self.player.components[EquipmentSlot.Body]},{self.player.components[EquipmentSlot.Head]}"
+        )
         self.message_log = MessageLog()
         self.current_map.camera.set_center(*self.player.components[Position].xy)
         self.current_map.setup_fov_calc()
         self.current_map.update_player_fov()
-        self.player.components |= {
-            Renderable: Renderable(Sprites.Player),
-            Health: Health(30),
-            Mana: Mana(5),
-        }
         self.rects = {
             "message_box": Rect(
                 screen_size[0] * 2 // 3,
