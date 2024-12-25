@@ -15,7 +15,7 @@ from game.components import (
     Renderable,
     Sight,
 )
-from game.constants import EnemyType, Sprites
+from game.constants import EnemyType, EquipmentSlot, Sprites
 
 
 if TYPE_CHECKING:
@@ -35,6 +35,8 @@ def make_player(
         Name: Name("Player"),
         Sight: Sight(6, 6),
         Level: Level(1, 0, 0),
+        EquipmentSlot.Body: True,
+        EquipmentSlot.Head: True,
     }
 
 
