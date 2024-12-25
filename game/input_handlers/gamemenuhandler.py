@@ -61,6 +61,6 @@ class GameMenuInputHandler(basehandler.BaseInputHandler):
                     case Strings.QuitNoSave:
                         raise QuitWithoutSaving
                     case Strings.QuitWithSave:
-                        raise SystemExit
+                        return HandlerActions.SaveAndQuit
         return self
 
