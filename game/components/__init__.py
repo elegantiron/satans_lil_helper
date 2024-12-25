@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 import attrs
 
+from .equipment import Equippable
 from .stats import (
     Crit,
     Evasion,
@@ -18,6 +19,7 @@ from .stats import (
 
 __all__ = [
     "Crit",
+    "Equippable",
     "Health",
     "Mana",
     "Evasion",
