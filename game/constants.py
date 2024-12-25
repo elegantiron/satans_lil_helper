@@ -266,6 +266,7 @@ class HandlerActions(Enum):
     Noop = auto()
     LoadGame = auto()
     NewGame = auto()
+    SaveAndQuit = auto()
 
 class EquipmentSlot(Enum):
     Weapon = auto()
