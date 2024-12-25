@@ -1,7 +1,42 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 import attrs
+
+from .stats import (
+    Crit,
+    Evasion,
+    Health,
+    MagicDef,
+    MagicPower,
+    Mana,
+    PhysDef,
+    Speed,
+    Strength,
+)
+
+__all__ = [
+    "Crit",
+    "Health",
+    "Mana",
+    "Evasion",
+    "MagicDef",
+    "MagicPower",
+    "PhysDef",
+    "Speed",
+    "Strength",
+    "Position",
+    "CoolDown",
+    "Inventory",
+    "Renderable",
+    "Name",
+    "Sight",
+    "Level",
+    "Health",
+    "EntityAI",
+    "Mana",
+]
 
 if TYPE_CHECKING:
     from constants import Sprites
@@ -54,25 +89,5 @@ class Level:
 
 
 @attrs.define
-class Health:
-    hp: int
-    max_hp: int
-
-    def __init__(self, hp: int) -> None:
-        self.hp = hp
-        self.max_hp = hp
-
-
-@attrs.define
 class EntityAI:
     type: str
-
-
-@attrs.define
-class Mana:
-    mp: int
-    max_mp: int
-
-    def __init__(self, mp: int) -> None:
-        self.mp = mp
-        self.max_mp = mp
