@@ -15,11 +15,12 @@ from game.input_handlers import (
     MainMenuInputHandler,
     SelectClassInputHandler,
 )
-from game.save_funcs import load_data
+from game.save_funcs import load_data, save_data
 
 
 class Engine:
     world: GameWorld
+
     def __init__(self, bestiary):
         self.bestiary = bestiary
         self.handler = MainMenuInputHandler()
@@ -28,6 +29,9 @@ class Engine:
         result = None
         match event:
             case Event(type=pygame.QUIT):
+                self._change_handler(MainGameInputHandler(self.world))
+                save_data(self.bestiary, Strings.BestiaryPath)
+                save_data(self.world, Strings.WorldPath)
                 raise SystemExit
             case Event(type=pygame.KEYDOWN):
                 result = self.handler.handle_key(
@@ -60,6 +64,11 @@ class Engine:
             case HandlerActions.NewGame:
                 self._new_game()
                 self._change_handler(MainGameInputHandler(self.world))
+            case HandlerActions.SaveAndQuit:
+                self._change_handler(MainGameInputHandler(self.world))
+                save_data(self.bestiary, Strings.BestiaryPath)
+                save_data(self.world, Strings.WorldPath)
+                raise SystemExit
             case _:
                 pass
 
