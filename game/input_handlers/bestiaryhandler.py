@@ -8,7 +8,7 @@ from pygame import Surface, gfxdraw
 
 from . import basehandler
 
-from ..constants import FontDict, Sprites
+from ..constants import FontDict, Sprites, HandlerActions
 
 Handler = TypeVar("Handler", bound="basehandler.BaseInputHandler")
 
@@ -21,12 +21,7 @@ class BestiaryInputHandler(basehandler.BaseInputHandler):
     def handle_key(self, key, mod, unicode, scancode):
         match key:
             case Locals.K_ESCAPE:
-                if self.parent is not None:
-                    return self.parent
-                else:
-                    raise NotImplementedError
-            case _:
-                return self
+                return HandlerActions.ShowPrevious
 
     def render(
         self,
