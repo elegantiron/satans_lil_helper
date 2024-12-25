@@ -12,15 +12,3 @@ class Equippable:
     mdef: int = 0
     light: int = 0
     damage: tuple[int, int] = 0, 0
-
-
-@attrs.define
-class Equipment:
-    slots = {
-        EquipmentSlot.Body: True,
-        EquipmentSlot.Feet: True,
-        EquipmentSlot.Hands: True,
-        EquipmentSlot.Head: True,
-        EquipmentSlot.Shield: True,
-        EquipmentSlot.Weapon: True,
-    }
