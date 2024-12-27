@@ -4,7 +4,6 @@ import random
 import time
 from random import Random
 from typing import TYPE_CHECKING, Generator
-from tile_types import ForestFloor, ForestWall
 
 import arcade
 import numpy as np
