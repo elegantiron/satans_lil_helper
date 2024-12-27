@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-import lzma
 import os
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import arcade
-import dill
 
 from bestiary import Bestiary
 from components import Position
@@ -122,10 +120,6 @@ class Engine(arcade.View):
                 self.height / 2,
             ),
         }
-        with open("./save.dat", "wb") as f:
-            f.write(dill.dumps(self.satan))
-        with open("./compressed.dat", "wb") as f:
-            f.write(lzma.compress(dill.dumps(self.satan)))
         self.satan["eyes closed"].visible = False
 
         self.satan_sprites.append(self.satan["main"])
