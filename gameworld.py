@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import random
+import time
+from random import Random
 from typing import TYPE_CHECKING, Generator
 from tile_types import ForestFloor, ForestWall
 
@@ -10,12 +12,15 @@ import tcod.ecs
 
 from constants import TILE_SIZE, Tile
 from gamemap import GameMap
+from tile_types import ForestFloor, ForestWall
 
 if TYPE_CHECKING:
     import numpy.typing as npt
 
 MAP_X = 50
 MAP_Y = 50
+
+
 class GameWorld:
     _current_map: GameMap
 
@@ -27,7 +32,9 @@ class GameWorld:
             [(1 if random.random() < 0.48 else 0) for _ in range(MAP_X)]
             for _ in range(MAP_Y)
         ]
-        self._current_map.tiles = np.full((MAP_X, MAP_Y), fill_value=ForestFloor, order="F")
+        self._current_map.tiles = np.full(
+            (MAP_X, MAP_Y), fill_value=ForestFloor, order="F"
+        )
         for ix, iy in np.ndindex(self._current_map.tiles.shape):
             if tiles[ix][iy] == 0:
                 self._current_map.tiles[ix, iy] = ForestFloor
