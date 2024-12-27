@@ -3,13 +3,17 @@ from __future__ import annotations
 import arcade
 from pyglet.graphics import Batch
 from typing import TYPE_CHECKING
-from components import Position
+from components import Position, Stats
 
 if TYPE_CHECKING:
     from engine import Engine
 
+LINE_SPACING = 2
+
+
 class StatusSection(arcade.Section):
     view: Engine
+
     def __init__(
         self,
         left,
@@ -57,7 +61,16 @@ class StatusSection(arcade.Section):
         self.location = arcade.Text(
             "Location",
             5,
-            self.title.bottom + 5,
+            self.title.bottom - LINE_SPACING,
+            arcade.color.WHITE,
+            15,
+            anchor_y="top",
+            batch=self.batch,
+        )
+        self.health = arcade.Text(
+            "Health: ",
+            5,
+            self.location.bottom - LINE_SPACING,
             arcade.color.WHITE,
             15,
             anchor_y="top",
@@ -72,4 +85,6 @@ class StatusSection(arcade.Section):
 
     def update_player_stats(self):
         pos = self.view.player.components[Position]
-        self.player_location.text = f"Location: {pos.x},{pos.y}"
+        stats = self.view.player.components[Stats]
+        self.location.text = f"Location: {pos.x},{pos.y}"
+        self.health.text = f"Health: {stats.hp}/{stats.max_hp}"
