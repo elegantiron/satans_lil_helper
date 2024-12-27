@@ -70,6 +70,6 @@ class StatusSection(arcade.Section):
         )
         self.batch.draw()
 
-    def update_location(self):
+    def update_player_stats(self):
         pos = self.view.player.components[Position]
         self.player_location.text = f"Location: {pos.x},{pos.y}"

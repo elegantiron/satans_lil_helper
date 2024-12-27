@@ -112,4 +112,4 @@ class GameMapSection(arcade.Section):
                 player_pos.x = player_pos.x + dx
                 player_pos.y = player_pos.y + dy
                 self.set_camera()
-                self.view.status_section.update_location()
+                self.view.status_section.update_player_stats()
