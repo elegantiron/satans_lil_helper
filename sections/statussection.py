@@ -76,6 +76,15 @@ class StatusSection(arcade.Section):
             anchor_y="top",
             batch=self.batch,
         )
+        self.mana = arcade.Text(
+            "Mana: ",
+            self.width / 2,
+            self.health.bottom,
+            arcade.color.WHITE,
+            15,
+            anchor_y="bottom",
+            batch=self.batch,
+        )
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
@@ -88,3 +97,4 @@ class StatusSection(arcade.Section):
         stats = self.view.player.components[Stats]
         self.location.text = f"Location: {pos.x},{pos.y}"
         self.health.text = f"Health: {stats.hp}/{stats.max_hp}"
+        self.mana.text = f"Mana: {stats.mp}/{stats.max_mp}"
