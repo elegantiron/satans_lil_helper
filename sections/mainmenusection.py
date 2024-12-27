@@ -132,6 +132,7 @@ class MainMenuSection(arcade.Section):
                 self.view.new_world()
                 self.view.gamemap_section.enabled = True
                 self.view.status_section.enabled = True
+                self.view.message_section.enabled = True
                 self.enabled = False
                 return True
             case Strings.Bestiary:
