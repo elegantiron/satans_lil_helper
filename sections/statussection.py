@@ -4,6 +4,7 @@ import arcade
 from pyglet.graphics import Batch
 from typing import TYPE_CHECKING
 from components import Position, Stats
+from constants import colors
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -88,7 +89,7 @@ class StatusSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width + 5, self.height, (0, 0, 0, 0x70)
+            0, 0, self.width + 5, self.height, colors.TranslucentBlack
         )
         self.batch.draw()
 
