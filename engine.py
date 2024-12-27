@@ -141,6 +141,7 @@ class Engine(arcade.View):
         )
         self.gamemap_section.set_camera()
         self.status_section.update_player_stats()
+        self.message_section.update_messages()
 
     @property
     def player(self) -> tcod.ecs.Entity:
