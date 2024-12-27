@@ -98,3 +98,14 @@ class StatusSection(arcade.Section):
         self.location.text = f"Location: {pos.x},{pos.y}"
         self.health.text = f"Health: {stats.hp}/{stats.max_hp}"
         self.mana.text = f"Mana: {stats.mp}/{stats.max_mp}"
+        self.set_color(stats.hp, stats.max_hp, self.health)
+        self.set_color(stats.mp, stats.max_mp, self.mana)
+
+    @staticmethod
+    def set_color(current: float, max: float, text: arcade.Text) -> None:
+        if current <= max / 6:
+            text.color = arcade.color.RED
+        elif current <= max / 2:
+            text.color = arcade.color.YELLOW
+        else:
+            text.color = arcade.color.WHITE
