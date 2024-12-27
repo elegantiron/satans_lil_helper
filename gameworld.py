@@ -40,6 +40,7 @@ class GameWorld:
             else:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
+        self.rng = Random(time.time())
 
     @property
     def map(self) -> GameMap:
