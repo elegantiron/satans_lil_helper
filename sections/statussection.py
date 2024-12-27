@@ -54,7 +54,7 @@ class StatusSection(arcade.Section):
             anchor_y="top",
             batch=self.batch,
         )
-        self.player_location = arcade.Text(
+        self.location = arcade.Text(
             "Location",
             5,
             self.title.bottom + 5,
