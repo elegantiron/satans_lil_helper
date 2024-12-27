@@ -9,6 +9,8 @@ __all__ = ["Strings", "Sections", "keylists", "colors"]
 
 TILE_SIZE = 32
 
+LINE_SPACING = 2
+
 
 class Tile(StrEnum):
     Walkable = "walkable"
