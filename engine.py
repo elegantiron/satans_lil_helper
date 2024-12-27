@@ -140,10 +140,7 @@ class Engine(arcade.View):
             self.world.player.components[Position].sprite
         )
         self.gamemap_section.set_camera()
-        player_pos = self.world.player.components[Position]
-        self.status_section.player_location.text = (
-            f"Location: {player_pos.x},{player_pos.y}"
-        )
+        self.status_section.update_player_stats()
 
     @property
     def player(self) -> tcod.ecs.Entity:
