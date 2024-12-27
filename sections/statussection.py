@@ -47,7 +47,7 @@ class StatusSection(arcade.Section):
         self.title = arcade.Text(
             "STATUS",
             self.width / 2,
-            self.top - 2,
+            self.height - 2,
             arcade.color.WHITE,
             15,
             anchor_x="center",
