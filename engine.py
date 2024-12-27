@@ -12,13 +12,14 @@ from bestiary import Bestiary
 from components import Position
 from constants import Sections
 from gameworld import GameWorld
+from messagelog import MessageLog
 from sections import (
     BestiarySection,
     GameMapSection,
     MainMenuSection,
-    TitleSection,
-    StatusSection,
     MessageSection,
+    StatusSection,
+    TitleSection,
 )
 from utils import load_data, save_data
 
@@ -32,6 +33,8 @@ class Engine(arcade.View):
 
     def __init__(self, window=None, background_color=None):
         super().__init__(window, background_color)
+
+        self.message_log = MessageLog()
 
         self.load_satan()
         self.setup_sections()
