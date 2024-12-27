@@ -117,7 +117,7 @@ class MainMenuSection(arcade.Section):
                 self.items[self.idx].color = arcade.color.AMERICAN_ROSE
                 return True
             case arcade.key.ESCAPE:
-                self.section_manager.get_section_by_name(Sections.Title).enabled = True
+                self.view.title_section.enabled = True
                 self.enabled = False
                 return True
             case key if key in keylists.CONFIRMATION:
