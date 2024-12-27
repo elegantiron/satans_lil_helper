@@ -109,7 +109,7 @@ class MainMenuSection(arcade.Section):
         match symbol:
             case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][1] != 0:
                 self.items[self.idx].color = arcade.color.WHITE
-                self.idx += keylists.MOVEMENT[key][1]
+                self.idx -= keylists.MOVEMENT[key][1]
                 if self.idx < 0:
                     self.idx = len(self.items) - 1
                 else:
