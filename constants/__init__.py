@@ -4,8 +4,9 @@ from . import keylists
 from .sectionnames import Sections
 from .strings import Strings
 from . import colors
+from .tags import Tags
 
-__all__ = ["Strings", "Sections", "keylists", "colors"]
+__all__ = ["Strings", "Sections", "keylists", "colors", "Tags"]
 
 TILE_SIZE = 32
 
