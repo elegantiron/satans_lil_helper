@@ -5,7 +5,7 @@ from typing import Any, Generator
 import numpy as np
 import numpy.typing as npt
 import tcod.ecs
-from components import Position
+from components import Position, Stats
 
 from utils import move_entity
 
@@ -29,6 +29,7 @@ class GameMap:
         self.player.components[Position] = Position(
             x=5, y=5, sprite=":images:player/player.png"
         )
+        self.player.components[Stats] = Stats(30, 5, 5, 5, 5, 5, 5, 5, 7, 7)
 
     def add_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
