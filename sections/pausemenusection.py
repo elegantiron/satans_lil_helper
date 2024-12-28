@@ -113,8 +113,10 @@ class PauseSection(arcade.Section):
                 return True
             case Strings.QuitNoSave:
                 arcade.exit()
+                return True
             case Strings.SaveAndQuit:
                 arcade.exit()
+                return True
             case Strings.Bestiary:
                 self.view.bestiary_section.enabled = True
                 self.enabled = False
