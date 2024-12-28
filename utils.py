@@ -105,3 +105,18 @@ def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
         r_stats = relation.components.get(Stats, None)
         if r_stats is not None:
             total_stats += r_stats
+
+
+def get_neighbors(x, y, tiles: list[list[int]]) -> int:
+    dirs = [
+        (dx, dy) for dx in range(-1, 2) for dy in range(-1, 2) if (dx, dy) != (0, 0)
+    ]
+    neighbors = tiles[x][y]
+    for dx, dy in dirs:
+        cx = x + dx
+        cy = y + dy
+        if cx in range(len(tiles)) and cy in range(len(tiles[cx])):
+            neighbors += tiles[cx][cy]
+        else:
+            neighbors += 1
+    return neighbors
