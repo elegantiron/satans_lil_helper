@@ -1,10 +1,11 @@
 from .bestiarysection import BestiarySection
 from .gamemapsection import GameMapSection
+from .inspectorsection import InspectorSection
 from .mainmenusection import MainMenuSection
 from .messagesection import MessageSection
+from .pausemenusection import PauseSection
 from .statussection import StatusSection
 from .titlesection import TitleSection
-from .pausemenusection import PauseSection
 
 __all__ = [
     "TitleSection",
@@ -14,4 +15,5 @@ __all__ = [
     "StatusSection",
     "MessageSection",
     "PauseSection",
+    "InspectorSection",
 ]

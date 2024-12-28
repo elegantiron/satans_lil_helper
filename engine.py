@@ -19,6 +19,7 @@ from sections import (
     PauseSection,
     StatusSection,
     TitleSection,
+    InspectorSection,
 )
 from utils import load_data, save_data
 
@@ -86,6 +87,15 @@ class Engine(arcade.View):
             self.height * 6 / 8,
         )
 
+        self.inspector_section = InspectorSection(
+            self.message_section.left,
+            self.message_section.bottom,
+            self.message_section.width,
+            self.message_section.height,
+            accept_keyboard_keys=False,
+            accept_mouse_events=False,
+        )
+
         self.sm.add_section(self.title_section)
         self.sm.add_section(self.menu_section)
         self.sm.add_section(self.gamemap_section)
@@ -93,6 +103,7 @@ class Engine(arcade.View):
         self.sm.add_section(self.message_section)
         self.sm.add_section(self.pause_section)
         self.sm.add_section(self.bestiary_section)
+        self.sm.add_section(self.inspector_section)
 
     def load_satan(self):
         self.satan_sprites = arcade.SpriteList()

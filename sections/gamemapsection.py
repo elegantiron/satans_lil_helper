@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Iterable
 
 import arcade
 
-from components import Position
+from components import Position, ActionDelay
 from constants import keylists
 
 if TYPE_CHECKING:
@@ -116,21 +116,37 @@ class GameMapSection(arcade.Section):
         )
 
     def on_key_press(self, symbol, modifiers):
+        player_pos = self.view.world.player.components[Position]
         match symbol:
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
             case key if key in keylists.MOVEMENT:
-                player_pos = self.view.world.player.components[Position]
+                delay = self.view.world.player.components.get(ActionDelay, None)
                 dx, dy = keylists.MOVEMENT[key]
-                player_pos.x = player_pos.x + dx
-                player_pos.y = player_pos.y + dy
-                self.set_camera()
-                self.view.status_section.update_player_stats()
+                if not self.show_highlight:
+                    if delay == 0 or delay is None:
+                        player_pos.x = player_pos.x + dx
+                        player_pos.y = player_pos.y + dy
+                        self.set_camera()
+                        self.view.status_section.update_player_stats()
+                else:
+                    self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
+                    self.view.inspector_section.update()
             case arcade.key.H:
-                self.show_highlight = not self.show_highlight
+                if not self.show_highlight:
+                    self.highlight = (player_pos.x, player_pos.y)
+                    self.show_highlight = True
+                    self.view.message_section.enabled = False
+                    self.view.inspector_section.enabled = True
+                    self.view.inspector_section.update()
+                else:
+                    self.show_highlight = False
+                    self.view.message_section.enabled = True
+                    self.view.inspector_section.enabled = False
 
     def on_mouse_motion(self, x, y, dx, dy):
         wx, wy, _ = self.camera.unproject((x, y))
-        tx = (wx + 16) // 32
-        ty = (wy + 16) // 32
+        tx = int((wx + 16) // 32)
+        ty = int((wy + 16) // 32)
         self.highlight = (tx, ty)
+        self.view.inspector_section.update()
