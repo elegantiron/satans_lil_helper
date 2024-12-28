@@ -12,3 +12,7 @@ __all__ = ["Position", "Growth", "Stats", "Attack"]
 class Attack:
     dice: int
     sides: int
+
+@attrs.define
+class Inventory:
+    size: int = 0
