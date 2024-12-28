@@ -51,6 +51,8 @@ class GameMapSection(arcade.Section):
         self.title = arcade.Text(
             "Map", self.width // 2, self.height - 10, anchor_x="center", anchor_y="top"
         )
+        self.highlight = (0, 0)
+        self.show_highlight = False
         self.tile_sprites = arcade.SpriteList()
         self.entity_sprites = arcade.SpriteList()
         self.projectile_sprites = arcade.SpriteList()
@@ -60,6 +62,15 @@ class GameMapSection(arcade.Section):
         self.tile_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
+        if self.show_highlight:
+            arcade.draw_lbwh_rectangle_outline(
+                self.highlight[0] * 32 - 16,
+                self.highlight[1] * 32 - 16,
+                32,
+                32,
+                arcade.color.YELLOW_ORANGE,
+                2,
+            )
 
     def set_tile_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
         self.tile_sprites.clear()
@@ -113,3 +124,11 @@ class GameMapSection(arcade.Section):
                 player_pos.y = player_pos.y + dy
                 self.set_camera()
                 self.view.status_section.update_player_stats()
+            case arcade.key.H:
+                self.show_highlight = not self.show_highlight
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        wx, wy, _ = self.camera.unproject((x, y))
+        tx = (wx + 16) // 32
+        ty = (wy + 16) // 32
+        self.highlight = (tx, ty)
