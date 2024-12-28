@@ -3,8 +3,8 @@ from __future__ import annotations
 from random import Random
 from typing import TYPE_CHECKING
 
-from components import Attack, Stats
-from constants import Tags
+from components import Attack,  Specials, Stats
+from constants import  ActiveAbilities, PassiveAbilities, SpecialAttacks
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -19,7 +19,8 @@ def Wolf(entity: tcod.ecs.Entity, rng: Random):
         sight=8,
     )
     entity.components[Attack] = Attack(1, 6)
-    howl = entity.registry.new_entity()
-    gnaw = entity.registry.new_entity()
-    entity.relation_tags_many[Tags.SpecialAttacks].add(howl)
-    entity.relation_tags_many[Tags.SpecialAttacks].add(gnaw)
+    entity.components[Specials] = Specials(
+        attacks=[SpecialAttacks.Gnaw],
+        passives=[PassiveAbilities.PackTactics],
+        skills=[ActiveAbilities.Howl],
+    )
