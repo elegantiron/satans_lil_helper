@@ -4,7 +4,7 @@ import arcade
 import arcade.clock
 from pyglet.graphics import Batch
 
-from constants import Strings, Sections
+from constants import Strings
 
 if TYPE_CHECKING:
     from ..engine import Engine
@@ -81,9 +81,7 @@ class TitleSection(arcade.Section):
                 return True
             case _:
                 self.enabled = False
-                self.section_manager.get_section_by_name(
-                    Sections.MainMenu
-                ).enabled = True
+                self.view.menu_section.enabled = True
                 return True
 
     def on_update(self, delta_time):
