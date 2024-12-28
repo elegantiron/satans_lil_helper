@@ -5,7 +5,7 @@ import attrs
 from .position import Position
 from .stats import Growth, Stats
 
-__all__ = ["Position", "Growth", "Stats", "Attack", "Inventory", "Name"]
+__all__ = ["Position", "Growth", "Stats", "Attack", "Inventory", "Name", "ActionDelay"]
 
 
 @attrs.define
@@ -22,3 +22,7 @@ class Inventory:
 @attrs.define
 class Name:
     name: str
+
+@attrs.define
+class ActionDelay:
+    ticks: int = 0
