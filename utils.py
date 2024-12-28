@@ -3,7 +3,8 @@ from typing import TYPE_CHECKING
 import hashlib
 import hmac
 import lzma
-
+from components import Stats
+from constants import Tags
 import dill as pickle
 
 if TYPE_CHECKING:
@@ -84,3 +85,23 @@ def has_any_components(entity: tcod.ecs.Entity) -> bool:
         or entity.relation_tags_many
         or entity.relation_components
     )
+
+
+def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
+    entity_stats = entity.components[Stats]
+    total_stats = Stats(
+        entity_stats.hp,
+        entity_stats.mp,
+        entity_stats.strength,
+        entity_stats.magic,
+        entity_stats.pdef,
+        entity_stats.mdef,
+        entity_stats.evasion,
+        entity_stats.crit,
+        entity_stats.sight,
+        entity_stats.light,
+    )
+    for relation in entity.relation_tags_many[Tags.Equipped]:
+        r_stats = relation.components.get(Stats, None)
+        if r_stats is not None:
+            total_stats += r_stats
