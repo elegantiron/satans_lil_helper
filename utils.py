@@ -1,11 +1,15 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+
 import hashlib
 import hmac
 import lzma
+import random
+from typing import TYPE_CHECKING
+
+import dill as pickle
+
 from components import Stats
 from constants import Tags
-import dill as pickle
 
 if TYPE_CHECKING:
     import tcod.ecs
