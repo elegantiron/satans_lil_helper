@@ -1,12 +1,21 @@
 from enum import StrEnum
 
-from . import keylists
+from . import colors, keylists
+from .abilities import ActiveAbilities, PassiveAbilities, SpecialAttacks
 from .sectionnames import Sections
 from .strings import Strings
-from . import colors
 from .tags import Tags
 
-__all__ = ["Strings", "Sections", "keylists", "colors", "Tags"]
+__all__ = [
+    "Strings",
+    "Sections",
+    "keylists",
+    "colors",
+    "Tags",
+    "PassiveAbilities",
+    "SpecialAttacks",
+    "ActiveAbilities",
+]
 
 TILE_SIZE = 32
 
