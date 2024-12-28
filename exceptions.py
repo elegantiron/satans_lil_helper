@@ -7,3 +7,7 @@ class PathBlocked(BaseException):
 
 class InventoryFull(BaseException):
     pass
+
+
+class MissingComponent(BaseException):
+    pass
