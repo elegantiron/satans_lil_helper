@@ -53,3 +53,7 @@ class Position:
     @property
     def sprite_lists(self) -> list[arcade.SpriteList]:
         return self.sprite.sprite_lists
+
+    @property
+    def xy(self) -> tuple[int, int]:
+        return self.x, self.y
