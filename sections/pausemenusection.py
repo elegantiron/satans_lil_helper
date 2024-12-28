@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import colors
+from constants import Strings, colors, keylists
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -29,7 +29,7 @@ class PauseSection(arcade.Section):
         local_mouse_coordinates=False,
         enabled=False,
         modal=True,
-        draw_order=1,
+        draw_order=3,
     ):
         super().__init__(
             left,
@@ -58,6 +58,27 @@ class PauseSection(arcade.Section):
             anchor_y="top",
             batch=self.batch,
         )
+        items = [
+            Strings.Resume,
+            Strings.Bestiary,
+            Strings.SaveAndQuit,
+            Strings.QuitNoSave,
+        ]
+        self.items = [
+            arcade.Text(
+                item,
+                self.width // 2,
+                self.height // 2 - items.index(item) * 20,
+                arcade.color.WHITE,
+                20,
+                anchor_x="center",
+                anchor_y="center",
+                batch=self.batch,
+            )
+            for item in items
+        ]
+        self.idx = 0
+        self.items[0].color = arcade.color.AMERICAN_ROSE
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
@@ -70,5 +91,32 @@ class PauseSection(arcade.Section):
 
     def on_key_press(self, symbol, modifiers):
         match symbol:
+            case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][1] != 0:
+                self.items[self.idx].color = arcade.color.WHITE
+                self.idx -= keylists.MOVEMENT[key][1]
+                if self.idx < 0:
+                    self.idx = len(self.items) - 1
+                else:
+                    self.idx = self.idx % len(self.items)
+                self.items[self.idx].color = arcade.color.AMERICAN_ROSE
+                return True
             case arcade.key.ESCAPE:
                 self.enabled = False
+                return True
+            case key if key in keylists.CONFIRMATION:
+                return self.on_exit()
+
+    def on_exit(self):
+        match self.items[self.idx].text:
+            case Strings.Resume:
+                self.enabled = False
+                return True
+            case Strings.QuitNoSave:
+                arcade.exit()
+            case Strings.SaveAndQuit:
+                arcade.exit()
+            case Strings.Bestiary:
+                self.view.bestiary_section.enabled = True
+                self.enabled = False
+                return True
+        return False

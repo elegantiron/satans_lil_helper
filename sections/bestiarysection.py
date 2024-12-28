@@ -4,9 +4,13 @@ import arcade
 from pyglet.graphics import Batch
 
 from constants import Strings
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from engine import Engine
 
 class BestiarySection(arcade.Section):
+    view: Engine
     def __init__(
         self,
         left,
@@ -22,7 +26,7 @@ class BestiarySection(arcade.Section):
         local_mouse_coordinates=False,
         enabled=False,
         modal=True,
-        draw_order=1,
+        draw_order=5,
     ):
         super().__init__(
             left,
@@ -61,3 +65,6 @@ class BestiarySection(arcade.Section):
         match symbol:
             case arcade.key.ESCAPE:
                 self.enabled = False
+                if self.view.gamemap_section.enabled:
+                    self.view.pause_section.enabled = True
+                return True

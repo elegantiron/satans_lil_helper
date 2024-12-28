@@ -9,3 +9,6 @@ class Strings(StrEnum):
     NewGame = "New Game"
     Bestiary = "Bestiary"
     QuitToDesktop = "Quit to Desktop"
+    Resume = "Resume"
+    SaveAndQuit = "Save and Quit"
+    QuitNoSave = "Quit without Saving"
