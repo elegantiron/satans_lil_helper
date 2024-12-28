@@ -16,6 +16,9 @@ class Stats:
         crit: float = 0,
         sight: float = 0,
         light: float = 0,
+        level: int = 1,
+        xp: float = 0,
+        xp_granted: float = 0,
     ):
         self.hp = hp
         self.mp = mp
@@ -27,6 +30,9 @@ class Stats:
         self.crit = crit
         self.sight = sight
         self.light = light
+        self.level = level
+        self.xp = xp
+        self.xp_granted = xp_granted
 
     @property
     def hp(self) -> float:
