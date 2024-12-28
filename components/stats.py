@@ -48,6 +48,20 @@ class Stats:
             self.max_mp = value
         self._mp = max(0, min(value, self.max_mp))
 
+    def __add__(self, other: Stats) -> Stats:
+        return Stats(
+            self.hp + other.hp,
+            self.mp + other.mp,
+            self.strength + other.strength,
+            self.magic + other.magic,
+            self.pdef + other.pdef,
+            self.mdef + other.mdef,
+            self.evasion + other.evasion,
+            self.crit + other.crit,
+            self.sight + other.sight,
+            self.light + other.light,
+        )
+
 
 @attrs.define
 class Growth:
