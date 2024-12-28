@@ -26,7 +26,7 @@ class PauseSection(arcade.Section):
         accept_mouse_events=True,
         prevent_dispatch=None,
         prevent_dispatch_view=None,
-        local_mouse_coordinates=False,
+        local_mouse_coordinates=True,
         enabled=False,
         modal=True,
         draw_order=3,
@@ -68,9 +68,9 @@ class PauseSection(arcade.Section):
             arcade.Text(
                 item,
                 self.width // 2,
-                self.height // 2 - items.index(item) * 20,
+                self.height // 2 - items.index(item) * 30,
                 arcade.color.WHITE,
-                20,
+                15,
                 anchor_x="center",
                 anchor_y="center",
                 batch=self.batch,
@@ -122,3 +122,18 @@ class PauseSection(arcade.Section):
                 self.enabled = False
                 return True
         return False
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        for item in self.items:
+            if int(x) in range(int(item.left), int(item.right)) and int(y) in range(
+                int(item.bottom), int(item.top)
+            ):
+                self.items[self.idx].color = arcade.color.WHITE
+                item.color = arcade.color.AMERICAN_ROSE
+                self.idx = self.items.index(item)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        match button:
+            case arcade.MOUSE_BUTTON_LEFT:
+                self.on_exit()
+
