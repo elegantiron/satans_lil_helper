@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 
-class PathBlocked(BaseException):
+class Impossible(BaseException):
     pass
 
 
-class InventoryFull(BaseException):
+class PathBlocked(Impossible):
+    pass
+
+
+class InventoryFull(Impossible):
     pass
 
 
