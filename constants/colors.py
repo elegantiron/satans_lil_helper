@@ -1,0 +1,3 @@
+from __future__ import annotations
+
+TranslucentBlack = (0x00, 0x00, 0x00, 0x90)
