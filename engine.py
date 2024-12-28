@@ -16,6 +16,7 @@ from sections import (
     GameMapSection,
     MainMenuSection,
     MessageSection,
+    PauseSection,
     StatusSection,
     TitleSection,
 )
@@ -88,12 +89,20 @@ class Engine(arcade.View):
             accept_keyboard_keys=False,
         )
 
+        self.pause_section = PauseSection(
+            self.width / 8,
+            self.height / 8,
+            self.width * 6 / 8,
+            self.height * 6 / 8,
+        )
+
         self.sm.add_section(self.title_section)
         self.sm.add_section(self.menu_section)
         self.sm.add_section(self.bestiary_section)
         self.sm.add_section(self.gamemap_section)
         self.sm.add_section(self.status_section)
         self.sm.add_section(self.message_section)
+        self.sm.add_section(self.pause_section)
 
     def load_satan(self):
         self.satan_sprites = arcade.SpriteList()

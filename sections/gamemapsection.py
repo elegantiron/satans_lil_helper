@@ -105,7 +105,7 @@ class GameMapSection(arcade.Section):
     def on_key_press(self, symbol, modifiers):
         match symbol:
             case arcade.key.ESCAPE:
-                arcade.exit()
+                self.view.pause_section.enabled = True
             case key if key in keylists.MOVEMENT:
                 player_pos = self.view.world.player.components[Position]
                 dx, dy = keylists.MOVEMENT[key]

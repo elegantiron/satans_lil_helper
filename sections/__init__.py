@@ -4,6 +4,7 @@ from .mainmenusection import MainMenuSection
 from .messagesection import MessageSection
 from .statussection import StatusSection
 from .titlesection import TitleSection
+from .pausemenusection import PauseSection
 
 __all__ = [
     "TitleSection",
@@ -12,4 +13,5 @@ __all__ = [
     "GameMapSection",
     "StatusSection",
     "MessageSection",
+    "PauseSection",
 ]
