@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
 BIRTH_LIMIT = 4
 DEATH_LIMIT = 3
+WALL_CHANCE = 0.46
 MAP_X = 100
 MAP_Y = 100
 
@@ -31,7 +32,7 @@ class GameWorld:
         self._maps = [self._current_map]
         self.map_index = self._maps.index(self._current_map)
         tiles = [
-            [(1 if random.random() < 0.47 else 0) for _ in range(MAP_X)]
+            [(1 if random.random() < WALL_CHANCE else 0) for _ in range(MAP_X)]
             for _ in range(MAP_Y)
         ]
         for _ in range(4):
