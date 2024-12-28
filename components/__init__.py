@@ -1,11 +1,28 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import attrs
+
+from constants.abilities import SpecialAttacks
 
 from .position import Position
 from .stats import Growth, Stats
 
-__all__ = ["Position", "Growth", "Stats", "Attack", "Inventory", "Name", "ActionDelay"]
+if TYPE_CHECKING:
+    from constants import PassiveAbilities, ActiveAbilities
+
+__all__ = [
+    "Position",
+    "Growth",
+    "Stats",
+    "Attack",
+    "Inventory",
+    "Name",
+    "ActionDelay",
+    "Specials",
+    "Script",
+]
 
 
 @attrs.define
@@ -23,6 +40,14 @@ class Inventory:
 class Name:
     name: str
 
+
 @attrs.define
 class ActionDelay:
     ticks: int = 0
+
+
+@attrs.define(kw_only=True)
+class Specials:
+    attacks: list[SpecialAttacks] = []
+    passives: list[PassiveAbilities] = []
+    skills: list[ActiveAbilities] = []
