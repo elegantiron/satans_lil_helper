@@ -53,13 +53,15 @@ class GameMapSection(arcade.Section):
         )
         self.highlight = (0, 0)
         self.show_highlight = False
-        self.tile_sprites = arcade.SpriteList()
+        self.floor_sprites = arcade.SpriteList()
+        self.wall_sprites = arcade.SpriteList(use_spatial_hash=True)
         self.entity_sprites = arcade.SpriteList()
         self.projectile_sprites = arcade.SpriteList()
 
     def on_draw(self):
         self.title.draw()
-        self.tile_sprites.draw()
+        self.floor_sprites.draw()
+        self.wall_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
         if self.show_highlight:
@@ -72,10 +74,11 @@ class GameMapSection(arcade.Section):
                 2,
             )
 
-    def set_tile_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
-        self.tile_sprites.clear()
-        for sprite in sprites:
-            self.tile_sprites.append(sprite)
+    def add_floor_sprite(self, sprite: arcade.Sprite) -> None:
+        self.floor_sprites.append(sprite)
+
+    def add_wall_sprite(self, sprite: arcade.Sprite) -> None:
+        self.wall_sprites.append(sprite)
 
     def set_entity_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
         self.entity_sprites.clear()
@@ -94,15 +97,14 @@ class GameMapSection(arcade.Section):
         self,
         *,
         entities: list[arcade.Sprite],
-        tiles: list[arcade.Sprite],
         projectiles: list[arcade.Sprite],
     ) -> None:
         self.set_entity_sprites(entities)
-        self.set_tile_sprites(tiles)
         self.set_projectile_sprites(projectiles)
 
     def clear_sprite_lists(self) -> None:
-        self.tile_sprites.clear()
+        self.floor_sprites.clear()
+        self.wall_sprites.clear()
         self.entity_sprites.clear()
         self.projectile_sprites.clear()
 

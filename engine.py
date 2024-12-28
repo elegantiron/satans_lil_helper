@@ -3,11 +3,12 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from typing import TYPE_CHECKING
-
+import numpy as np
 import arcade
 
 from bestiary import Bestiary
 from components import Position
+from constants import Tile, TILE_SIZE
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -127,7 +128,25 @@ class Engine(arcade.View):
 
     def new_world(self):
         self.world = GameWorld()
-        self.gamemap_section.set_tile_sprites(self.world.tile_sprites)
+        for ix, iy in np.ndindex(self.world.map.tiles.shape):
+            if self.world.map.tiles[Tile.Walkable][ix, iy]:
+                self.gamemap_section.add_floor_sprite(
+                    arcade.Sprite(
+                        ":images:tiles/forest/floor/000.png",
+                        1,
+                        ix * TILE_SIZE,
+                        iy * TILE_SIZE,
+                    )
+                )
+            else:
+                self.gamemap_section.add_wall_sprite(
+                    arcade.Sprite(
+                        ":images:tiles/forest/wall/000.png",
+                        1,
+                        ix * TILE_SIZE,
+                        iy * TILE_SIZE,
+                    )
+                )
         self.gamemap_section.add_entity_sprite(
             self.world.player.components[Position].sprite
         )
