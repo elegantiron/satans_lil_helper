@@ -12,12 +12,15 @@ import tcod.ecs
 from constants import TILE_SIZE, Tile
 from gamemap import GameMap
 from tile_types import ForestFloor, ForestWall
+from utils import get_neighbors
 
 if TYPE_CHECKING:
     import numpy.typing as npt
 
-MAP_X = 50
-MAP_Y = 50
+BIRTH_LIMIT = 4
+DEATH_LIMIT = 3
+MAP_X = 100
+MAP_Y = 100
 
 
 class GameWorld:
@@ -28,9 +31,18 @@ class GameWorld:
         self._maps = [self._current_map]
         self.map_index = self._maps.index(self._current_map)
         tiles = [
-            [(1 if random.random() < 0.48 else 0) for _ in range(MAP_X)]
+            [(1 if random.random() < 0.47 else 0) for _ in range(MAP_X)]
             for _ in range(MAP_Y)
         ]
+        for _ in range(4):
+            new_tiles = [[0 for _ in range(MAP_X)] for _ in range(MAP_Y)]
+            for ix in range(len(tiles)):
+                for iy in range(len(tiles[ix])):
+                    neighbors = get_neighbors(ix, iy, tiles)
+                    if neighbors > BIRTH_LIMIT:
+                        new_tiles[ix][iy] = 1
+            tiles = new_tiles
+
         self._current_map.tiles = np.full(
             (MAP_X, MAP_Y), fill_value=ForestFloor, order="F"
         )
