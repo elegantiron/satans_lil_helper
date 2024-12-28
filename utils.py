@@ -120,3 +120,29 @@ def get_neighbors(x, y, tiles: list[list[int]]) -> int:
         else:
             neighbors += 1
     return neighbors
+
+
+def get_damage_factor(*, t_stats: Stats, a_stats: Stats, rng: random.Random) -> float:
+    t_level = t_stats.level
+    a_level = a_stats.level
+    a_crit = a_stats.crit
+    roll = rng.randint(1, 100)
+    if roll <= max(0, t_level - a_level) or roll == 1:
+        return 0
+    elif roll >= 95 - a_crit:
+        return 2
+    elif roll <= 10:
+        return 0.5
+    elif roll <= 60:
+        return 1
+    else:
+        return 1.25
+
+
+def get_damage(
+    *, damage_factor: float, dice: int, sides: int, rng: random.Random
+) -> int:
+    dmg = 0
+    for _ in range(dice):
+        dmg += rng.randint(1, sides)
+    return int(dmg * damage_factor)
