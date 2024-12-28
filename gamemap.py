@@ -1,20 +1,21 @@
 from __future__ import annotations
 
-from typing import Any, Generator
+from typing import TYPE_CHECKING, Generator
 
 import numpy as np
-import numpy.typing as npt
 import tcod.ecs
-from components import Position, Stats
 
+from components import Position, Stats
 from utils import move_entity
+
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
 
 class GameMap:
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
-    generator: Any
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
