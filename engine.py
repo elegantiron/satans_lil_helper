@@ -8,7 +8,6 @@ import arcade
 
 from bestiary import Bestiary
 from components import Position
-from constants import Sections
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -58,26 +57,17 @@ class Engine(arcade.View):
     def setup_sections(self):
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
-        self.title_section = TitleSection(
-            0, 0, self.width, self.height, name=Sections.Title
-        )
+        self.title_section = TitleSection(0, 0, self.width, self.height)
         self.title_section.setup(satan_sprites=self.satan_sprites)
-        self.menu_section = MainMenuSection(
-            0, 0, self.width, self.height, name=Sections.MainMenu
-        )
+        self.menu_section = MainMenuSection(0, 0, self.width, self.height)
         self.menu_section.setup(satan_sprites=self.satan_sprites)
-        self.bestiary_section = BestiarySection(
-            0, 0, self.width, self.height, name=Sections.Bestiary
-        )
-        self.gamemap_section = GameMapSection(
-            0, 0, self.width, self.height, name=Sections.GameMap
-        )
+        self.bestiary_section = BestiarySection(0, 0, self.width, self.height)
+        self.gamemap_section = GameMapSection(0, 0, self.width, self.height)
         self.status_section = StatusSection(
             self.width * 2 / 3,
             self.height / 5,
             self.width / 3 + 5,
             self.height * 4 / 5,
-            name=Sections.Status,
             accept_keyboard_keys=False,
         )
         self.message_section = MessageSection(
@@ -85,7 +75,6 @@ class Engine(arcade.View):
             0,
             self.width / 3 + 5,
             self.height / 5,
-            name=Sections.MessageLog,
             accept_keyboard_keys=False,
         )
 
