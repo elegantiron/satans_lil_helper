@@ -27,7 +27,7 @@ class MessageSection(arcade.Section):
         prevent_dispatch=None,
         prevent_dispatch_view=None,
         local_mouse_coordinates=False,
-        enabled=True,
+        enabled=False,
         modal=False,
         draw_order=1,
     ):
