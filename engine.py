@@ -26,7 +26,11 @@ from sections import (
 from utils import load_data, save_data
 
 if TYPE_CHECKING:
+    import random
+
     import tcod.ecs
+
+    from gamemap import GameMap
 
 
 class Engine(arcade.View):
@@ -149,8 +153,8 @@ class Engine(arcade.View):
 
     def new_world(self):
         self.world = GameWorld()
-        for ix, iy in np.ndindex(self.world.map.tiles.shape):
-            if self.world.map.tiles[Tile.Walkable][ix, iy]:
+        for ix, iy in np.ndindex(self.map.tiles.shape):
+            if self.map.tiles[Tile.Walkable][ix, iy]:
                 self.gamemap_section.add_floor_sprite(
                     arcade.Sprite(
                         ":images:tiles/forest/floor/000.png",
@@ -178,3 +182,15 @@ class Engine(arcade.View):
     @property
     def player(self) -> tcod.ecs.Entity:
         return self.world.player
+
+    @property
+    def map(self) -> GameMap:
+        return self.world.map
+
+    @property
+    def registry(self) -> tcod.ecs.Registry:
+        return self.world.map.registry
+
+    @property
+    def rng(self) -> random.Random:
+        return self.world.rng

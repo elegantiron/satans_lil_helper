@@ -130,16 +130,16 @@ class GameMapSection(arcade.Section):
                 self.view.inventory_section.enabled = True
 
     def handle_move_key(self, key):
-        delay = self.view.world.player.components.get(ActionDelay, None)
+        delay = self.view.player.components.get(ActionDelay, None)
         dir = keylists.MOVEMENT[key]
         if not self.show_highlight:
             if delay == 0 or delay is None:
                 try:
                     BumpAction(
-                        self.view.world.player,
+                        self.view.player,
                         dir,
-                        self.view.world.map,
-                        self.view.world.rng,
+                        self.view.map,
+                        self.view.rng,
                     ).perform()
                     self.set_camera()
                     self.view.status_section.update_player_stats()
@@ -155,7 +155,7 @@ class GameMapSection(arcade.Section):
             self.view.inspector_section.update()
 
     def toggle_highlight(self):
-        player_pos = self.view.world.player.components[Position]
+        player_pos = self.view.player.components[Position]
         if not self.show_highlight:
             self.highlight = (player_pos.x, player_pos.y)
             self.show_highlight = True
