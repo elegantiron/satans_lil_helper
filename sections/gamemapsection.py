@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 class GameMapSection(arcade.Section):
     view: Engine
+    camera: arcade.Camera2D
 
     def __init__(
         self,
