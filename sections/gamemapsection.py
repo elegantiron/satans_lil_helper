@@ -122,33 +122,36 @@ class GameMapSection(arcade.Section):
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
             case key if key in keylists.MOVEMENT:
-                delay = self.view.world.player.components.get(ActionDelay, None)
-                dir = keylists.MOVEMENT[key]
-                if not self.show_highlight:
-                    if delay == 0 or delay is None:
-                        try:
-                            BumpAction(
-                                self.view.world.player,
-                                dir,
-                                self.view.world.map,
-                                self.view.world.rng,
-                            ).perform()
-                            self.set_camera()
-                            self.view.status_section.update_player_stats()
-                        except PathBlocked:
-                            self.view.message_log.add_message(
-                                "The way is blocked.", colors.Impossible
-                            )
-                        finally:
-                            self.view.message_section.update_messages()
-                else:
-                    dx, dy = dir
-                    self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
-                    self.view.inspector_section.update()
+                self.handle_move_key(key)
             case arcade.key.H:
                 self.toggle_highlight(player_pos)
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
+
+    def handle_move_key(self, key):
+        delay = self.view.world.player.components.get(ActionDelay, None)
+        dir = keylists.MOVEMENT[key]
+        if not self.show_highlight:
+            if delay == 0 or delay is None:
+                try:
+                    BumpAction(
+                        self.view.world.player,
+                        dir,
+                        self.view.world.map,
+                        self.view.world.rng,
+                    ).perform()
+                    self.set_camera()
+                    self.view.status_section.update_player_stats()
+                except PathBlocked:
+                    self.view.message_log.add_message(
+                        "The way is blocked.", colors.Impossible
+                    )
+                finally:
+                    self.view.message_section.update_messages()
+        else:
+            dx, dy = dir
+            self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
+            self.view.inspector_section.update()
 
     def toggle_highlight(self, player_pos):
         if not self.show_highlight:
