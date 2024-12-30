@@ -13,3 +13,4 @@ class Strings(StrEnum):
     SaveAndQuit = "Save and Quit"
     QuitNoSave = "Quit without Saving"
     InventoryTitle = "INVENTORY"
+    PauseTitle = "PAUSE"

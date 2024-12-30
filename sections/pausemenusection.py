@@ -49,7 +49,7 @@ class PauseSection(arcade.Section):
         self.batch = Batch()
         self.camera = arcade.Camera2D(self.rect)
         self.title = arcade.Text(
-            "PAUSE",
+            Strings.PauseTitle,
             self.width / 2,
             self.height - 2,
             arcade.color.WHITE,
