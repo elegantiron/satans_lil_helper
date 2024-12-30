@@ -4,7 +4,7 @@ import textwrap
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Iterable, Reversible
+    from typing import Iterable
 
 
 class _Message:
@@ -40,7 +40,3 @@ class MessageLog:
     def wrap(string: str, width: int) -> Iterable[str]:
         for line in string.splitlines():
             yield from textwrap.wrap(line, width, expand_tabs=True)
-
-    @classmethod
-    def render_messages(cls, messages: Reversible[_Message]):
-        raise NotImplementedError
