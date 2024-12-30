@@ -146,18 +146,21 @@ class GameMapSection(arcade.Section):
                     self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
                     self.view.inspector_section.update()
             case arcade.key.H:
-                if not self.show_highlight:
-                    self.highlight = (player_pos.x, player_pos.y)
-                    self.show_highlight = True
-                    self.view.message_section.enabled = False
-                    self.view.inspector_section.enabled = True
-                    self.view.inspector_section.update()
-                else:
-                    self.show_highlight = False
-                    self.view.message_section.enabled = True
-                    self.view.inspector_section.enabled = False
+                self.toggle_highlight(player_pos)
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
+
+    def toggle_highlight(self, player_pos):
+        if not self.show_highlight:
+            self.highlight = (player_pos.x, player_pos.y)
+            self.show_highlight = True
+            self.view.message_section.enabled = False
+            self.view.inspector_section.enabled = True
+            self.view.inspector_section.update()
+        else:
+            self.show_highlight = False
+            self.view.message_section.enabled = True
+            self.view.inspector_section.enabled = False
 
     def on_mouse_motion(self, x, y, dx, dy):
         wx, wy, _ = self.camera.unproject((x, y))
