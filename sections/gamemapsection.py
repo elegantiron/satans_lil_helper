@@ -14,7 +14,6 @@ if TYPE_CHECKING:
 
 
 class GameMapSection(arcade.Section):
-    camera: arcade.Camera2D
     view: Engine
 
     def __init__(
@@ -157,6 +156,8 @@ class GameMapSection(arcade.Section):
                     self.show_highlight = False
                     self.view.message_section.enabled = True
                     self.view.inspector_section.enabled = False
+            case arcade.key.I:
+                self.view.inventory_section.enabled = True
 
     def on_mouse_motion(self, x, y, dx, dy):
         wx, wy, _ = self.camera.unproject((x, y))

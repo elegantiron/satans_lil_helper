@@ -3,23 +3,25 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from typing import TYPE_CHECKING
-import numpy as np
+
 import arcade
+import numpy as np
 
 from bestiary import Bestiary
 from components import Position
-from constants import Tile, TILE_SIZE
+from constants import TILE_SIZE, Tile
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
     BestiarySection,
     GameMapSection,
+    InspectorSection,
+    InventorySection,
     MainMenuSection,
     MessageSection,
     PauseSection,
     StatusSection,
     TitleSection,
-    InspectorSection,
 )
 from utils import load_data, save_data
 
@@ -96,6 +98,13 @@ class Engine(arcade.View):
             accept_mouse_events=False,
         )
 
+        self.inventory_section = InventorySection(
+            self.pause_section.left,
+            self.pause_section.bottom,
+            self.pause_section.width,
+            self.pause_section.height,
+        )
+
         self.sm.add_section(self.title_section)
         self.sm.add_section(self.menu_section)
         self.sm.add_section(self.gamemap_section)
@@ -104,6 +113,7 @@ class Engine(arcade.View):
         self.sm.add_section(self.pause_section)
         self.sm.add_section(self.bestiary_section)
         self.sm.add_section(self.inspector_section)
+        self.sm.add_section(self.inventory_section)
 
     def load_satan(self):
         self.satan_sprites = arcade.SpriteList()

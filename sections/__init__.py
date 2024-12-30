@@ -1,6 +1,7 @@
 from .bestiarysection import BestiarySection
 from .gamemapsection import GameMapSection
 from .inspectorsection import InspectorSection
+from .inventorysection import InventorySection
 from .mainmenusection import MainMenuSection
 from .messagesection import MessageSection
 from .pausemenusection import PauseSection
@@ -16,4 +17,5 @@ __all__ = [
     "MessageSection",
     "PauseSection",
     "InspectorSection",
+    "InventorySection",
 ]
