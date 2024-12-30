@@ -118,14 +118,14 @@ class GameMapSection(arcade.Section):
         )
 
     def on_key_press(self, symbol, modifiers):
-        player_pos = self.view.world.player.components[Position]
+        
         match symbol:
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
             case key if key in keylists.MOVEMENT:
                 self.handle_move_key(key)
             case arcade.key.H:
-                self.toggle_highlight(player_pos)
+                self.toggle_highlight()
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
 
@@ -154,7 +154,8 @@ class GameMapSection(arcade.Section):
             self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
             self.view.inspector_section.update()
 
-    def toggle_highlight(self, player_pos):
+    def toggle_highlight(self):
+        player_pos = self.view.world.player.components[Position]
         if not self.show_highlight:
             self.highlight = (player_pos.x, player_pos.y)
             self.show_highlight = True
