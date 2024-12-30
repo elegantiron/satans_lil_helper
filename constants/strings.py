@@ -12,4 +12,4 @@ class Strings(StrEnum):
     Resume = "Resume"
     SaveAndQuit = "Save and Quit"
     QuitNoSave = "Quit without Saving"
-    InventoryTitle = "Inventory"
+    InventoryTitle = "INVENTORY"
