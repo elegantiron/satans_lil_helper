@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 import arcade
 
-from ..components import Name, Stats
-from ..constants import colors
-from ..exceptions import Impossible, MissingComponent
-from ..utils import get_damage, get_damage_factor
+from components import Name, Stats
+from constants import colors
+from exceptions import Impossible, MissingComponent
+from utils import get_damage, get_damage_factor
 from .actionwithdirection import ActionWithDirection
 
 if TYPE_CHECKING:

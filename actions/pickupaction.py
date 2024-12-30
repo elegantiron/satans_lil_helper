@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from ..components import Inventory, Position
-from ..constants import Tags
-from ..exceptions import InventoryFull, MissingComponent
+from components import Inventory, Position
+from constants import Tags
+from exceptions import InventoryFull, MissingComponent
 from .baseaction import Action
 
 class PickupAction(Action):

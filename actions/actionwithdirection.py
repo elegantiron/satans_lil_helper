@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from .baseaction import Action
-from ..components import Position
+from components import Position
 
 if TYPE_CHECKING:
     import tcod.ecs

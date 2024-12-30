@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..components import Position
-from ..constants import Tile
-from ..exceptions import PathBlocked
+from components import Position
+from constants import Tile
+from exceptions import PathBlocked
 from .actionwithdirection import ActionWithDirection
 
 
