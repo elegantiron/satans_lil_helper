@@ -9,3 +9,5 @@ class Tags(Enum):
     Holding = auto()
     Item = auto()
     HeldBy = auto()
+    Hostile = auto()
+    Friendly = auto()
