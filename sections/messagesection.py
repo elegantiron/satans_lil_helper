@@ -76,3 +76,5 @@ class MessageSection(arcade.Section):
                     batch=self.batch,
                 )
             )
+            if self.texts[-1].bottom <= self.texts[-1].content_height:
+                break
