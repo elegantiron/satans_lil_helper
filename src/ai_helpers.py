@@ -19,6 +19,7 @@ def confused_action(
     dirs = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
     dir = rng.choice(dirs)
     BumpAction(entity, dir, gamemap, rng).perform()
+    entity.components[ActionDelay].ticks = 15
 
 
 def wander_action(
