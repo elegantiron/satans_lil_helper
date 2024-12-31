@@ -174,4 +174,5 @@ class GameMapSection(arcade.Section):
         self.view.inspector_section.update()
 
     def on_update(self, delta_time):
-        self.view.process_enemy_turns()
+        if self.view.player.components[ActionDelay].ticks != 0:
+            self.view.process_enemy_turns()
