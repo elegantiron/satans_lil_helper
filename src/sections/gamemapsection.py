@@ -118,7 +118,6 @@ class GameMapSection(arcade.Section):
         )
 
     def on_key_press(self, symbol, modifiers):
-        
         match symbol:
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
@@ -173,3 +172,6 @@ class GameMapSection(arcade.Section):
         ty = int((wy + 16) // 32)
         self.highlight = (tx, ty)
         self.view.inspector_section.update()
+
+    def on_update(self, delta_time):
+        self.view.process_enemy_turns()
