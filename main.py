@@ -7,11 +7,15 @@
 # nuitka-project: --output-dir=build
 
 from __future__ import annotations
+import sys
 
 import os
+
 from pathlib import Path
 
 import arcade
+
+sys.path.insert(0, os.path.join(Path(__file__).parent.resolve(), "src"))
 
 from engine import Engine
 
