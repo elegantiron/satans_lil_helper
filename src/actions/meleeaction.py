@@ -8,16 +8,26 @@ from components import Name, Stats
 from constants import colors
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
+
 from .actionwithdirection import ActionWithDirection
 
 if TYPE_CHECKING:
     from random import Random
 
+    import tcod.ecs
+
     from engine import Engine
+    from gamemap import GameMap
 
 
 class MeleeAction(ActionWithDirection):
-    def __init__(self, entity, direction, gamemap, rng: Random):
+    def __init__(
+        self,
+        entity: tcod.ecs.Entity,
+        direction: tuple[int, int],
+        gamemap: GameMap,
+        rng: Random,
+    ):
         super().__init__(entity, direction, gamemap)
         self.rng = rng
 
