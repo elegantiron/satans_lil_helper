@@ -10,7 +10,7 @@ from .position import Position
 from .stats import Growth, Stats
 
 if TYPE_CHECKING:
-    from constants import PassiveAbilities, ActiveAbilities
+    from constants import PassiveAbilities, ActiveAbilities, AIType
 
 __all__ = [
     "Position",
@@ -21,6 +21,7 @@ __all__ = [
     "Name",
     "ActionDelay",
     "Specials",
+    "AI"
 ]
 
 
@@ -50,3 +51,7 @@ class Specials:
     attacks: list[SpecialAttacks] = []
     passives: list[PassiveAbilities] = []
     skills: list[ActiveAbilities] = []
+
+@attrs.define
+class AI:
+    type: AIType
