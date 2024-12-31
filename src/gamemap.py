@@ -44,3 +44,18 @@ class GameMap:
             cost=self.tiles[Tile.MovementCost], cardinal=2, diagonal=3
         )
         self.pathfinder = tcod.path.Pathfinder(self.graph)
+
+    def get_fov(
+        self,
+        pov: tuple[int, int],
+        radius: int,
+        light_walls: bool = True,
+        algorithm: int = 12,
+    ) -> npt.NDArray[np.bool_]:
+        return tcod.map.compute_fov(
+            transparency=self.tiles[Tile.Transparent],
+            pov=pov,
+            radius=radius,
+            light_walls=light_walls,
+            algorithm=algorithm,
+        )
