@@ -3,9 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generator
 
 import numpy as np
+import tcod
 import tcod.ecs
 
-from components import Position, Stats
+from components import ActionDelay, Position, Stats
+from constants import Tile
 from utils import move_entity
 
 if TYPE_CHECKING:
@@ -16,6 +18,7 @@ class GameMap:
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
+    pathfinder: tcod.path.Pathfinder
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
@@ -31,6 +34,28 @@ class GameMap:
             x=5, y=5, sprite=":images:player/player.png"
         )
         self.player.components[Stats] = Stats(30, 5, 5, 5, 5, 5, 5, 5, 7, 7)
+        self.player.components[ActionDelay] = ActionDelay(0)
 
     def add_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
+
+    def initialize_pathfinder(self) -> None:
+        self.graph = tcod.path.SimpleGraph(
+            cost=self.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+        )
+        self.pathfinder = tcod.path.Pathfinder(self.graph)
+
+    def get_fov(
+        self,
+        pov: tuple[int, int],
+        radius: int,
+        light_walls: bool = True,
+        algorithm: int = 12,
+    ) -> npt.NDArray[np.bool_]:
+        return tcod.map.compute_fov(
+            transparency=self.tiles[Tile.Transparent],
+            pov=pov,
+            radius=radius,
+            light_walls=light_walls,
+            algorithm=algorithm,
+        )

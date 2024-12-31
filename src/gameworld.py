@@ -1,15 +1,12 @@
 from __future__ import annotations
 
-import random
 import time
 from random import Random
 from typing import TYPE_CHECKING, Generator
 
-import arcade
 import numpy as np
 import tcod.ecs
 
-from constants import TILE_SIZE, Tile
 from gamemap import GameMap
 from tile_types import ForestFloor, ForestWall
 from utils import get_neighbors
@@ -31,8 +28,9 @@ class GameWorld:
         self._current_map = GameMap()
         self._maps = [self._current_map]
         self.map_index = self._maps.index(self._current_map)
+        self.rng = Random(time.time())
         tiles = [
-            [(1 if random.random() < WALL_CHANCE else 0) for _ in range(MAP_X)]
+            [(1 if self.rng.random() < WALL_CHANCE else 0) for _ in range(MAP_X)]
             for _ in range(MAP_Y)
         ]
         for _ in range(4):
@@ -53,7 +51,7 @@ class GameWorld:
             else:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
-        self.rng = Random(time.time())
+        
 
     @property
     def map(self) -> GameMap:
@@ -71,20 +69,3 @@ class GameWorld:
     def tile_list(self) -> Generator[npt.DTypeLike]:
         return self.map.tile_list
 
-    @property
-    def tile_sprites(self) -> Generator[arcade.Sprite]:
-        for ix, iy in np.ndindex(self.map.tiles.shape):
-            if self.map.tiles[Tile.Walkable][ix, iy]:
-                yield arcade.Sprite(
-                    ":images:tiles/forest/floor/000.png",
-                    1,
-                    ix * TILE_SIZE,
-                    iy * TILE_SIZE,
-                )
-            else:
-                yield arcade.Sprite(
-                    ":images:tiles/forest/wall/000.png",
-                    1,
-                    ix * TILE_SIZE,
-                    iy * TILE_SIZE,
-                )
