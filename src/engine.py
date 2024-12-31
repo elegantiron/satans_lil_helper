@@ -228,3 +228,4 @@ class Engine(arcade.View):
                 # Catch impossible actions and ignore them.
                 # We don't care if the AI tries something it can't do
                 pass
+        self.player.components[ActionDelay].ticks -= 1
