@@ -4,7 +4,7 @@ from . import colors, keylists
 from .abilities import ActiveAbilities, PassiveAbilities, SpecialAttacks
 from .sectionnames import Sections
 from .strings import Strings
-from .tags import Tags
+from .tags import AIType, Tags
 
 __all__ = [
     "Strings",
@@ -15,6 +15,7 @@ __all__ = [
     "PassiveAbilities",
     "SpecialAttacks",
     "ActiveAbilities",
+    "AIType",
 ]
 
 TILE_SIZE = 32

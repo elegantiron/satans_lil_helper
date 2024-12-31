@@ -10,3 +10,7 @@ class Tags(Enum):
     HeldBy = auto()
     Hostile = auto()
     Friendly = auto()
+
+class AIType(Enum):
+    Confused = auto()
+    Wandering = auto()
