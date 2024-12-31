@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from actions import BumpAction, MoveAction
-from components import ActionDelay
+from components import ActionDelay, Position, Stats
 
 if TYPE_CHECKING:
     import random
@@ -28,3 +28,18 @@ def wander_action(
     dir = rng.choice(dirs)
     MoveAction(entity, dir, gamemap).perform()
     entity.components[ActionDelay].ticks = 15
+
+
+def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random):
+    stats = entity.components[Stats]
+    e_pos = entity.components[Position]
+    playerpos = gamemap.player.components[Position]
+    visible_tiles = gamemap.get_fov(e_pos.xy, stats.sight)
+    if visible_tiles[playerpos.xy]:
+        gamemap.pathfinder.clear()
+        gamemap.pathfinder.add_root(playerpos.xy)
+        tile = gamemap.pathfinder.path_from(e_pos.xy)[1]
+        direction = abs(e_pos.x - tile[0]), abs(e_pos.y - tile[1])
+        BumpAction(entity, direction, gamemap, rng)
+    else:
+        wander_action(entity, gamemap, rng)

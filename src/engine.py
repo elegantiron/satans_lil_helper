@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import arcade
 import numpy as np
 
-from ai_helpers import confused_action, wander_action
+from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
 from components import AI, ActionDelay, Confusion, Position
 from constants import TILE_SIZE, AIType, Tile
@@ -219,8 +219,7 @@ class Engine(arcade.View):
                         else:
                             ent.components[AI].type = ent.components[AI].base_type
                     case AIType.Hostile:
-                        # TODO Handle hostile entities' AI
-                        pass
+                        hostile_action(ent, self.map, self.rng)
                     case AIType.HowlResponse:
                         # TODO Handle entities affected by a Howl
                         pass
