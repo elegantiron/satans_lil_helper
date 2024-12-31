@@ -18,7 +18,7 @@ class GameMap:
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
-    pathfinder: tcod
+    pathfinder: tcod.path.Pathfinder
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
