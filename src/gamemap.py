@@ -3,9 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generator
 
 import numpy as np
+import tcod
 import tcod.ecs
 
 from components import Position, Stats
+from constants import Tile
 from utils import move_entity
 
 if TYPE_CHECKING:
@@ -16,6 +18,7 @@ class GameMap:
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
+    pathfinder: tcod
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
@@ -34,3 +37,9 @@ class GameMap:
 
     def add_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
+
+    def initialize_pathfinder(self) -> None:
+        self.graph = tcod.path.SimpleGraph(
+            cost=self.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+        )
+        self.pathfinder = tcod.path.Pathfinder(self.graph)
