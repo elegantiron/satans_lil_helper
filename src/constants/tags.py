@@ -14,3 +14,5 @@ class Tags(Enum):
 class AIType(Enum):
     Confused = auto()
     Wandering = auto()
+    Hostile = auto()
+    HowlResponse = auto()
