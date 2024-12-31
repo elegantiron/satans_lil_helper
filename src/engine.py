@@ -7,9 +7,11 @@ from typing import TYPE_CHECKING
 import arcade
 import numpy as np
 
+from ai_helpers import confused_action, wander_action
 from bestiary import Bestiary
-from components import Position
-from constants import TILE_SIZE, Tile
+from components import AI, ActionDelay, Confusion, Position
+from constants import TILE_SIZE, AIType, Tile
+from exceptions import Impossible
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -194,3 +196,35 @@ class Engine(arcade.View):
     @property
     def rng(self) -> random.Random:
         return self.world.rng
+
+    def process_enemy_turns(self):
+        for ent in self.registry.Q.all_of(components=[Position, AI]):
+            action_delay = ent.components.get(ActionDelay, None)
+            if action_delay is None:
+                # TODO decide on how to handle missing ActionDelay component
+                continue
+            if action_delay.ticks > 0:
+                action_delay.ticks -= 1
+                continue
+
+            try:
+                match ent.components[AI].type:
+                    case AIType.Wandering:
+                        wander_action(ent, self.map, self.rng)
+                    case AIType.Confused:
+                        confusion = ent.components.get(Confusion, None)
+                        if confusion.turns < confusion.limit:
+                            confused_action(ent, self.map, self.rng)
+                            confusion.turns += 1
+                        else:
+                            ent.components[AI].type = ent.components[AI].base_type
+                    case AIType.Hostile:
+                        # TODO Handle hostile entities' AI
+                        pass
+                    case AIType.HowlResponse:
+                        # TODO Handle entities affected by a Howl
+                        pass
+            except Impossible:
+                # Catch impossible actions and ignore them.
+                # We don't care if the AI tries something it can't do
+                pass
