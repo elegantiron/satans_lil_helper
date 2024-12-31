@@ -6,7 +6,7 @@ import numpy as np
 import tcod
 import tcod.ecs
 
-from components import Position, Stats
+from components import ActionDelay, Position, Stats
 from constants import Tile
 from utils import move_entity
 
@@ -34,6 +34,7 @@ class GameMap:
             x=5, y=5, sprite=":images:player/player.png"
         )
         self.player.components[Stats] = Stats(30, 5, 5, 5, 5, 5, 5, 5, 7, 7)
+        self.player.components[ActionDelay] = ActionDelay(0)
 
     def add_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
