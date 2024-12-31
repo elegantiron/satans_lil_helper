@@ -58,3 +58,4 @@ class Specials:
 @attrs.define
 class AI:
     type: AIType
+    base_type: AIType
