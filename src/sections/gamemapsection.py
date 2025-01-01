@@ -5,12 +5,15 @@ from typing import TYPE_CHECKING, Iterable
 import arcade
 
 from actions import BumpAction
-from components import ActionDelay, Position
-from constants import colors, keylists
+from components import ActionDelay, Position, Stats
+from constants import Tile, colors, keylists
 from exceptions import PathBlocked
 
 if TYPE_CHECKING:
+    import tcod.ecs
+
     from engine import Engine
+    from gamemap import GameMap
 
 
 class GameMapSection(arcade.Section):
@@ -142,6 +145,7 @@ class GameMapSection(arcade.Section):
                     ).perform()
                     self.set_camera()
                     self.view.status_section.update_player_stats()
+                    self.update_player_fov()
                 except PathBlocked:
                     self.view.message_log.add_message(
                         "The way is blocked.", colors.Impossible
@@ -176,3 +180,19 @@ class GameMapSection(arcade.Section):
     def on_update(self, delta_time):
         if self.view.player.components[ActionDelay].ticks != 0:
             self.view.process_enemy_turns()
+
+    @property
+    def map(self) -> GameMap:
+        return self.view.map
+
+    @property
+    def player(self) -> tcod.ecs.Entity:
+        return self.view.player
+
+    def update_player_fov(self):
+        stats = self.player.components[Stats]
+        tiles = self.map.get_fov(
+            self.player.components[Position].xy, max(stats.light, stats.sight)
+        )
+        self.map.tiles[Tile.Explored] |= tiles
+        self.map.tiles[Tile.Visible] = tiles
