@@ -178,6 +178,7 @@ class Engine(arcade.View):
             self.world.player.components[Position].sprite
         )
         self.gamemap_section.set_camera()
+        self.gamemap_section.update_player_fov()
         self.status_section.update_player_stats()
         self.message_section.update_messages()
 
