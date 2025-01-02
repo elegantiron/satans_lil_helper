@@ -137,6 +137,7 @@ class GameMapSection(arcade.Section):
                     self.set_camera()
                     self.view.status_section.update_player_stats()
                     self.update_player_fov()
+                    delay.ticks = 15
                 except PathBlocked:
                     self.view.message_log.add_message(
                         "The way is blocked.", colors.Impossible
