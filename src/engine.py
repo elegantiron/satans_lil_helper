@@ -9,7 +9,7 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position, Specials, Stats
+from components import AI, ActionDelay, Confusion, Name, Position, Specials, Stats
 from constants import (
     TILE_SIZE,
     ActiveAbilities,
@@ -214,6 +214,7 @@ class Engine(arcade.View):
                     ],
                     skills=[ActiveAbilities.Howl],
                 ),
+                Name: Name("wolf"),
             }
             wolf.tags.add(Tags.Hostile)
             self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
