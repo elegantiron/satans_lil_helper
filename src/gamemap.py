@@ -40,7 +40,7 @@ class GameMap:
         self.player.components[Stats] = Stats(hp=30, mp=5, strength=5, magic=5, pdef=5, mdef=5, evasion=5, crit=5, sight=7, light=7)
         self.player.components[ActionDelay] = ActionDelay(0)
 
-    def add_player(self, player: tcod.ecs.Entity) -> None:
+    def bring_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
 
     def initialize_pathfinder(self) -> None:
