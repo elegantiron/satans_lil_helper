@@ -239,29 +239,28 @@ class Engine(arcade.View):
             action_delay = ent.components.get(ActionDelay, None)
             if action_delay is None:
                 # TODO decide on how to handle missing ActionDelay component
-                continue
-            if action_delay.ticks > 0:
-                action_delay.ticks -= 1
-                continue
-
-            try:
-                match ent.components[AI].type:
-                    case AIType.Wandering:
-                        wander_action(ent, self.map, self.rng)
-                    case AIType.Confused:
-                        confusion = ent.components.get(Confusion, None)
-                        if confusion.turns < confusion.limit:
-                            confused_action(ent, self.map, self.rng)
-                            confusion.turns += 1
-                        else:
-                            ent.components[AI].type = ent.components[AI].base_type
-                    case AIType.Hostile:
-                        hostile_action(ent, self.map, self.rng)
-                    case AIType.HowlResponse:
-                        # TODO Handle entities affected by a Howl
-                        pass
-            except Impossible:
-                # Catch impossible actions and ignore them.
-                # We don't care if the AI tries something it can't do
                 pass
+            elif action_delay.ticks > 0:
+                action_delay.ticks -= 1
+            else:
+                try:
+                    match ent.components[AI].type:
+                        case AIType.Wandering:
+                            wander_action(ent, self.map, self.rng)
+                        case AIType.Confused:
+                            confusion = ent.components.get(Confusion, None)
+                            if confusion.turns < confusion.limit:
+                                confused_action(ent, self.map, self.rng)
+                                confusion.turns += 1
+                            else:
+                                ent.components[AI].type = ent.components[AI].base_type
+                        case AIType.Hostile:
+                            hostile_action(ent, self.map, self.rng)
+                        case AIType.HowlResponse:
+                            # TODO Handle entities affected by a Howl
+                            pass
+                except Impossible:
+                    # Catch impossible actions and ignore them.
+                    # We don't care if the AI tries something it can't do
+                    pass
         self.player.components[ActionDelay].ticks -= 1
