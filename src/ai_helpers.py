@@ -45,6 +45,7 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
     visible_tiles = gamemap.get_fov(e_pos.xy, stats.sight)
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
+            entity.components[ActionDelay].ticks = 15
             return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
         graph = tcod.path.SimpleGraph(
             cost=gamemap.tiles[Tile.MovementCost], cardinal=2, diagonal=3
