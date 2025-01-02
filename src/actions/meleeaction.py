@@ -65,7 +65,7 @@ class MeleeAction(ActionWithDirection):
         if t_stats.hp <= 0:
             description = f"{description} and killing it."
             a_stats.xp += t_stats.xp_granted
-            del target.registry[target]
+            target.clear()
         else:
             description = f"{description}."
         view: Engine = arcade.get_window().current_view
