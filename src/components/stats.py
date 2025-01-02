@@ -19,6 +19,7 @@ class Stats:
         level: int = 1,
         xp: float = 0,
         xp_granted: float = 0,
+        speed: float = 1,
     ):
         self.hp = hp
         self.mp = mp
@@ -33,6 +34,7 @@ class Stats:
         self.level = level
         self.xp = xp
         self.xp_granted = xp_granted
+        self.speed = speed
 
     @property
     def hp(self) -> float:

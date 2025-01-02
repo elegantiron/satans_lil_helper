@@ -54,9 +54,6 @@ class GameMapSection(arcade.Section):
             draw_order=draw_order,
         )
         self.camera = arcade.Camera2D(self.rect)
-        self.title = arcade.Text(
-            "Map", self.width // 2, self.height - 10, anchor_x="center", anchor_y="top"
-        )
         self.highlight = (0, 0)
         self.show_highlight = False
         self.tile_sprites = arcade.SpriteList()
@@ -64,7 +61,6 @@ class GameMapSection(arcade.Section):
         self.projectile_sprites = arcade.SpriteList()
 
     def on_draw(self):
-        self.title.draw()
         self.tile_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
@@ -141,6 +137,7 @@ class GameMapSection(arcade.Section):
                     self.set_camera()
                     self.view.status_section.update_player_stats()
                     self.update_player_fov()
+                    delay.ticks = 15
                 except PathBlocked:
                     self.view.message_log.add_message(
                         "The way is blocked.", colors.Impossible
@@ -174,7 +171,7 @@ class GameMapSection(arcade.Section):
 
     def on_update(self, delta_time):
         if self.view.player.components[ActionDelay].ticks != 0:
-            self.view.process_enemy_turns()
+            self.view.process_tick()
 
     @property
     def map(self) -> GameMap:

@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from actions import BumpAction, MoveAction
-from components import ActionDelay, Position, Stats
+import tcod.path
+
+from actions import BumpAction, MeleeAction, MoveAction
+from components import AI, ActionDelay, Position, Stats
+from constants import Tile
 
 if TYPE_CHECKING:
     import random
@@ -34,13 +37,27 @@ def wander_action(
 def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random):
     stats = entity.components[Stats]
     e_pos = entity.components[Position]
+    path = entity.components[AI].path
     playerpos = gamemap.player.components[Position]
+    dx = playerpos.x - e_pos.x
+    dy = playerpos.y - e_pos.y
+    distance = max(abs(dx), abs(dy))
     visible_tiles = gamemap.get_fov(e_pos.xy, stats.sight)
     if visible_tiles[playerpos.xy]:
-        gamemap.pathfinder.clear()
-        gamemap.pathfinder.add_root(playerpos.xy)
-        tile = gamemap.pathfinder.path_from(e_pos.xy)[1]
-        direction = abs(e_pos.x - tile[0]), abs(e_pos.y - tile[1])
-        BumpAction(entity, direction, gamemap, rng)
+        if distance <= 1:
+            entity.components[ActionDelay].ticks = 15
+            return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
+        graph = tcod.path.SimpleGraph(
+            cost=gamemap.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+        )
+        pathfinder = tcod.path.Pathfinder(graph)
+        pathfinder.add_root(playerpos.xy)
+        path = pathfinder.path_from(e_pos.xy)[1:].tolist()
+
+    if path:
+        dest_x, dest_y = path.pop(0)
+        MoveAction(entity, (dest_x - e_pos.x, dest_y - e_pos.y), gamemap).perform()
+        entity.components[ActionDelay].ticks = 15
+
     else:
         wander_action(entity, gamemap, rng)

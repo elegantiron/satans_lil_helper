@@ -50,7 +50,7 @@ class MeleeAction(ActionWithDirection):
         if a_stats is None or t_stats is None:
             raise MissingComponent
         damage_factor = get_damage_factor(
-            target_level=t_stats, actor_level=a_stats, rng=self.rng
+            t_stats=t_stats, a_stats=a_stats, rng=self.rng
         )
         dice = 1
         sides = 8
@@ -65,8 +65,12 @@ class MeleeAction(ActionWithDirection):
         if t_stats.hp <= 0:
             description = f"{description} and killing it."
             a_stats.xp += t_stats.xp_granted
-            del target.registry[target]
+            if target is not self.gamemap.player:
+                target.clear()
         else:
             description = f"{description}."
-        view: Engine = arcade.get_window().view
-        view.message_log.add_message(description, colors.PlayerAttack)
+        view: Engine = arcade.get_window().current_view
+        if actor is self.gamemap.player:
+            view.message_log.add_message(description, colors.PlayerAttack)
+        else:
+            view.message_log.add_message(description, colors.EnemyAttack)

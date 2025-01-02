@@ -7,7 +7,7 @@ import tcod
 import tcod.constants
 import tcod.ecs
 
-from components import ActionDelay, Position, Stats
+from components import ActionDelay, Name, Position, Stats
 from constants import Tile
 from utils import move_entity
 
@@ -37,10 +37,22 @@ class GameMap:
         self.player.components[Position] = Position(
             x=5, y=5, sprite=":images:player/player.png"
         )
-        self.player.components[Stats] = Stats(hp=30, mp=5, strength=5, magic=5, pdef=5, mdef=5, evasion=5, crit=5, sight=7, light=7)
+        self.player.components[Stats] = Stats(
+            hp=30,
+            mp=5,
+            strength=5,
+            magic=5,
+            pdef=5,
+            mdef=5,
+            evasion=5,
+            crit=5,
+            sight=7,
+            light=7,
+        )
         self.player.components[ActionDelay] = ActionDelay(0)
+        self.player.components[Name] = Name("you")
 
-    def add_player(self, player: tcod.ecs.Entity) -> None:
+    def bring_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
 
     def initialize_pathfinder(self) -> None:
@@ -56,7 +68,6 @@ class GameMap:
         light_walls: bool = True,
         algorithm: int = tcod.constants.FOV_SHADOW,
     ) -> npt.NDArray[np.bool_]:
-        # print(self.tiles[Tile.Transparent])
         return tcod.map.compute_fov(
             transparency=self.tiles[Tile.Transparent],
             pov=pov,

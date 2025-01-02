@@ -59,3 +59,4 @@ class Specials:
 class AI:
     type: AIType
     base_type: AIType
+    path: list[tuple[int, int]] = []

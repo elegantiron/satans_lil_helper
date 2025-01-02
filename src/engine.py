@@ -9,8 +9,16 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position
-from constants import TILE_SIZE, AIType, Tile
+from components import AI, ActionDelay, Confusion, Name, Position, Specials, Stats
+from constants import (
+    TILE_SIZE,
+    ActiveAbilities,
+    AIType,
+    PassiveAbilities,
+    SpecialAttacks,
+    Tags,
+    Tile,
+)
 from exceptions import Impossible
 from gameworld import GameWorld
 from messagelog import MessageLog
@@ -182,6 +190,34 @@ class Engine(arcade.View):
         self.gamemap_section.update_player_fov()
         self.status_section.update_player_stats()
         self.message_section.update_messages()
+        for _ in range(25):
+            wolf = self.map.registry.new_entity()
+            chosen = False
+            x = None
+            y = None
+            while not chosen:
+                x = self.rng.choice(range(self.world.MAP_X))
+                y = self.rng.choice(range(self.world.MAP_Y))
+                if self.map.tiles[Tile.Walkable][x, y]:
+                    chosen = True
+            hp = self.rng.randint(1, 8)
+            wolf.components |= {
+                Position: Position(x=x, y=y, sprite=":images:enemies/wolf32.png"),
+                AI: AI(AIType.Hostile, AIType.Hostile),
+                Stats: Stats(hp=hp + 16, strength=2, pdef=5, crit=1, speed=3, sight=8),
+                ActionDelay: ActionDelay(self.rng.randint(1, 15)),
+                Specials: Specials(
+                    attacks=[SpecialAttacks.Gnaw],
+                    passives=[
+                        PassiveAbilities.PackTactics,
+                        PassiveAbilities.DarkVision,
+                    ],
+                    skills=[ActiveAbilities.Howl],
+                ),
+                Name: Name("wolf"),
+            }
+            wolf.tags.add(Tags.Hostile)
+            self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
 
     @property
     def player(self) -> tcod.ecs.Entity:
@@ -199,34 +235,33 @@ class Engine(arcade.View):
     def rng(self) -> random.Random:
         return self.world.rng
 
-    def process_enemy_turns(self):
+    def process_tick(self):
         for ent in self.registry.Q.all_of(components=[Position, AI]):
             action_delay = ent.components.get(ActionDelay, None)
             if action_delay is None:
                 # TODO decide on how to handle missing ActionDelay component
-                continue
-            if action_delay.ticks > 0:
-                action_delay.ticks -= 1
-                continue
-
-            try:
-                match ent.components[AI].type:
-                    case AIType.Wandering:
-                        wander_action(ent, self.map, self.rng)
-                    case AIType.Confused:
-                        confusion = ent.components.get(Confusion, None)
-                        if confusion.turns < confusion.limit:
-                            confused_action(ent, self.map, self.rng)
-                            confusion.turns += 1
-                        else:
-                            ent.components[AI].type = ent.components[AI].base_type
-                    case AIType.Hostile:
-                        hostile_action(ent, self.map, self.rng)
-                    case AIType.HowlResponse:
-                        # TODO Handle entities affected by a Howl
-                        pass
-            except Impossible:
-                # Catch impossible actions and ignore them.
-                # We don't care if the AI tries something it can't do
                 pass
+            elif action_delay.ticks > 0:
+                action_delay.ticks -= 1
+            else:
+                try:
+                    match ent.components[AI].type:
+                        case AIType.Wandering:
+                            wander_action(ent, self.map, self.rng)
+                        case AIType.Confused:
+                            confusion = ent.components.get(Confusion, None)
+                            if confusion.turns < confusion.limit:
+                                confused_action(ent, self.map, self.rng)
+                                confusion.turns += 1
+                            else:
+                                ent.components[AI].type = ent.components[AI].base_type
+                        case AIType.Hostile:
+                            hostile_action(ent, self.map, self.rng)
+                        case AIType.HowlResponse:
+                            # TODO Handle entities affected by a Howl
+                            pass
+                except Impossible:
+                    # Catch impossible actions and ignore them.
+                    # We don't care if the AI tries something it can't do
+                    pass
         self.player.components[ActionDelay].ticks -= 1
