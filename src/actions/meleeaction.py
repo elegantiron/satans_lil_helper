@@ -65,8 +65,12 @@ class MeleeAction(ActionWithDirection):
         if t_stats.hp <= 0:
             description = f"{description} and killing it."
             a_stats.xp += t_stats.xp_granted
-            target.clear()
+            if target is not self.gamemap.player:
+                target.clear()
         else:
             description = f"{description}."
         view: Engine = arcade.get_window().current_view
-        view.message_log.add_message(description, colors.PlayerAttack)
+        if actor is self.gamemap.player:
+            view.message_log.add_message(description, colors.PlayerAttack)
+        else:
+            view.message_log.add_message(description, colors.EnemyAttack)
