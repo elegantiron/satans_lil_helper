@@ -59,10 +59,6 @@ class Engine(arcade.View):
     def on_draw(self):
         self.clear()
 
-    def on_update(self, delta_time):
-        if self.player.components[ActionDelay].ticks != 0:
-            self.process_tick()
-
     def load_bestiary(self):
         path = os.path.expanduser(os.path.join("~", ".slha"))
         try:
