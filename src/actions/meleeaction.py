@@ -50,7 +50,7 @@ class MeleeAction(ActionWithDirection):
         if a_stats is None or t_stats is None:
             raise MissingComponent
         damage_factor = get_damage_factor(
-            target_level=t_stats, actor_level=a_stats, rng=self.rng
+            t_stats==t_stats, a_stats=a_stats, rng=self.rng
         )
         dice = 1
         sides = 8
