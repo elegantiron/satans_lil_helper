@@ -56,7 +56,6 @@ class GameMap:
         light_walls: bool = True,
         algorithm: int = tcod.constants.FOV_SHADOW,
     ) -> npt.NDArray[np.bool_]:
-        # print(self.tiles[Tile.Transparent])
         return tcod.map.compute_fov(
             transparency=self.tiles[Tile.Transparent],
             pov=pov,
