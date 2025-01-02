@@ -9,8 +9,16 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position
-from constants import TILE_SIZE, AIType, Tile
+from components import AI, ActionDelay, Confusion, Position, Specials, Stats
+from constants import (
+    TILE_SIZE,
+    ActiveAbilities,
+    AIType,
+    PassiveAbilities,
+    SpecialAttacks,
+    Tags,
+    Tile,
+)
 from exceptions import Impossible
 from gameworld import GameWorld
 from messagelog import MessageLog
@@ -50,6 +58,10 @@ class Engine(arcade.View):
 
     def on_draw(self):
         self.clear()
+
+    def on_update(self, delta_time):
+        if self.player.components[ActionDelay].ticks != 0:
+            self.process_tick()
 
     def load_bestiary(self):
         path = os.path.expanduser(os.path.join("~", ".slha"))
@@ -182,6 +194,33 @@ class Engine(arcade.View):
         self.gamemap_section.update_player_fov()
         self.status_section.update_player_stats()
         self.message_section.update_messages()
+        for _ in range(25):
+            wolf = self.map.registry.new_entity()
+            chosen = False
+            x = None
+            y = None
+            while not chosen:
+                x = self.rng.choice(range(self.world.MAP_X))
+                y = self.rng.choice(range(self.world.MAP_Y))
+                if self.map.tiles[Tile.Walkable][x, y]:
+                    chosen = True
+            hp = self.rng.randint(1, 8)
+            wolf.components |= {
+                Position: Position(x=x, y=y, sprite=":images:enemies/wolf32.png"),
+                AI: AI(AIType.Hostile, AIType.Hostile),
+                Stats: Stats(hp=hp + 16, strength=2, pdef=5, crit=1, speed=3, sight=8),
+                ActionDelay: ActionDelay(self.rng.randint(1, 15)),
+                Specials: Specials(
+                    attacks=[SpecialAttacks.Gnaw],
+                    passives=[
+                        PassiveAbilities.PackTactics,
+                        PassiveAbilities.DarkVision,
+                    ],
+                    skills=[ActiveAbilities.Howl],
+                ),
+            }
+            wolf.tags.add(Tags.Hostile)
+            self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
 
     @property
     def player(self) -> tcod.ecs.Entity:
@@ -199,7 +238,7 @@ class Engine(arcade.View):
     def rng(self) -> random.Random:
         return self.world.rng
 
-    def process_enemy_turns(self):
+    def process_tick(self):
         for ent in self.registry.Q.all_of(components=[Position, AI]):
             action_delay = ent.components.get(ActionDelay, None)
             if action_delay is None:

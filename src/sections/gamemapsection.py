@@ -174,7 +174,7 @@ class GameMapSection(arcade.Section):
 
     def on_update(self, delta_time):
         if self.view.player.components[ActionDelay].ticks != 0:
-            self.view.process_enemy_turns()
+            self.view.process_tick()
 
     @property
     def map(self) -> GameMap:
