@@ -50,7 +50,7 @@ class MeleeAction(ActionWithDirection):
         if a_stats is None or t_stats is None:
             raise MissingComponent
         damage_factor = get_damage_factor(
-            t_stats==t_stats, a_stats=a_stats, rng=self.rng
+            t_stats=t_stats, a_stats=a_stats, rng=self.rng
         )
         dice = 1
         sides = 8
@@ -68,5 +68,5 @@ class MeleeAction(ActionWithDirection):
             del target.registry[target]
         else:
             description = f"{description}."
-        view: Engine = arcade.get_window().view
+        view: Engine = arcade.get_window().current_view
         view.message_log.add_message(description, colors.PlayerAttack)
