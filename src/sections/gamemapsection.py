@@ -54,9 +54,6 @@ class GameMapSection(arcade.Section):
             draw_order=draw_order,
         )
         self.camera = arcade.Camera2D(self.rect)
-        self.title = arcade.Text(
-            "Map", self.width // 2, self.height - 10, anchor_x="center", anchor_y="top"
-        )
         self.highlight = (0, 0)
         self.show_highlight = False
         self.tile_sprites = arcade.SpriteList()
@@ -64,7 +61,6 @@ class GameMapSection(arcade.Section):
         self.projectile_sprites = arcade.SpriteList()
 
     def on_draw(self):
-        self.title.draw()
         self.tile_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
