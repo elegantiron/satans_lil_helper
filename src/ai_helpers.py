@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from actions import BumpAction, MoveAction, MeleeAction
-from components import ActionDelay, Position, Stats, AI
+import tcod.path
+
+from actions import BumpAction, MeleeAction, MoveAction
+from components import AI, ActionDelay, Position, Stats
+from constants import Tile
 
 if TYPE_CHECKING:
     import random
@@ -43,9 +46,12 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
             return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
-        gamemap.pathfinder.clear()
-        gamemap.pathfinder.add_root(playerpos.xy)
-        path = gamemap.pathfinder.path_from(e_pos.xy)[1:].tolist()
+        graph = tcod.path.SimpleGraph(
+            cost=gamemap.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+        )
+        pathfinder = tcod.path.Pathfinder(graph)
+        pathfinder.add_root(playerpos.xy)
+        path = pathfinder.path_from(e_pos.xy)[1:].tolist()
 
     if path:
         dest_x, dest_y = path.pop(0)
