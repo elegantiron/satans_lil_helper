@@ -22,8 +22,6 @@ MAP_Y = 100
 
 
 class GameWorld:
-    _current_map: GameMap
-
     def __init__(self):
         self._current_map = GameMap()
         self._maps = [self._current_map]
