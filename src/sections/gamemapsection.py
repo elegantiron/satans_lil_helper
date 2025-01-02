@@ -8,6 +8,7 @@ from actions import BumpAction
 from components import ActionDelay, Position, Stats
 from constants import Tile, colors, keylists
 from exceptions import PathBlocked
+import numpy as np
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -58,15 +59,13 @@ class GameMapSection(arcade.Section):
         )
         self.highlight = (0, 0)
         self.show_highlight = False
-        self.floor_sprites = arcade.SpriteList()
-        self.wall_sprites = arcade.SpriteList(use_spatial_hash=True)
+        self.tile_sprites = arcade.SpriteList()
         self.entity_sprites = arcade.SpriteList()
         self.projectile_sprites = arcade.SpriteList()
 
     def on_draw(self):
         self.title.draw()
-        self.floor_sprites.draw()
-        self.wall_sprites.draw()
+        self.tile_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
         if self.show_highlight:
@@ -79,11 +78,8 @@ class GameMapSection(arcade.Section):
                 2,
             )
 
-    def add_floor_sprite(self, sprite: arcade.Sprite) -> None:
-        self.floor_sprites.append(sprite)
-
-    def add_wall_sprite(self, sprite: arcade.Sprite) -> None:
-        self.wall_sprites.append(sprite)
+    def add_tile_sprite(self, sprite: arcade.Sprite) -> None:
+        self.tile_sprites.append(sprite)
 
     def set_entity_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
         self.entity_sprites.clear()
@@ -108,8 +104,7 @@ class GameMapSection(arcade.Section):
         self.set_projectile_sprites(projectiles)
 
     def clear_sprite_lists(self) -> None:
-        self.floor_sprites.clear()
-        self.wall_sprites.clear()
+        self.tile_sprites.clear()
         self.entity_sprites.clear()
         self.projectile_sprites.clear()
 
@@ -192,7 +187,11 @@ class GameMapSection(arcade.Section):
     def update_player_fov(self):
         stats = self.player.components[Stats]
         tiles = self.map.get_fov(
-            self.player.components[Position].xy, max(stats.light, stats.sight)
+            self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
         self.map.tiles[Tile.Explored] |= tiles
         self.map.tiles[Tile.Visible] = tiles
+        # print(np.where(tiles))
+        i, j = np.nonzero(tiles)
+        for x in range(len(i)):
+            self.map.sprites[i[x]][j[x]].visible = True

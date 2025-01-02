@@ -33,6 +33,7 @@ class GameWorld:
             [(1 if self.rng.random() < WALL_CHANCE else 0) for _ in range(MAP_X)]
             for _ in range(MAP_Y)
         ]
+        self.map.sprites = [[None for _ in range(MAP_X)] for _ in range(MAP_Y)]
         for _ in range(4):
             new_tiles = [[0 for _ in range(MAP_X)] for _ in range(MAP_Y)]
             for ix in range(len(tiles)):
@@ -51,7 +52,6 @@ class GameWorld:
             else:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
-        
 
     @property
     def map(self) -> GameMap:
@@ -68,4 +68,3 @@ class GameWorld:
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
         return self.map.tile_list
-

@@ -157,23 +157,24 @@ class Engine(arcade.View):
         self.world = GameWorld()
         for ix, iy in np.ndindex(self.map.tiles.shape):
             if self.map.tiles[Tile.Walkable][ix, iy]:
-                self.gamemap_section.add_floor_sprite(
-                    arcade.Sprite(
-                        ":images:tiles/forest/floor/000.png",
-                        1,
-                        ix * TILE_SIZE,
-                        iy * TILE_SIZE,
-                    )
+                self.world.map.sprites[ix][iy] = arcade.Sprite(
+                    ":images:tiles/forest/floor/000.png",
+                    1,
+                    ix * TILE_SIZE,
+                    iy * TILE_SIZE,
+                    visible=False,
                 )
             else:
-                self.gamemap_section.add_wall_sprite(
-                    arcade.Sprite(
-                        ":images:tiles/forest/wall/000.png",
-                        1,
-                        ix * TILE_SIZE,
-                        iy * TILE_SIZE,
-                    )
+                self.world.map.sprites[ix][iy] = arcade.Sprite(
+                    ":images:tiles/forest/wall/000.png",
+                    1,
+                    ix * TILE_SIZE,
+                    iy * TILE_SIZE,
+                    visible=False,
                 )
+        for sprites in self.world.map.sprites:
+            for sprite in sprites:
+                self.gamemap_section.add_tile_sprite(sprite)
         self.gamemap_section.add_entity_sprite(
             self.world.player.components[Position].sprite
         )

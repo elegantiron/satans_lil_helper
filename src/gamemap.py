@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Generator
 
 import numpy as np
 import tcod
+import tcod.constants
 import tcod.ecs
 
 from components import ActionDelay, Position, Stats
@@ -11,6 +12,7 @@ from constants import Tile
 from utils import move_entity
 
 if TYPE_CHECKING:
+    import arcade
     import numpy.typing as npt
 
 
@@ -19,6 +21,7 @@ class GameMap:
     player: tcod.ecs.Entity
     tiles: npt.NDArray
     pathfinder: tcod.path.Pathfinder
+    sprites: list[list[arcade.Sprite]]
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
@@ -27,13 +30,14 @@ class GameMap:
 
     def __init__(self):
         self.registry = tcod.ecs.Registry()
+        self.sprites = None
 
     def new_player(self) -> None:
         self.player = self.registry.new_entity()
         self.player.components[Position] = Position(
             x=5, y=5, sprite=":images:player/player.png"
         )
-        self.player.components[Stats] = Stats(30, 5, 5, 5, 5, 5, 5, 5, 7, 7)
+        self.player.components[Stats] = Stats(hp=30, mp=5, strength=5, magic=5, pdef=5, mdef=5, evasion=5, crit=5, sight=7, light=7)
         self.player.components[ActionDelay] = ActionDelay(0)
 
     def add_player(self, player: tcod.ecs.Entity) -> None:
@@ -50,8 +54,9 @@ class GameMap:
         pov: tuple[int, int],
         radius: int,
         light_walls: bool = True,
-        algorithm: int = 12,
+        algorithm: int = tcod.constants.FOV_SHADOW,
     ) -> npt.NDArray[np.bool_]:
+        # print(self.tiles[Tile.Transparent])
         return tcod.map.compute_fov(
             transparency=self.tiles[Tile.Transparent],
             pov=pov,
