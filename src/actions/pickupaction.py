@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from components import Inventory, Position
-from constants import Tags
+from constants import EntityTags
 from exceptions import InventoryFull, MissingComponent
 from .baseaction import Action
 
@@ -25,14 +25,14 @@ class PickupAction(Action):
                 len(
                     set(
                         self.entity.registry.Q.all_of(
-                            relations=[self.entity, Tags.Holding, None]
+                            relations=[self.entity, EntityTags.Holding, None]
                         )
                     )
                 )
                 >= inventory.size
             ):
                 raise InventoryFull
-            ent.relation_tag[Tags.HeldBy] = self.entity
-            self.entity.relation_tags_many[Tags.Holding].add(ent)
+            ent.relation_tag[EntityTags.HeldBy] = self.entity
+            self.entity.relation_tags_many[EntityTags.Holding].add(ent)
 
             del ent[Position]

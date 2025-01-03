@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 import dill as pickle
 
 from components import Stats
-from constants import Tags
+from constants import EntityTags
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -105,7 +105,7 @@ def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
         entity_stats.sight,
         entity_stats.light,
     )
-    for relation in entity.relation_tags_many[Tags.Equipped]:
+    for relation in entity.relation_tags_many[EntityTags.Equipped]:
         r_stats = relation.components.get(Stats, None)
         if r_stats is not None:
             total_stats += r_stats

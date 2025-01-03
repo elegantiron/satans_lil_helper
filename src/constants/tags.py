@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import Enum, auto
 
 
-class Tags(Enum):
+class EntityTags(Enum):
     Equipped = auto()
     Holding = auto()
     Item = auto()

@@ -16,7 +16,7 @@ from constants import (
     AIType,
     PassiveAbilities,
     SpecialAttacks,
-    Tags,
+    EntityTags,
     Tile,
 )
 from exceptions import Impossible
@@ -216,7 +216,7 @@ class Engine(arcade.View):
                 ),
                 Name: Name("wolf"),
             }
-            wolf.tags.add(Tags.Hostile)
+            wolf.tags.add(EntityTags.Hostile)
             self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
 
     @property
