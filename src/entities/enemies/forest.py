@@ -4,7 +4,13 @@ from random import Random
 from typing import TYPE_CHECKING
 
 from components import AI, ActionDelay, Attack, Name, Position, Specials, Stats
-from constants import ActiveAbilities, AIType, PassiveAbilities, SpecialAttacks
+from constants import (
+    ActiveAbilities,
+    AIType,
+    EntityTags,
+    PassiveAbilities,
+    SpecialAttacks,
+)
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -32,3 +38,4 @@ def Wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
         ActionDelay: ActionDelay(rng.randint(1, 15)),
         Name: Name("wolf"),
     }
+    entity.tags.add(EntityTags.Hostile)
