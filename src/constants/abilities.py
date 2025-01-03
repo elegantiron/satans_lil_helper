@@ -8,7 +8,9 @@ class PassiveAbilities(Enum):
 
 class SpecialAttacks(Enum):
     Gnaw = auto()
+    Charge = auto()
 
 
 class ActiveAbilities(Enum):
     Howl = auto()
+    ShieldUp = auto()
