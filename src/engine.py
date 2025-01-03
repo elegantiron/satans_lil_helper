@@ -9,16 +9,9 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Name, Position, Specials, Stats
-from constants import (
-    TILE_SIZE,
-    ActiveAbilities,
-    AIType,
-    PassiveAbilities,
-    SpecialAttacks,
-    EntityTags,
-    Tile,
-)
+from components import AI, ActionDelay, Confusion, Position
+from constants import TILE_SIZE, AIType, Tile
+from entities import enemies
 from exceptions import Impossible
 from gameworld import GameWorld
 from messagelog import MessageLog
@@ -187,7 +180,6 @@ class Engine(arcade.View):
             self.world.player.components[Position].sprite
         )
         self.gamemap_section.set_camera()
-        self.gamemap_section.update_player_fov()
         self.status_section.update_player_stats()
         self.message_section.update_messages()
         for _ in range(25):
@@ -200,24 +192,9 @@ class Engine(arcade.View):
                 y = self.rng.choice(range(self.world.MAP_Y))
                 if self.map.tiles[Tile.Walkable][x, y]:
                     chosen = True
-            hp = self.rng.randint(1, 8)
-            wolf.components |= {
-                Position: Position(x=x, y=y, sprite=":images:enemies/wolf32.png"),
-                AI: AI(AIType.Hostile, AIType.Hostile),
-                Stats: Stats(hp=hp + 16, strength=2, pdef=5, crit=1, speed=3, sight=8),
-                ActionDelay: ActionDelay(self.rng.randint(1, 15)),
-                Specials: Specials(
-                    attacks=[SpecialAttacks.Gnaw],
-                    passives=[
-                        PassiveAbilities.PackTactics,
-                        PassiveAbilities.DarkVision,
-                    ],
-                    skills=[ActiveAbilities.Howl],
-                ),
-                Name: Name("wolf"),
-            }
-            wolf.tags.add(EntityTags.Hostile)
+            enemies.forest.Wolf(position=(x, y), entity=wolf, rng=self.rng)
             self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
+        self.gamemap_section.update_player_fov()
 
     @property
     def player(self) -> tcod.ecs.Entity:
