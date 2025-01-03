@@ -55,12 +55,6 @@ class GameMap:
     def bring_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
 
-    def initialize_pathfinder(self) -> None:
-        self.graph = tcod.path.SimpleGraph(
-            cost=self.tiles[Tile.MovementCost], cardinal=2, diagonal=3
-        )
-        self.pathfinder = tcod.path.Pathfinder(self.graph)
-
     def get_fov(
         self,
         pov: tuple[int, int],
