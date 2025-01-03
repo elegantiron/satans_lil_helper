@@ -16,6 +16,7 @@ __all__ = [
     "SpecialAttacks",
     "ActiveAbilities",
     "AIType",
+    "ItemType",
 ]
 
 TILE_SIZE = 32
