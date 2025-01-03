@@ -49,7 +49,6 @@ class GameWorld:
             else:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
-        self.map.initialize_pathfinder()
 
     @property
     def map(self) -> GameMap:
