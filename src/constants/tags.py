@@ -16,3 +16,17 @@ class AIType(Enum):
     Wandering = auto()
     Hostile = auto()
     HowlResponse = auto()
+
+class ItemType(Enum):
+    OneHand = auto()
+    TwoHand = auto()
+    Mundane = auto()
+    Magical = auto()
+    SecondaryWeapon = auto()
+    Shield = auto()
+    BodyArmor = auto()
+    Gauntlets = auto()
+    Boots = auto()
+    Greaves = auto()
+    Helmet = auto()
+    Consumable = auto()
