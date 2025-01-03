@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from constants import Tags
+from constants import EntityTags
 
 from .actionwithdirection import ActionWithDirection
 from .meleeaction import MeleeAction
@@ -27,14 +27,14 @@ class BumpAction(ActionWithDirection):
 
     def perform(self) -> None:
         if self.target_entity:
-            if Tags.Hostile in self.target_entity.tags:
+            if EntityTags.Hostile in self.target_entity.tags:
                 return MeleeAction(
                     entity=self.entity,
                     direction=self.direction,
                     gamemap=self.gamemap,
                     rng=self.rng,
                 ).perform()
-            elif Tags.Friendly in self.target_entity.tags:
+            elif EntityTags.Friendly in self.target_entity.tags:
                 pass
         else:
             return MoveAction(

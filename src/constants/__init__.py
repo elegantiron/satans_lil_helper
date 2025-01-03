@@ -4,18 +4,19 @@ from . import colors, keylists
 from .abilities import ActiveAbilities, PassiveAbilities, SpecialAttacks
 from .sectionnames import Sections
 from .strings import Strings
-from .tags import AIType, Tags
+from .tags import AIType, EntityTags, ItemType
 
 __all__ = [
     "Strings",
     "Sections",
     "keylists",
     "colors",
-    "Tags",
+    "EntityTags",
     "PassiveAbilities",
     "SpecialAttacks",
     "ActiveAbilities",
     "AIType",
+    "ItemType",
 ]
 
 TILE_SIZE = 32

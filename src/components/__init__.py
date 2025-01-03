@@ -9,6 +9,7 @@ from constants.abilities import SpecialAttacks
 from .ailments import Confusion
 from .position import Position
 from .stats import Growth, Stats
+from .equipment import Equipment
 
 if TYPE_CHECKING:
     from constants import ActiveAbilities, AIType, PassiveAbilities
@@ -24,6 +25,7 @@ __all__ = [
     "Specials",
     "AI",
     "Confusion",
+    "Equipment",
 ]
 
 
