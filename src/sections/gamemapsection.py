@@ -192,3 +192,7 @@ class GameMapSection(arcade.Section):
         i, j = np.nonzero(tiles)
         for x in range(len(i)):
             self.map.sprites[i[x]][j[x]].visible = True
+        for ent in self.view.world.map.registry.Q.all_of(components=[Position]):
+            ent.components[Position].sprite.visible = self.view.map.tiles[Tile.Visible][
+                ent.components[Position].xy
+            ]
