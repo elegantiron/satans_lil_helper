@@ -10,13 +10,13 @@ class Equipment:
     two_hand: bool = False
     mundane: bool = False
     magical: bool = False
-    sec_weap: bool = False
+    secondary_weapon: bool = False
     shield: bool = False
-    body: bool = False
-    hands: bool = False
-    feet: bool = False
-    legs: bool = False
-    head: bool = False
+    body_armor: bool = False
+    gauntlets: bool = False
+    boots: bool = False
+    greaves: bool = False
+    helmet: bool = False
 
     def usable(self, type: ItemType) -> bool:
         match type:
@@ -29,16 +29,16 @@ class Equipment:
             case ItemType.Magical:
                 return self.magical
             case ItemType.SecondaryWeapon:
-                return self.sec_weap
+                return self.secondary_weapon
             case ItemType.Shield:
                 return self.shield
             case ItemType.BodyArmor:
-                return self.body
+                return self.body_armor
             case ItemType.Gauntlets:
-                return self.hands
+                return self.gauntlets
             case ItemType.Boots:
-                return self.feet
+                return self.boots
             case ItemType.Greaves:
-                return self.legs
+                return self.greaves
             case ItemType.Helmet:
-                return self.head
+                return self.helmet

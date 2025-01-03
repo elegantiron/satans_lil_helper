@@ -16,10 +16,10 @@ def warrior_class(entity: tcod.ecs.Entity):
         Equipment: Equipment(
             one_hand=True,
             shield=True,
-            body=True,
-            head=True,
-            hands=True,
-            feet=True,
+            body_armor=True,
+            helmet=True,
+            gauntlets=True,
+            boots=True,
             mundane=True,
         ),
     }
