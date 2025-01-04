@@ -1,3 +1,5 @@
+"""Message log"""
+
 from __future__ import annotations
 
 import textwrap
@@ -15,12 +17,14 @@ class _Message:
 
     @property
     def full_text(self) -> str:
+        """Get this message's full text"""
         if self.count > 1:
             return f"{self.plain_text} (x{self.count})"
         return self.plain_text
 
 
 class MessageLog:
+    """Handle collecting and returning messages for the player"""
     def __init__(self) -> None:
         self.messages: list[_Message] = []
 
@@ -31,6 +35,7 @@ class MessageLog:
         *,
         stack: bool = True,
     ) -> None:
+        """Add a new message"""
         if stack and self.messages and text == self.messages[-1].plain_text:
             self.messages[-1].count += 1
         else:
@@ -38,5 +43,6 @@ class MessageLog:
 
     @staticmethod
     def wrap(string: str, width: int) -> Iterable[str]:
+        """Wrap message lines"""
         for line in string.splitlines():
             yield from textwrap.wrap(line, width, expand_tabs=True)

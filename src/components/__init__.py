@@ -1,3 +1,5 @@
+"""Components for entities"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -31,27 +33,32 @@ __all__ = [
 
 @attrs.define
 class Attack:
+    """An entity's attack damage"""
     dice: int
     sides: int
 
 
 @attrs.define
 class Inventory:
+    """How many items an entity can hold"""
     size: int = 0
 
 
 @attrs.define
 class Name:
+    """An entity's name"""
     name: str
 
 
 @attrs.define
 class ActionDelay:
+    """Tracks how long until an entity's next action"""
     ticks: int = 0
 
 
 @attrs.define(kw_only=True)
 class Specials:
+    """An entity's special abilities"""
     attacks: list[SpecialAttacks] = []
     passives: list[PassiveAbilities] = []
     skills: list[ActiveAbilities] = []
@@ -59,6 +66,7 @@ class Specials:
 
 @attrs.define
 class AI:
+    """An entity's brains"""
     type: AIType
     base_type: AIType
     path: list[tuple[int, int]] = []

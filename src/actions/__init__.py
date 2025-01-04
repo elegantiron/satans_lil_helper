@@ -1,3 +1,4 @@
+"""Actions module"""
 from .bumpaction import BumpAction
 from .meleeaction import MeleeAction
 from .moveaction import MoveAction

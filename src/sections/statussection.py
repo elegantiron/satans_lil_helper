@@ -1,8 +1,12 @@
+"""Status section"""
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import arcade
 from pyglet.graphics import Batch
-from typing import TYPE_CHECKING
+
 from components import Position, Stats
 from constants import colors
 
@@ -13,6 +17,8 @@ LINE_SPACING = 2
 
 
 class StatusSection(arcade.Section):
+    """Displays the player's status"""
+
     view: Engine
 
     def __init__(
@@ -47,6 +53,14 @@ class StatusSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.batch: Batch
+        self.title: arcade.Text
+        self.location: arcade.Text
+        self.health: arcade.Text
+        self.mana: arcade.Text
+
+    def setup(self):
+        """Set up the section"""
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
         self.title = arcade.Text(
@@ -94,6 +108,7 @@ class StatusSection(arcade.Section):
         self.batch.draw()
 
     def update_player_stats(self):
+        """Update the displayed statistics"""
         pos = self.view.player.components[Position]
         stats = self.view.player.components[Stats]
         self.location.text = f"Location: {pos.x},{pos.y}"
@@ -103,10 +118,11 @@ class StatusSection(arcade.Section):
         self.set_color(stats.mp, stats.max_mp, self.mana)
 
     @staticmethod
-    def set_color(current: float, max: float, text: arcade.Text) -> None:
-        if current <= max / 6:
+    def set_color(current: float, maximum: float, text: arcade.Text) -> None:
+        """Set an item's color"""
+        if current <= maximum / 6:
             text.color = arcade.color.RED
-        elif current <= max / 2:
+        elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
             text.color = arcade.color.WHITE

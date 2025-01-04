@@ -1,3 +1,5 @@
+"""Constants"""
+
 from enum import StrEnum
 
 from . import colors, keylists
@@ -25,10 +27,11 @@ LINE_SPACING = 2
 
 
 class Tile(StrEnum):
-    Walkable = "walkable"
-    Transparent = "transparent"
-    Explored = "explored"
-    Visible = "visible"
-    Safe = "safe"
-    MovementCost = "movement cost"
-    SpritePath = "sprite path"
+    """Tile attributes"""
+    WALKABLE = "walkable"
+    TRANSPARENT = "transparent"
+    EXPLORED = "explored"
+    VISIBLE = "visible"
+    SAFE = "safe"
+    MOVEMENTCOST = "movement cost"
+    SPRITEPATH = "sprite path"

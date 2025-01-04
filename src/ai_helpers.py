@@ -1,3 +1,4 @@
+"""A collection of helpers for executing entity AI."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -19,22 +20,25 @@ if TYPE_CHECKING:
 def confused_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
-    dirs = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
-    dir = rng.choice(dirs)
-    BumpAction(entity, dir, gamemap, rng).perform()
+    """Execute an action for a confused entity."""
+    directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+    directory = rng.choice(directories)
+    BumpAction(entity, directory, gamemap, rng).perform()
     entity.components[ActionDelay].ticks = 15
 
 
 def wander_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
-    dirs = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
-    dir = rng.choice(dirs)
-    MoveAction(entity, dir, gamemap).perform()
+    """Have an entity wander around randomly."""
+    directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
+    directory = rng.choice(directories)
+    MoveAction(entity, directory, gamemap).perform()
     entity.components[ActionDelay].ticks = 15
 
 
 def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random):
+    """Look for a valid target and wander if none found."""
     stats = entity.components[Stats]
     e_pos = entity.components[Position]
     path = entity.components[AI].path
@@ -48,7 +52,7 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
             entity.components[ActionDelay].ticks = 15
             return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
         graph = tcod.path.SimpleGraph(
-            cost=gamemap.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+            cost=gamemap.tiles[Tile.MOVEMENTCOST], cardinal=2, diagonal=3
         )
         pathfinder = tcod.path.Pathfinder(graph)
         pathfinder.add_root(playerpos.xy)

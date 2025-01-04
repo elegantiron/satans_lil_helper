@@ -1,3 +1,5 @@
+"""Entity factories"""
+
 from . import enemies
 from . import professions
 

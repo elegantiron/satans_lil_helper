@@ -1,3 +1,4 @@
+"""Move Action"""
 from __future__ import annotations
 
 import numpy as np
@@ -9,10 +10,11 @@ from .actionwithdirection import ActionWithDirection
 
 
 class MoveAction(ActionWithDirection):
+    """Move an entity"""
     def perform(self) -> None:
         if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.tiles.shape):
             raise PathBlocked
-        if not self.gamemap.tiles[Tile.Walkable][self.target_xy]:
+        if not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
             raise PathBlocked
         if self.target_entity is not None:
             raise PathBlocked

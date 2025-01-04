@@ -1,3 +1,5 @@
+"""Forest entities"""
+
 from __future__ import annotations
 
 from random import Random
@@ -16,7 +18,8 @@ if TYPE_CHECKING:
     import tcod.ecs
 
 
-def Wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
+def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
+    """Give an entity a wolf's properties"""
     entity.components |= {
         Stats: Stats(
             rng.randint(1, 8) + 16,
@@ -27,15 +30,15 @@ def Wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
         ),
         Attack: Attack(1, 6),
         Specials: Specials(
-            attacks=[SpecialAttacks.Gnaw],
-            passives=[PassiveAbilities.PackTactics],
-            skills=[ActiveAbilities.Howl],
+            attacks=[SpecialAttacks.GNAW],
+            passives=[PassiveAbilities.PACK_TACTICS],
+            skills=[ActiveAbilities.HOWL],
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
         ),
-        AI: AI(AIType.Hostile, AIType.Hostile),
+        AI: AI(AIType.HOSTILE, AIType.HOSTILE),
         ActionDelay: ActionDelay(rng.randint(1, 15)),
         Name: Name("wolf"),
     }
-    entity.tags.add(EntityTags.Hostile)
+    entity.tags.add(EntityTags.HOSTILE)

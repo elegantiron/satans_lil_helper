@@ -1,3 +1,5 @@
+"""Position component"""
+
 from __future__ import annotations
 
 import arcade
@@ -6,6 +8,8 @@ from constants import TILE_SIZE
 
 
 class Position:
+    """An entity's position and sprite"""
+
     def __init__(self, *, x: int = 0, y: int = 0, sprite: str | None = None):
         if sprite is not None:
             self.sprite = arcade.Sprite(sprite)
@@ -18,6 +22,7 @@ class Position:
 
     @property
     def x(self) -> int:
+        """Grid x coordinate"""
         return self._x
 
     @x.setter
@@ -27,6 +32,7 @@ class Position:
 
     @property
     def y(self) -> int:
+        """Grid y coordinate"""
         return self._y
 
     @y.setter
@@ -36,6 +42,7 @@ class Position:
 
     @property
     def texture(self) -> arcade.Texture:
+        """Entity's texture"""
         return self.sprite.texture
 
     @texture.setter
@@ -44,6 +51,7 @@ class Position:
 
     @property
     def visible(self) -> bool:
+        """Whether the entity is visible"""
         return self.sprite.visible
 
     @visible.setter
@@ -52,8 +60,10 @@ class Position:
 
     @property
     def sprite_lists(self) -> list[arcade.SpriteList]:
+        """Which SpriteLists this entity is in"""
         return self.sprite.sprite_lists
 
     @property
     def xy(self) -> tuple[int, int]:
+        """The coordinates as a tuple"""
         return self.x, self.y

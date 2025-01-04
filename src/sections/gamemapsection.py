@@ -1,14 +1,16 @@
+"""The section for displaying the map"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Iterable
 
 import arcade
+import numpy as np
 
 from actions import BumpAction
 from components import ActionDelay, Position, Stats
 from constants import Tile, colors, keylists
 from exceptions import PathBlocked
-import numpy as np
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -18,6 +20,8 @@ if TYPE_CHECKING:
 
 
 class GameMapSection(arcade.Section):
+    """Displays the map"""
+
     view: Engine
     camera: arcade.Camera2D
 
@@ -53,6 +57,15 @@ class GameMapSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.camera: arcade.Camera2D
+        self.highlight: tuple[int, int]
+        self.show_highlight: bool
+        self.tile_sprites: arcade.SpriteList
+        self.entity_sprites: arcade.SpriteList
+        self.projectile_sprites: arcade.SpriteList
+
+    def setup(self):
+        """Set up the section"""
         self.camera = arcade.Camera2D(self.rect)
         self.highlight = (0, 0)
         self.show_highlight = False
@@ -74,37 +87,26 @@ class GameMapSection(arcade.Section):
                 2,
             )
 
-    def add_tile_sprite(self, sprite: arcade.Sprite) -> None:
-        self.tile_sprites.append(sprite)
-
     def set_entity_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
+        """Set the list of entity sprites"""
         self.entity_sprites.clear()
         for sprite in sprites:
             self.entity_sprites.append(sprite)
 
     def set_projectile_sprites(self, sprites: Iterable[arcade.Sprite]) -> None:
+        """Set the list of projectile sprites"""
         self.projectile_sprites.clear()
         for sprite in sprites:
             self.projectile_sprites.append(sprite)
 
-    def add_entity_sprite(self, sprite: arcade.Sprite) -> None:
-        self.entity_sprites.append(sprite)
-
-    def set_sprites(
-        self,
-        *,
-        entities: list[arcade.Sprite],
-        projectiles: list[arcade.Sprite],
-    ) -> None:
-        self.set_entity_sprites(entities)
-        self.set_projectile_sprites(projectiles)
-
     def clear_sprite_lists(self) -> None:
+        """Remove all sprites from the sprite lists"""
         self.tile_sprites.clear()
         self.entity_sprites.clear()
         self.projectile_sprites.clear()
 
     def set_camera(self):
+        """Set the camera position"""
         self.camera.position = (
             self.view.world.player.components[Position].sprite.center_x
             + self.width // 6,
@@ -123,14 +125,15 @@ class GameMapSection(arcade.Section):
                 self.view.inventory_section.enabled = True
 
     def handle_move_key(self, key):
+        """Handle moving the player"""
         delay = self.view.player.components.get(ActionDelay, None)
-        dir = keylists.MOVEMENT[key]
+        direction = keylists.MOVEMENT[key]
         if not self.show_highlight:
             if delay.ticks == 0 or delay is None:
                 try:
                     BumpAction(
                         self.view.player,
-                        dir,
+                        direction,
                         self.view.map,
                         self.view.rng,
                     ).perform()
@@ -145,11 +148,12 @@ class GameMapSection(arcade.Section):
                 finally:
                     self.view.message_section.update_messages()
         else:
-            dx, dy = dir
+            dx, dy = direction
             self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
             self.view.inspector_section.update()
 
     def toggle_highlight(self):
+        """Toggle the highlight square"""
         player_pos = self.view.player.components[Position]
         if not self.show_highlight:
             self.highlight = (player_pos.x, player_pos.y)
@@ -163,7 +167,10 @@ class GameMapSection(arcade.Section):
             self.view.inspector_section.enabled = False
 
     def on_mouse_motion(self, x, y, dx, dy):
-        wx, wy, _ = self.camera.unproject((x, y))
+        (
+            wx,
+            wy,
+        ) = self.camera.unproject((x, y))
         tx = int((wx + 16) // 32)
         ty = int((wy + 16) // 32)
         self.highlight = (tx, ty)
@@ -175,24 +182,29 @@ class GameMapSection(arcade.Section):
 
     @property
     def map(self) -> GameMap:
+        """The current map"""
         return self.view.map
 
     @property
     def player(self) -> tcod.ecs.Entity:
+        """The player's entity"""
         return self.view.player
 
     def update_player_fov(self):
+        """Update the player's FoV"""
         stats = self.player.components[Stats]
         tiles = self.map.get_fov(
             self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
-        self.map.tiles[Tile.Explored] |= tiles
-        self.map.tiles[Tile.Visible] = tiles
+        self.map.tiles[Tile.EXPLORED] |= tiles
+        self.map.tiles[Tile.VISIBLE] = tiles
         # print(np.where(tiles))
         i, j = np.nonzero(tiles)
+        # pylint: disable=consider-using-enumerate
         for x in range(len(i)):
             self.map.sprites[i[x]][j[x]].visible = True
+        # pylint: enable=consider-using-enumerate
         for ent in self.view.world.map.registry.Q.all_of(components=[Position]):
-            ent.components[Position].sprite.visible = self.view.map.tiles[Tile.Visible][
+            ent.components[Position].sprite.visible = self.view.map.tiles[Tile.VISIBLE][
                 ent.components[Position].xy
             ]

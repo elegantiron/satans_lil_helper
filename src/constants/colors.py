@@ -1,3 +1,5 @@
+"""Color definitions"""
+
 from __future__ import annotations
 
 # Basic colors

@@ -1,3 +1,5 @@
+"""Main game engine"""
+
 from __future__ import annotations
 
 import os
@@ -37,6 +39,8 @@ if TYPE_CHECKING:
 
 
 class Engine(arcade.View):
+    """Handles coordinating the game pieces."""
+
     world: GameWorld
     bestiary: Bestiary
 
@@ -53,6 +57,7 @@ class Engine(arcade.View):
         self.clear()
 
     def load_bestiary(self):
+        """Load or create a bestiary"""
         path = os.path.expanduser(os.path.join("~", ".slha"))
         try:
             os.makedirs(path)
@@ -66,14 +71,17 @@ class Engine(arcade.View):
             save_data(self.bestiary, bestiary)
 
     def setup_sections(self):
+        """Set up the sections"""
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
         self.title_section = TitleSection(0, 0, self.width, self.height)
-        self.title_section.setup(satan_sprites=self.satan_sprites)
+
         self.menu_section = MainMenuSection(0, 0, self.width, self.height)
-        self.menu_section.setup(satan_sprites=self.satan_sprites)
+
         self.bestiary_section = BestiarySection(0, 0, self.width, self.height)
+
         self.gamemap_section = GameMapSection(0, 0, self.width, self.height)
+
         self.status_section = StatusSection(
             self.width * 2 / 3,
             self.height / 5,
@@ -81,6 +89,7 @@ class Engine(arcade.View):
             self.height * 4 / 5,
             accept_keyboard_keys=False,
         )
+
         self.message_section = MessageSection(
             self.width * 2 / 3,
             0,
@@ -122,7 +131,18 @@ class Engine(arcade.View):
         self.sm.add_section(self.inspector_section)
         self.sm.add_section(self.inventory_section)
 
+        self.title_section.setup()
+        self.menu_section.setup()
+        self.gamemap_section.setup()
+        self.bestiary_section.setup()
+        self.status_section.setup()
+        self.message_section.setup()
+        self.pause_section.setup()
+        self.inspector_section.setup()
+        self.inventory_section.setup()
+
     def load_satan(self):
+        """Load the sprites for Satan"""
         self.satan_sprites = arcade.SpriteList()
         self.satan = {
             "main": arcade.Sprite(
@@ -155,9 +175,10 @@ class Engine(arcade.View):
         self.satan_sprites.append(self.satan["eyes closed"])
 
     def new_world(self):
+        """Make a new world"""
         self.world = GameWorld()
         for ix, iy in np.ndindex(self.map.tiles.shape):
-            if self.map.tiles[Tile.Walkable][ix, iy]:
+            if self.map.tiles[Tile.WALKABLE][ix, iy]:
                 self.world.map.sprites[ix][iy] = arcade.Sprite(
                     ":images:tiles/forest/floor/000.png",
                     1,
@@ -175,8 +196,8 @@ class Engine(arcade.View):
                 )
         for sprites in self.world.map.sprites:
             for sprite in sprites:
-                self.gamemap_section.add_tile_sprite(sprite)
-        self.gamemap_section.add_entity_sprite(
+                self.gamemap_section.tile_sprites.append(sprite)
+        self.gamemap_section.entity_sprites.append(
             self.world.player.components[Position].sprite
         )
         self.gamemap_section.set_camera()
@@ -190,52 +211,55 @@ class Engine(arcade.View):
             while not chosen:
                 x = self.rng.choice(range(self.world.MAP_X))
                 y = self.rng.choice(range(self.world.MAP_Y))
-                if self.map.tiles[Tile.Walkable][x, y]:
+                if self.map.tiles[Tile.WALKABLE][x, y]:
                     chosen = True
-            enemies.forest.Wolf(position=(x, y), entity=wolf, rng=self.rng)
-            self.gamemap_section.add_entity_sprite(wolf.components[Position].sprite)
+            enemies.forest.wolf(position=(x, y), entity=wolf, rng=self.rng)
+            self.gamemap_section.entity_sprites.append(wolf.components[Position].sprite)
         self.gamemap_section.update_player_fov()
 
     @property
     def player(self) -> tcod.ecs.Entity:
+        """The player's entity"""
         return self.world.player
 
     @property
     def map(self) -> GameMap:
+        """The current world"""
         return self.world.map
 
     @property
     def registry(self) -> tcod.ecs.Registry:
+        """The active registry"""
         return self.world.map.registry
 
     @property
     def rng(self) -> random.Random:
+        """The RNG"""
         return self.world.rng
 
     def process_tick(self):
+        """Process turns for all entities."""
         for ent in self.registry.Q.all_of(components=[Position, AI]):
             action_delay = ent.components.get(ActionDelay, None)
             if action_delay is None:
-                # TODO decide on how to handle missing ActionDelay component
                 pass
             elif action_delay.ticks > 0:
                 action_delay.ticks -= 1
             else:
                 try:
                     match ent.components[AI].type:
-                        case AIType.Wandering:
+                        case AIType.WANDERING:
                             wander_action(ent, self.map, self.rng)
-                        case AIType.Confused:
+                        case AIType.CONFUSED:
                             confusion = ent.components.get(Confusion, None)
                             if confusion.turns < confusion.limit:
                                 confused_action(ent, self.map, self.rng)
                                 confusion.turns += 1
                             else:
                                 ent.components[AI].type = ent.components[AI].base_type
-                        case AIType.Hostile:
+                        case AIType.HOSTILE:
                             hostile_action(ent, self.map, self.rng)
-                        case AIType.HowlResponse:
-                            # TODO Handle entities affected by a Howl
+                        case AIType.HOWL_RESPONSE:
                             pass
                 except Impossible:
                     # Catch impossible actions and ignore them.

@@ -1,16 +1,24 @@
+"""Ability enums"""
+
 from enum import Enum, auto
 
 
 class PassiveAbilities(Enum):
-    PackTactics = auto()
-    DarkVision = auto()
+    """Passives"""
+
+    PACK_TACTICS = auto()
+    DARK_VISION = auto()
 
 
 class SpecialAttacks(Enum):
-    Gnaw = auto()
-    Charge = auto()
+    """Special attacks"""
+
+    GNAW = auto()
+    CHARGE = auto()
 
 
 class ActiveAbilities(Enum):
-    Howl = auto()
-    ShieldUp = auto()
+    """Active (non-attack) abilities"""
+
+    HOWL = auto()
+    SHIELD_UP = auto()

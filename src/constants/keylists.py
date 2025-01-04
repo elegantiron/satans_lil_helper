@@ -1,5 +1,8 @@
+"""Keylists"""
+
 from __future__ import annotations
-import arcade.key as key
+
+from arcade import key
 
 MOVEMENT = {
     key.NUM_1: (-1, -1),
