@@ -1,3 +1,4 @@
+"""A collection of helpers for executing entity AI."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -19,6 +20,7 @@ if TYPE_CHECKING:
 def confused_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
+    """Execute an action for a confused entity."""
     directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
     directory = rng.choice(directories)
     BumpAction(entity, directory, gamemap, rng).perform()
@@ -28,6 +30,7 @@ def confused_action(
 def wander_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
+    """Have an entity wander around randomly."""
     directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
     directory = rng.choice(directories)
     MoveAction(entity, directory, gamemap).perform()
@@ -35,6 +38,7 @@ def wander_action(
 
 
 def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random):
+    """Look for a valid target and wander if none found."""
     stats = entity.components[Stats]
     e_pos = entity.components[Position]
     path = entity.components[AI].path
