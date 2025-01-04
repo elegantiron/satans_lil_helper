@@ -144,9 +144,9 @@ def get_damage_factor(*, t_stats: Stats, a_stats: Stats, rng: random.Random) -> 
 
 
 def get_damage(
-    *, damage_factor: float, dice: int, sides: int, rng: random.Random
+    *, damage_factor: float, dice: int, sides: int, rng: random.Random, strength: int
 ) -> int:
-    dmg = 0
+    dmg = strength
     for _ in range(dice):
         dmg += rng.randint(1, sides)
     return int(dmg * damage_factor)

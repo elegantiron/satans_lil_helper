@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import arcade
 
-from components import Name, Stats
+from components import Name, Stats, Attack
 from constants import colors
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
@@ -52,10 +52,11 @@ class MeleeAction(ActionWithDirection):
         damage_factor = get_damage_factor(
             t_stats=t_stats, a_stats=a_stats, rng=self.rng
         )
-        dice = 1
-        sides = 8
+        attack = actor.components.get(Attack, None)
+        if attack is None:
+            raise MissingComponent("An entity with out an attack tried to attack.")
         damage = get_damage(
-            damage_factor=damage_factor, dice=dice, sides=sides, rng=self.rng
+            damage_factor=damage_factor, dice=attack.dice, sides=attack.sides, rng=self.rng, strength=a_stats.strength
         )
         t_stats.hp -= damage
         if damage == 0:

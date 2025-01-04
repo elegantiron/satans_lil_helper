@@ -7,9 +7,9 @@ import tcod
 import tcod.constants
 import tcod.ecs
 
-from components import ActionDelay, Name, Position, Stats
 from constants import Tile
 from utils import move_entity
+from entities import professions
 
 if TYPE_CHECKING:
     import arcade
@@ -34,23 +34,7 @@ class GameMap:
 
     def new_player(self) -> None:
         self.player = self.registry.new_entity()
-        self.player.components[Position] = Position(
-            x=5, y=5, sprite=":images:player/player.png"
-        )
-        self.player.components[Stats] = Stats(
-            hp=30,
-            mp=5,
-            strength=5,
-            magic=5,
-            pdef=5,
-            mdef=5,
-            evasion=5,
-            crit=5,
-            sight=7,
-            light=7,
-        )
-        self.player.components[ActionDelay] = ActionDelay(0)
-        self.player.components[Name] = Name("you")
+        professions.warrior_class(self.player)
 
     def bring_player(self, player: tcod.ecs.Entity) -> None:
         move_entity(player, self.registry)
