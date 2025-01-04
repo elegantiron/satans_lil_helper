@@ -241,4 +241,5 @@ class Engine(arcade.View):
                     # Catch impossible actions and ignore them.
                     # We don't care if the AI tries something it can't do
                     pass
+        self.gamemap_section.update_player_fov()
         self.player.components[ActionDelay].ticks -= 1
