@@ -19,18 +19,18 @@ if TYPE_CHECKING:
 def confused_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
-    dirs = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
-    dir = rng.choice(dirs)
-    BumpAction(entity, dir, gamemap, rng).perform()
+    directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
+    directory = rng.choice(directories)
+    BumpAction(entity, directory, gamemap, rng).perform()
     entity.components[ActionDelay].ticks = 15
 
 
 def wander_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
-    dirs = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
-    dir = rng.choice(dirs)
-    MoveAction(entity, dir, gamemap).perform()
+    directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
+    directory = rng.choice(directories)
+    MoveAction(entity, directory, gamemap).perform()
     entity.components[ActionDelay].ticks = 15
 
 
