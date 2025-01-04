@@ -1,5 +1,7 @@
+"""Bestiary"""
+
 from __future__ import annotations
 
 
 class Bestiary:
-    pass
+    """Handles recording the player's kills"""

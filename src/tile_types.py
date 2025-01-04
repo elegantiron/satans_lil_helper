@@ -1,3 +1,5 @@
+"""Types of tiles"""
+
 from __future__ import annotations
 
 import numpy as np
@@ -6,13 +8,13 @@ from constants import Tile
 
 tile_dt = np.dtype(
     [
-        (Tile.Walkable, bool),
-        (Tile.Transparent, bool),
-        (Tile.Explored, bool),
-        (Tile.Visible, bool),
-        (Tile.Safe, bool),
-        (Tile.MovementCost, np.int8),
-        (Tile.SpritePath, np.str_),
+        (Tile.WALKABLE, bool),
+        (Tile.TRANSPARENT, bool),
+        (Tile.EXPLORED, bool),
+        (Tile.VISIBLE, bool),
+        (Tile.SAFE, bool),
+        (Tile.MOVEMENTCOST, np.int8),
+        (Tile.SPRITEPATH, np.str_),
     ]
 )
 
@@ -27,6 +29,7 @@ def new_tile(
     movementcost: int = 1,
     sprite_path: str,
 ) -> np.ndarray:
+    """Helper to make new tiles"""
     return np.array(
         (walkable, transparent, explored, visible, safe, movementcost, sprite_path),
         dtype=tile_dt,

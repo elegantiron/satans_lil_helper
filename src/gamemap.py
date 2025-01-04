@@ -1,3 +1,4 @@
+"""A single level of the world"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Generator
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
 
 
 class GameMap:
+    """Represents a level of the world"""
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
@@ -25,6 +27,7 @@ class GameMap:
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
+        """The map's tiles as a list"""
         for ix, iy in np.ndindex(self.tiles.shape):
             yield self.tiles[ix, iy]
 
@@ -33,10 +36,12 @@ class GameMap:
         self.sprites = None
 
     def new_player(self) -> None:
+        """Make a new player"""
         self.player = self.registry.new_entity()
         professions.warrior_class(self.player)
 
     def bring_player(self, player: tcod.ecs.Entity) -> None:
+        """Bring the player from another map"""
         move_entity(player, self.registry)
 
     def get_fov(
@@ -46,8 +51,9 @@ class GameMap:
         light_walls: bool = True,
         algorithm: int = tcod.constants.FOV_SHADOW,
     ) -> npt.NDArray[np.bool_]:
+        """Get the tiles currently visible from an arbitrary tile"""
         return tcod.map.compute_fov(
-            transparency=self.tiles[Tile.Transparent],
+            transparency=self.tiles[Tile.TRANSPARENT],
             pov=pov,
             radius=radius,
             light_walls=light_walls,

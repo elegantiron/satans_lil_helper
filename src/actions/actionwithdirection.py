@@ -1,18 +1,28 @@
+"""Base directional action"""
+
 from __future__ import annotations
 
+from abc import ABCMeta
 from typing import TYPE_CHECKING
-from .baseaction import Action
+
 from components import Position
+
+from .baseaction import Action
 
 if TYPE_CHECKING:
     import tcod.ecs
+
     from gamemap import GameMap
 
-class ActionWithDirection(Action):
+
+class ActionWithDirection(Action, metaclass=ABCMeta):
+    """Base class for directional actions"""
+
     def __init__(
-            self, entity: tcod.ecs.Entity,
-            direction: tuple[int, int],
-            gamemap: GameMap,
+        self,
+        entity: tcod.ecs.Entity,
+        direction: tuple[int, int],
+        gamemap: GameMap,
     ):
         super().__init__(entity=entity)
         self.gamemap = gamemap
@@ -32,16 +42,20 @@ class ActionWithDirection(Action):
 
     @property
     def dx(self) -> int:
+        """Difference in x axis"""
         return self.direction[0]
-    
+
     @property
     def dy(self) -> int:
+        """Difference in y axis"""
         return self.direction[1]
-    
+
     @property
     def target_x(self) -> int:
+        """Target's x coordinate"""
         return self.target_xy[0]
-    
+
     @property
     def target_y(self) -> int:
+        """Target's y coordinate"""
         return self.target_xy[1]

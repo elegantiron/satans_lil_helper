@@ -52,7 +52,7 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
             entity.components[ActionDelay].ticks = 15
             return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
         graph = tcod.path.SimpleGraph(
-            cost=gamemap.tiles[Tile.MovementCost], cardinal=2, diagonal=3
+            cost=gamemap.tiles[Tile.MOVEMENTCOST], cardinal=2, diagonal=3
         )
         pathfinder = tcod.path.Pathfinder(graph)
         pathfinder.add_root(playerpos.xy)

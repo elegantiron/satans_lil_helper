@@ -1,3 +1,4 @@
+"""Main menu"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -12,6 +13,7 @@ if TYPE_CHECKING:
 
 
 class MainMenuSection(arcade.Section):
+    """Main menu section"""
     view: Engine
 
     def __init__(
@@ -46,9 +48,18 @@ class MainMenuSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.sprite_list: arcade.SpriteList = None
+        self.batch: Batch = None
+        self.title_text: arcade.Text = None
+        self.items: list[arcade.Text] = None
+        self.idx: int = None
+
+    def setup(self):
+        """Set up the section"""
+        self.sprite_list = self.view.satan_sprites
         self.batch = Batch()
         self.title_text = arcade.Text(
-            Strings.Title,
+            Strings.TITLE,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,
@@ -58,9 +69,9 @@ class MainMenuSection(arcade.Section):
             batch=self.batch,
         )
         items = [
-            Strings.NewGame,
-            Strings.Bestiary,
-            Strings.QuitToDesktop,
+            Strings.NEW_GAME,
+            Strings.BESTIARY,
+            Strings.QUIT_TO_DESKTOP,
         ]
         self.items = [
             arcade.Text(
@@ -79,9 +90,6 @@ class MainMenuSection(arcade.Section):
         self.items[0].color = arcade.color.AMERICAN_ROSE
         for item in self.items:
             item.color = item.color[0], item.color[1], item.color[2], 0
-
-    def setup(self, satan_sprites: arcade.SpriteList):
-        self.sprite_list = satan_sprites
 
     def on_draw(self):
         self.batch.draw()
@@ -124,20 +132,21 @@ class MainMenuSection(arcade.Section):
                 return self.on_exit()
 
     def on_exit(self):
+        """Handle closing the section"""
         match self.items[self.idx].text:
-            case Strings.QuitToDesktop:
+            case Strings.QUIT_TO_DESKTOP:
                 arcade.exit()
                 return True
-            case Strings.NewGame:
+            case Strings.NEW_GAME:
                 self.view.new_world()
                 self.view.gamemap_section.enabled = True
                 self.view.status_section.enabled = True
                 self.view.message_section.enabled = True
                 self.enabled = False
                 return True
-            case Strings.Bestiary:
+            case Strings.BESTIARY:
                 self.section_manager.get_section_by_name(
-                    Sections.Bestiary
+                    Sections.BESTIARY
                 ).enabled = True
                 return True
         return False

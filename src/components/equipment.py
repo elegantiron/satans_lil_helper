@@ -1,3 +1,4 @@
+"""Equipment definitions"""
 from __future__ import annotations
 
 import attrs
@@ -6,6 +7,7 @@ from constants import ItemType
 
 @attrs.define(kw_only=True)
 class Equipment:
+    """Tracks what equipment an entity can use"""
     one_hand: bool = False
     two_hand: bool = False
     mundane: bool = False
@@ -18,27 +20,28 @@ class Equipment:
     greaves: bool = False
     helmet: bool = False
 
-    def usable(self, type: ItemType) -> bool:
-        match type:
-            case ItemType.OneHand:
+    def usable(self, item_type: ItemType) -> bool:
+        """Check whether or not an item class is usable"""
+        match item_type:
+            case ItemType.ONE_HAND:
                 return self.one_hand
-            case ItemType.TwoHand:
+            case ItemType.TWO_HAND:
                 return self.two_hand
-            case ItemType.Mundane:
+            case ItemType.MUNDANE:
                 return self.mundane
-            case ItemType.Magical:
+            case ItemType.MAGICAL:
                 return self.magical
-            case ItemType.SecondaryWeapon:
+            case ItemType.SECONDARY:
                 return self.secondary_weapon
-            case ItemType.Shield:
+            case ItemType.SHIELD:
                 return self.shield
-            case ItemType.BodyArmor:
+            case ItemType.BODY_ARMOR:
                 return self.body_armor
-            case ItemType.Gauntlets:
+            case ItemType.GAUNTLETS:
                 return self.gauntlets
-            case ItemType.Boots:
+            case ItemType.BOOTS:
                 return self.boots
-            case ItemType.Greaves:
+            case ItemType.GREAVES:
                 return self.greaves
-            case ItemType.Helmet:
+            case ItemType.HELMET:
                 return self.helmet

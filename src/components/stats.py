@@ -1,9 +1,13 @@
+"""Stats components"""
+
 from __future__ import annotations
 
 import attrs
 
 
 class Stats:
+    """An entity's stats"""
+
     def __init__(
         self,
         hp: float = 0,
@@ -38,6 +42,7 @@ class Stats:
 
     @property
     def hp(self) -> float:
+        """Health"""
         return self._hp
 
     @hp.setter
@@ -48,6 +53,7 @@ class Stats:
 
     @property
     def mp(self) -> float:
+        """Mana"""
         return self._mp
 
     @mp.setter
@@ -73,6 +79,7 @@ class Stats:
 
 @attrs.define
 class Growth:
+    """How an entity grows as it levels"""
     hp: float = 0
     mp: float = 0
     strength: float = 0

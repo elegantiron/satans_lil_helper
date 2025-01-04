@@ -1,3 +1,5 @@
+"""Game sections"""
+
 from .bestiarysection import BestiarySection
 from .gamemapsection import GameMapSection
 from .inspectorsection import InspectorSection

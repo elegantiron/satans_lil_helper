@@ -1,16 +1,23 @@
+"""Bestiary display section"""
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import arcade
 from pyglet.graphics import Batch
 
 from constants import Strings
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from engine import Engine
 
+
 class BestiarySection(arcade.Section):
+    """Handles drawing and inputs for the bestiary"""
+
     view: Engine
+
     def __init__(
         self,
         left,
@@ -43,9 +50,14 @@ class BestiarySection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.batch: Batch
+        self.title: arcade.Text
+
+    def setup(self):
+        """Set up the section"""
         self.batch = Batch()
         self.title = arcade.Text(
-            Strings.Bestiary,
+            Strings.BESTIARY,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,

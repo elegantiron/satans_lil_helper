@@ -1,11 +1,16 @@
+"""Inventory section"""
+
 from __future__ import annotations
 
 import arcade
 from pyglet.graphics import Batch
-from constants import colors, Strings
+
+from constants import Strings, colors
 
 
 class InventorySection(arcade.Section):
+    """Handles drawing and inputs for the inventory"""
+
     def __init__(
         self,
         left,
@@ -38,10 +43,16 @@ class InventorySection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.camera: arcade.Camera2D
+        self.batch: Batch
+        self.title: arcade.Text
+
+    def setup(self):
+        """Set up the section"""
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
         self.title = arcade.Text(
-            Strings.InventoryTitle,
+            Strings.INVENTORY_TITLE,
             self.width / 2,
             self.height - 3,
             colors.White,

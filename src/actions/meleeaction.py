@@ -1,3 +1,4 @@
+"""Definitions for the Melee Action"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -21,6 +22,7 @@ if TYPE_CHECKING:
 
 
 class MeleeAction(ActionWithDirection):
+    """For performing melee attacks"""
     def __init__(
         self,
         entity: tcod.ecs.Entity,
@@ -56,7 +58,11 @@ class MeleeAction(ActionWithDirection):
         if attack is None:
             raise MissingComponent("An entity with out an attack tried to attack.")
         damage = get_damage(
-            damage_factor=damage_factor, dice=attack.dice, sides=attack.sides, rng=self.rng, strength=a_stats.strength
+            damage_factor=damage_factor,
+            dice=attack.dice,
+            sides=attack.sides,
+            rng=self.rng,
+            strength=a_stats.strength,
         )
         t_stats.hp -= damage
         if damage == 0:

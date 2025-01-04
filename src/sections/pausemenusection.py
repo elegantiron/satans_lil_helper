@@ -1,3 +1,5 @@
+"""Pause section"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -12,6 +14,8 @@ if TYPE_CHECKING:
 
 
 class PauseSection(arcade.Section):
+    """Handles input when the game is paused"""
+
     view: Engine
 
     def __init__(
@@ -46,10 +50,18 @@ class PauseSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.batch: Batch
+        self.camera: arcade.Camera2D
+        self.title: arcade.Text
+        self.items: list[arcade.Text]
+        self.idx: int
+
+    def setup(self):
+        """Set up the section"""
         self.batch = Batch()
         self.camera = arcade.Camera2D(self.rect)
         self.title = arcade.Text(
-            Strings.PauseTitle,
+            Strings.PAUSE_TITLE,
             self.width / 2,
             self.height - 2,
             arcade.color.WHITE,
@@ -59,10 +71,10 @@ class PauseSection(arcade.Section):
             batch=self.batch,
         )
         items = [
-            Strings.Resume,
-            Strings.Bestiary,
-            Strings.SaveAndQuit,
-            Strings.QuitNoSave,
+            Strings.RESUME,
+            Strings.BESTIARY,
+            Strings.SAVE_AND_QUIT,
+            Strings.QUIT_NO_SAVE,
         ]
         self.items = [
             arcade.Text(
@@ -107,17 +119,18 @@ class PauseSection(arcade.Section):
                 return self.on_exit()
 
     def on_exit(self):
+        """Handle closing the section"""
         match self.items[self.idx].text:
-            case Strings.Resume:
+            case Strings.RESUME:
                 self.enabled = False
                 return True
-            case Strings.QuitNoSave:
+            case Strings.QUIT_NO_SAVE:
                 arcade.exit()
                 return True
-            case Strings.SaveAndQuit:
+            case Strings.SAVE_AND_QUIT:
                 arcade.exit()
                 return True
-            case Strings.Bestiary:
+            case Strings.BESTIARY:
                 self.view.bestiary_section.enabled = True
                 self.enabled = False
                 return True
@@ -136,4 +149,3 @@ class PauseSection(arcade.Section):
         match button:
             case arcade.MOUSE_BUTTON_LEFT:
                 self.on_exit()
-

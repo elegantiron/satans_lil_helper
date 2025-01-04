@@ -1,3 +1,4 @@
+"""Title section"""
 from __future__ import annotations
 from typing import TYPE_CHECKING
 import arcade
@@ -11,6 +12,7 @@ if TYPE_CHECKING:
 
 
 class TitleSection(arcade.Section):
+    """Displays the title screen"""
     view: Engine
 
     def __init__(
@@ -45,9 +47,16 @@ class TitleSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.batch: Batch
+        self.title_text: arcade.Text
+        self.press_text: arcade.Text
+        self.sprite_list: arcade.SpriteList
+
+    def setup(self):
+        """Set up the section"""
         self.batch = Batch()
         self.title_text = arcade.Text(
-            Strings.Title,
+            Strings.TITLE,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,
@@ -66,9 +75,7 @@ class TitleSection(arcade.Section):
             anchor_y="baseline",
             batch=self.batch,
         )
-
-    def setup(self, satan_sprites: arcade.SpriteList):
-        self.sprite_list = satan_sprites
+        self.sprite_list = self.view.satan_sprites
 
     def on_draw(self):
         self.batch.draw()
@@ -88,6 +95,6 @@ class TitleSection(arcade.Section):
         if self.sprite_list.center[1] > self.height // 2:
             self.sprite_list.move(0, -1)
         if (arcade.clock.GLOBAL_CLOCK.time * 60) % 90 < 70:
-            self.press_text.text = Strings.PressStart
+            self.press_text.text = Strings.PRESS_START
         else:
             self.press_text.text = ""

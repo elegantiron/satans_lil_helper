@@ -1,3 +1,5 @@
+"""Bump Action"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -15,6 +17,8 @@ if TYPE_CHECKING:
 
 
 class BumpAction(ActionWithDirection):
+    """'Bumps' a tile and performs the appropriate action"""
+
     def __init__(
         self,
         entity: tcod.ecs.Entity,
@@ -27,16 +31,14 @@ class BumpAction(ActionWithDirection):
 
     def perform(self) -> None:
         if self.target_entity:
-            if EntityTags.Hostile in self.target_entity.tags:
-                return MeleeAction(
+            if EntityTags.HOSTILE in self.target_entity.tags:
+                MeleeAction(
                     entity=self.entity,
                     direction=self.direction,
                     gamemap=self.gamemap,
                     rng=self.rng,
                 ).perform()
-            elif EntityTags.Friendly in self.target_entity.tags:
-                pass
         else:
-            return MoveAction(
+            MoveAction(
                 entity=self.entity, direction=self.direction, gamemap=self.gamemap
             ).perform()

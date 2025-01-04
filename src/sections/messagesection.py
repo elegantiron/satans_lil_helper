@@ -1,3 +1,5 @@
+"""Message section"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -12,6 +14,8 @@ if TYPE_CHECKING:
 
 
 class MessageSection(arcade.Section):
+    """Displays and handles inputs for the message section"""
+
     view: Engine
 
     def __init__(
@@ -46,9 +50,15 @@ class MessageSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
+        self.camera: arcade.Camera2D = None
+        self.batch: Batch = None
+        self.texts: list[arcade.Text] = None
+
+    def setup(self):
+        """Setup the section"""
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
-        self.texts: list[arcade.Text] = []
+        self.texts = []
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
@@ -57,6 +67,7 @@ class MessageSection(arcade.Section):
         self.batch.draw()
 
     def update_messages(self) -> None:
+        """Update the message display"""
         self.texts.clear()
         for line in reversed(self.view.message_log.messages):
             if len(self.texts) > 0:

@@ -1,12 +1,16 @@
+"""Section names"""
+
 from __future__ import annotations
 
 from enum import StrEnum
 
 
 class Sections(StrEnum):
-    MainMenu = "main menu"
-    Title = "title"
-    Bestiary = "bestiary"
-    GameMap = "game map"
-    Status = "status"
-    MessageLog = "message log"
+    """Section names"""
+
+    MAIN_MENU = "main menu"
+    TITLE = "title"
+    BESTIARY = "bestiary"
+    GAME_MAP = "game map"
+    STATUS = "status"
+    MESSAGE_LOG = "message log"
