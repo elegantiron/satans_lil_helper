@@ -59,9 +59,9 @@ class ActionDelay:
 @attrs.define(kw_only=True)
 class Specials:
     """An entity's special abilities"""
-    attacks: list[SpecialAttacks] = []
-    passives: list[PassiveAbilities] = []
-    skills: list[ActiveAbilities] = []
+    attacks: SpecialAttacks = 0
+    passives: PassiveAbilities = 0
+    skills: ActiveAbilities = 0
 
 
 @attrs.define

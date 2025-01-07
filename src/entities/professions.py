@@ -25,7 +25,7 @@ def warrior_class(entity: tcod.ecs.Entity):
     entity.components |= {
         Stats: Stats(hp=50, mp=5, strength=5, pdef=7, mdef=2, sight=6, light=6),
         Specials: Specials(
-            attacks=[SpecialAttacks.CHARGE], skills=[ActiveAbilities.SHIELD_UP]
+            attacks=SpecialAttacks.CHARGE, skills=ActiveAbilities.SHIELD_UP
         ),
         Equipment: Equipment(
             one_hand=True,
