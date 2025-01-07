@@ -6,13 +6,7 @@ from random import Random
 from typing import TYPE_CHECKING
 
 from components import AI, ActionDelay, Attack, Name, Position, Specials, Stats
-from constants import (
-    ActiveAbilities,
-    AIType,
-    EntityTags,
-    PassiveAbilities,
-    SpecialAttacks,
-)
+from constants import AIType, EntityTags, abilities
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -30,9 +24,9 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
         ),
         Attack: Attack(1, 6),
         Specials: Specials(
-            attacks=SpecialAttacks.GNAW,
-            passives=PassiveAbilities.PACK_TACTICS,
-            skills=ActiveAbilities.HOWL,
+            attacks=abilities.Enemies.GNAW,
+            passives=abilities.Enemies.PACK_TACTICS,
+            skills=abilities.Enemies.HOWL,
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
