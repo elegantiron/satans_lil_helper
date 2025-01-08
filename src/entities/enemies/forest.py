@@ -24,9 +24,9 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
         ),
         Attack: Attack(1, 6),
         Specials: Specials(
-            attacks=abilities.Enemies.GNAW,
-            passives=abilities.Enemies.PACK_TACTICS,
-            skills=abilities.Enemies.HOWL,
+            attacks=abilities.NonRepeatable.GNAW,
+            passives=abilities.NonRepeatable.PACK_TACTICS,
+            skills=abilities.NonRepeatable.HOWL,
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"

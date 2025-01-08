@@ -3,16 +3,16 @@
 from enum import Enum, Flag, auto
 
 
-class Enemies(Flag):
-    """Enemy abilities"""
+class NonRepeatable(Flag):
+    """Non-repeatable abilities and skills"""
 
+    # Enemy skills
     PACK_TACTICS = auto()
     DARK_VISION = auto()
     GNAW = auto()
     HOWL = auto()
 
-
-class General(Flag):
+    # General skills
     ELEMENTAL_AFFINITY_I = auto()
     ELEMENTAL_AFFINITY_II = auto()
     ELEMENTAL_AFFINITY_III = auto()
@@ -30,15 +30,7 @@ class General(Flag):
     ITEM_SLOT_GREAVES = auto()
     ITEM_SLOT_BOOTS = auto()
 
-
-class Repeatable(Enum):
-    STRENGTH_UP = auto()
-    MAGIC_UP = auto()
-    PDEF_UP = auto()
-    MDEF_UP = auto()
-
-
-class Warrior(Flag):
+    # Warrior skills
     SHIELD_UP = auto()
     CHARGE = auto()
 
@@ -98,3 +90,10 @@ class Warrior(Flag):
     SCYTHE_TRAINING = auto()
     POLEARM_TRAINING = auto()
     RAPIER_TRAINING = auto()
+
+
+class Repeatable(Enum):
+    STRENGTH_UP = auto()
+    MAGIC_UP = auto()
+    PDEF_UP = auto()
+    MDEF_UP = auto()
