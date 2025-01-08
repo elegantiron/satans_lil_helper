@@ -23,12 +23,18 @@ class NonRepeatable(Flag):
     STATUS_MASTER_II = auto()
     STATUS_MASTER_III = auto()
 
+    ITEM_SLOT_WEAPON = auto()
     ITEM_SLOT_SHIELD = auto()
     ITEM_SLOT_ARMOR = auto()
     ITEM_SLOT_HELM = auto()
     ITEM_SLOT_GAUNTLETS = auto()
     ITEM_SLOT_GREAVES = auto()
     ITEM_SLOT_BOOTS = auto()
+
+    ITEM_TYPE_MUNDANE = auto()
+    ITEM_TYPE_MAGICAL = auto()
+    ITEM_TYPE_ONE_HAND = auto()
+    ITEM_TYPE_TWO_HAND = auto()
 
     # Warrior skills
     SHIELD_UP = auto()
@@ -93,6 +99,8 @@ class NonRepeatable(Flag):
 
 
 class Repeatable(Enum):
+    """Skills which can be selected multiple times"""
+
     STRENGTH_UP = auto()
     MAGIC_UP = auto()
     PDEF_UP = auto()

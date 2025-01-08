@@ -5,7 +5,7 @@ from __future__ import annotations
 from random import Random
 from typing import TYPE_CHECKING
 
-from components import AI, ActionDelay, Attack, Name, Position, Specials, Stats
+from components import AI, ActionDelay, Attack, Name, Position, Skills, Stats
 from constants import AIType, EntityTags, abilities
 
 if TYPE_CHECKING:
@@ -23,10 +23,11 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
             sight=8,
         ),
         Attack: Attack(1, 6),
-        Specials: Specials(
-            attacks=abilities.NonRepeatable.GNAW,
-            passives=abilities.NonRepeatable.PACK_TACTICS,
-            skills=abilities.NonRepeatable.HOWL,
+        Skills: Skills(
+            onetime=abilities.NonRepeatable.HOWL
+            | abilities.NonRepeatable.DARK_VISION
+            | abilities.NonRepeatable.GNAW
+            | abilities.NonRepeatable.PACK_TACTICS
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
