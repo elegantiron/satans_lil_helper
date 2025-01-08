@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 import attrs
 
 from .ailments import Confusion
+from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
 
@@ -24,6 +25,7 @@ __all__ = [
     "Skills",
     "AI",
     "Confusion",
+    "Equippable",
 ]
 
 
