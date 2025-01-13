@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import time
 from random import Random
+from typing import TYPE_CHECKING
 
 import numpy as np
-import tcod.ecs
 
 from gamemap import GameMap
 from tile_types import ForestFloor, ForestWall
 from utils import get_neighbors
+
+if TYPE_CHECKING:
+    import tcod.ecs
 
 
 class GameWorld:
@@ -22,7 +25,7 @@ class GameWorld:
     MAP_X = 100
     MAP_Y = 100
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._current_map = GameMap()
         self._maps = [self._current_map]
         self.map_index = self._maps.index(self._current_map)

@@ -2,17 +2,18 @@
 
 from __future__ import annotations
 
-from random import Random
 from typing import TYPE_CHECKING
 
 from components import AI, ActionDelay, Attack, Name, Position, Skills, Stats
 from constants import AIType, EntityTags, abilities
 
 if TYPE_CHECKING:
+    from random import Random
+
     import tcod.ecs
 
 
-def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
+def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random) -> None:
     """Give an entity a wolf's properties"""
     entity.components |= {
         Stats: Stats(
@@ -24,10 +25,10 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random):
         ),
         Attack: Attack(1, 6),
         Skills: Skills(
-            onetime=abilities.NonRepeatable.HOWL
-            | abilities.NonRepeatable.DARK_VISION
-            | abilities.NonRepeatable.GNAW
-            | abilities.NonRepeatable.PACK_TACTICS
+            onetime=abilities.Abilities.HOWL
+            | abilities.Abilities.DARK_VISION
+            | abilities.Abilities.GNAW
+            | abilities.Abilities.PACK_TACTICS
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"

@@ -20,21 +20,21 @@ class BestiarySection(arcade.Section):
 
     def __init__(
         self,
-        left,
-        bottom,
-        width,
-        height,
+        left: int,
+        bottom: int,
+        width: int,
+        height: int,
         *,
-        name=None,
-        accept_keyboard_keys=True,
-        accept_mouse_events=True,
-        prevent_dispatch=None,
-        prevent_dispatch_view=None,
-        local_mouse_coordinates=False,
-        enabled=False,
-        modal=True,
-        draw_order=5,
-    ):
+        name: str = None,
+        accept_keyboard_keys: bool = True,
+        accept_mouse_events: bool = True,
+        prevent_dispatch: list = None,
+        prevent_dispatch_view: list = None,
+        local_mouse_coordinates: bool = False,
+        enabled: bool = False,
+        modal: bool = True,
+        draw_order: int = 5,
+    ) -> None:
         super().__init__(
             left,
             bottom,
@@ -53,7 +53,7 @@ class BestiarySection(arcade.Section):
         self.batch: Batch
         self.title: arcade.Text
 
-    def setup(self):
+    def setup(self) -> None:
         """Set up the section"""
         self.batch = Batch()
         self.title = arcade.Text(
@@ -67,13 +67,13 @@ class BestiarySection(arcade.Section):
             batch=self.batch,
         )
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         arcade.draw_lbwh_rectangle_filled(
             0, 0, self.width, self.height, arcade.color.BLACK
         )
         self.batch.draw()
 
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(self, symbol: int, modifiers: int) -> bool | None:
         match symbol:
             case arcade.key.ESCAPE:
                 self.enabled = False

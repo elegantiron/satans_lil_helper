@@ -63,7 +63,7 @@ class Skills:
     """An entity's special abilities"""
 
     repeatable: dict[abilities.Repeatable, int] = dict()
-    onetime: abilities.NonRepeatable = 0
+    onetime: abilities.Abilities = 0
 
 
 @attrs.define

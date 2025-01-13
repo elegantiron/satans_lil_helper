@@ -4,7 +4,6 @@ from __future__ import annotations
 import hashlib
 import hmac
 import lzma
-import random
 from typing import TYPE_CHECKING
 
 import dill as pickle
@@ -14,17 +13,20 @@ from constants import EntityTags
 from exceptions import HashError
 
 if TYPE_CHECKING:
+    import random
+    from pathlib import Path
+
     import tcod.ecs
 
 HMAC_KEY = b"adsfauioerbasfhdjkagvyudis"
 
 
-def load_data(path) -> bytes:
+def load_data(path: Path) -> bytes:
     """Load saved data"""
     signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
     data_to_load = ""
     try:
-        with open(path, "rb") as f:
+        with path.open("rb") as f:
             mac_data = f.read(signer.digest_size)
             data_to_load = f.read()
         signer.update(data_to_load)
@@ -36,16 +38,16 @@ def load_data(path) -> bytes:
         pass
 
 
-def save_data(data, path):
+def save_data(data:bytes, path: Path) -> None:
     """Save the game's data"""
     raw_data = pickle.dumps(data)
     data_to_save = lzma.compress(raw_data)
     signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
     signer.update(data_to_save)
     mac_result = signer.digest()
-    with open(path, "wb") as f:
+    with path.open("wb") as f:
         f.write(mac_result)
-    with open(path, "ab") as f:
+    with path.open("ab") as f:
         f.write(data_to_save)
 
 
@@ -119,7 +121,7 @@ def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
             total_stats += r_stats
 
 
-def get_neighbors(x, y, tiles: list[list[int]]) -> int:
+def get_neighbors(x:int, y:int, tiles: list[list[int]]) -> int:
     """Get a tile's neighbor count"""
     dirs = [
         (dx, dy) for dx in range(-1, 2) for dy in range(-1, 2) if (dx, dy) != (0, 0)
@@ -143,14 +145,13 @@ def get_damage_factor(*, t_stats: Stats, a_stats: Stats, rng: random.Random) -> 
     roll = rng.randint(1, 100)
     if roll <= max(0, t_level - a_level) or roll == 1:
         return 0
-    elif roll >= 95 - a_crit:
+    if roll >= 95 - a_crit:
         return 2
-    elif roll <= 10:
+    if roll <= 10:
         return 0.5
-    elif roll <= 60:
+    if roll <= 60:
         return 1
-    else:
-        return 1.25
+    return 1.25
 
 
 def get_damage(

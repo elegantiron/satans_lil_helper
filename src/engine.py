@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import os
+import contextlib
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -44,7 +44,11 @@ class Engine(arcade.View):
     world: GameWorld
     bestiary: Bestiary
 
-    def __init__(self, window=None, background_color=None):
+    def __init__(
+        self,
+        window: arcade.Window = None,
+        background_color: tuple[int, int, int, int] = None,
+    ) -> None:
         super().__init__(window, background_color)
 
         self.message_log = MessageLog()
@@ -53,24 +57,22 @@ class Engine(arcade.View):
         self.setup_sections()
         self.load_bestiary()
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
 
-    def load_bestiary(self):
+    def load_bestiary(self) -> None:
         """Load or create a bestiary"""
-        path = os.path.expanduser(os.path.join("~", ".slha"))
-        try:
-            os.makedirs(path)
-        except FileExistsError:
-            pass
-        bestiary = Path(os.path.join(path, "bestiary.dat"))
+        path = Path.expanduser(Path("~") / ".slha")
+        with contextlib.suppress(FileExistsError):
+            path.mkdir(parents=True)
+        bestiary = path / "bestiary.dat"
         if bestiary.exists():
             self.bestiary = load_data(bestiary)
         else:
             self.bestiary = Bestiary()
             save_data(self.bestiary, bestiary)
 
-    def setup_sections(self):
+    def setup_sections(self) -> None:
         """Set up the sections"""
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
@@ -141,7 +143,7 @@ class Engine(arcade.View):
         self.inspector_section.setup()
         self.inventory_section.setup()
 
-    def load_satan(self):
+    def load_satan(self) -> None:
         """Load the sprites for Satan"""
         self.satan_sprites = arcade.SpriteList()
         self.satan = {
@@ -174,7 +176,7 @@ class Engine(arcade.View):
         self.satan_sprites.append(self.satan["eyes open"])
         self.satan_sprites.append(self.satan["eyes closed"])
 
-    def new_world(self):
+    def new_world(self) -> None:
         """Make a new world"""
         self.world = GameWorld()
         for ix, iy in np.ndindex(self.map.tiles.shape):
@@ -237,7 +239,7 @@ class Engine(arcade.View):
         """The RNG"""
         return self.world.rng
 
-    def process_tick(self):
+    def process_tick(self) -> None:
         """Process turns for all entities."""
         for ent in self.registry.Q.all_of(components=[Position, AI]):
             action_delay = ent.components.get(ActionDelay, None)

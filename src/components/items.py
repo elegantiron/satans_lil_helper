@@ -15,7 +15,7 @@ class Item:
 
 @attrs.define
 class Equippable(Item):
-    requirements: abilities.NonRepeatable
+    requirements: abilities.Abilities
 
 
 @attrs.define
