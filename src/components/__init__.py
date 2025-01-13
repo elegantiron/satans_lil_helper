@@ -6,15 +6,13 @@ from typing import TYPE_CHECKING
 
 import attrs
 
-from constants.abilities import SpecialAttacks
-
 from .ailments import Confusion
+from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
-from .equipment import Equipment
 
 if TYPE_CHECKING:
-    from constants import ActiveAbilities, AIType, PassiveAbilities
+    from constants import AIType, abilities
 
 __all__ = [
     "Position",
@@ -24,16 +22,17 @@ __all__ = [
     "Inventory",
     "Name",
     "ActionDelay",
-    "Specials",
+    "Skills",
     "AI",
     "Confusion",
-    "Equipment",
+    "Equippable",
 ]
 
 
 @attrs.define
 class Attack:
     """An entity's attack damage"""
+
     dice: int
     sides: int
 
@@ -41,32 +40,36 @@ class Attack:
 @attrs.define
 class Inventory:
     """How many items an entity can hold"""
+
     size: int = 0
 
 
 @attrs.define
 class Name:
     """An entity's name"""
+
     name: str
 
 
 @attrs.define
 class ActionDelay:
     """Tracks how long until an entity's next action"""
+
     ticks: int = 0
 
 
 @attrs.define(kw_only=True)
-class Specials:
+class Skills:
     """An entity's special abilities"""
-    attacks: list[SpecialAttacks] = []
-    passives: list[PassiveAbilities] = []
-    skills: list[ActiveAbilities] = []
+
+    repeatable: dict[abilities.Repeatable, int] = dict()
+    onetime: abilities.NonRepeatable = 0
 
 
 @attrs.define
 class AI:
     """An entity's brains"""
+
     type: AIType
     base_type: AIType
     path: list[tuple[int, int]] = []

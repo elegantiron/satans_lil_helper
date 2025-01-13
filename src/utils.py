@@ -22,15 +22,15 @@ HMAC_KEY = b"adsfauioerbasfhdjkagvyudis"
 def load_data(path) -> bytes:
     """Load saved data"""
     signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
-    data_to_save = ""
+    data_to_load = ""
     try:
         with open(path, "rb") as f:
             mac_data = f.read(signer.digest_size)
-            data_to_save = f.read()
-        signer.update(data_to_save)
+            data_to_load = f.read()
+        signer.update(data_to_load)
         computed_mac = signer.digest()
         if hmac.compare_digest(mac_data, computed_mac):
-            return pickle.loads(lzma.decompress(data_to_save))
+            return pickle.loads(lzma.decompress(data_to_load))
         raise HashError
     except FileNotFoundError:
         pass
@@ -46,7 +46,7 @@ def save_data(data, path):
     with open(path, "wb") as f:
         f.write(mac_result)
     with open(path, "ab") as f:
-        f.write(save_data)
+        f.write(data_to_save)
 
 
 def pixel_to_grid(coordinates: tuple[int, int]) -> tuple[int, int]:

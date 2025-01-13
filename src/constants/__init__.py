@@ -2,8 +2,7 @@
 
 from enum import StrEnum
 
-from . import colors, keylists
-from .abilities import ActiveAbilities, PassiveAbilities, SpecialAttacks
+from . import colors, keylists, abilities
 from .sectionnames import Sections
 from .strings import Strings
 from .tags import AIType, EntityTags, ItemType
@@ -14,9 +13,7 @@ __all__ = [
     "keylists",
     "colors",
     "EntityTags",
-    "PassiveAbilities",
-    "SpecialAttacks",
-    "ActiveAbilities",
+    "abilities",
     "AIType",
     "ItemType",
 ]
@@ -28,6 +25,7 @@ LINE_SPACING = 2
 
 class Tile(StrEnum):
     """Tile attributes"""
+
     WALKABLE = "walkable"
     TRANSPARENT = "transparent"
     EXPLORED = "explored"
