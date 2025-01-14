@@ -9,26 +9,26 @@ from .tags import Abilities
 
 
 @dataclass(frozen=True, eq=False, kw_only=True)
-class _Skill:
+class Skill:
     skill_id: Abilities
     name: str
     description: str
     prereqs: Abilities | None = None
 
 
-SkillList: list[_Skill] = [
-    _Skill(
+SkillList: list[Skill] = [
+    Skill(
         skill_id=Abilities.ELEMENTAL_AFFINITY_I,
         name="Elemental Affinity I",
         description="Increases all elemental damage by 1.",
     ),
-    _Skill(
+    Skill(
         skill_id=Abilities.ELEMENTAL_AFFINITY_II,
         name="Elemental Affinity II",
         description="Increases all elemental damage by an additional 2",
         prereqs=Abilities.ELEMENTAL_AFFINITY_I,
     ),
-    _Skill(
+    Skill(
         skill_id=Abilities.ELEMENTAL_AFFINITY_III,
         name="Elemental Affinity III",
         description="Increases all elemental damage by an additional 3",
