@@ -16,7 +16,7 @@ class _Skill:
     prereqs: Abilities | None = None
 
 
-Skills: list[_Skill] = [
+SkillList: list[_Skill] = [
     _Skill(
         skill_id=Abilities.ELEMENTAL_AFFINITY_I,
         name="Elemental Affinity I",
