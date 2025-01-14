@@ -8,7 +8,7 @@ import arcade
 from pyglet.graphics import Batch
 
 from components import Position, Stats
-from constants import colors
+from constants import Strings, colors
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -64,7 +64,7 @@ class StatusSection(arcade.Section):
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
         self.title = arcade.Text(
-            "STATUS",
+            Strings.Titles.STATUS,
             self.width / 2,
             self.height - 2,
             arcade.color.WHITE,
@@ -74,7 +74,7 @@ class StatusSection(arcade.Section):
             batch=self.batch,
         )
         self.location = arcade.Text(
-            "Location",
+            Strings.Status.LOCATION,
             5,
             self.title.bottom - LINE_SPACING,
             arcade.color.WHITE,
@@ -83,7 +83,7 @@ class StatusSection(arcade.Section):
             batch=self.batch,
         )
         self.health = arcade.Text(
-            "Health: ",
+            Strings.Status.HEALTH,
             5,
             self.location.bottom - LINE_SPACING,
             arcade.color.WHITE,
@@ -92,7 +92,7 @@ class StatusSection(arcade.Section):
             batch=self.batch,
         )
         self.mana = arcade.Text(
-            "Mana: ",
+            Strings.Status.MANA,
             self.width / 2,
             self.health.bottom,
             arcade.color.WHITE,
@@ -111,9 +111,9 @@ class StatusSection(arcade.Section):
         """Update the displayed statistics"""
         pos = self.view.player.components[Position]
         stats = self.view.player.components[Stats]
-        self.location.text = f"Location: {pos.x},{pos.y}"
-        self.health.text = f"Health: {stats.hp}/{stats.max_hp}"
-        self.mana.text = f"Mana: {stats.mp}/{stats.max_mp}"
+        self.location.text = f"{Strings.Status.LOCATION}{pos.x},{pos.y}"
+        self.health.text = f"{Strings.Status.HEALTH}{stats.hp}/{stats.max_hp}"
+        self.mana.text = f"{Strings.Status.MANA}{stats.mp}/{stats.max_mp}"
         self.set_color(stats.hp, stats.max_hp, self.health)
         self.set_color(stats.mp, stats.max_mp, self.mana)
 
@@ -125,4 +125,4 @@ class StatusSection(arcade.Section):
         elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
-            text.color = arcade.color.WHITE
+            text.color = colors.White

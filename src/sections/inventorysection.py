@@ -52,7 +52,7 @@ class InventorySection(arcade.Section):
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
         self.title = arcade.Text(
-            Strings.INVENTORY_TITLE,
+            Strings.Titles.INVENTORY,
             self.width / 2,
             self.height - 3,
             colors.White,

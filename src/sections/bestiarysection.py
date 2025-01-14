@@ -57,7 +57,7 @@ class BestiarySection(arcade.Section):
         """Set up the section"""
         self.batch = Batch()
         self.title = arcade.Text(
-            Strings.BESTIARY,
+            Strings.Titles.BESTIARY,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,

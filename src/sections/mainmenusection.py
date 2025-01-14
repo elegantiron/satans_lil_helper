@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import Sections, Strings, keylists
+from constants import Strings, keylists
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -59,7 +59,7 @@ class MainMenuSection(arcade.Section):
         self.sprite_list = self.view.satan_sprites
         self.batch = Batch()
         self.title_text = arcade.Text(
-            Strings.TITLE,
+            Strings.Titles.MAIN_MENU,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,
@@ -69,9 +69,9 @@ class MainMenuSection(arcade.Section):
             batch=self.batch,
         )
         items = [
-            Strings.NEW_GAME,
-            Strings.BESTIARY,
-            Strings.QUIT_TO_DESKTOP,
+            Strings.Menu.NEW_GAME,
+            Strings.Titles.BESTIARY,
+            Strings.Menu.QUIT_TO_DESKTOP,
         ]
         self.items = [
             arcade.Text(
@@ -134,20 +134,18 @@ class MainMenuSection(arcade.Section):
     def on_exit(self):
         """Handle closing the section"""
         match self.items[self.idx].text:
-            case Strings.QUIT_TO_DESKTOP:
+            case Strings.Menu.QUIT_TO_DESKTOP:
                 arcade.exit()
                 return True
-            case Strings.NEW_GAME:
+            case Strings.Menu.NEW_GAME:
                 self.view.new_world()
                 self.view.gamemap_section.enabled = True
                 self.view.status_section.enabled = True
                 self.view.message_section.enabled = True
                 self.enabled = False
                 return True
-            case Strings.BESTIARY:
-                self.section_manager.get_section_by_name(
-                    Sections.BESTIARY
-                ).enabled = True
+            case Strings.Titles.BESTIARY:
+                self.view.bestiary_section.enabled = True
                 return True
         return False
 

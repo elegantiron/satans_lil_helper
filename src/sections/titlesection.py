@@ -58,7 +58,7 @@ class TitleSection(arcade.Section):
         """Set up the section"""
         self.batch = Batch()
         self.title_text = arcade.Text(
-            Strings.TITLE,
+            Strings.Titles.GAME,
             self.width // 2,
             self.height - 10,
             arcade.color.RUBINE_RED,
@@ -97,6 +97,6 @@ class TitleSection(arcade.Section):
         if self.sprite_list.center[1] > self.height // 2:
             self.sprite_list.move(0, -1)
         if (arcade.clock.GLOBAL_CLOCK.time * 60) % 90 < 70:
-            self.press_text.text = Strings.PRESS_START
+            self.press_text.text = Strings.Misc.PRESS_START
         else:
             self.press_text.text = ""
