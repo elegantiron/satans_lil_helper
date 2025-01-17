@@ -24,7 +24,7 @@ class Stats:
         xp: float = 0,
         xp_granted: float = 0,
         speed: float = 1,
-    ):
+    ) -> None:
         self.hp = hp
         self.mp = mp
         self.strength = strength
@@ -46,7 +46,7 @@ class Stats:
         return self._hp
 
     @hp.setter
-    def hp(self, value) -> None:
+    def hp(self, value: float) -> None:
         if not getattr(self, "max_hp", None):
             self.max_hp = value
         self._hp = max(0, min(value, self.max_hp))
@@ -57,7 +57,7 @@ class Stats:
         return self._mp
 
     @mp.setter
-    def mp(self, value) -> None:
+    def mp(self, value: float) -> None:
         if not getattr(self, "max_mp", None):
             self.max_mp = value
         self._mp = max(0, min(value, self.max_mp))
@@ -80,6 +80,7 @@ class Stats:
 @attrs.define
 class Growth:
     """How an entity grows as it levels"""
+
     hp: float = 0
     mp: float = 0
     strength: float = 0
