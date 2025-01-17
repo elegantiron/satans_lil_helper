@@ -51,8 +51,8 @@ class LevelupSection(arcade.Section):
         self.batch: Batch
         self.title: arcade.Text
         self.skill_options: list[abilities.Skill]
-        self.skill_names: list[arcade.Text]
-        self.skill_descriptions: list[arcade.Text]
+        self.skill_name: arcade.Text
+        self.skill_description: arcade.Text
         self.sprite_list: arcade.SpriteList
         self.idx: int
 
@@ -65,6 +65,26 @@ class LevelupSection(arcade.Section):
             Strings.Titles.LEVEL_UP,
             self.width / 2,
             self.height - 2,
+            colors.White,
+            15,
+            anchor_x="center",
+            anchor_y="top",
+            batch=self.batch,
+        )
+        self.skill_name = arcade.Text(
+            "Name",
+            self.width / 2,
+            self.height / 5,
+            colors.White,
+            20,
+            anchor_x="center",
+            anchor_y="bottom",
+            batch=self.batch,
+        )
+        self.skill_description = arcade.Text(
+            "Description",
+            self.width / 2,
+            self.skill_name.bottom - 5,
             colors.White,
             15,
             anchor_x="center",
@@ -100,6 +120,7 @@ class LevelupSection(arcade.Section):
 
     def on_show_section(self):
         self.pick_skills()
+        self.update_texts()
 
     def on_hide_section(self):
         self.sprite_list.clear()
@@ -111,6 +132,8 @@ class LevelupSection(arcade.Section):
                 if self.idx < 0:
                     self.idx = 2
                 self.idx = self.idx % 3
+                self.update_texts()
+
             case arcade.key.RETURN:
                 skill = self.skill_options[self.idx]
                 if skill.onetime:
@@ -118,3 +141,7 @@ class LevelupSection(arcade.Section):
                 else:
                     self.view.player.components[Skills].repeatable[skill.skill_id] += 1
                 self.enabled = False
+
+    def update_texts(self):
+        self.skill_name.text = self.skill_options[self.idx].name
+        self.skill_description.text = self.skill_options[self.idx].description
