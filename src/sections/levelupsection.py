@@ -6,14 +6,11 @@ import arcade
 from pyglet.graphics import Batch
 
 from components import Skills
-from constants import Strings, abilities, colors
+from constants import Strings, abilities, colors, keylists
 from exceptions import MissingComponent
 
 if TYPE_CHECKING:
     from engine import Engine
-
-
-"LEVEL UP"
 
 
 class LevelupSection(arcade.Section):
@@ -57,11 +54,13 @@ class LevelupSection(arcade.Section):
         self.skill_names: list[arcade.Text]
         self.skill_descriptions: list[arcade.Text]
         self.sprite_list: arcade.SpriteList
+        self.idx: int
 
     def setup(self):
         self.sprite_list = arcade.SpriteList()
         self.camera = arcade.Camera2D(self.rect)
         self.batch = Batch()
+        self.idx = 0
         self.title = arcade.Text(
             Strings.Titles.LEVEL_UP,
             self.width / 2,
@@ -104,3 +103,11 @@ class LevelupSection(arcade.Section):
 
     def on_hide_section(self):
         self.sprite_list.clear()
+
+    def on_key_press(self, symbol, modifiers):
+        match symbol:
+            case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][0] != 0:
+                self.idx += keylists.MOVEMENT[key][0]
+                if self.idx < 0:
+                    self.idx = 2
+                self.idx = self.idx % 3
