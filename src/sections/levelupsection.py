@@ -111,3 +111,10 @@ class LevelupSection(arcade.Section):
                 if self.idx < 0:
                     self.idx = 2
                 self.idx = self.idx % 3
+            case arcade.key.RETURN:
+                skill = self.skill_options[self.idx]
+                if skill.onetime:
+                    self.view.player.components[Skills].onetime |= skill.skill_id
+                else:
+                    self.view.player.components[Skills].repeatable[skill.skill_id] += 1
+                self.enabled = False
