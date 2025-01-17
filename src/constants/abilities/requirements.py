@@ -14,6 +14,7 @@ class Skill:
     name: str
     description: str
     prereqs: Abilities | None = None
+    onetime: bool = True
 
 
 SkillList: list[Skill] = [
@@ -55,21 +56,25 @@ SkillList: list[Skill] = [
         skill_id=Abilities.STRENGTH_UP,
         name="Strength Up",
         description="Increases Strength by 1.",
+        onetime=False
     ),
     Skill(
         skill_id=Abilities.MAGIC_UP,
         name="Magic Up",
         description="Increases Magic by 1.",
+        onetime=False
     ),
     Skill(
         skill_id=Abilities.PDEF_UP,
         name="Physical Defense Up",
         description="Increases Physical Defense by 1.",
+        onetime=False
     ),
     Skill(
         skill_id=Abilities.MDEF_UP,
         name="Magic Defense Up",
         description="Increases Magic Defense by 1.",
+        onetime=False
     ),
     Skill(
         skill_id=Abilities.ITEM_SLOT_SHIELD,
