@@ -8,7 +8,7 @@ import attrs
 
 from constants import abilities
 
-from .ailments import Confusion
+from .ailments import Confusion, DamagingAilment
 from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
@@ -29,6 +29,7 @@ __all__ = [
     "Confusion",
     "Equippable",
     "Regen",
+    "DamagingAilment",
 ]
 
 
