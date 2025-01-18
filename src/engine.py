@@ -11,8 +11,16 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position, Regen, Stats
-from constants import TILE_SIZE, AIType, Tile
+from components import (
+    AI,
+    ActionDelay,
+    Confusion,
+    DamagingAilment,
+    Position,
+    Regen,
+    Stats,
+)
+from constants import TILE_SIZE, AIType, EntityTags, Tile
 from entities import enemies
 from exceptions import Impossible
 from gameworld import GameWorld
@@ -284,3 +292,16 @@ class Engine(arcade.View):
             if regen.proc:
                 stats.hp += regen.health
                 stats.mp += regen.mana
+
+    def handle_ailments(self):
+        for ent in self.registry.Q.all_of(components=[DamagingAilment]):
+            target = ent.relation_tag[EntityTags]
+            dice, sides = ent.components[DamagingAilment].damage
+            damage = 0
+            for _ in range(dice):
+                damage += self.rng.randint(1, sides)
+            stats = target.components.get(Stats, None)
+            if stats is None:
+                continue
+            stats.hp -= damage
+            # TODO log ailment damage

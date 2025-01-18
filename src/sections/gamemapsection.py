@@ -181,6 +181,7 @@ class GameMapSection(arcade.Section):
             self.view.step_time()
             self.view.handle_regen()
             self.view.process_ai()
+            self.view.handle_ailments()
             
 
     @property
