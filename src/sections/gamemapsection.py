@@ -29,20 +29,20 @@ class GameMapSection(arcade.Section):
 
     def __init__(
         self,
-        left:int,
-        bottom:int,
-        width:int,
-        height:int,
+        left: int,
+        bottom: int,
+        width: int,
+        height: int,
         *,
-        name:str=None,
-        accept_keyboard_keys:bool=True,
-        accept_mouse_events:bool=True,
-        prevent_dispatch:list=None,
-        prevent_dispatch_view:list=None,
-        local_mouse_coordinates:bool=False,
-        enabled:bool=False,
-        modal:bool=False,
-        draw_order:int=1,
+        name: str = None,
+        accept_keyboard_keys: bool = True,
+        accept_mouse_events: bool = True,
+        prevent_dispatch: list = None,
+        prevent_dispatch_view: list = None,
+        local_mouse_coordinates: bool = False,
+        enabled: bool = False,
+        modal: bool = False,
+        draw_order: int = 1,
     ) -> None:
         super().__init__(
             left,
@@ -115,7 +115,7 @@ class GameMapSection(arcade.Section):
             self.view.world.player.components[Position].sprite.center_y,
         )
 
-    def on_key_press(self, symbol:int, modifiers:int) -> None:
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
@@ -126,7 +126,7 @@ class GameMapSection(arcade.Section):
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
 
-    def handle_move_key(self, key:int) -> None:
+    def handle_move_key(self, key: int) -> None:
         """Handle moving the player"""
         delay = self.view.player.components.get(ActionDelay, None)
         direction = keylists.MOVEMENT[key]
@@ -175,7 +175,7 @@ class GameMapSection(arcade.Section):
         self.highlight = (tx, ty)
         self.view.inspector_section.update()
 
-    def on_update(self, delta_time:float) -> None:
+    def on_update(self, delta_time: float) -> None:
         if self.view.player.components[ActionDelay].ticks != 0:
             self.view.process_tick()
 
