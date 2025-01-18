@@ -168,11 +168,8 @@ class GameMapSection(arcade.Section):
             self.view.message_section.enabled = True
             self.view.inspector_section.enabled = False
 
-    def on_mouse_motion(self, x:int, y:int, dx:int, dy:int) -> None:
-        (
-            wx,
-            wy,
-        ) = self.camera.unproject((x, y))
+    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int) -> None:
+        wx, wy, _= self.camera.unproject((x, y))
         tx = int((wx + 16) // 32)
         ty = int((wy + 16) // 32)
         self.highlight = (tx, ty)
