@@ -97,7 +97,7 @@ class PauseSection(arcade.Section):
             0, 0, self.width, self.height, colors.TranslucentBlack
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, colors.WHITE, 2
+            0, 0, self.width, self.height, colors.White, 2
         )
         self.batch.draw()
 
