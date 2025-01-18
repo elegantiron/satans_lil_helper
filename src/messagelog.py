@@ -6,11 +6,11 @@ import textwrap
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Iterable
+    from collections.abc import Iterable
 
 
 class _Message:
-    def __init__(self, text: str, color):
+    def __init__(self, text: str, color: tuple[int, int, int, int]) -> None:
         self.plain_text = text
         self.color = color
         self.count = 1
@@ -25,13 +25,14 @@ class _Message:
 
 class MessageLog:
     """Handle collecting and returning messages for the player"""
+
     def __init__(self) -> None:
         self.messages: list[_Message] = []
 
     def add_message(
         self,
         text: str,
-        color,
+        color: tuple[int, int, int, int],
         *,
         stack: bool = True,
     ) -> None:

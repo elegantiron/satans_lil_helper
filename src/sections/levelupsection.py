@@ -1,0 +1,147 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import arcade
+from pyglet.graphics import Batch
+
+from components import Skills
+from constants import Strings, abilities, colors, keylists
+from exceptions import MissingComponent
+
+if TYPE_CHECKING:
+    from engine import Engine
+
+
+class LevelupSection(arcade.Section):
+    view: Engine
+
+    def __init__(
+        self,
+        left,
+        bottom,
+        width,
+        height,
+        *,
+        name=None,
+        accept_keyboard_keys=True,
+        accept_mouse_events=True,
+        prevent_dispatch=None,
+        prevent_dispatch_view=None,
+        local_mouse_coordinates=False,
+        enabled=False,
+        modal=True,
+        draw_order=1,
+    ):
+        super().__init__(
+            left,
+            bottom,
+            width,
+            height,
+            name=name,
+            accept_keyboard_keys=accept_keyboard_keys,
+            accept_mouse_events=accept_mouse_events,
+            prevent_dispatch=prevent_dispatch,
+            prevent_dispatch_view=prevent_dispatch_view,
+            local_mouse_coordinates=local_mouse_coordinates,
+            enabled=enabled,
+            modal=modal,
+            draw_order=draw_order,
+        )
+        self.batch: Batch
+        self.title: arcade.Text
+        self.skill_options: list[abilities.Skill]
+        self.skill_name: arcade.Text
+        self.skill_description: arcade.Text
+        self.sprite_list: arcade.SpriteList
+        self.idx: int
+
+    def setup(self):
+        self.sprite_list = arcade.SpriteList()
+        self.camera = arcade.Camera2D(self.rect)
+        self.batch = Batch()
+        self.idx = 0
+        self.title = arcade.Text(
+            Strings.Titles.LEVEL_UP,
+            self.width / 2,
+            self.height - 2,
+            colors.White,
+            15,
+            anchor_x="center",
+            anchor_y="top",
+            batch=self.batch,
+        )
+        self.skill_name = arcade.Text(
+            "Name",
+            self.width / 2,
+            self.height / 5,
+            colors.White,
+            20,
+            anchor_x="center",
+            anchor_y="bottom",
+            batch=self.batch,
+        )
+        self.skill_description = arcade.Text(
+            "Description",
+            self.width / 2,
+            self.skill_name.bottom - 5,
+            colors.White,
+            15,
+            anchor_x="center",
+            anchor_y="top",
+            batch=self.batch,
+        )
+
+    def pick_skills(
+        self,
+    ) -> list[abilities.Abilities, abilities.Abilities, abilities.Abilities]:
+        player_skills = self.view.player.components.get(Skills, None)
+        if player_skills is None:
+            raise MissingComponent
+        possibilities = [
+            item
+            for item in abilities.SkillList
+            if (
+                item.skill_id not in player_skills.onetime
+                and (item.prereqs is None or item.prereqs in player_skills.onetime)
+            )
+        ]
+        self.skill_options = self.view.rng.sample(possibilities, 3)
+
+    def on_draw(self):
+        arcade.draw_lbwh_rectangle_filled(
+            0, 0, self.width, self.height, colors.TranslucentBlack
+        )
+        arcade.draw_lbwh_rectangle_outline(
+            0, 0, self.width, self.height, colors.White, 2
+        )
+        self.batch.draw()
+        self.sprite_list.draw()
+
+    def on_show_section(self):
+        self.pick_skills()
+        self.update_texts()
+
+    def on_hide_section(self):
+        self.sprite_list.clear()
+
+    def on_key_press(self, symbol, modifiers):
+        match symbol:
+            case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][0] != 0:
+                self.idx += keylists.MOVEMENT[key][0]
+                if self.idx < 0:
+                    self.idx = 2
+                self.idx = self.idx % 3
+                self.update_texts()
+
+            case arcade.key.RETURN:
+                skill = self.skill_options[self.idx]
+                if skill.onetime:
+                    self.view.player.components[Skills].onetime |= skill.skill_id
+                else:
+                    self.view.player.components[Skills].repeatable[skill.skill_id] += 1
+                self.enabled = False
+
+    def update_texts(self):
+        self.skill_name.text = self.skill_options[self.idx].name
+        self.skill_description.text = self.skill_options[self.idx].description

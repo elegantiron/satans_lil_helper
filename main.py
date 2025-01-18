@@ -10,28 +10,23 @@
 
 from __future__ import annotations
 
-import os
 import sys
 from pathlib import Path
 
 import arcade
 
-sys.path.insert(0, os.path.join(Path(__file__).parent.resolve(), "src"))
-# pylint: disable=wrong-import-position
-from engine import Engine
+sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-# pylint: enable=wrong-import-position
+from engine import Engine
 
 FPS = 1 / 60
 
 
-def main():
+def main() -> None:
     """Main function"""
     path = Path(__file__).parent.resolve()
-    arcade.resources.add_resource_handle(
-        "images", os.path.join(path, "assets", "images")
-    )
-    arcade.resources.add_resource_handle("fonts", os.path.join(path, "assets", "fonts"))
+    arcade.resources.add_resource_handle("images", Path(path) / "assets" / "images")
+    arcade.resources.add_resource_handle("fonts", Path(path) / "assets" / "fonts")
     window = arcade.Window(title="Satan's Lil Helper", draw_rate=FPS)
     window.run(Engine())
 

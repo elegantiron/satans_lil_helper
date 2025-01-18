@@ -1,9 +1,9 @@
 """Ability enums"""
 
-from enum import Enum, Flag, auto
+from enum import Flag, auto
 
 
-class NonRepeatable(Flag):
+class Abilities(Flag):
     """Non-repeatable abilities and skills"""
 
     # Enemy skills
@@ -96,10 +96,6 @@ class NonRepeatable(Flag):
     SCYTHE_TRAINING = auto()
     POLEARM_TRAINING = auto()
     RAPIER_TRAINING = auto()
-
-
-class Repeatable(Enum):
-    """Skills which can be selected multiple times"""
 
     STRENGTH_UP = auto()
     MAGIC_UP = auto()

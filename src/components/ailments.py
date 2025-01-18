@@ -9,10 +9,15 @@ import attrs
 class Ailment:
     """Base ailment class"""
 
-    turns: int
+    age: int
     limit: int
+    end_chance_per_turn: float
 
 
 @attrs.define
 class Confusion(Ailment):
     """Confusion effect"""
+
+@attrs.define
+class DamagingAilment(Ailment):
+    damage: tuple[int, int]

@@ -6,13 +6,15 @@ from typing import TYPE_CHECKING
 
 import attrs
 
-from .ailments import Confusion
+from constants import abilities
+
+from .ailments import Confusion, DamagingAilment
 from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
 
 if TYPE_CHECKING:
-    from constants import AIType, abilities
+    from constants import AIType
 
 __all__ = [
     "Position",
@@ -26,6 +28,8 @@ __all__ = [
     "AI",
     "Confusion",
     "Equippable",
+    "Regen",
+    "DamagingAilment",
 ]
 
 
@@ -62,8 +66,14 @@ class ActionDelay:
 class Skills:
     """An entity's special abilities"""
 
-    repeatable: dict[abilities.Repeatable, int] = dict()
-    onetime: abilities.NonRepeatable = 0
+    repeatable: dict[abilities.Abilities, int]
+    onetime: abilities.Abilities
+
+    def __init__(self, *, onetime: abilities.Abilities = 0) -> None:
+        self.repeatable = {
+            skill.skill_id: 0 for skill in abilities.SkillList if not skill.onetime
+        }
+        self.onetime = onetime
 
 
 @attrs.define
@@ -73,3 +83,17 @@ class AI:
     type: AIType
     base_type: AIType
     path: list[tuple[int, int]] = []
+
+
+@attrs.define
+class Regen:
+    """An entity's health and mana regeneration"""
+
+    health: float
+    mana: float
+    interval: int
+    counter: int
+
+    @property
+    def proc(self) -> bool:
+        return (self.counter % self.interval) == 0

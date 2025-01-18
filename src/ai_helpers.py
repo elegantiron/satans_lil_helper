@@ -1,8 +1,10 @@
 """A collection of helpers for executing entity AI."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import tcod.ecs
 import tcod.path
 
 from actions import BumpAction, MeleeAction, MoveAction
@@ -11,8 +13,6 @@ from constants import Tile
 
 if TYPE_CHECKING:
     import random
-
-    import tcod.ecs
 
     from gamemap import GameMap
 
@@ -31,13 +31,17 @@ def wander_action(
     entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
 ) -> None:
     """Have an entity wander around randomly."""
-    directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)]
+    directories = [
+        (x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)
+    ]
     directory = rng.choice(directories)
     MoveAction(entity, directory, gamemap).perform()
     entity.components[ActionDelay].ticks = 15
 
 
-def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random):
+def hostile_action(
+    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
+) -> None:
     """Look for a valid target and wander if none found."""
     stats = entity.components[Stats]
     e_pos = entity.components[Position]
@@ -50,7 +54,8 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
             entity.components[ActionDelay].ticks = 15
-            return MeleeAction(entity, (dx, dy), gamemap, rng).perform()
+            MeleeAction(entity, (dx, dy), gamemap, rng).perform()
+            return
         graph = tcod.path.SimpleGraph(
             cost=gamemap.tiles[Tile.MOVEMENTCOST], cardinal=2, diagonal=3
         )
@@ -62,6 +67,7 @@ def hostile_action(entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
         dest_x, dest_y = path.pop(0)
         MoveAction(entity, (dest_x - e_pos.x, dest_y - e_pos.y), gamemap).perform()
         entity.components[ActionDelay].ticks = 15
+        return
 
-    else:
-        wander_action(entity, gamemap, rng)
+    wander_action(entity, gamemap, rng)
+    return

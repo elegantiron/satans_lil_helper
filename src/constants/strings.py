@@ -5,16 +5,29 @@ from __future__ import annotations
 from enum import StrEnum
 
 
-class Strings(StrEnum):
+class Strings:
     """Strings definitions"""
 
-    TITLE = "Satan's Lil Helper"
-    PRESS_START = "Press any key to continue"
-    NEW_GAME = "New Game"
-    BESTIARY = "Bestiary"
-    QUIT_TO_DESKTOP = "Quit to Desktop"
-    RESUME = "Resume"
-    SAVE_AND_QUIT = "Save and Quit"
-    QUIT_NO_SAVE = "Quit without Saving"
-    INVENTORY_TITLE = "INVENTORY"
-    PAUSE_TITLE = "PAUSE"
+    class Misc(StrEnum):
+        PRESS_START = "Press any key to continue"
+
+    class Menu(StrEnum):
+        NEW_GAME = "New Game"
+        RESUME = "Resume"
+        QUIT_TO_DESKTOP = "Quit to Desktop"
+        SAVE_AND_QUIT = "Save and Quit"
+        QUIT_NO_SAVE = "Quit without Saving"
+
+    class Titles(StrEnum):
+        BESTIARY = "Bestiary"
+        LEVEL_UP = "Level Up"
+        INVENTORY = "Inventory"
+        PAUSE = "Pause"
+        GAME = "Satan's Lil Helper"
+        MAIN_MENU = GAME
+        STATUS = "Status"
+
+    class Status(StrEnum):
+        LOCATION = "Location"
+        HEALTH = "Health: "
+        MANA = "Mana: "

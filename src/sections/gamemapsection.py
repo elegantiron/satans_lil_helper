@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterable
+from typing import TYPE_CHECKING
 
 import arcade
 import numpy as np
@@ -13,6 +13,8 @@ from constants import Tile, colors, keylists
 from exceptions import PathBlocked
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     import tcod.ecs
 
     from engine import Engine
@@ -27,21 +29,21 @@ class GameMapSection(arcade.Section):
 
     def __init__(
         self,
-        left,
-        bottom,
-        width,
-        height,
+        left: int,
+        bottom: int,
+        width: int,
+        height: int,
         *,
-        name=None,
-        accept_keyboard_keys=True,
-        accept_mouse_events=True,
-        prevent_dispatch=None,
-        prevent_dispatch_view=None,
-        local_mouse_coordinates=False,
-        enabled=False,
-        modal=False,
-        draw_order=1,
-    ):
+        name: str = None,
+        accept_keyboard_keys: bool = True,
+        accept_mouse_events: bool = True,
+        prevent_dispatch: list = None,
+        prevent_dispatch_view: list = None,
+        local_mouse_coordinates: bool = False,
+        enabled: bool = False,
+        modal: bool = False,
+        draw_order: int = 1,
+    ) -> None:
         super().__init__(
             left,
             bottom,
@@ -64,7 +66,7 @@ class GameMapSection(arcade.Section):
         self.entity_sprites: arcade.SpriteList
         self.projectile_sprites: arcade.SpriteList
 
-    def setup(self):
+    def setup(self) -> None:
         """Set up the section"""
         self.camera = arcade.Camera2D(self.rect)
         self.highlight = (0, 0)
@@ -73,7 +75,7 @@ class GameMapSection(arcade.Section):
         self.entity_sprites = arcade.SpriteList()
         self.projectile_sprites = arcade.SpriteList()
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.tile_sprites.draw()
         self.entity_sprites.draw()
         self.projectile_sprites.draw()
@@ -105,7 +107,7 @@ class GameMapSection(arcade.Section):
         self.entity_sprites.clear()
         self.projectile_sprites.clear()
 
-    def set_camera(self):
+    def set_camera(self) -> None:
         """Set the camera position"""
         self.camera.position = (
             self.view.world.player.components[Position].sprite.center_x
@@ -113,7 +115,7 @@ class GameMapSection(arcade.Section):
             self.view.world.player.components[Position].sprite.center_y,
         )
 
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
             case arcade.key.ESCAPE:
                 self.view.pause_section.enabled = True
@@ -124,7 +126,7 @@ class GameMapSection(arcade.Section):
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
 
-    def handle_move_key(self, key):
+    def handle_move_key(self, key: int) -> None:
         """Handle moving the player"""
         delay = self.view.player.components.get(ActionDelay, None)
         direction = keylists.MOVEMENT[key]
@@ -140,7 +142,8 @@ class GameMapSection(arcade.Section):
                     self.set_camera()
                     self.view.status_section.update_player_stats()
                     self.update_player_fov()
-                    delay.ticks = 15
+                    if delay.ticks == 0:
+                        delay.ticks = 15
                 except PathBlocked:
                     self.view.message_log.add_message(
                         "The way is blocked.", colors.Impossible
@@ -152,7 +155,7 @@ class GameMapSection(arcade.Section):
             self.highlight = self.highlight[0] + dx, self.highlight[1] + dy
             self.view.inspector_section.update()
 
-    def toggle_highlight(self):
+    def toggle_highlight(self) -> None:
         """Toggle the highlight square"""
         player_pos = self.view.player.components[Position]
         if not self.show_highlight:
@@ -166,19 +169,20 @@ class GameMapSection(arcade.Section):
             self.view.message_section.enabled = True
             self.view.inspector_section.enabled = False
 
-    def on_mouse_motion(self, x, y, dx, dy):
-        (
-            wx,
-            wy,
-        ) = self.camera.unproject((x, y))
+    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int) -> None:
+        wx, wy, _ = self.camera.unproject((x, y))
         tx = int((wx + 16) // 32)
         ty = int((wy + 16) // 32)
         self.highlight = (tx, ty)
         self.view.inspector_section.update()
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time: float) -> None:
         if self.view.player.components[ActionDelay].ticks != 0:
-            self.view.process_tick()
+            self.view.step_time()
+            self.view.handle_regen()
+            self.view.process_ai()
+            self.view.handle_ailments()
+            
 
     @property
     def map(self) -> GameMap:
@@ -190,7 +194,7 @@ class GameMapSection(arcade.Section):
         """The player's entity"""
         return self.view.player
 
-    def update_player_fov(self):
+    def update_player_fov(self) -> None:
         """Update the player's FoV"""
         stats = self.player.components[Stats]
         tiles = self.map.get_fov(
@@ -198,7 +202,6 @@ class GameMapSection(arcade.Section):
         )
         self.map.tiles[Tile.EXPLORED] |= tiles
         self.map.tiles[Tile.VISIBLE] = tiles
-        # print(np.where(tiles))
         i, j = np.nonzero(tiles)
         # pylint: disable=consider-using-enumerate
         for x in range(len(i)):

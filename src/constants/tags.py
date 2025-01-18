@@ -15,6 +15,7 @@ class EntityTags(Enum):
     HOSTILE = auto()
     FRIENDLY = auto()
     EQUIPPED_BY = auto()
+    TARGET = auto()
 
 
 class AIType(Enum):

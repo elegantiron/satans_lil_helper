@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import os
+import contextlib
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -11,8 +11,16 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position
-from constants import TILE_SIZE, AIType, Tile
+from components import (
+    AI,
+    ActionDelay,
+    Confusion,
+    DamagingAilment,
+    Position,
+    Regen,
+    Stats,
+)
+from constants import TILE_SIZE, AIType, EntityTags, Tile
 from entities import enemies
 from exceptions import Impossible
 from gameworld import GameWorld
@@ -22,6 +30,7 @@ from sections import (
     GameMapSection,
     InspectorSection,
     InventorySection,
+    LevelupSection,
     MainMenuSection,
     MessageSection,
     PauseSection,
@@ -44,7 +53,11 @@ class Engine(arcade.View):
     world: GameWorld
     bestiary: Bestiary
 
-    def __init__(self, window=None, background_color=None):
+    def __init__(
+        self,
+        window: arcade.Window = None,
+        background_color: tuple[int, int, int, int] = None,
+    ) -> None:
         super().__init__(window, background_color)
 
         self.message_log = MessageLog()
@@ -53,24 +66,22 @@ class Engine(arcade.View):
         self.setup_sections()
         self.load_bestiary()
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
 
-    def load_bestiary(self):
+    def load_bestiary(self) -> None:
         """Load or create a bestiary"""
-        path = os.path.expanduser(os.path.join("~", ".slha"))
-        try:
-            os.makedirs(path)
-        except FileExistsError:
-            pass
-        bestiary = Path(os.path.join(path, "bestiary.dat"))
+        path = Path.expanduser(Path("~") / ".slha")
+        with contextlib.suppress(FileExistsError):
+            path.mkdir(parents=True)
+        bestiary = path / "bestiary.dat"
         if bestiary.exists():
             self.bestiary = load_data(bestiary)
         else:
             self.bestiary = Bestiary()
             save_data(self.bestiary, bestiary)
 
-    def setup_sections(self):
+    def setup_sections(self) -> None:
         """Set up the sections"""
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
@@ -121,6 +132,13 @@ class Engine(arcade.View):
             self.pause_section.height,
         )
 
+        self.levelup_section = LevelupSection(
+            self.pause_section.left,
+            self.pause_section.bottom,
+            self.pause_section.width,
+            self.pause_section.height,
+        )
+
         self.sm.add_section(self.title_section)
         self.sm.add_section(self.menu_section)
         self.sm.add_section(self.gamemap_section)
@@ -130,6 +148,7 @@ class Engine(arcade.View):
         self.sm.add_section(self.bestiary_section)
         self.sm.add_section(self.inspector_section)
         self.sm.add_section(self.inventory_section)
+        self.sm.add_section(self.levelup_section)
 
         self.title_section.setup()
         self.menu_section.setup()
@@ -140,8 +159,9 @@ class Engine(arcade.View):
         self.pause_section.setup()
         self.inspector_section.setup()
         self.inventory_section.setup()
+        self.levelup_section.setup()
 
-    def load_satan(self):
+    def load_satan(self) -> None:
         """Load the sprites for Satan"""
         self.satan_sprites = arcade.SpriteList()
         self.satan = {
@@ -174,7 +194,7 @@ class Engine(arcade.View):
         self.satan_sprites.append(self.satan["eyes open"])
         self.satan_sprites.append(self.satan["eyes closed"])
 
-    def new_world(self):
+    def new_world(self) -> None:
         """Make a new world"""
         self.world = GameWorld()
         for ix, iy in np.ndindex(self.map.tiles.shape):
@@ -237,15 +257,13 @@ class Engine(arcade.View):
         """The RNG"""
         return self.world.rng
 
-    def process_tick(self):
-        """Process turns for all entities."""
-        for ent in self.registry.Q.all_of(components=[Position, AI]):
-            action_delay = ent.components.get(ActionDelay, None)
-            if action_delay is None:
-                pass
-            elif action_delay.ticks > 0:
-                action_delay.ticks -= 1
-            else:
+    def step_time(self) -> None:
+        for ent in self.registry.Q.all_of(components=[ActionDelay]):
+            ent.components[ActionDelay].ticks -= 1
+
+    def process_ai(self) -> None:
+        for ent in self.registry.Q.all_of(components=[Position, AI, ActionDelay]):
+            if ent.components[ActionDelay].ticks == 0:
                 try:
                     match ent.components[AI].type:
                         case AIType.WANDERING:
@@ -265,5 +283,25 @@ class Engine(arcade.View):
                     # Catch impossible actions and ignore them.
                     # We don't care if the AI tries something it can't do
                     pass
-        self.gamemap_section.update_player_fov()
-        self.player.components[ActionDelay].ticks -= 1
+
+    def handle_regen(self):
+        for ent in self.registry.Q.all_of(components=[Stats, Regen]):
+            stats = ent.components[Stats]
+            regen = ent.components[Regen]
+            regen.counter += 1
+            if regen.proc:
+                stats.hp += regen.health
+                stats.mp += regen.mana
+
+    def handle_ailments(self):
+        for ent in self.registry.Q.all_of(components=[DamagingAilment]):
+            target = ent.relation_tag[EntityTags]
+            dice, sides = ent.components[DamagingAilment].damage
+            damage = 0
+            for _ in range(dice):
+                damage += self.rng.randint(1, sides)
+            stats = target.components.get(Stats, None)
+            if stats is None:
+                continue
+            stats.hp -= damage
+            # TODO log ailment damage

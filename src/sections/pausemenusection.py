@@ -61,20 +61,20 @@ class PauseSection(arcade.Section):
         self.batch = Batch()
         self.camera = arcade.Camera2D(self.rect)
         self.title = arcade.Text(
-            Strings.PAUSE_TITLE,
+            Strings.Titles.PAUSE,
             self.width / 2,
             self.height - 2,
-            arcade.color.WHITE,
+            colors.White,
             15,
             anchor_x="center",
             anchor_y="top",
             batch=self.batch,
         )
         items = [
-            Strings.RESUME,
-            Strings.BESTIARY,
-            Strings.SAVE_AND_QUIT,
-            Strings.QUIT_NO_SAVE,
+            Strings.Menu.RESUME,
+            Strings.Titles.BESTIARY,
+            Strings.Menu.SAVE_AND_QUIT,
+            Strings.Menu.QUIT_NO_SAVE,
         ]
         self.items = [
             arcade.Text(
@@ -97,7 +97,7 @@ class PauseSection(arcade.Section):
             0, 0, self.width, self.height, colors.TranslucentBlack
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, arcade.color.WHITE, 2
+            0, 0, self.width, self.height, colors.White, 2
         )
         self.batch.draw()
 
@@ -121,16 +121,16 @@ class PauseSection(arcade.Section):
     def on_exit(self):
         """Handle closing the section"""
         match self.items[self.idx].text:
-            case Strings.RESUME:
+            case Strings.Menu.RESUME:
                 self.enabled = False
                 return True
-            case Strings.QUIT_NO_SAVE:
+            case Strings.Menu.QUIT_NO_SAVE:
                 arcade.exit()
                 return True
-            case Strings.SAVE_AND_QUIT:
+            case Strings.Menu.SAVE_AND_QUIT:
                 arcade.exit()
                 return True
-            case Strings.BESTIARY:
+            case Strings.Titles.BESTIARY:
                 self.view.bestiary_section.enabled = True
                 self.enabled = False
                 return True

@@ -1,7 +1,7 @@
 """A single level of the world"""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING
 
 import numpy as np
 import tcod
@@ -9,10 +9,12 @@ import tcod.constants
 import tcod.ecs
 
 from constants import Tile
-from utils import move_entity
 from entities import professions
+from utils import move_entity
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     import arcade
     import numpy.typing as npt
 
@@ -31,7 +33,7 @@ class GameMap:
         for ix, iy in np.ndindex(self.tiles.shape):
             yield self.tiles[ix, iy]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.registry = tcod.ecs.Registry()
         self.sprites = None
 
@@ -48,6 +50,7 @@ class GameMap:
         self,
         pov: tuple[int, int],
         radius: int,
+        *,
         light_walls: bool = True,
         algorithm: int = tcod.constants.FOV_SHADOW,
     ) -> npt.NDArray[np.bool_]:
