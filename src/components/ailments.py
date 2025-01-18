@@ -17,3 +17,7 @@ class Ailment:
 @attrs.define
 class Confusion(Ailment):
     """Confusion effect"""
+
+@attrs.define
+class DamagingAilment(Ailment):
+    damage: tuple[int, int]
