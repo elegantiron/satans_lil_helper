@@ -9,7 +9,7 @@ import attrs
 class Ailment:
     """Base ailment class"""
 
-    turns: int
+    age: int
     limit: int
 
 
