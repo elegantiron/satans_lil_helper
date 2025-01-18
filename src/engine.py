@@ -11,7 +11,7 @@ import numpy as np
 
 from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
-from components import AI, ActionDelay, Confusion, Position
+from components import AI, ActionDelay, Confusion, Position, Regen, Stats
 from constants import TILE_SIZE, AIType, Tile
 from entities import enemies
 from exceptions import Impossible
@@ -249,15 +249,13 @@ class Engine(arcade.View):
         """The RNG"""
         return self.world.rng
 
-    def process_tick(self) -> None:
-        """Process turns for all entities."""
-        for ent in self.registry.Q.all_of(components=[Position, AI]):
-            action_delay = ent.components.get(ActionDelay, None)
-            if action_delay is None:
-                pass
-            elif action_delay.ticks > 0:
-                action_delay.ticks -= 1
-            else:
+    def step_time(self) -> None:
+        for ent in self.registry.Q.all_of(components=[ActionDelay]):
+            ent.components[ActionDelay].ticks -= 1
+
+    def process_ai(self) -> None:
+        for ent in self.registry.Q.all_of(components=[Position, AI, ActionDelay]):
+            if ent.components[ActionDelay].ticks == 0:
                 try:
                     match ent.components[AI].type:
                         case AIType.WANDERING:
@@ -277,5 +275,12 @@ class Engine(arcade.View):
                     # Catch impossible actions and ignore them.
                     # We don't care if the AI tries something it can't do
                     pass
-        self.gamemap_section.update_player_fov()
-        self.player.components[ActionDelay].ticks -= 1
+
+    def handle_regen(self):
+        for ent in self.registry.Q.all_of(components=[Stats, Regen]):
+            stats = ent.components[Stats]
+            regen = ent.components[Regen]
+            regen.counter += 1
+            if regen.proc:
+                stats.hp += regen.health
+                stats.mp += regen.mana

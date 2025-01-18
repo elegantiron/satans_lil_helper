@@ -28,6 +28,7 @@ __all__ = [
     "AI",
     "Confusion",
     "Equippable",
+    "Regen",
 ]
 
 
@@ -81,3 +82,17 @@ class AI:
     type: AIType
     base_type: AIType
     path: list[tuple[int, int]] = []
+
+
+@attrs.define
+class Regen:
+    """An entity's health and mana regeneration"""
+
+    health: float
+    mana: float
+    interval: int
+    counter: int
+
+    @property
+    def proc(self) -> bool:
+        return (self.counter % self.interval) == 0
