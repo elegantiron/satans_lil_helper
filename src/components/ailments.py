@@ -11,6 +11,7 @@ class Ailment:
 
     age: int
     limit: int
+    end_chance_per_turn: float
 
 
 @attrs.define
