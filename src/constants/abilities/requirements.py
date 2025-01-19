@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .tags import Abilities
+from components import Stats
 
-# None requirement means no prerequisites
-# None is used for any place holders
+from . import effects
+from .tags import Abilities
 
 
 @dataclass(frozen=True, eq=False, kw_only=True)
@@ -15,6 +15,7 @@ class Skill:
     description: str
     prereqs: Abilities | None = None
     onetime: bool = True
+    effects: list[effects.BaseSkillEffect]
 
 
 SkillList: list[Skill] = [
@@ -56,25 +57,35 @@ SkillList: list[Skill] = [
         skill_id=Abilities.STRENGTH_UP,
         name="Strength Up",
         description="Increases Strength by 1.",
-        onetime=False
+        onetime=False,
+        effects=[effects.StatUp(Stats(strength=1))],
     ),
     Skill(
         skill_id=Abilities.MAGIC_UP,
         name="Magic Up",
         description="Increases Magic by 1.",
-        onetime=False
+        onetime=False,
+        effects=[effects.StatUp(Stats(magic=1))],
     ),
     Skill(
         skill_id=Abilities.PDEF_UP,
         name="Physical Defense Up",
         description="Increases Physical Defense by 1.",
-        onetime=False
+        onetime=False,
+        effects=[effects.StatUp(Stats(pdef=1))]
     ),
     Skill(
         skill_id=Abilities.MDEF_UP,
         name="Magic Defense Up",
         description="Increases Magic Defense by 1.",
-        onetime=False
+        onetime=False,
+        effects=[effects.StatUp(Stats(mdef=1))]
+    ),
+    Skill(
+        skill_id=Abilities.LIGHT_UP,
+        name="Light Radius Up",
+        description="Increases light radius by 1.",
+        effects=[effects.StatUp(Stats(light=1)), effects.AddFlag(Abilities.LIGHT_UP)]
     ),
     Skill(
         skill_id=Abilities.ITEM_SLOT_SHIELD,
