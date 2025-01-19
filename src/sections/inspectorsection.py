@@ -109,7 +109,10 @@ class InspectorSection(arcade.Section):
                     pos = ent.components[Position]
                     if pos.x == highlight[0] and pos.y == highlight[1]:
                         name = ent.components.get(Name, "a mysterious stranger")
-                        description = f"{description} {name}"
+                        if name.name == "you":
+                            description = f"{description} yourself"
+                        else:
+                            description = f"{description} {name.name}"
                         found = True
                 if not found:
                     description = f"{description} nothing"
