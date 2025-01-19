@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import abilities
 from components import (
     ActionDelay,
     Attack,
@@ -13,7 +14,6 @@ from components import (
     Skills,
     Stats,
 )
-from constants import abilities
 
 if TYPE_CHECKING:
     import tcod.ecs

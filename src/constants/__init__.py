@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from . import colors, keylists, abilities
+from . import colors, keylists
 from .sectionnames import Sections
 from .strings import Strings
 from .tags import AIType, EntityTags, ItemType
@@ -13,7 +13,6 @@ __all__ = [
     "keylists",
     "colors",
     "EntityTags",
-    "abilities",
     "AIType",
     "ItemType",
 ]

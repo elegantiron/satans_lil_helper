@@ -9,7 +9,7 @@ from exceptions import MissingComponent
 if TYPE_CHECKING:
     import tcod.ecs
 
-    from constants import abilities
+    from .requirements import Abilities
 
 
 class BaseSkillEffect(metaclass=abc.ABCMeta):
@@ -40,7 +40,7 @@ class StatUp(BaseSkillEffect):
 
 
 class AddFlag(BaseSkillEffect):
-    def __init__(self, skill_tag: abilities.Abilities) -> None:
+    def __init__(self, skill_tag: Abilities) -> None:
         self.skill_tag = skill_tag
 
     def apply_skill_effect(self, target):

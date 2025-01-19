@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import abilities
 from components import AI, ActionDelay, Attack, Name, Position, Skills, Stats
-from constants import AIType, EntityTags, abilities
+from constants import AIType, EntityTags
 
 if TYPE_CHECKING:
     from random import Random

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import arcade
 
-from components import Name, Stats, Attack
+from components import Attack, Name, Stats
 from constants import colors
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
@@ -29,7 +29,7 @@ class MeleeAction(ActionWithDirection):
         direction: tuple[int, int],
         gamemap: GameMap,
         rng: Random,
-    ):
+    ) -> None:
         super().__init__(entity, direction, gamemap)
         self.rng = rng
 
