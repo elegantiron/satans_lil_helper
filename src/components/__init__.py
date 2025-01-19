@@ -6,14 +6,13 @@ from typing import TYPE_CHECKING
 
 import attrs
 
-from constants import abilities
-
 from .ailments import Confusion, DamagingAilment
 from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
 
 if TYPE_CHECKING:
+    import abilities
     from constants import AIType
 
 __all__ = [
@@ -70,6 +69,7 @@ class Skills:
     onetime: abilities.Abilities
 
     def __init__(self, *, onetime: abilities.Abilities = 0) -> None:
+        import abilities
         self.repeatable = {
             skill.skill_id: 0 for skill in abilities.SkillList if not skill.onetime
         }

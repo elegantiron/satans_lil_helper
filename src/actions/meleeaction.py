@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import arcade
 
-from components import Name, Stats, Attack
+from components import Attack, Name, Stats
 from constants import colors
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
@@ -29,7 +29,7 @@ class MeleeAction(ActionWithDirection):
         direction: tuple[int, int],
         gamemap: GameMap,
         rng: Random,
-    ):
+    ) -> None:
         super().__init__(entity, direction, gamemap)
         self.rng = rng
 
@@ -43,9 +43,12 @@ class MeleeAction(ActionWithDirection):
             actor_name = actor_name.name
         target_name = target.components.get(Name, "the mysterious stranger")
         if isinstance(target_name, Name):
-            target_name = target_name.name.capitalize()
+            target_name = target_name.name
 
-        description = f"{actor_name.capitalize()} attacks {target_name}"
+        if actor_name == "you":
+            description = f"{actor_name.capitalize()} attack {target_name}"
+        else:
+            description = f"{actor_name.capitalize()} attacks {target_name}"
 
         t_stats = target.components.get(Stats, None)
         a_stats = actor.components.get(Stats, None)

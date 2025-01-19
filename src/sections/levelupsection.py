@@ -5,8 +5,9 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
+import abilities
 from components import Skills
-from constants import Strings, abilities, colors, keylists
+from constants import Strings, colors, keylists
 from exceptions import MissingComponent
 
 if TYPE_CHECKING:
