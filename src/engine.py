@@ -22,7 +22,7 @@ from components import (
 )
 from constants import TILE_SIZE, AIType, EntityTags, Tile
 from entities import enemies
-from exceptions import Impossible
+from exceptions import Impossible, MissingComponent
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -55,8 +55,8 @@ class Engine(arcade.View):
 
     def __init__(
         self,
-        window: arcade.Window = None,
-        background_color: tuple[int, int, int, int] = None,
+        window: arcade.Window | None = None,
+        background_color: tuple[int, int, int, int] | None = None,
     ) -> None:
         super().__init__(window, background_color)
 
@@ -76,10 +76,10 @@ class Engine(arcade.View):
             path.mkdir(parents=True)
         bestiary = path / "bestiary.dat"
         if bestiary.exists():
-            self.bestiary = load_data(bestiary)
+            self.bestiary = load_data(bestiary) # type: ignore
         else:
             self.bestiary = Bestiary()
-            save_data(self.bestiary, bestiary)
+            save_data(self.bestiary, bestiary) # type: ignore
 
     def setup_sections(self) -> None:
         """Set up the sections"""
