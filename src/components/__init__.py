@@ -6,13 +6,14 @@ from typing import TYPE_CHECKING
 
 import attrs
 
+import abilities
+
 from .ailments import Confusion, DamagingAilment
 from .items import Equippable
 from .position import Position
 from .stats import Growth, Stats
 
 if TYPE_CHECKING:
-    import abilities
     from constants import AIType
 
 __all__ = [
@@ -60,7 +61,7 @@ class ActionDelay:
 
     ticks: int = 0
 
-
+NoAbilities = abilities.Abilities(0)
 @attrs.define(kw_only=True)
 class Skills:
     """An entity's special abilities"""
@@ -68,7 +69,7 @@ class Skills:
     repeatable: dict[abilities.Abilities, int]
     onetime: abilities.Abilities
 
-    def __init__(self, *, onetime: abilities.Abilities = 0) -> None:
+    def __init__(self, *, onetime: abilities.Abilities = NoAbilities) -> None:
         import abilities
         self.repeatable = {
             skill.skill_id: 0 for skill in abilities.SkillList if not skill.onetime
