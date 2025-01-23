@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class ItemAction(Action):
-    def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity):
+    def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity) -> None:
         super().__init__(entity)
         self.item = item
 
