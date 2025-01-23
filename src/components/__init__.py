@@ -68,7 +68,7 @@ RepeatablesDict = {
 }
 
 
-@attrs.define(kw_only=True)
+@attrs.define(kw_only=True, init=False)
 class Skills:
     """An entity's special abilities"""
 
