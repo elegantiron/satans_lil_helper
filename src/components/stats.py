@@ -76,6 +76,20 @@ class Stats:
             self.light + other.light,
         )
 
+    def __sub__(self, other: Stats) -> Stats:
+        return Stats(
+            self.hp - other.hp,
+            self.mp - other.mp,
+            self.strength - other.strength,
+            self.magic - other.magic,
+            self.pdef - other.pdef,
+            self.mdef - other.mdef,
+            self.evasion - other.evasion,
+            self.crit - other.crit,
+            self.sight - other.sight,
+            self.light - other.light,
+        )
+
 
 @attrs.define
 class Growth:
