@@ -34,7 +34,8 @@ def warrior_class(entity: tcod.ecs.Entity) -> None:
             | abilities.Abilities.ITEM_TYPE_ONE_HAND
             | abilities.Abilities.ITEM_TYPE_MUNDANE
             | abilities.Abilities.SHIELD_UP
-            | abilities.Abilities.CHARGE
+            | abilities.Abilities.CHARGE,
+            repeatable=None,
         ),
         Position: Position(x=5, y=5, sprite=":images:player/player.png"),
         ActionDelay: ActionDelay(0),
