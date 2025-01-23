@@ -72,14 +72,14 @@ RepeatablesDict = {
 class Skills:
     """An entity's special abilities"""
 
-    repeatable: dict[abilities.Abilities, int] | None
+    repeatable: dict[abilities.Abilities, int]
     onetime: abilities.Abilities
 
     def __init__(
         self,
         *,
         onetime: abilities.Abilities = NoAbilities,
-        repeatable: dict[abilities.Abilities, int] | None = None,
+        repeatable: dict[abilities.Abilities, int] = RepeatablesDict,
     ) -> None:
         if repeatable is not None:
             self.repeatable = repeatable
