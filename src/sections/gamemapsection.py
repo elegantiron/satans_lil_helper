@@ -37,8 +37,8 @@ class GameMapSection(arcade.Section):
         name: str | None = None,
         accept_keyboard_keys: bool = True,
         accept_mouse_events: bool = True,
-        prevent_dispatch: list | None  = None,
-        prevent_dispatch_view: list | None  = None,
+        prevent_dispatch: list | None = None,
+        prevent_dispatch_view: list | None = None,
         local_mouse_coordinates: bool = False,
         enabled: bool = False,
         modal: bool = False,
@@ -184,7 +184,6 @@ class GameMapSection(arcade.Section):
             self.view.handle_regen()
             self.view.process_ai()
             self.view.handle_ailments()
-            
 
     @property
     def map(self) -> GameMap:
