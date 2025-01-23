@@ -5,5 +5,7 @@
 		}
 	],
 	"settings": {
+		"mypy-type-checker.preferDaemon": true,
+		"mypy-type-checker.reportingScope": "workspace"
 	}
 }
