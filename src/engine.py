@@ -89,9 +89,9 @@ class Engine(arcade.View):
 
         self.menu_section = MainMenuSection(0, 0, self.width, self.height)
 
-        self.bestiary_section = BestiarySection(0, 0, self.width, self.height)
+        self.bestiary_section = BestiarySection(0, 0, int(self.width), int(self.height))
 
-        self.gamemap_section = GameMapSection(0, 0, self.width, self.height)
+        self.gamemap_section = GameMapSection(0, 0, int(self.width), int(self.height))
 
         self.status_section = StatusSection(
             self.width * 2 / 3,
