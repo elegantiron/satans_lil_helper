@@ -29,7 +29,7 @@ class PickupAction(Action):
                 len(
                     set(
                         self.entity.registry.Q.all_of(
-                            relations=[self.entity, EntityTags.HOLDING, None]
+                            relations=[(self.entity, EntityTags.HOLDING, None)]
                         )
                     )
                 )
