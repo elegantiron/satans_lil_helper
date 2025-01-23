@@ -203,7 +203,7 @@ class GameMapSection(arcade.Section):
             self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
         self.map.tiles[Tile.EXPLORED] |= tiles
-        self.map.tiles[Tile.VISIBLE] = tiles
+        self.map.tiles[Tile.VISIBLE] = tiles # type: ignore
         i, j = np.nonzero(tiles)
         # pylint: disable=consider-using-enumerate
         for x in range(len(i)):
