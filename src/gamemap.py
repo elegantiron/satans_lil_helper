@@ -35,7 +35,6 @@ class GameMap:
 
     def __init__(self) -> None:
         self.registry = tcod.ecs.Registry()
-        self.sprites = None
 
     def new_player(self) -> None:
         """Make a new player"""
