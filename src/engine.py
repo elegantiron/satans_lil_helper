@@ -226,8 +226,8 @@ class Engine(arcade.View):
         for _ in range(25):
             wolf = self.map.registry.new_entity()
             chosen = False
-            x = None
-            y = None
+            x: int
+            y: int
             while not chosen:
                 x = self.rng.choice(range(self.world.MAP_X))
                 y = self.rng.choice(range(self.world.MAP_Y))
