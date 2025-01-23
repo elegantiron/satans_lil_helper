@@ -9,6 +9,7 @@ ignore-fully-untyped = true
 addopts = [
 	"--import-mode=importlib",
 ]
+pythonpath = "src"
 
 [tool.mypy]
 check_untyped_defs = true
