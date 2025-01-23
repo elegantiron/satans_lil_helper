@@ -73,7 +73,7 @@ class BestiarySection(arcade.Section):
         )
         self.batch.draw()
 
-    def on_key_press(self, symbol: int, modifiers: int) -> bool | None:
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
             case arcade.key.ESCAPE:
                 self.enabled = False
