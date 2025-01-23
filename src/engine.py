@@ -163,7 +163,7 @@ class Engine(arcade.View):
 
     def load_satan(self) -> None:
         """Load the sprites for Satan"""
-        self.satan_sprites = arcade.SpriteList()
+        self.satan_sprites: arcade.SpriteList = arcade.SpriteList()
         self.satan = {
             "main": arcade.Sprite(
                 ":images:satan/main.png", 1, self.width // 2, self.height // 2
