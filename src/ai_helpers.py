@@ -50,7 +50,7 @@ def hostile_action(
     dx = playerpos.x - e_pos.x
     dy = playerpos.y - e_pos.y
     distance = max(abs(dx), abs(dy))
-    visible_tiles = gamemap.get_fov(e_pos.xy, stats.sight)
+    visible_tiles = gamemap.get_fov(e_pos.xy, int(stats.sight))
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
             entity.components[ActionDelay].ticks = 15
