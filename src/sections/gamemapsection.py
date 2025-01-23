@@ -131,7 +131,9 @@ class GameMapSection(arcade.Section):
         delay = self.view.player.components.get(ActionDelay, None)
         direction = keylists.MOVEMENT[key]
         if not self.show_highlight:
-            if delay.ticks == 0 or delay is None:
+            if delay is None:
+                delay = ActionDelay(0)
+            if delay.ticks == 0:
                 try:
                     BumpAction(
                         self.view.player,
