@@ -39,5 +39,5 @@ class EquipAction(ItemAction):
 
 class UnequipAction(ItemAction):
     def perform(self):
-        self.item.relation_tag[EntityTags.EQUIPPED_BY] = None
+        del self.item.relation_tag[EntityTags.EQUIPPED_BY]
         self.item.tags.discard(EntityTags.EQUIPPED)
