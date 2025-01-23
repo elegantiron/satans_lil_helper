@@ -48,11 +48,11 @@ class MainMenuSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.sprite_list: arcade.SpriteList = None
-        self.batch: Batch = None
-        self.title_text: arcade.Text = None
-        self.items: list[arcade.Text] = None
-        self.idx: int = None
+        self.sprite_list: arcade.SpriteList
+        self.batch: Batch
+        self.title_text: arcade.Text
+        self.items: list[arcade.Text]
+        self.idx: int
 
     def setup(self):
         """Set up the section"""
