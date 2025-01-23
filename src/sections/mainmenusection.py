@@ -89,7 +89,7 @@ class MainMenuSection(arcade.Section):
         self.idx = 0
         self.items[0].color = arcade.color.AMERICAN_ROSE
         for item in self.items:
-            item.color = item.color[0], item.color[1], item.color[2], 0
+            item.color = item.color[0], item.color[1], item.color[2], 0 # type: ignore
 
     def on_draw(self):
         self.batch.draw()
@@ -111,7 +111,7 @@ class MainMenuSection(arcade.Section):
                         // 80
                     ),
                 ),
-            )
+            ) # type: ignore
 
     def on_key_press(self, symbol, modifiers):
         match symbol:
@@ -151,4 +151,4 @@ class MainMenuSection(arcade.Section):
 
     def on_hide_section(self):
         for item in self.items:
-            item.color = item.color[0], item.color[1], item.color[2], 0
+            item.color = item.color[0], item.color[1], item.color[2], 0 # type: ignore
