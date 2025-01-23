@@ -65,7 +65,7 @@ class MeleeAction(ActionWithDirection):
             dice=attack.dice,
             sides=attack.sides,
             rng=self.rng,
-            strength=a_stats.strength,
+            strength=int(a_stats.strength),
         )
         t_stats.hp -= damage
         if damage == 0:
