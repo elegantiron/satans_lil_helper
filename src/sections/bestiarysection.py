@@ -79,4 +79,3 @@ class BestiarySection(arcade.Section):
                 self.enabled = False
                 if self.view.gamemap_section.enabled:
                     self.view.pause_section.enabled = True
-                return True
