@@ -125,4 +125,4 @@ class StatusSection(arcade.Section):
         elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
-            text.color = colors.White
+            text.color = colors.White # type: ignore
