@@ -15,7 +15,7 @@ class Skill:
     description: str
     prereqs: Abilities | None = None
     onetime: bool = True
-    effects: list[effects.BaseSkillEffect] = None
+    effects: list[effects.BaseSkillEffect] | None = None
 
 
 SkillList: list[Skill] = [
