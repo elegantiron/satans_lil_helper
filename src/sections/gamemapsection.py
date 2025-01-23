@@ -113,7 +113,7 @@ class GameMapSection(arcade.Section):
             self.view.world.player.components[Position].sprite.center_x
             + self.width // 6,
             self.view.world.player.components[Position].sprite.center_y,
-        )
+        ) # type: ignore
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
