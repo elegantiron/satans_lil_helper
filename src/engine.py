@@ -270,9 +270,11 @@ class Engine(arcade.View):
                             wander_action(ent, self.map, self.rng)
                         case AIType.CONFUSED:
                             confusion = ent.components.get(Confusion, None)
-                            if confusion.turns < confusion.limit:
+                            if confusion is None:
+                                raise MissingComponent
+                            if confusion.age < confusion.limit:
                                 confused_action(ent, self.map, self.rng)
-                                confusion.turns += 1
+                                confusion.age += 1
                             else:
                                 ent.components[AI].type = ent.components[AI].base_type
                         case AIType.HOSTILE:
