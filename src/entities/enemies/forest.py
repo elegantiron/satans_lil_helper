@@ -29,7 +29,8 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random) -> 
             onetime=abilities.Abilities.HOWL
             | abilities.Abilities.DARK_VISION
             | abilities.Abilities.GNAW
-            | abilities.Abilities.PACK_TACTICS
+            | abilities.Abilities.PACK_TACTICS,
+            repeatable=None,
         ),
         Position: Position(
             x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
