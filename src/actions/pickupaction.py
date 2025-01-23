@@ -39,4 +39,4 @@ class PickupAction(Action):
             ent.relation_tag[EntityTags.HELD_BY] = self.entity
             self.entity.relation_tags_many[EntityTags.HOLDING].add(ent)
 
-            del ent[Position]
+            del ent.components[Position]
