@@ -125,6 +125,8 @@ class GameMapSection(arcade.Section):
                 self.toggle_highlight()
             case arcade.key.I:
                 self.view.inventory_section.enabled = True
+            case arcade.key.C:
+                self.view.character_section.enabled = True
 
     def handle_move_key(self, key: int) -> None:
         """Handle moving the player"""
