@@ -8,6 +8,8 @@ ignore-fully-untyped = true
 [tool.pytest.ini_options]
 addopts = [
 	"--import-mode=importlib",
+	"-ra",
+	"--durations=3",
 ]
 pythonpath = "src"
 
