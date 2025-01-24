@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-from enum import Enum
 
-
-class Colors(Enum):
+class Colors:
     # Basic colors
     White = (0xFF, 0xFF, 0xFF, 0xFF)
 
@@ -20,4 +18,5 @@ class Colors(Enum):
     EnemyAttack = (0xFF, 0x70, 0x70, 0xFF)
 
     # Other colors
-    AmericanRose = (0xFF, 0x03, 0x7E, 0xFF)
+    AmericanRose = (0xFF, 0x03, 0x3E, 0xFF)
+    RUBINE_RED = (0xD1, 0x00, 0x56, 0xFF)
