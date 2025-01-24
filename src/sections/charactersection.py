@@ -6,8 +6,8 @@ import arcade
 from pyglet.graphics import Batch
 
 import abilities
-from components import Skills, Stats
-from constants import Strings, colors
+from components import Equippable, Name, Skills, Stats
+from constants import EntityTags, ItemType, Strings, colors
 from exceptions import MissingComponent
 
 if TYPE_CHECKING:
@@ -152,14 +152,24 @@ class CharacterSection(arcade.Section):
             f"{Strings.Status.LIGHT.capitalize()}:\t\t{stats.light}\n"
             f"{Strings.Status.VISION.capitalize()}:\t{stats.sight}\n"
         )
+        text = {itemtype: "" for itemtype in ItemType}
+        for ent in self.view.world.registry.Q.all_of(
+            components=[Equippable],
+            tags=[EntityTags.EQUIPPED, EntityTags.ITEM],
+            relations=[(EntityTags.EQUIPPED, self.view.player)],
+        ):
+            name = ent.components.get(Name)
+            text[ent.components[Equippable].type] = (
+                "an item" if name is None else name.name
+            )
         self.equipment.text = (
             "\n"
             f"{Strings.Status.EQUIPMENT.upper()}\n"
-            f"{Strings.GearSlots.WEAPON.capitalize()}:\tSword\n"
-            f"{Strings.GearSlots.HEAD.capitalize()}:\t\tHelmet\n"
-            f"{Strings.GearSlots.BODY.capitalize()}:\tArmor\n"
-            f"{Strings.GearSlots.HANDS.capitalize()}:\tHands\n"
-            f"{Strings.GearSlots.FEET.capitalize()}:\tBoots\n"
+            f"{Strings.GearSlots.WEAPON.capitalize()}:\t{text[ItemType.ONE_HAND]}\n"
+            f"{Strings.GearSlots.HEAD.capitalize()}:\t\t{text[ItemType.HELMET]}\n"
+            f"{Strings.GearSlots.BODY.capitalize()}:\t{text[ItemType.BODY_ARMOR]}\n"
+            f"{Strings.GearSlots.HANDS.capitalize()}:\t{text[ItemType.GAUNTLETS]}\n"
+            f"{Strings.GearSlots.FEET.capitalize()}:\t{text[ItemType.BOOTS]}\n"
         )
         self.skills.text = f"\n{Strings.Status.SKILLS.upper()}\n"
         for skill in self.view.player.components[Skills].repeatable:
