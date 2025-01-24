@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import arcade
 
 from components import Attack, Name, Stats
-from constants import colors
+from constants import Colors
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
 
@@ -81,6 +81,6 @@ class MeleeAction(ActionWithDirection):
             description = f"{description}."
         view: Engine = arcade.get_window().current_view # type: ignore
         if actor is self.gamemap.player:
-            view.message_log.add_message(description, colors.PlayerAttack)
+            view.message_log.add_message(description, Colors.PlayerAttack)
         else:
-            view.message_log.add_message(description, colors.EnemyAttack)
+            view.message_log.add_message(description, Colors.EnemyAttack)

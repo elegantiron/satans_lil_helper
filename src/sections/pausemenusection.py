@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import Strings, colors, keylists
+from constants import Colors, Strings, keylists
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -64,7 +64,7 @@ class PauseSection(arcade.Section):
             Strings.Titles.PAUSE,
             self.width / 2,
             self.height - 2,
-            colors.White,
+            Colors.White,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -94,10 +94,10 @@ class PauseSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TranslucentBlack
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, colors.White, 2
+            0, 0, self.width, self.height, Colors.White, 2
         )
         self.batch.draw()
 
