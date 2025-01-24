@@ -37,7 +37,15 @@ class Strings:
         MAGIC = "magic"
         EVASION = "evasion"
         CRIT = "crit"
+        EQUIPMENT = "equipment"
+        LIGHT = "light radius"
+        VISION = "vision radius"
+        SKILLS = "skills"
 
     class GearSlots(StrEnum):
         HEAD = "helm"
-
+        BODY = "armor"
+        HANDS = "gauntlets"
+        FEET = "boots"
+        WEAPON = "weapon"
+        
