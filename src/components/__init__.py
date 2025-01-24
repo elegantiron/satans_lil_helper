@@ -77,7 +77,9 @@ class Skills:
         import abilities
 
         self.onetime = onetime
-        self.repeatable = {skill.skill_id: 0 for skill in abilities.SkillList}
+        self.repeatable = {
+            skill.skill_id: 0 for skill in abilities.SkillList if skill.onetime is False
+        }
 
 
 @attrs.define
