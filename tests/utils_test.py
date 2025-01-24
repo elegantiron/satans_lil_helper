@@ -39,11 +39,8 @@ SAVE_DATA = b"sadhjafeuwaihroldsbkjhlahufeidajbnk"
 @pytest.mark.parametrize(
     ("test_data"),
     [
-        "ahjsdfkaeywuirabsjdkcvlasyutioewahrui",
-        b"fdsahuorwebrjhmalsdyfuiaovgyrewuiatlhwejkdlsedfhyua",
-        "fhjdkaogreyuiwartgayehjlgfhduigbaedrhjfekls",
-        b"fdsghaiorerbwqhmfghayudsogvbhearuitlahukl",
         pytest.param(bestiary.Bestiary(), id="bestiary"),
+        pytest.param(gameworld.GameWorld(), id="game world"),
     ],
 )
 def test_save_load(save_dir, test_data):
