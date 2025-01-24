@@ -5,29 +5,7 @@
 		}
 	],
 	"settings": {
-		"ruff.codeAction.disableRuleComment": {
-			"enable": false
-		},
-		"ruff.lint.extendSelect": [
-			"FA",
-			"ICN",
-			"RET",
-			"SIM",
-			"TC",
-			"PTH",
-			"ERA",
-			"PLW",
-			"I",
-			"N",
-			"UP",
-			"ANN",
-			"FBT",
-			"B",
-			"A",
-			"C4",
-			"ISC",
-			"T20",
-			"SLF"
-		]
+		"mypy-type-checker.preferDaemon": true,
+		"mypy-type-checker.reportingScope": "workspace"
 	}
 }

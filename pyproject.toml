@@ -1,0 +1,42 @@
+[project]
+name = "satans_lil_helper"
+version = "0.4.0"
+
+[tool.ruff.lint.flake8-annotations]
+ignore-fully-untyped = true
+
+[tool.pytest.ini_options]
+addopts = [
+	"--import-mode=importlib",
+	"-ra",
+	"--durations=3",
+]
+pythonpath = "src"
+
+[tool.mypy]
+check_untyped_defs = true
+python_version = "3.12"
+
+[tool.ruff.lint]
+extend-select = [
+			"FA",
+			"ICN",
+			"RET",
+			"SIM",
+			"TC",
+			"PTH",
+			"ERA",
+			"PLW",
+			"I",
+			"N",
+			"UP",
+			"ANN",
+			"FBT",
+			"B",
+			"A",
+			"C4",
+			"ISC",
+			"T20",
+			"SLF",
+			"PT",
+		]

@@ -22,7 +22,7 @@ from components import (
 )
 from constants import TILE_SIZE, AIType, EntityTags, Tile
 from entities import enemies
-from exceptions import Impossible
+from exceptions import Impossible, MissingComponent
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -55,8 +55,8 @@ class Engine(arcade.View):
 
     def __init__(
         self,
-        window: arcade.Window = None,
-        background_color: tuple[int, int, int, int] = None,
+        window: arcade.Window | None = None,
+        background_color: tuple[int, int, int, int] | None = None,
     ) -> None:
         super().__init__(window, background_color)
 
@@ -76,10 +76,10 @@ class Engine(arcade.View):
             path.mkdir(parents=True)
         bestiary = path / "bestiary.dat"
         if bestiary.exists():
-            self.bestiary = load_data(bestiary)
+            self.bestiary = load_data(bestiary) # type: ignore
         else:
             self.bestiary = Bestiary()
-            save_data(self.bestiary, bestiary)
+            save_data(self.bestiary, bestiary) # type: ignore
 
     def setup_sections(self) -> None:
         """Set up the sections"""
@@ -89,9 +89,9 @@ class Engine(arcade.View):
 
         self.menu_section = MainMenuSection(0, 0, self.width, self.height)
 
-        self.bestiary_section = BestiarySection(0, 0, self.width, self.height)
+        self.bestiary_section = BestiarySection(0, 0, int(self.width), int(self.height))
 
-        self.gamemap_section = GameMapSection(0, 0, self.width, self.height)
+        self.gamemap_section = GameMapSection(0, 0, int(self.width), int(self.height))
 
         self.status_section = StatusSection(
             self.width * 2 / 3,
@@ -163,7 +163,7 @@ class Engine(arcade.View):
 
     def load_satan(self) -> None:
         """Load the sprites for Satan"""
-        self.satan_sprites = arcade.SpriteList()
+        self.satan_sprites: arcade.SpriteList = arcade.SpriteList()
         self.satan = {
             "main": arcade.Sprite(
                 ":images:satan/main.png", 1, self.width // 2, self.height // 2
@@ -226,8 +226,8 @@ class Engine(arcade.View):
         for _ in range(25):
             wolf = self.map.registry.new_entity()
             chosen = False
-            x = None
-            y = None
+            x: int
+            y: int
             while not chosen:
                 x = self.rng.choice(range(self.world.MAP_X))
                 y = self.rng.choice(range(self.world.MAP_Y))
@@ -270,9 +270,11 @@ class Engine(arcade.View):
                             wander_action(ent, self.map, self.rng)
                         case AIType.CONFUSED:
                             confusion = ent.components.get(Confusion, None)
-                            if confusion.turns < confusion.limit:
+                            if confusion is None:
+                                raise MissingComponent
+                            if confusion.age < confusion.limit:
                                 confused_action(ent, self.map, self.rng)
-                                confusion.turns += 1
+                                confusion.age += 1
                             else:
                                 ent.components[AI].type = ent.components[AI].base_type
                         case AIType.HOSTILE:

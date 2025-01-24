@@ -29,7 +29,7 @@ class PickupAction(Action):
                 len(
                     set(
                         self.entity.registry.Q.all_of(
-                            relations=[self.entity, EntityTags.HOLDING, None]
+                            relations=[(self.entity, EntityTags.HOLDING, None)]
                         )
                     )
                 )
@@ -39,4 +39,4 @@ class PickupAction(Action):
             ent.relation_tag[EntityTags.HELD_BY] = self.entity
             self.entity.relation_tags_many[EntityTags.HOLDING].add(ent)
 
-            del ent[Position]
+            del ent.components[Position]

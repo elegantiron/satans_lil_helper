@@ -19,15 +19,25 @@ class Strings:
         QUIT_NO_SAVE = "Quit without Saving"
 
     class Titles(StrEnum):
-        BESTIARY = "Bestiary"
-        LEVEL_UP = "Level Up"
-        INVENTORY = "Inventory"
-        PAUSE = "Pause"
+        BESTIARY = "bestiary"
+        LEVEL_UP = "level up"
+        INVENTORY = "inventory"
+        PAUSE = "pause"
         GAME = "Satan's Lil Helper"
         MAIN_MENU = GAME
-        STATUS = "Status"
+        STATUS = "status"
+        CHARACTER_SHEET = "character info"
 
     class Status(StrEnum):
-        LOCATION = "Location"
-        HEALTH = "Health: "
-        MANA = "Mana: "
+        LOCATION = "location"
+        HEALTH = "health"
+        MANA = "mana"
+        ABILITIES = "abilities"
+        STRENGTH = "strength"
+        MAGIC = "magic"
+        EVASION = "evasion"
+        CRIT = "crit"
+
+    class GearSlots(StrEnum):
+        HEAD = "helm"
+

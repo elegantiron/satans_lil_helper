@@ -50,9 +50,9 @@ class MessageSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.camera: arcade.Camera2D = None
-        self.batch: Batch = None
-        self.texts: list[arcade.Text] = None
+        self.camera: arcade.Camera2D
+        self.batch: Batch
+        self.texts: list[arcade.Text]
 
     def setup(self):
         """Setup the section"""

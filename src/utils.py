@@ -6,7 +6,7 @@ import hmac
 import lzma
 from typing import TYPE_CHECKING
 
-import dill as pickle
+import dill as pickle  # type: ignore
 
 from components import Stats
 from constants import EntityTags
@@ -21,10 +21,10 @@ if TYPE_CHECKING:
 HMAC_KEY = b"adsfauioerbasfhdjkagvyudis"
 
 
-def load_data(path: Path) -> bytes:
+def load_data(path: Path) -> bytes | None:
     """Load saved data"""
     signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
-    data_to_load = ""
+    data_to_load: bytes
     try:
         with path.open("rb") as f:
             mac_data = f.read(signer.digest_size)
@@ -35,7 +35,7 @@ def load_data(path: Path) -> bytes:
             return pickle.loads(lzma.decompress(data_to_load))
         raise HashError
     except FileNotFoundError:
-        pass
+        return None
 
 
 def save_data(data:bytes, path: Path) -> None:
@@ -66,10 +66,10 @@ def move_entity(entity: tcod.ecs.Entity, dest: tcod.ecs.Registry) -> tcod.ecs.En
     target = dest[entity.uid]
     target.components = entity.components
     target.tags = entity.tags
-    target.relation_tags_many = entity.relation_tags_many
-    target.relation_components = entity.relation_components
+    target.relation_tags_many = entity.relation_tags_many # type: ignore
+    target.relation_components = entity.relation_components # type: ignore
 
-    relation_targets = set()
+    relation_targets: set[tcod.ecs.Entity] = set()
     for r_tag, r_targets in entity.relation_tags_many.items():
         relation_targets |= r_targets
         target.relation_tags_many[r_tag] = (
@@ -119,6 +119,7 @@ def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
         r_stats = relation.components.get(Stats, None)
         if r_stats is not None:
             total_stats += r_stats
+    return total_stats
 
 
 def get_neighbors(x:int, y:int, tiles: list[list[int]]) -> int:

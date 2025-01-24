@@ -25,11 +25,11 @@ class BestiarySection(arcade.Section):
         width: int,
         height: int,
         *,
-        name: str = None,
+        name: str | None = None,
         accept_keyboard_keys: bool = True,
         accept_mouse_events: bool = True,
-        prevent_dispatch: list = None,
-        prevent_dispatch_view: list = None,
+        prevent_dispatch: list | None  = None,
+        prevent_dispatch_view: list | None  = None,
         local_mouse_coordinates: bool = False,
         enabled: bool = False,
         modal: bool = True,
@@ -73,10 +73,9 @@ class BestiarySection(arcade.Section):
         )
         self.batch.draw()
 
-    def on_key_press(self, symbol: int, modifiers: int) -> bool | None:
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
             case arcade.key.ESCAPE:
                 self.enabled = False
                 if self.view.gamemap_section.enabled:
                     self.view.pause_section.enabled = True
-                return True

@@ -34,11 +34,11 @@ class GameMapSection(arcade.Section):
         width: int,
         height: int,
         *,
-        name: str = None,
+        name: str | None = None,
         accept_keyboard_keys: bool = True,
         accept_mouse_events: bool = True,
-        prevent_dispatch: list = None,
-        prevent_dispatch_view: list = None,
+        prevent_dispatch: list | None = None,
+        prevent_dispatch_view: list | None = None,
         local_mouse_coordinates: bool = False,
         enabled: bool = False,
         modal: bool = False,
@@ -113,7 +113,7 @@ class GameMapSection(arcade.Section):
             self.view.world.player.components[Position].sprite.center_x
             + self.width // 6,
             self.view.world.player.components[Position].sprite.center_y,
-        )
+        ) # type: ignore
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
@@ -131,7 +131,9 @@ class GameMapSection(arcade.Section):
         delay = self.view.player.components.get(ActionDelay, None)
         direction = keylists.MOVEMENT[key]
         if not self.show_highlight:
-            if delay.ticks == 0 or delay is None:
+            if delay is None:
+                delay = ActionDelay(0)
+            if delay.ticks == 0:
                 try:
                     BumpAction(
                         self.view.player,
@@ -182,7 +184,6 @@ class GameMapSection(arcade.Section):
             self.view.handle_regen()
             self.view.process_ai()
             self.view.handle_ailments()
-            
 
     @property
     def map(self) -> GameMap:
@@ -201,7 +202,7 @@ class GameMapSection(arcade.Section):
             self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
         self.map.tiles[Tile.EXPLORED] |= tiles
-        self.map.tiles[Tile.VISIBLE] = tiles
+        self.map.tiles[Tile.VISIBLE] = tiles # type: ignore
         i, j = np.nonzero(tiles)
         # pylint: disable=consider-using-enumerate
         for x in range(len(i)):

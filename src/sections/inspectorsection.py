@@ -108,7 +108,7 @@ class InspectorSection(arcade.Section):
                 for ent in self.view.world.map.registry.Q.all_of(components=[Position]):
                     pos = ent.components[Position]
                     if pos.x == highlight[0] and pos.y == highlight[1]:
-                        name = ent.components.get(Name, "a mysterious stranger")
+                        name = ent.components.get(Name, Name("a mysterious stranger"))
                         if name.name == "you":
                             description = f"{description} yourself"
                         else:

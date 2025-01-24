@@ -42,3 +42,8 @@ class ItemType(Flag):
     GREAVES = auto()
     HELMET = auto()
     CONSUMABLE = auto()
+
+class Enemies(Enum):
+    WOLF = auto()
+    SPIDER = auto()
+    BEAR = auto()

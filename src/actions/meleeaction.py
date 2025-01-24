@@ -65,7 +65,7 @@ class MeleeAction(ActionWithDirection):
             dice=attack.dice,
             sides=attack.sides,
             rng=self.rng,
-            strength=a_stats.strength,
+            strength=int(a_stats.strength),
         )
         t_stats.hp -= damage
         if damage == 0:
@@ -79,7 +79,7 @@ class MeleeAction(ActionWithDirection):
                 target.clear()
         else:
             description = f"{description}."
-        view: Engine = arcade.get_window().current_view
+        view: Engine = arcade.get_window().current_view # type: ignore
         if actor is self.gamemap.player:
             view.message_log.add_message(description, colors.PlayerAttack)
         else:

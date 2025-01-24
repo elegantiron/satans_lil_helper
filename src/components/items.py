@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING
 import attrs
 
 if TYPE_CHECKING:
-    from constants import ItemType, abilities
+    import abilities
+    from constants import ItemType
 
 
 @attrs.define

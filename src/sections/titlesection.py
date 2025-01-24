@@ -10,7 +10,7 @@ from pyglet.graphics import Batch
 from constants import Strings
 
 if TYPE_CHECKING:
-    from ..engine import Engine
+    from ..engine import Engine  # type: ignore
 
 
 class TitleSection(arcade.Section):

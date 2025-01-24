@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class ItemAction(Action):
-    def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity):
+    def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity) -> None:
         super().__init__(entity)
         self.item = item
 
@@ -39,5 +39,5 @@ class EquipAction(ItemAction):
 
 class UnequipAction(ItemAction):
     def perform(self):
-        self.item.relation_tag[EntityTags.EQUIPPED_BY] = None
+        del self.item.relation_tag[EntityTags.EQUIPPED_BY]
         self.item.tags.discard(EntityTags.EQUIPPED)

@@ -61,19 +61,23 @@ class ActionDelay:
     ticks: int = 0
 
 
-@attrs.define(kw_only=True)
+@attrs.define(kw_only=True, init=False)
 class Skills:
     """An entity's special abilities"""
 
     repeatable: dict[abilities.Abilities, int]
     onetime: abilities.Abilities
 
-    def __init__(self, *, onetime: abilities.Abilities = 0) -> None:
+    def __init__(
+        self,
+        *,
+        onetime: abilities.Abilities = 0,  # type: ignore
+        repeatable: dict[abilities.Abilities, int] = None,  # type: ignore
+    ) -> None:
         import abilities
-        self.repeatable = {
-            skill.skill_id: 0 for skill in abilities.SkillList if not skill.onetime
-        }
+
         self.onetime = onetime
+        self.repeatable = {skill.skill_id: 0 for skill in abilities.SkillList}
 
 
 @attrs.define

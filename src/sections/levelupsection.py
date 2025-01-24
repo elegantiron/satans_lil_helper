@@ -93,9 +93,7 @@ class LevelupSection(arcade.Section):
             batch=self.batch,
         )
 
-    def pick_skills(
-        self,
-    ) -> list[abilities.Abilities, abilities.Abilities, abilities.Abilities]:
+    def pick_skills(self) -> None:
         player_skills = self.view.player.components.get(Skills, None)
         if player_skills is None:
             raise MissingComponent

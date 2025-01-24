@@ -50,7 +50,7 @@ def hostile_action(
     dx = playerpos.x - e_pos.x
     dy = playerpos.y - e_pos.y
     distance = max(abs(dx), abs(dy))
-    visible_tiles = gamemap.get_fov(e_pos.xy, stats.sight)
+    visible_tiles = gamemap.get_fov(e_pos.xy, int(stats.sight))
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
             entity.components[ActionDelay].ticks = 15
@@ -61,7 +61,7 @@ def hostile_action(
         )
         pathfinder = tcod.path.Pathfinder(graph)
         pathfinder.add_root(playerpos.xy)
-        path = pathfinder.path_from(e_pos.xy)[1:].tolist()
+        path = pathfinder.path_from(e_pos.xy)[1:].tolist() # type: ignore
 
     if path:
         dest_x, dest_y = path.pop(0)

@@ -25,7 +25,7 @@ class GameMap:
     player: tcod.ecs.Entity
     tiles: npt.NDArray
     pathfinder: tcod.path.Pathfinder
-    sprites: list[list[arcade.Sprite]]
+    sprites: list[list[arcade.Sprite|None]]
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
@@ -35,7 +35,6 @@ class GameMap:
 
     def __init__(self) -> None:
         self.registry = tcod.ecs.Registry()
-        self.sprites = None
 
     def new_player(self) -> None:
         """Make a new player"""
