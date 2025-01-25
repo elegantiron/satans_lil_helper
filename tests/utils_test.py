@@ -18,6 +18,7 @@ path = Path(__file__).parent.parent.resolve()
 arcade.resources.add_resource_handle("images", path / "assets" / "images")
 arcade.resources.add_resource_handle("fonts", path / "assets" / "fonts")
 
+
 @pytest.mark.parametrize(
     ("pixel_address", "grid_address"),
     [
@@ -47,7 +48,13 @@ SAVE_DATA = b"sadhjafeuwaihroldsbkjhlahufeidajbnk"
     ("test_data"),
     [
         pytest.param(bestiary.Bestiary(), id="bestiary"),
-        pytest.param(gameworld.GameWorld(), id="game world"),
+        pytest.param(
+            gameworld.GameWorld(),
+            id="game world",
+            marks=pytest.mark.xfail(
+                strict=True, reason="Bug in Arcade, waiting for fix."
+            ),
+        ),
     ],
 )
 def test_save_load(save_dir, test_data):
