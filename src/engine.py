@@ -207,6 +207,12 @@ class Engine(arcade.View):
     def new_world(self) -> None:
         """Make a new world"""
         self.world = GameWorld()
+        p_pos = self.player.components[Position]
+        while not self.world.map.tiles[Tile.WALKABLE][p_pos.xy]:
+            if self.rng.random() < 0.5:
+                p_pos.x += 1
+            else:
+                p_pos.y += 1
         for ix, iy in np.ndindex(self.map.tiles.shape):
             if self.map.tiles[Tile.WALKABLE][ix, iy]:
                 self.world.map.sprites[ix][iy] = arcade.Sprite(
