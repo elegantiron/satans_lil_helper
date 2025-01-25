@@ -61,6 +61,12 @@ class GameWorld:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
 
+    def __eq__(self, other: GameWorld) -> bool:
+        return (
+            self._maps == other._maps
+            and self.rng.getstate() == other.rng.getstate()
+        )
+
     @property
     def map(self) -> GameMap:
         """The current map"""
