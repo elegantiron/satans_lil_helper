@@ -12,7 +12,9 @@ from .moveaction import MoveAction
 
 if TYPE_CHECKING:
     import random
+
     import tcod.ecs
+
     from gamemap import GameMap
 
 
@@ -25,7 +27,7 @@ class BumpAction(ActionWithDirection):
         direction: tuple[int, int],
         gamemap: GameMap,
         rng: random.Random,
-    ):
+    ) -> None:
         super().__init__(entity, direction, gamemap)
         self.rng = rng
 

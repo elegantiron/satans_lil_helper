@@ -6,6 +6,7 @@ import numpy as np
 from components import Position
 from constants import Tile
 from exceptions import PathBlocked
+
 from .actionwithdirection import ActionWithDirection
 
 

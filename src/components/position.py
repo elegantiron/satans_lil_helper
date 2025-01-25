@@ -10,7 +10,7 @@ from constants import TILE_SIZE
 class Position:
     """An entity's position and sprite"""
 
-    def __init__(self, *, x: int = 0, y: int = 0, sprite: str | None = None):
+    def __init__(self, *, x: int = 0, y: int = 0, sprite: str | None = None) -> None:
         if sprite is not None:
             self.sprite = arcade.Sprite(sprite)
         else:
