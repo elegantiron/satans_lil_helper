@@ -9,20 +9,12 @@ from typing import TYPE_CHECKING
 import arcade
 import numpy as np
 
-from ai_helpers import confused_action, hostile_action, wander_action
 from bestiary import Bestiary
 from components import (
-    AI,
-    ActionDelay,
-    Confusion,
-    DamagingAilment,
     Position,
-    Regen,
-    Stats,
 )
-from constants import TILE_SIZE, AIType, EntityTags, Tile
+from constants import TILE_SIZE, Tile
 from entities import enemies
-from exceptions import Impossible, MissingComponent
 from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
@@ -273,53 +265,3 @@ class Engine(arcade.View):
         """The RNG"""
         return self.world.rng
 
-    def step_time(self) -> None:
-        for ent in self.registry.Q.all_of(components=[ActionDelay]):
-            ent.components[ActionDelay].ticks -= 1
-
-    def process_ai(self) -> None:
-        for ent in self.registry.Q.all_of(components=[Position, AI, ActionDelay]):
-            if ent.components[ActionDelay].ticks == 0:
-                try:
-                    match ent.components[AI].type:
-                        case AIType.WANDERING:
-                            wander_action(ent, self.map, self.rng)
-                        case AIType.CONFUSED:
-                            confusion = ent.components.get(Confusion, None)
-                            if confusion is None:
-                                raise MissingComponent
-                            if confusion.age < confusion.limit:
-                                confused_action(ent, self.map, self.rng)
-                                confusion.age += 1
-                            else:
-                                ent.components[AI].type = ent.components[AI].base_type
-                        case AIType.HOSTILE:
-                            hostile_action(ent, self.map, self.rng)
-                        case AIType.HOWL_RESPONSE:
-                            pass
-                except Impossible:
-                    # Catch impossible actions and ignore them.
-                    # We don't care if the AI tries something it can't do
-                    pass
-
-    def handle_regen(self):
-        for ent in self.registry.Q.all_of(components=[Stats, Regen]):
-            stats = ent.components[Stats]
-            regen = ent.components[Regen]
-            regen.counter += 1
-            if regen.proc:
-                stats.hp += regen.health
-                stats.mp += regen.mana
-
-    def handle_ailments(self):
-        for ent in self.registry.Q.all_of(components=[DamagingAilment]):
-            target = ent.relation_tag[EntityTags]
-            dice, sides = ent.components[DamagingAilment].damage
-            damage = 0
-            for _ in range(dice):
-                damage += self.rng.randint(1, sides)
-            stats = target.components.get(Stats, None)
-            if stats is None:
-                continue
-            stats.hp -= damage
-            # TODO log ailment damage
