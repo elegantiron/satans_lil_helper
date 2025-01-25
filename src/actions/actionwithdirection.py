@@ -23,7 +23,7 @@ class ActionWithDirection(Action, metaclass=ABCMeta):
         entity: tcod.ecs.Entity,
         direction: tuple[int, int],
         gamemap: GameMap,
-    ):
+    ) -> None:
         super().__init__(entity=entity)
         self.gamemap = gamemap
         self.direction = direction
