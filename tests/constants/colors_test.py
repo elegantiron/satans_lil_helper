@@ -6,7 +6,7 @@ from constants import Colors
 
 
 @pytest.mark.parametrize("color", Colors)
-def test_colors(color):
+def test_colors(color: Colors) -> None:
         assert isinstance(color, tuple)
         assert 2 < len(color) < 5
         for hex_value in color:
