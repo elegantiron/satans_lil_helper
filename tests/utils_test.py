@@ -1,15 +1,22 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING
 
+import arcade
 import pytest
 
 import bestiary
+import gameworld
 import utils
 
 if TYPE_CHECKING:
     import pathlib
 
+
+path = Path(__file__).parent.parent.resolve()
+arcade.resources.add_resource_handle("images", path / "assets" / "images")
+arcade.resources.add_resource_handle("fonts", path / "assets" / "fonts")
 
 @pytest.mark.parametrize(
     ("pixel_address", "grid_address"),
@@ -39,11 +46,8 @@ SAVE_DATA = b"sadhjafeuwaihroldsbkjhlahufeidajbnk"
 @pytest.mark.parametrize(
     ("test_data"),
     [
-        "ahjsdfkaeywuirabsjdkcvlasyutioewahrui",
-        b"fdsahuorwebrjhmalsdyfuiaovgyrewuiatlhwejkdlsedfhyua",
-        "fhjdkaogreyuiwartgayehjlgfhduigbaedrhjfekls",
-        b"fdsghaiorerbwqhmfghayudsogvbhearuitlahukl",
         pytest.param(bestiary.Bestiary(), id="bestiary"),
+        pytest.param(gameworld.GameWorld(), id="game world"),
     ],
 )
 def test_save_load(save_dir, test_data):

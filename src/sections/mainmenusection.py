@@ -1,4 +1,5 @@
 """Main menu"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -6,7 +7,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import Strings, keylists
+from constants import Colors, Strings, keylists
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -14,6 +15,7 @@ if TYPE_CHECKING:
 
 class MainMenuSection(arcade.Section):
     """Main menu section"""
+
     view: Engine
 
     def __init__(
@@ -62,7 +64,7 @@ class MainMenuSection(arcade.Section):
             Strings.Titles.MAIN_MENU,
             self.width // 2,
             self.height - 10,
-            arcade.color.RUBINE_RED,
+            Colors.RUBINE_RED,
             50,
             anchor_x="center",
             anchor_y="top",
@@ -78,7 +80,7 @@ class MainMenuSection(arcade.Section):
                 item,
                 self.width // 2,
                 self.height // 2 - items.index(item) * 20,
-                arcade.color.WHITE,
+                Colors.White,
                 20,
                 anchor_x="center",
                 anchor_y="center",
@@ -87,9 +89,9 @@ class MainMenuSection(arcade.Section):
             for item in items
         ]
         self.idx = 0
-        self.items[0].color = arcade.color.AMERICAN_ROSE
+        self.items[0].color = Colors.AmericanRose
         for item in self.items:
-            item.color = item.color[0], item.color[1], item.color[2], 0 # type: ignore
+            item.color = item.color[0], item.color[1], item.color[2], 0  # type: ignore
 
     def on_draw(self):
         self.batch.draw()
@@ -111,18 +113,18 @@ class MainMenuSection(arcade.Section):
                         // 80
                     ),
                 ),
-            ) # type: ignore
+            )  # type: ignore
 
     def on_key_press(self, symbol, modifiers):
         match symbol:
             case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][1] != 0:
-                self.items[self.idx].color = arcade.color.WHITE
+                self.items[self.idx].color = Colors.White
                 self.idx -= keylists.MOVEMENT[key][1]
                 if self.idx < 0:
                     self.idx = len(self.items) - 1
                 else:
                     self.idx = self.idx % len(self.items)
-                self.items[self.idx].color = arcade.color.AMERICAN_ROSE
+                self.items[self.idx].color = Colors.AmericanRose
                 return True
             case arcade.key.ESCAPE:
                 self.view.title_section.enabled = True
@@ -151,4 +153,4 @@ class MainMenuSection(arcade.Section):
 
     def on_hide_section(self):
         for item in self.items:
-            item.color = item.color[0], item.color[1], item.color[2], 0 # type: ignore
+            item.color = item.color[0], item.color[1], item.color[2], 0  # type: ignore

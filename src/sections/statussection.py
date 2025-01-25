@@ -8,7 +8,7 @@ import arcade
 from pyglet.graphics import Batch
 
 from components import Position, Stats
-from constants import Strings, colors
+from constants import Colors, Strings
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -103,7 +103,7 @@ class StatusSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width + 5, self.height, colors.TranslucentBlack
+            0, 0, self.width + 5, self.height, Colors.TranslucentBlack
         )
         self.batch.draw()
 
@@ -125,4 +125,4 @@ class StatusSection(arcade.Section):
         elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
-            text.color = colors.White # type: ignore
+            text.color = Colors.White # type: ignore

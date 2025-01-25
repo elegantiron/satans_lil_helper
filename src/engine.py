@@ -27,6 +27,7 @@ from gameworld import GameWorld
 from messagelog import MessageLog
 from sections import (
     BestiarySection,
+    CharacterSection,
     GameMapSection,
     InspectorSection,
     InventorySection,
@@ -139,6 +140,13 @@ class Engine(arcade.View):
             self.pause_section.height,
         )
 
+        self.character_section = CharacterSection(
+            self.pause_section.left,
+            self.pause_section.bottom,
+            self.pause_section.width,
+            self.pause_section.height,
+        )
+
         self.sm.add_section(self.title_section)
         self.sm.add_section(self.menu_section)
         self.sm.add_section(self.gamemap_section)
@@ -149,6 +157,7 @@ class Engine(arcade.View):
         self.sm.add_section(self.inspector_section)
         self.sm.add_section(self.inventory_section)
         self.sm.add_section(self.levelup_section)
+        self.sm.add_section(self.character_section)
 
         self.title_section.setup()
         self.menu_section.setup()
@@ -160,6 +169,7 @@ class Engine(arcade.View):
         self.inspector_section.setup()
         self.inventory_section.setup()
         self.levelup_section.setup()
+        self.character_section.setup()
 
     def load_satan(self) -> None:
         """Load the sprites for Satan"""

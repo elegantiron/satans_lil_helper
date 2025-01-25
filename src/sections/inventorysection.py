@@ -5,7 +5,7 @@ from __future__ import annotations
 import arcade
 from pyglet.graphics import Batch
 
-from constants import Strings, colors
+from constants import Colors, Strings
 
 
 class InventorySection(arcade.Section):
@@ -55,7 +55,7 @@ class InventorySection(arcade.Section):
             Strings.Titles.INVENTORY,
             self.width / 2,
             self.height - 3,
-            colors.White,
+            Colors.White,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -64,10 +64,10 @@ class InventorySection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TranslucentBlack
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, colors.White, 2
+            0, 0, self.width, self.height, Colors.White, 2
         )
         self.batch.draw()
 
