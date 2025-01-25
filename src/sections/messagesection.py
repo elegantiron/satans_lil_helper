@@ -62,7 +62,7 @@ class MessageSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
         )
         self.batch.draw()
 

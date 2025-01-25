@@ -14,9 +14,9 @@ def messagelog() -> MessageLog:
 @pytest.mark.parametrize(
     ("text", "color"),
     [
-        ("You attack the goblin dealing a bunch of emotional damage", Colors.PlayerAttack),
-        ("The hipster attacks you, but your confidence negates his disdain!", Colors.EnemyAttack),
-        ("A third event happens, but it doesn't go your way.", Colors.AmericanRose),
+        ("You attack the goblin dealing a bunch of emotional damage", Colors.PLAYER_ATTACK),
+        ("The hipster attacks you, but your confidence negates his disdain!", Colors.ENEMY_ATTACK),
+        ("A third event happens, but it doesn't go your way.", Colors.AMERICAN_ROSE),
     ],
 )
 class TestMessageLog:

@@ -64,7 +64,7 @@ class PauseSection(arcade.Section):
             Strings.Titles.PAUSE,
             self.width / 2,
             self.height - 2,
-            Colors.White,
+            Colors.WHITE,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -94,10 +94,10 @@ class PauseSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, Colors.White, 2
+            0, 0, self.width, self.height, Colors.WHITE, 2
         )
         self.batch.draw()
 

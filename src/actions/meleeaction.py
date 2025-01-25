@@ -81,6 +81,6 @@ class MeleeAction(ActionWithDirection):
             description = f"{description}."
         view: Engine = arcade.get_window().current_view # type: ignore
         if actor is self.gamemap.player:
-            view.message_log.add_message(description, Colors.PlayerAttack)
+            view.message_log.add_message(description, Colors.PLAYER_ATTACK)
         else:
-            view.message_log.add_message(description, Colors.EnemyAttack)
+            view.message_log.add_message(description, Colors.ENEMY_ATTACK)

@@ -61,7 +61,7 @@ class CharacterSection(arcade.Section):
             Strings.Titles.CHARACTER_SHEET.title(),
             self.width // 2,
             self.height - 2,
-            Colors.White,
+            Colors.WHITE,
             20,
             anchor_x="center",
             anchor_y="top",
@@ -71,7 +71,7 @@ class CharacterSection(arcade.Section):
             "Stats",
             5,
             self.title.bottom - 5,
-            Colors.White,
+            Colors.WHITE,
             15,
             anchor_x="left",
             anchor_y="top",
@@ -81,7 +81,7 @@ class CharacterSection(arcade.Section):
             Strings.Status.HEALTH,
             5,
             self.stats.bottom,
-            Colors.White,
+            Colors.WHITE,
             15,
             anchor_y="top",
             batch=self.batch,
@@ -90,7 +90,7 @@ class CharacterSection(arcade.Section):
             "Placeholder",  # This is exclusively so that the sizes we use later are calculated
             5,
             self.healthmana.bottom,
-            Colors.White,
+            Colors.WHITE,
             15,
             int(self.width / 4),
             anchor_y="top",
@@ -101,7 +101,7 @@ class CharacterSection(arcade.Section):
             "Placeholder",
             self.width / 4,
             self.healthmana.bottom,
-            Colors.White,
+            Colors.WHITE,
             15,
             int(self.width / 4),
             anchor_y="top",
@@ -112,7 +112,7 @@ class CharacterSection(arcade.Section):
             "Placeholder",
             self.width / 2,
             self.healthmana.bottom,
-            Colors.White,
+            Colors.WHITE,
             15,
             int(self.width / 4),
             anchor_y="top",
@@ -122,10 +122,10 @@ class CharacterSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, Colors.White, 2
+            0, 0, self.width, self.height, Colors.WHITE, 2
         )
         self.batch.draw()
 

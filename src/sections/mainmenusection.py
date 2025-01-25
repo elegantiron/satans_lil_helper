@@ -80,7 +80,7 @@ class MainMenuSection(arcade.Section):
                 item,
                 self.width // 2,
                 self.height // 2 - items.index(item) * 20,
-                Colors.White,
+                Colors.WHITE,
                 20,
                 anchor_x="center",
                 anchor_y="center",
@@ -89,7 +89,7 @@ class MainMenuSection(arcade.Section):
             for item in items
         ]
         self.idx = 0
-        self.items[0].color = Colors.AmericanRose
+        self.items[0].color = Colors.AMERICAN_ROSE
         for item in self.items:
             item.color = item.color[0], item.color[1], item.color[2], 0  # type: ignore
 
@@ -118,13 +118,13 @@ class MainMenuSection(arcade.Section):
     def on_key_press(self, symbol, modifiers):
         match symbol:
             case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][1] != 0:
-                self.items[self.idx].color = Colors.White
+                self.items[self.idx].color = Colors.WHITE
                 self.idx -= keylists.MOVEMENT[key][1]
                 if self.idx < 0:
                     self.idx = len(self.items) - 1
                 else:
                     self.idx = self.idx % len(self.items)
-                self.items[self.idx].color = Colors.AmericanRose
+                self.items[self.idx].color = Colors.AMERICAN_ROSE
                 return True
             case arcade.key.ESCAPE:
                 self.view.title_section.enabled = True

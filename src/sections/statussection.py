@@ -103,7 +103,7 @@ class StatusSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width + 5, self.height, Colors.TranslucentBlack
+            0, 0, self.width + 5, self.height, Colors.TRANSLUCENT_BLACK
         )
         self.batch.draw()
 
@@ -125,4 +125,4 @@ class StatusSection(arcade.Section):
         elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
-            text.color = Colors.White # type: ignore
+            text.color = Colors.WHITE # type: ignore

@@ -66,7 +66,7 @@ class LevelupSection(arcade.Section):
             Strings.Titles.LEVEL_UP,
             self.width / 2,
             self.height - 2,
-            Colors.White,
+            Colors.WHITE,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -76,7 +76,7 @@ class LevelupSection(arcade.Section):
             "Name",
             self.width / 2,
             self.height / 5,
-            Colors.White,
+            Colors.WHITE,
             20,
             anchor_x="center",
             anchor_y="bottom",
@@ -86,7 +86,7 @@ class LevelupSection(arcade.Section):
             "Description",
             self.width / 2,
             self.skill_name.bottom - 5,
-            Colors.White,
+            Colors.WHITE,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -109,10 +109,10 @@ class LevelupSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TranslucentBlack
+            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, Colors.White, 2
+            0, 0, self.width, self.height, Colors.WHITE, 2
         )
         self.batch.draw()
         self.sprite_list.draw()
