@@ -37,7 +37,9 @@ class GameMap:
         self.registry = tcod.ecs.Registry()
 
     def __eq__(self, other: GameMap) -> bool:
-        return True
+        return (
+            np.array_equal(self.tiles, other.tiles)
+        )
 
     def new_player(self) -> None:
         """Make a new player"""
