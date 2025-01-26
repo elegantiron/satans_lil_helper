@@ -72,6 +72,12 @@ class GameWorld:
             else:
                 self._current_map.tiles[ix, iy] = ForestWall
         self._current_map.new_player()
+        p_pos = self.player.components[Position]
+        while not self.map.tiles[Tile.WALKABLE][p_pos.xy]:
+            if self.rng.random() < 0.5:
+                p_pos.x += 1
+            else:
+                p_pos.y += 1
 
     def __eq__(self, other: GameWorld) -> bool:
         return self._maps == other._maps and self.rng.getstate() == other.rng.getstate()
