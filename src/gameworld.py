@@ -19,12 +19,14 @@ from components import (
     Stats,
 )
 from constants import AIType, EntityTags, Tile
-from exceptions import Impossible, MissingComponent
+from exceptions import Impossible, MissingComponent, SpawnBlocked
 from gamemap import GameMap
 from tile_types import ForestFloor, ForestWall
 from utils import get_neighbors
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     import tcod.ecs
 
 
@@ -148,5 +150,21 @@ class GameWorld:
             stats.hp -= damage
             # TODO log ailment damage
 
-    def spawn_entity(self) -> tcod.ecs.Entity:
-        return self.map.registry.new_entity()
+    def spawn_entity(
+        self, setup_function: Callable[[tcod.ecs.Entity, tuple[int, int]], None], position: tuple[int, int] | None = None
+    ) -> tcod.ecs.Entity:
+        entity = self.map.registry.new_entity()
+        if position is None:
+            x: int
+            y: int
+            chosen = False
+            while not chosen:
+                x = self.rng.randint(len(self.map.tiles))
+                y = self.rng.randint(len(self.map.tiles[x]))
+                if self.map.tiles[Tile.WALKABLE][x, y]:
+                    chosen = True
+            position = (x, y)
+        if not self.map.tiles[Tile.WALKABLE][position]:
+            raise SpawnBlocked
+        setup_function(entity, position)
+        return entity
