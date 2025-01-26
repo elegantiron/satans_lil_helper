@@ -232,17 +232,10 @@ class Engine(arcade.View):
         self.status_section.update_player_stats()
         self.message_section.update_messages()
         for _ in range(25):
-            wolf = self.map.registry.new_entity()
-            chosen = False
-            x: int
-            y: int
-            while not chosen:
-                x = self.rng.choice(range(self.world.MAP_X))
-                y = self.rng.choice(range(self.world.MAP_Y))
-                if self.map.tiles[Tile.WALKABLE][x, y]:
-                    chosen = True
-            enemies.forest.wolf(position=(x, y), entity=wolf, rng=self.rng)
-            self.gamemap_section.entity_sprites.append(wolf.components[Position].sprite)
+            entity = self.world.spawn_entity(enemies.forest.wolf)
+            e_pos = entity.components.get(Position)
+            if e_pos is not None and e_pos.sprite is not None:
+                self.gamemap_section.entity_sprites.append(e_pos.sprite)
         self.gamemap_section.update_player_fov()
 
     @property
