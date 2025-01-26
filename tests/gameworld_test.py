@@ -29,10 +29,10 @@ def gameworld3() -> GameWorld:
 
 class TestGameWorld:
     @pytest.mark.parametrize("iteration", range(5))
-    def test_player_position(self, gameworld2: GameWorld, iteration: int) -> None:
-        p_pos = gameworld2.player.components[Position]
+    def test_player_position(self, gameworld: GameWorld, iteration: int) -> None:
+        p_pos = gameworld.player.components[Position]
         assert p_pos is not None
-        assert gameworld2.map.tiles[Tile.WALKABLE][p_pos.xy]
+        assert gameworld.map.tiles[Tile.WALKABLE][p_pos.xy]
 
     def test_equality(self, gameworld: GameWorld, gameworld2: GameWorld) -> None:
         assert gameworld != gameworld2
