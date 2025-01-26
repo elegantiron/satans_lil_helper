@@ -18,7 +18,7 @@ from components import (
     Regen,
     Stats,
 )
-from constants import AIType, EntityTags
+from constants import AIType, EntityTags, Tile
 from exceptions import Impossible, MissingComponent
 from gamemap import GameMap
 from tile_types import ForestFloor, ForestWall
@@ -37,11 +37,11 @@ class GameWorld:
     MAP_X = 100
     MAP_Y = 100
 
-    def __init__(self) -> None:
+    def __init__(self, seed: int | float | None = None) -> None:
         self._current_map = GameMap()
         self._maps = [self._current_map]
         self.map_index = self._maps.index(self._current_map)
-        self.rng = Random(time.time())
+        self.rng = Random(seed if seed is not None else time.time())
         tiles = [
             [
                 (1 if self.rng.random() < self.WALL_CHANCE else 0)
