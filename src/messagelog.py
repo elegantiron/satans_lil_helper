@@ -2,12 +2,6 @@
 
 from __future__ import annotations
 
-import textwrap
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-
 
 class _Message:
     def __init__(self, text: str, color: tuple[int, int, int, int]) -> None:
