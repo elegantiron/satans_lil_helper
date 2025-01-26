@@ -69,10 +69,10 @@ class Engine(arcade.View):
             path.mkdir(parents=True)
         bestiary = path / "bestiary.dat"
         if bestiary.exists():
-            self.bestiary = load_data(bestiary) # type: ignore
+            self.bestiary = load_data(bestiary)  # type: ignore
         else:
             self.bestiary = Bestiary()
-            save_data(self.bestiary, bestiary) # type: ignore
+            save_data(self.bestiary, bestiary)  # type: ignore
 
     def setup_sections(self) -> None:
         """Set up the sections"""
@@ -264,4 +264,3 @@ class Engine(arcade.View):
     def rng(self) -> random.Random:
         """The RNG"""
         return self.world.rng
-
