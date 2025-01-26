@@ -182,10 +182,10 @@ class GameMapSection(arcade.Section):
 
     def on_update(self, delta_time: float) -> None:
         if self.view.player.components[ActionDelay].ticks != 0:
-            self.view.step_time()
-            self.view.handle_regen()
-            self.view.process_ai()
-            self.view.handle_ailments()
+            self.view.world.step_time()
+            self.view.world.handle_regen()
+            self.view.world.process_ai()
+            self.view.world.handle_ailments()
 
     @property
     def map(self) -> GameMap:
