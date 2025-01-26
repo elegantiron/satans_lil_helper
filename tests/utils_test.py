@@ -41,9 +41,6 @@ def save_dir(tmp_path_factory: pytest.TempPathFactory) -> pathlib.Path:
     return tmp_path_factory.mktemp("data") / "saves"
 
 
-SAVE_DATA = b"sadhjafeuwaihroldsbkjhlahufeidajbnk"
-
-
 @pytest.mark.parametrize(
     ("test_data"),
     [
