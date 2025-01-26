@@ -169,4 +169,7 @@ class GameWorld:
         if not self.map.tiles[Tile.WALKABLE][position]:
             raise SpawnBlocked
         setup_function(entity, position)
+        e_pos = entity.components.get(Position)
+        if e_pos is not None and e_pos.sprite is not None:
+            self.map.sprites.append(e_pos.sprite)
         return entity
