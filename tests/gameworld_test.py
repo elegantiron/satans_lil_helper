@@ -9,7 +9,7 @@ from actions import MoveAction
 from components import Position
 from constants import Tile
 from entities import enemies
-from exceptions import Impossible, PathBlocked
+from exceptions import Impossible, PathBlocked, SpawnBlocked
 from gameworld import GameWorld
 
 if TYPE_CHECKING:
@@ -67,6 +67,16 @@ class TestGameWorld:
     ) -> None:
         for _ in range(random.randint(4, 100)):
             gameworld.spawn_entity(spawn_function)
+        chosen = False
+        while not chosen:
+            x = gameworld.rng.randint(0, len(gameworld.map.tiles) - 1)
+            y = gameworld.rng.randint(0, len(gameworld.map.tiles[x]) - 1)
+            if gameworld.map.tiles[Tile.WALKABLE][x, y]:
+                chosen = True
+        gameworld.spawn_entity(spawn_function, (x, y))
+        with pytest.raises(Impossible) as exc:
+            gameworld.spawn_entity(spawn_function, (0, 0))
+        assert exc.type is SpawnBlocked
 
     def test_determinism(self, gameworld2: GameWorld, gameworld3: GameWorld) -> None:
         assert gameworld2 == gameworld3
