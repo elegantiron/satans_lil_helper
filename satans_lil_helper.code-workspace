@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"mypy-type-checker.preferDaemon": true,
-		"mypy-type-checker.reportingScope": "workspace"
+		"mypy-type-checker.reportingScope": "workspace",
+		"python.analysis.diagnosticMode": "workspace"
 	}
 }
