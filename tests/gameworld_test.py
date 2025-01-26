@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import random
+from typing import TYPE_CHECKING
+
 import pytest
 
 from actions import MoveAction
@@ -9,10 +12,16 @@ from entities import enemies
 from exceptions import Impossible, PathBlocked
 from gameworld import GameWorld
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from random import Random
+
+    import tcod.ecs
+
 SEED = 1737855529.0953882
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def gameworld() -> GameWorld:
     return GameWorld()
 
@@ -50,10 +59,14 @@ class TestGameWorld:
             MoveAction(gameworld2.player, (-1, 0), gameworld2.map).perform()
         assert exc.type is PathBlocked
 
-    @pytest.mark.parametrize("iteration", range(5))
-    def test_entity_spawn(self, gameworld: GameWorld, iteration: int) -> None:
-        entity = gameworld.spawn_entity()
-        enemies.forest.wolf(entity=entity, position=(25, 25), rng=gameworld.rng)
+    @pytest.mark.parametrize("spawn_function", [enemies.forest.wolf])
+    def test_entity_spawn(
+        self,
+        gameworld: GameWorld,
+        spawn_function: Callable[[tcod.ecs.Entity, tuple[int, int], Random], None],
+    ) -> None:
+        for _ in range(random.randint(4, 100)):
+            gameworld.spawn_entity(spawn_function)
 
     def test_determinism(self, gameworld2: GameWorld, gameworld3: GameWorld) -> None:
         assert gameworld2 == gameworld3
