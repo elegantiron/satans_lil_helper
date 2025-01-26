@@ -151,7 +151,9 @@ class GameWorld:
             # TODO log ailment damage
 
     def spawn_entity(
-        self, setup_function: Callable[[tcod.ecs.Entity, tuple[int, int]], None], position: tuple[int, int] | None = None
+        self,
+        setup_function: Callable[[tcod.ecs.Entity, tuple[int, int]], None],
+        position: tuple[int, int] | None = None,
     ) -> tcod.ecs.Entity:
         entity = self.map.registry.new_entity()
         if position is None:
