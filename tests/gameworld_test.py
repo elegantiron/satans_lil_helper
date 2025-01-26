@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING
 import pytest
 
 from actions import MoveAction
-from components import Position
+from components import ActionDelay, Position
 from constants import Tile
-from entities import enemies
+from entities import enemies, professions
 from exceptions import Impossible, PathBlocked, SpawnBlocked
 from gameworld import GameWorld
 
@@ -84,3 +84,11 @@ class TestGameWorld:
             MoveAction(gameworld2.player, (0, -1), gameworld2.map).perform()
             MoveAction(gameworld3.player, (0, -1), gameworld3.map).perform()
         assert gameworld2 == gameworld3
+
+    def test_time_step(self, gameworld: GameWorld) -> None:
+        entity = gameworld.spawn_entity(professions.warrior_class)
+        action_delay = entity.components.get(ActionDelay)
+        assert action_delay is not None
+        previous_delay = action_delay.ticks
+        gameworld.step_time()
+        assert action_delay.ticks == previous_delay - 1
