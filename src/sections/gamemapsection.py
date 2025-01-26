@@ -181,7 +181,7 @@ class GameMapSection(arcade.Section):
         self.view.inspector_section.update()
 
     def on_update(self, delta_time: float) -> None:
-        if self.view.player.components[ActionDelay].ticks != 0:
+        if self.view.player.components[ActionDelay].ticks > 0:
             self.view.world.step_time()
             self.view.world.handle_regen()
             self.view.world.process_ai()
