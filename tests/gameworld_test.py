@@ -6,7 +6,7 @@ from actions import MoveAction
 from components import Position
 from constants import Tile
 from entities import enemies
-from exceptions import Impossible
+from exceptions import Impossible, PathBlocked
 from gameworld import GameWorld
 
 SEED = 1737855529.0953882
@@ -42,11 +42,13 @@ class TestGameWorld:
     def test_movement(self, gameworld2: GameWorld) -> None:
         for _ in range(4):
             MoveAction(gameworld2.player, (0, -1), gameworld2.map).perform()
-        with pytest.raises(Impossible):
+        with pytest.raises(Impossible) as exc:
             MoveAction(gameworld2.player, (0, -1), gameworld2.map).perform()
+        assert exc.type is PathBlocked
         MoveAction(gameworld2.player, (-1, 0), gameworld2.map).perform()
-        with pytest.raises(Impossible):
+        with pytest.raises(Impossible) as exc:
             MoveAction(gameworld2.player, (-1, 0), gameworld2.map).perform()
+        assert exc.type is PathBlocked
 
     @pytest.mark.parametrize("iteration", range(5))
     def test_entity_spawn(self, gameworld: GameWorld, iteration: int) -> None:
