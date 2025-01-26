@@ -152,7 +152,7 @@ class GameWorld:
 
     def spawn_entity(
         self,
-        setup_function: Callable[[tcod.ecs.Entity, tuple[int, int]], None],
+        setup_function: Callable[[tcod.ecs.Entity, tuple[int, int], Random], None],
         position: tuple[int, int] | None = None,
     ) -> tcod.ecs.Entity:
         entity = self.map.registry.new_entity()
@@ -161,15 +161,12 @@ class GameWorld:
             y: int
             chosen = False
             while not chosen:
-                x = self.rng.randint(len(self.map.tiles))
-                y = self.rng.randint(len(self.map.tiles[x]))
+                x = self.rng.randint(0, len(self.map.tiles)-1)
+                y = self.rng.randint(0, len(self.map.tiles[x])-1)
                 if self.map.tiles[Tile.WALKABLE][x, y]:
                     chosen = True
             position = (x, y)
         if not self.map.tiles[Tile.WALKABLE][position]:
             raise SpawnBlocked
-        setup_function(entity, position)
-        e_pos = entity.components.get(Position)
-        if e_pos is not None and e_pos.sprite is not None:
-            self.map.sprites.append(e_pos.sprite)
+        setup_function(entity=entity, position=position, rng=self.rng)
         return entity
