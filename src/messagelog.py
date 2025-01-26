@@ -42,8 +42,3 @@ class MessageLog:
         else:
             self.messages.append(_Message(text, color))
 
-    @staticmethod
-    def wrap(string: str, width: int) -> Iterable[str]:
-        """Wrap message lines"""
-        for line in string.splitlines():
-            yield from textwrap.wrap(line, width, expand_tabs=True)
