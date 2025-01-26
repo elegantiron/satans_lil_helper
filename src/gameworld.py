@@ -147,3 +147,6 @@ class GameWorld:
                 continue
             stats.hp -= damage
             # TODO log ailment damage
+
+    def spawn_entity(self) -> tcod.ecs.Entity:
+        return self.map.registry.new_entity()
