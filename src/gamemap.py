@@ -1,4 +1,5 @@
 """A single level of the world"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -21,11 +22,12 @@ if TYPE_CHECKING:
 
 class GameMap:
     """Represents a level of the world"""
+
     registry: tcod.ecs.Registry
     player: tcod.ecs.Entity
     tiles: npt.NDArray
     pathfinder: tcod.path.Pathfinder
-    sprites: list[list[arcade.Sprite|None]]
+    sprites: list[list[arcade.Sprite | None]]
 
     @property
     def tile_list(self) -> Generator[npt.DTypeLike]:
@@ -37,14 +39,12 @@ class GameMap:
         self.registry = tcod.ecs.Registry()
 
     def __eq__(self, other: GameMap) -> bool:
-        return (
-            np.array_equal(self.tiles, other.tiles)
-        )
+        return np.array_equal(self.tiles, other.tiles)
 
     def new_player(self) -> None:
         """Make a new player"""
         self.player = self.registry.new_entity()
-        professions.warrior_class(self.player)
+        professions.warrior_class(self.player, (5, 5))
 
     def bring_player(self, player: tcod.ecs.Entity) -> None:
         """Bring the player from another map"""

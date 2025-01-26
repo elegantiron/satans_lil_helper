@@ -16,10 +16,14 @@ from components import (
 )
 
 if TYPE_CHECKING:
+    from random import Random
+
     import tcod.ecs
 
 
-def warrior_class(entity: tcod.ecs.Entity) -> None:
+def warrior_class(
+    entity: tcod.ecs.Entity, position: tuple[int, int], rng: Random | None = None
+) -> None:
     """Give an entity a warrior's stats"""
     entity.components |= {
         Stats: Stats(hp=50, mp=5, strength=5, pdef=7, mdef=2, sight=6, light=6),
@@ -36,7 +40,9 @@ def warrior_class(entity: tcod.ecs.Entity) -> None:
             | abilities.Abilities.SHIELD_UP
             | abilities.Abilities.CHARGE
         ),
-        Position: Position(x=5, y=5, sprite=":images:player/player.png"),
+        Position: Position(
+            x=position[0], y=position[1], sprite=":images:player/player.png"
+        ),
         ActionDelay: ActionDelay(0),
         Inventory: Inventory(26),
         Attack: Attack(1, 8),

@@ -10,8 +10,22 @@ addopts = [
 	"--import-mode=importlib",
 	"-ra",
 	"--durations=3",
+	"--strict-markers",
+	"--cov-report=html",
+	"--cov-branch",
 ]
 pythonpath = "src"
+markers = [
+	"slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+xfail_strict = true
+
+[tool.coverage.report]
+exclude_also = [
+	"raise NotImplementedError",
+	"if TYPE_CHECKING:",
+	"@(abc\\.)?abstractmethod",
+]
 
 [tool.mypy]
 check_untyped_defs = true

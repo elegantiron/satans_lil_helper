@@ -41,20 +41,11 @@ def save_dir(tmp_path_factory: pytest.TempPathFactory) -> pathlib.Path:
     return tmp_path_factory.mktemp("data") / "saves"
 
 
-SAVE_DATA = b"sadhjafeuwaihroldsbkjhlahufeidajbnk"
-
-
 @pytest.mark.parametrize(
     ("test_data"),
     [
         pytest.param(bestiary.Bestiary(), id="bestiary"),
-        pytest.param(
-            gameworld.GameWorld(),
-            id="game world",
-            marks=pytest.mark.xfail(
-                strict=True, reason="Bug in Arcade, waiting for fix."
-            ),
-        ),
+        pytest.param(gameworld.GameWorld(), id="game world"),
     ],
 )
 def test_save_load(save_dir, test_data):
