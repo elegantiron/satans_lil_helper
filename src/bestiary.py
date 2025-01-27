@@ -10,7 +10,9 @@ class _Kill:
         self.normal = 0
         self.alpha = 0
 
-    def __eq__(self, other: _Kill) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, _Kill):
+            raise TypeError
         return self.normal == other.normal and self.alpha == other.alpha
 
     def add_murder(self) -> None:
