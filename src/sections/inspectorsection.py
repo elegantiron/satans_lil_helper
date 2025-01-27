@@ -18,8 +18,6 @@ if TYPE_CHECKING:
 class InspectorSection(arcade.Section):
     """Draws and handles inputs for the inspector"""
 
-    view: Engine
-
     def __init__(
         self,
         left,
@@ -52,11 +50,11 @@ class InspectorSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.camera: arcade.Camera2D
         self.batch: Batch
         self.title: arcade.Text
         self.location: arcade.Text
         self.description: arcade.Text
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""

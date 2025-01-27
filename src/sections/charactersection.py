@@ -52,7 +52,6 @@ class CharacterSection(arcade.Section):
             draw_order=draw_order,
         )
         self.view: Engine
-        self.camera: arcade.Camera2D
 
     def setup(self):
         self.camera = arcade.Camera2D(self.rect)

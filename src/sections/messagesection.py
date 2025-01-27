@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 class MessageSection(arcade.Section):
     """Displays and handles inputs for the message section"""
 
-    view: Engine
+    
 
     def __init__(
         self,
@@ -50,9 +50,9 @@ class MessageSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.camera: arcade.Camera2D
         self.batch: Batch
         self.texts: list[arcade.Text]
+        self.view: Engine
 
     def setup(self):
         """Setup the section"""

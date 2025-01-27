@@ -1,4 +1,5 @@
 """Title section"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -10,12 +11,11 @@ from pyglet.graphics import Batch
 from constants import Strings
 
 if TYPE_CHECKING:
-    from ..engine import Engine  # type: ignore
+    from engine import Engine
 
 
 class TitleSection(arcade.Section):
     """Displays the title screen"""
-    view: Engine
 
     def __init__(
         self,
@@ -53,6 +53,7 @@ class TitleSection(arcade.Section):
         self.title_text: arcade.Text
         self.press_text: arcade.Text
         self.sprite_list: arcade.SpriteList
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""
@@ -87,11 +88,9 @@ class TitleSection(arcade.Section):
         match symbol:
             case arcade.key.ESCAPE:
                 arcade.exit()
-                return True
             case _:
                 self.enabled = False
                 self.view.menu_section.enabled = True
-                return True
 
     def on_update(self, delta_time):
         if self.sprite_list.center[1] > self.height // 2:

@@ -16,8 +16,6 @@ if TYPE_CHECKING:
 class MainMenuSection(arcade.Section):
     """Main menu section"""
 
-    view: Engine
-
     def __init__(
         self,
         left,
@@ -55,6 +53,7 @@ class MainMenuSection(arcade.Section):
         self.title_text: arcade.Text
         self.items: list[arcade.Text]
         self.idx: int
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""
@@ -115,7 +114,7 @@ class MainMenuSection(arcade.Section):
                 ),
             )  # type: ignore
 
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
             case key if key in keylists.MOVEMENT and keylists.MOVEMENT[key][1] != 0:
                 self.items[self.idx].color = Colors.WHITE
@@ -125,13 +124,11 @@ class MainMenuSection(arcade.Section):
                 else:
                     self.idx = self.idx % len(self.items)
                 self.items[self.idx].color = Colors.AMERICAN_ROSE
-                return True
             case arcade.key.ESCAPE:
                 self.view.title_section.enabled = True
                 self.enabled = False
-                return True
             case key if key in keylists.CONFIRMATION:
-                return self.on_exit()
+                self.on_exit()
 
     def on_exit(self):
         """Handle closing the section"""

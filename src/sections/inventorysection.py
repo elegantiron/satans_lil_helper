@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import arcade
 from pyglet.graphics import Batch
 
 from constants import Colors, Strings
+
+if TYPE_CHECKING:
+    from engine import Engine
 
 
 class InventorySection(arcade.Section):
@@ -43,9 +48,9 @@ class InventorySection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.camera: arcade.Camera2D
         self.batch: Batch
         self.title: arcade.Text
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""

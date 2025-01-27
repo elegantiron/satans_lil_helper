@@ -15,8 +15,6 @@ if TYPE_CHECKING:
 
 
 class LevelupSection(arcade.Section):
-    view: Engine
-
     def __init__(
         self,
         left,
@@ -56,6 +54,7 @@ class LevelupSection(arcade.Section):
         self.skill_description: arcade.Text
         self.sprite_list: arcade.SpriteList
         self.idx: int
+        self.view: Engine
 
     def setup(self):
         self.sprite_list = arcade.SpriteList()

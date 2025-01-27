@@ -19,8 +19,6 @@ LINE_SPACING = 2
 class StatusSection(arcade.Section):
     """Displays the player's status"""
 
-    view: Engine
-
     def __init__(
         self,
         left,
@@ -58,6 +56,7 @@ class StatusSection(arcade.Section):
         self.location: arcade.Text
         self.health: arcade.Text
         self.mana: arcade.Text
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""
@@ -125,4 +124,4 @@ class StatusSection(arcade.Section):
         elif current <= maximum / 2:
             text.color = arcade.color.YELLOW
         else:
-            text.color = Colors.WHITE # type: ignore
+            text.color = Colors.WHITE  # type: ignore

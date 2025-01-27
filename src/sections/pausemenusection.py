@@ -15,9 +15,6 @@ if TYPE_CHECKING:
 
 class PauseSection(arcade.Section):
     """Handles input when the game is paused"""
-
-    view: Engine
-
     def __init__(
         self,
         left,
@@ -51,10 +48,10 @@ class PauseSection(arcade.Section):
             draw_order=draw_order,
         )
         self.batch: Batch
-        self.camera: arcade.Camera2D
         self.title: arcade.Text
         self.items: list[arcade.Text]
         self.idx: int
+        self.view: Engine
 
     def setup(self):
         """Set up the section"""
@@ -111,12 +108,10 @@ class PauseSection(arcade.Section):
                 else:
                     self.idx = self.idx % len(self.items)
                 self.items[self.idx].color = arcade.color.AMERICAN_ROSE
-                return True
             case arcade.key.ESCAPE:
                 self.enabled = False
-                return True
             case key if key in keylists.CONFIRMATION:
-                return self.on_exit()
+                self.on_exit()
 
     def on_exit(self):
         """Handle closing the section"""

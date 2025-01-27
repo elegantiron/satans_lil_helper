@@ -16,8 +16,6 @@ if TYPE_CHECKING:
 class BestiarySection(arcade.Section):
     """Handles drawing and inputs for the bestiary"""
 
-    view: Engine
-
     def __init__(
         self,
         left: int,
@@ -52,6 +50,7 @@ class BestiarySection(arcade.Section):
         )
         self.batch: Batch
         self.title: arcade.Text
+        self.view: Engine
 
     def setup(self) -> None:
         """Set up the section"""

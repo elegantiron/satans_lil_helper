@@ -24,9 +24,6 @@ if TYPE_CHECKING:
 class GameMapSection(arcade.Section):
     """Displays the map"""
 
-    view: Engine
-    camera: arcade.Camera2D
-
     def __init__(
         self,
         left: int,
@@ -59,12 +56,12 @@ class GameMapSection(arcade.Section):
             modal=modal,
             draw_order=draw_order,
         )
-        self.camera: arcade.Camera2D
         self.highlight: tuple[int, int]
         self.show_highlight: bool
         self.tile_sprites: arcade.SpriteList
         self.entity_sprites: arcade.SpriteList
         self.projectile_sprites: arcade.SpriteList
+        self.view: Engine
 
     def setup(self) -> None:
         """Set up the section"""
@@ -109,11 +106,13 @@ class GameMapSection(arcade.Section):
 
     def set_camera(self) -> None:
         """Set the camera position"""
+        if not isinstance(self.camera, arcade.Camera2D):
+            raise TypeError
         self.camera.position = (
             self.view.world.player.components[Position].sprite.center_x
             + self.width // 6,
             self.view.world.player.components[Position].sprite.center_y,
-        ) # type: ignore
+        )
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         match symbol:
@@ -174,6 +173,8 @@ class GameMapSection(arcade.Section):
             self.view.inspector_section.enabled = False
 
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int) -> None:
+        if not isinstance(self.camera, arcade.Camera2D):
+            raise TypeError
         wx, wy, _ = self.camera.unproject((x, y))
         tx = int((wx + 16) // 32)
         ty = int((wy + 16) // 32)
