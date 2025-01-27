@@ -25,6 +25,7 @@ def warrior_class(
     entity: tcod.ecs.Entity, position: tuple[int, int], rng: Random | None = None
 ) -> None:
     """Give an entity a warrior's stats"""
+
     entity.components |= {
         Stats: Stats(hp=50, mp=5, strength=5, pdef=7, mdef=2, sight=6, light=6),
         Skills: Skills(
@@ -47,4 +48,4 @@ def warrior_class(
         Inventory: Inventory(26),
         Attack: Attack(1, 8),
         Name: Name("you"),
-    }
+    }  # pyright: ignore[reportOperatorIssue]
