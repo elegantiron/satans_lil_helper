@@ -1,4 +1,5 @@
 """Various helper functions"""
+
 from __future__ import annotations
 
 import hashlib
@@ -23,7 +24,7 @@ HMAC_KEY = b"adsfauioerbasfhdjkagvyudis"
 
 def load_data(path: Path) -> bytes | None:
     """Load saved data"""
-    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
+    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)  # type: ignore
     data_to_load: bytes
     try:
         with path.open("rb") as f:
@@ -38,11 +39,11 @@ def load_data(path: Path) -> bytes | None:
         return None
 
 
-def save_data(data:bytes, path: Path) -> None:
+def save_data(data: bytes, path: Path) -> None:
     """Save the game's data"""
     raw_data = pickle.dumps(data)
     data_to_save = lzma.compress(raw_data)
-    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)
+    signer = hmac.new(HMAC_KEY, digestmod=hashlib.blake2b)  # type: ignore
     signer.update(data_to_save)
     mac_result = signer.digest()
     with path.open("wb") as f:
@@ -66,8 +67,8 @@ def move_entity(entity: tcod.ecs.Entity, dest: tcod.ecs.Registry) -> tcod.ecs.En
     target = dest[entity.uid]
     target.components = entity.components
     target.tags = entity.tags
-    target.relation_tags_many = entity.relation_tags_many # type: ignore
-    target.relation_components = entity.relation_components # type: ignore
+    target.relation_tags_many = entity.relation_tags_many  # type: ignore
+    target.relation_components = entity.relation_components  # type: ignore
 
     relation_targets: set[tcod.ecs.Entity] = set()
     for r_tag, r_targets in entity.relation_tags_many.items():
@@ -122,7 +123,7 @@ def get_total_stats(entity: tcod.ecs.Entity) -> Stats:
     return total_stats
 
 
-def get_neighbors(x:int, y:int, tiles: list[list[int]]) -> int:
+def get_neighbors(x: int, y: int, tiles: list[list[int]]) -> int:
     """Get a tile's neighbor count"""
     dirs = [
         (dx, dy) for dx in range(-1, 2) for dy in range(-1, 2) if (dx, dy) != (0, 0)

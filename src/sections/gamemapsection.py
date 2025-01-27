@@ -9,7 +9,7 @@ import numpy as np
 
 from actions import BumpAction
 from components import ActionDelay, Position, Stats
-from constants import Tile, colors, keylists
+from constants import Colors, Tile, keylists
 from exceptions import PathBlocked
 
 if TYPE_CHECKING:
@@ -150,7 +150,7 @@ class GameMapSection(arcade.Section):
                         delay.ticks = 15
                 except PathBlocked:
                     self.view.message_log.add_message(
-                        "The way is blocked.", colors.Impossible
+                        "The way is blocked.", Colors.IMPOSSIBLE
                     )
                 finally:
                     self.view.message_section.update_messages()
@@ -203,7 +203,7 @@ class GameMapSection(arcade.Section):
         tiles = self.map.get_fov(
             self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
-        self.map.tiles[Tile.EXPLORED] |= tiles
+        self.map.tiles[Tile.EXPLORED] |= tiles # type: ignore
         self.map.tiles[Tile.VISIBLE] = tiles # type: ignore
         i, j = np.nonzero(tiles)
         # pylint: disable=consider-using-enumerate
