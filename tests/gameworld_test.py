@@ -68,6 +68,8 @@ class TestGameWorld:
         for _ in range(random.randint(4, 100)):
             gameworld.spawn_entity(spawn_function)
         chosen = False
+        x: int = 0
+        y: int = 0
         while not chosen:
             x = gameworld.rng.randint(0, len(gameworld.map.tiles) - 1)
             y = gameworld.rng.randint(0, len(gameworld.map.tiles[x]) - 1)
