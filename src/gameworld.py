@@ -122,7 +122,9 @@ class GameWorld:
                                     confusion.age += 1
                                     action_complete = True
                                 else:
-                                    ent.components[AI].type = ent.components[AI].base_type
+                                    ent.components[AI].type = ent.components[
+                                        AI
+                                    ].base_type
                             case AIType.HOSTILE:
                                 hostile_action(ent, self.map, self.rng)
                                 action_complete = True
@@ -166,8 +168,8 @@ class GameWorld:
             y: int
             chosen = False
             while not chosen:
-                x = self.rng.randint(0, len(self.map.tiles)-1)
-                y = self.rng.randint(0, len(self.map.tiles[x])-1)
+                x = self.rng.randint(0, len(self.map.tiles) - 1)
+                y = self.rng.randint(0, len(self.map.tiles[x]) - 1)
                 if self.map.tiles[Tile.WALKABLE][x, y]:
                     chosen = True
             position = (x, y)
