@@ -38,7 +38,9 @@ class GameMap:
     def __init__(self) -> None:
         self.registry = tcod.ecs.Registry()
 
-    def __eq__(self, other: GameMap) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, GameMap):
+            raise TypeError
         return np.array_equal(self.tiles, other.tiles)
 
     def new_player(self) -> None:
