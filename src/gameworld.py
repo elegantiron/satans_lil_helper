@@ -81,7 +81,9 @@ class GameWorld:
             else:
                 p_pos.y += 1
 
-    def __eq__(self, other: GameWorld) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, GameWorld):
+            raise TypeError
         return self._maps == other._maps and self.rng.getstate() == other.rng.getstate()
 
     @property
