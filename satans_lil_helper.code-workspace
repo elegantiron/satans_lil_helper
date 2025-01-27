@@ -8,7 +8,7 @@
 		"mypy-type-checker.preferDaemon": true,
 		"mypy-type-checker.reportingScope": "workspace",
 		"python.analysis.diagnosticMode": "workspace",
-		"python.analysis.typeCheckingMode": "basic",
+		"python.analysis.typeCheckingMode": "standard",
 		"python.analysis.typeEvaluation.deprecateTypingAliases": true,
 		"pylint.args": [
 			"--disable=C0114",
