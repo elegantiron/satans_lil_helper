@@ -35,4 +35,3 @@ class MessageLog:
             self.messages[-1].count += 1
         else:
             self.messages.append(_Message(text, color))
-
