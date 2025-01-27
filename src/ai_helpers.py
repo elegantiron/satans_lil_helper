@@ -61,7 +61,7 @@ def hostile_action(
         )
         pathfinder = tcod.path.Pathfinder(graph)
         pathfinder.add_root(playerpos.xy)
-        path = pathfinder.path_from(e_pos.xy)[1:].tolist() # type: ignore
+        path: list[tuple[int, int]] = pathfinder.path_from(e_pos.xy)[1:].tolist() # type: ignore
 
     if path:
         dest_x, dest_y = path.pop(0)
