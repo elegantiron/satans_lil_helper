@@ -9,6 +9,11 @@
 		"mypy-type-checker.reportingScope": "workspace",
 		"python.analysis.diagnosticMode": "workspace",
 		"python.analysis.typeCheckingMode": "basic",
-		"python.analysis.typeEvaluation.deprecateTypingAliases": true
+		"python.analysis.typeEvaluation.deprecateTypingAliases": true,
+		"pylint.args": [
+			"--disable=C0114",
+			"--disable=C0116",
+			"--disable=C0115"
+		]
 	}
 }
