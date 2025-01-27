@@ -53,4 +53,7 @@ extend-select = [
 			"T20",
 			"SLF",
 			"PT",
+			"PLC",
+			"PLE",
+			"PLW",
 		]
