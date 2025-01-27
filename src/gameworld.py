@@ -166,8 +166,8 @@ class GameWorld:
     ) -> tcod.ecs.Entity:
         entity = self.map.registry.new_entity()
         if position is None:
-            x: int
-            y: int
+            x: int = 0
+            y: int = 0
             chosen = False
             while not chosen:
                 x = self.rng.randint(0, len(self.map.tiles) - 1)
