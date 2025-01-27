@@ -173,5 +173,5 @@ class GameWorld:
             position = (x, y)
         if not self.map.tiles[Tile.WALKABLE][position]:
             raise SpawnBlocked
-        setup_function(entity=entity, position=position, rng=self.rng)
+        setup_function(entity, position, self.rng)
         return entity
