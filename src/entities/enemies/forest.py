@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     import tcod.ecs
 
 
-def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random) -> None:
+def wolf(entity: tcod.ecs.Entity, position: tuple[int, int], rng: Random) -> None:
     """Give an entity a wolf's properties"""
     entity.components |= {
         Stats: Stats(
@@ -37,5 +37,5 @@ def wolf(*, position: tuple[int, int], entity: tcod.ecs.Entity, rng: Random) -> 
         AI: AI(AIType.HOSTILE, AIType.HOSTILE),
         ActionDelay: ActionDelay(rng.randint(1, 15)),
         Name: Name("wolf"),
-    }
+    } # type: ignore
     entity.tags.add(EntityTags.HOSTILE)
