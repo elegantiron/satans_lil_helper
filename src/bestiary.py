@@ -32,7 +32,9 @@ class Bestiary:
     def __init__(self):
         self.murders = {enemy_type: _Kill() for enemy_type in tags.Enemies}
 
-    def __eq__(self, other: Bestiary) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Bestiary):
+            raise TypeError
         return self.murders == other.murders
 
     def record_kill(self, *, enemy_type: tags.Enemies, alpha: bool = False) -> None:
