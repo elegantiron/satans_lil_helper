@@ -15,5 +15,17 @@
 			"--disable=C0116",
 			"--disable=C0115"
 		]
+	},
+	"extensions": {
+		"recommendations": [
+			"editorconfig.editorconfig",
+			"ms-python.mypy-type-checker",
+			"ms-python.vscode-pylance",
+			"ms-python.python",
+			"ms-python.debugpy",
+			"kevinrose.vsc-python-indent",
+			"charliermarsh.ruff",
+			"ms-python.pylint"
+		]
 	}
 }
