@@ -11,14 +11,14 @@ class Position:
     """An entity's position and sprite"""
 
     def __init__(self, *, x: int = 0, y: int = 0, sprite: str | None = None) -> None:
+        self._x = x
+        self._y = y
         if sprite is not None:
             self.sprite = arcade.Sprite(sprite)
         else:
             self.sprite = arcade.Sprite(
                 center_x=self._x * TILE_SIZE, center_y=self._y * TILE_SIZE
             )
-        self.x = x
-        self.y = y
 
     @property
     def x(self) -> int:
