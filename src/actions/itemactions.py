@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABCMeta
 from typing import TYPE_CHECKING
 
 from components import Equippable, Skills
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
     import tcod.ecs
 
 
-class ItemAction(Action):
+class ItemAction(Action, metaclass=ABCMeta):
     def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity) -> None:
         super().__init__(entity)
         self.item = item
