@@ -22,7 +22,7 @@ class PickupAction(Action):
             raise MissingComponent
         for ent in (
             entity
-            for entity in self.entity.registry.Q.all_of(components=[Position])
+            for entity in self.entity.registry.Q.all_of(components=[Position],tags=[EntityTags.ITEM])
             if (entity.components[Position].xy == location.xy)
         ):
             if (
