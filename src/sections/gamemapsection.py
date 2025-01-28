@@ -108,7 +108,7 @@ class GameMapSection(arcade.Section):
         """Set the camera position"""
         if not isinstance(self.camera, arcade.Camera2D):
             raise TypeError
-        self.camera.position = (
+        self.camera.position = arcade.Vec2(
             self.view.world.player.components[Position].sprite.center_x
             + self.width // 6,
             self.view.world.player.components[Position].sprite.center_y,
