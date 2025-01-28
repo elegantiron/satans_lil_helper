@@ -1,5 +1,5 @@
 """Entity factories"""
 
-from . import enemies, professions
+from . import consumables, enemies, professions
 
-__all__ = ["enemies", "professions"]
+__all__ = ["consumables", "enemies", "professions"]
