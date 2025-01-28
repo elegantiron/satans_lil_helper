@@ -72,14 +72,19 @@ class Skills:
         self,
         *,
         onetime: abilities.Abilities = 0,  # type: ignore
-        repeatable: dict[abilities.Abilities, int] = None,  # type: ignore
+        repeatable: dict[abilities.Abilities, int] | None = None,
     ) -> None:
-        import abilities
+        import abilities  # pylint: disable=import-outside-toplevel
 
         self.onetime = onetime
-        self.repeatable = {
-            skill.skill_id: 0 for skill in abilities.SkillList if skill.onetime is False
-        }
+        if repeatable is not None:
+            self.repeatable = repeatable
+        else:
+            self.repeatable = {
+                skill.skill_id: 0
+                for skill in abilities.SkillList
+                if skill.onetime is False
+            }
 
 
 @attrs.define
