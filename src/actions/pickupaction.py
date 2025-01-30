@@ -14,11 +14,11 @@ class PickupAction(Action):
 
     def perform(self) -> None:
         inventory = self.entity.components.get(Inventory, None)
-        if inventory is None:
+        if inventory is None: # pragma: no cover
             raise MissingComponent
 
         location = self.entity.components.get(Position, None)
-        if location is None:
+        if location is None:  # pragma: no cover
             raise MissingComponent
         for ent in (
             entity
