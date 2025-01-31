@@ -5,7 +5,7 @@ import numpy as np
 
 from components import Position
 from constants import Tile
-from exceptions import PathBlocked
+from exceptions import OutOfBounds, PathBlocked
 
 from .actionwithdirection import ActionWithDirection
 
@@ -14,7 +14,7 @@ class MoveAction(ActionWithDirection):
     """Move an entity"""
     def perform(self) -> None:
         if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.tiles.shape):
-            raise PathBlocked
+            raise OutOfBounds
         if not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
             raise PathBlocked
         if self.target_entity is not None:
