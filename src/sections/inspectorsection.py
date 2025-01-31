@@ -9,7 +9,7 @@ import numpy as np
 from pyglet.graphics import Batch
 
 from components import Name, Position
-from constants import LINE_SPACING, Colors, Tile
+from constants import LINE_SPACING, Color, Tile
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -84,13 +84,13 @@ class InspectorSection(arcade.Section):
             font_size=15,
             anchor_y="top",
             batch=self.batch,
-            width=self.width - 10,
+            width=int(self.width - 10),
             multiline=True,
         )
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
+            0, 0, self.width, self.height, Color.TRANSLUCENT_BLACK
         )
         self.batch.draw()
 

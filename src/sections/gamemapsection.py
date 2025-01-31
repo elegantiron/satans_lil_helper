@@ -9,7 +9,7 @@ import numpy as np
 
 from actions import BumpAction
 from components import ActionDelay, Position, Stats
-from constants import Colors, Tile, keylists
+from constants import Color, Tile, keylists
 from exceptions import PathBlocked
 
 if TYPE_CHECKING:
@@ -26,21 +26,21 @@ class GameMapSection(arcade.Section):
 
     def __init__(
         self,
-        left: int,
-        bottom: int,
-        width: int,
-        height: int,
+        left,
+        bottom,
+        width,
+        height,
         *,
-        name: str | None = None,
-        accept_keyboard_keys: bool = True,
-        accept_mouse_events: bool = True,
-        prevent_dispatch: list | None = None,
-        prevent_dispatch_view: list | None = None,
-        local_mouse_coordinates: bool = False,
-        enabled: bool = False,
-        modal: bool = False,
-        draw_order: int = 1,
-    ) -> None:
+        name = None,
+        accept_keyboard_keys = True,
+        accept_mouse_events = True,
+        prevent_dispatch = None,
+        prevent_dispatch_view = None,
+        local_mouse_coordinates = False,
+        enabled = False,
+        modal = False,
+        draw_order = 1,
+    ):
         super().__init__(
             left,
             bottom,
@@ -149,7 +149,7 @@ class GameMapSection(arcade.Section):
                         delay.ticks = 15
                 except PathBlocked:
                     self.view.message_log.add_message(
-                        "The way is blocked.", Colors.IMPOSSIBLE
+                        "The way is blocked.", Color.IMPOSSIBLE
                     )
                 finally:
                     self.view.message_section.update_messages()

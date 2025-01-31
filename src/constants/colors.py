@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import Enum
 
 
-class Colors(tuple, Enum):
+class Color(tuple, Enum):
     # Basic colors
     WHITE = (0xFF, 0xFF, 0xFF, 0xFF)
 

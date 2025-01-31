@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     import tcod.ecs
 
 SEED = 1737855529.0953882
+# pylint: disable=redefined-outer-name
 
 
 @pytest.fixture
@@ -38,7 +39,7 @@ def gameworld3() -> GameWorld:
 
 class TestGameWorld:
     @pytest.mark.parametrize("iteration", range(5))
-    def test_player_position(self, gameworld: GameWorld, iteration: int) -> None:
+    def test_player_position(self, gameworld: GameWorld, iteration: int) -> None:  # pylint: disable=unused-argument
         p_pos = gameworld.player.components[Position]
         assert p_pos is not None
         assert gameworld.map.tiles[Tile.WALKABLE][p_pos.xy]

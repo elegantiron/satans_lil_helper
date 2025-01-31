@@ -3,14 +3,14 @@
 from enum import StrEnum
 
 from . import keylists
-from .colors import Colors
+from .colors import Color
 from .strings import Strings
 from .tags import AIType, EntityTags, ItemType
 
 __all__ = [
     "Strings",
     "keylists",
-    "Colors",
+    "Color",
     "EntityTags",
     "AIType",
     "ItemType",

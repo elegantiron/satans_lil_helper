@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import Colors, Strings
+from constants import Color, Strings
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -60,7 +60,7 @@ class InventorySection(arcade.Section):
             Strings.Titles.INVENTORY,
             self.width / 2,
             self.height - 3,
-            Colors.WHITE,
+            Color.WHITE,
             15,
             anchor_x="center",
             anchor_y="top",
@@ -69,10 +69,10 @@ class InventorySection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
+            0, 0, self.width, self.height, Color.TRANSLUCENT_BLACK
         )
         arcade.draw_lbwh_rectangle_outline(
-            0, 0, self.width, self.height, Colors.WHITE, 2
+            0, 0, self.width, self.height, Color.WHITE, 2
         )
         self.batch.draw()
 

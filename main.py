@@ -16,7 +16,7 @@ import arcade
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from engine import Engine
+from engine import Engine  # pylint: disable=wrong-import-position
 
 FPS = 1 / 60
 

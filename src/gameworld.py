@@ -157,7 +157,6 @@ class GameWorld:
             if stats is None:
                 continue
             stats.hp -= damage
-            # TODO log ailment damage
 
     def spawn_entity(
         self,

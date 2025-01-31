@@ -5,6 +5,8 @@ import pytest
 from bestiary import Bestiary
 from constants import tags
 
+# pylint: disable=redefined-outer-name
+
 
 @pytest.fixture(scope="class")
 def bestiary() -> Bestiary:

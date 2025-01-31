@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import arcade
 from pyglet.graphics import Batch
 
-from constants import LINE_SPACING, Colors
+from constants import LINE_SPACING, Color
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -15,8 +15,6 @@ if TYPE_CHECKING:
 
 class MessageSection(arcade.Section):
     """Displays and handles inputs for the message section"""
-
-    
 
     def __init__(
         self,
@@ -62,7 +60,7 @@ class MessageSection(arcade.Section):
 
     def on_draw(self):
         arcade.draw_lbwh_rectangle_filled(
-            0, 0, self.width, self.height, Colors.TRANSLUCENT_BLACK
+            0, 0, self.width, self.height, Color.TRANSLUCENT_BLACK
         )
         self.batch.draw()
 
@@ -81,7 +79,7 @@ class MessageSection(arcade.Section):
                     y,
                     line.color,
                     15,
-                    self.width,
+                    int(self.width),
                     anchor_y="top",
                     multiline=True,
                     batch=self.batch,
