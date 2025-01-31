@@ -22,5 +22,10 @@ class MissingComponent(BaseException):
 class HashError(BaseException):
     """Raised when a file fails the hash check"""
 
+
 class SpawnBlocked(Impossible):
     """Raised when an entity is spawned in a wall"""
+
+
+class OutOfBounds(Impossible):
+    """Raised when an action targets something outside the world."""
