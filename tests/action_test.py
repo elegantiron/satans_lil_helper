@@ -31,7 +31,7 @@ def entity(gameworld: GameWorld) -> tcod.ecs.Entity:
             gameworld.player.components[Position].y + 1,
         ),
     )
-@pytest.mark.depends(on=["tests/messagelog_test.py::TestMessageLog"])
+
 class TestActions:
     def test_movement(self, gameworld: GameWorld) -> None:
         for _ in range(4):
@@ -57,6 +57,7 @@ class TestActions:
             MoveAction(gameworld.player, (0, 1), gameworld.map).perform()
         assert exc.type is PathBlocked
 
+    @pytest.mark.depends(on=["tests/messagelog_test.py::TestMessageLog::test_logging"])
     @pytest.mark.xfail(reason="Message log needs to be separated from view")
     def test_melee_action(self, gameworld: GameWorld, entity: tcod.ecs.Entity) -> None:
         assert entity is not None
