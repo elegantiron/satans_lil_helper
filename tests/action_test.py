@@ -31,8 +31,7 @@ def entity(gameworld: GameWorld) -> tcod.ecs.Entity:
             gameworld.player.components[Position].y + 1,
         ),
     )
-
-
+@pytest.mark.depends(on=["tests/messagelog_test.py::TestMessageLog"])
 class TestActions:
     def test_movement(self, gameworld: GameWorld) -> None:
         for _ in range(4):
