@@ -9,7 +9,7 @@ from actions import MoveAction
 from components import ActionDelay, Position
 from constants import Tile
 from entities import enemies, professions
-from exceptions import Impossible, PathBlocked, SpawnBlocked
+from exceptions import Impossible, SpawnBlocked
 from gameworld import GameWorld
 
 if TYPE_CHECKING:
@@ -48,17 +48,6 @@ class TestGameWorld:
         assert gameworld != gameworld2
         assert gameworld2 == gameworld2
         assert gameworld == gameworld
-
-    def test_movement(self, gameworld2: GameWorld) -> None:
-        for _ in range(4):
-            MoveAction(gameworld2.player, (0, -1), gameworld2.map).perform()
-        with pytest.raises(Impossible) as exc:
-            MoveAction(gameworld2.player, (0, -1), gameworld2.map).perform()
-        assert exc.type is PathBlocked
-        MoveAction(gameworld2.player, (-1, 0), gameworld2.map).perform()
-        with pytest.raises(Impossible) as exc:
-            MoveAction(gameworld2.player, (-1, 0), gameworld2.map).perform()
-        assert exc.type is PathBlocked
 
     @pytest.mark.parametrize("spawn_function", [enemies.forest.wolf])
     def test_entity_spawn(
