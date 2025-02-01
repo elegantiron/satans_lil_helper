@@ -157,6 +157,12 @@ class TestMelee:
         ).perform()
         assert message_log.messages[-1].plain_text.find("killing it") != -1
 
+    def test_melee_player_death(
+            self, gameworld: GameWorld, strong_entity: Entity, message_log: MessageLog
+    )-> None:
+        MeleeAction(strong_entity, (0, 1), gameworld.map, gameworld.rng, message_log).perform()
+        assert gameworld.player.components[Stats].hp <= 0
+
     def test_melee_missing_stats(
         self, gameworld: GameWorld, entity: Entity, message_log: MessageLog
     ) -> None:
