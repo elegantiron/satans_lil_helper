@@ -15,7 +15,7 @@ class InventoryFull(Impossible):
     """An entity tried to pick up an item, but had no room in its inventory"""
 
 
-class MissingComponent(BaseException):
+class MissingComponent(Impossible):
     """An entity is missing a necessary component"""
 
 
