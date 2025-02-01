@@ -16,26 +16,24 @@ if TYPE_CHECKING:
 
 def wolf(entity: tcod.ecs.Entity, position: tuple[int, int], rng: Random) -> None:
     """Give an entity a wolf's properties"""
-    entity.components |= {
-        Stats: Stats(
-            rng.randint(1, 8) + 16,
-            strength=2,
-            pdef=5,
-            crit=1,
-            sight=8,
-        ),
-        Attack: Attack(1, 6),
-        Skills: Skills(
-            onetime=abilities.Abilities.HOWL
-            | abilities.Abilities.DARK_VISION
-            | abilities.Abilities.GNAW
-            | abilities.Abilities.PACK_TACTICS
-        ),
-        Position: Position(
-            x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
-        ),
-        AI: AI(AIType.HOSTILE, AIType.HOSTILE),
-        ActionDelay: ActionDelay(rng.randint(1, 15)),
-        Name: Name("wolf"),
-    } # type: ignore
+    entity.components[Stats] = Stats(
+        rng.randint(1, 8) + 16,
+        strength=2,
+        pdef=5,
+        crit=1,
+        sight=8,
+    )
+    entity.components[Attack] = Attack(1, 6)
+    entity.components[Skills] = Skills(
+        onetime=abilities.Abilities.HOWL
+        | abilities.Abilities.DARK_VISION
+        | abilities.Abilities.GNAW
+        | abilities.Abilities.PACK_TACTICS
+    )
+    entity.components[Position] = Position(
+        x=position[0], y=position[1], sprite=":images:enemies/wolf32.png"
+    )
+    entity.components[AI] = AI(AIType.HOSTILE, AIType.HOSTILE)
+    entity.components[ActionDelay] = ActionDelay(rng.randint(1, 15))
+    entity.components[Name] = Name("wolf")
     entity.tags.add(EntityTags.HOSTILE)
