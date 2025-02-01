@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from constants import EntityTags
-
 from .actionwithdirection import ActionWithDirection
 from .meleeaction import MeleeAction
 from .moveaction import MoveAction
@@ -36,14 +34,13 @@ class BumpAction(ActionWithDirection):
 
     def perform(self) -> None:
         if self.target_entity:
-            if EntityTags.HOSTILE in self.target_entity.tags:
-                MeleeAction(
-                    entity=self.entity,
-                    direction=self.direction,
-                    gamemap=self.gamemap,
-                    rng=self.rng,
-                    message_log=self.message_log,
-                ).perform()
+            MeleeAction(
+                entity=self.entity,
+                direction=self.direction,
+                gamemap=self.gamemap,
+                rng=self.rng,
+                message_log=self.message_log,
+            ).perform()
         else:
             MoveAction(
                 entity=self.entity, direction=self.direction, gamemap=self.gamemap
