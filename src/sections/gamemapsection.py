@@ -141,6 +141,7 @@ class GameMapSection(arcade.Section):
                         direction,
                         self.view.map,
                         self.view.rng,
+                        self.view.message_log
                     ).perform()
                     self.set_camera()
                     self.view.status_section.update_player_stats()
@@ -185,7 +186,7 @@ class GameMapSection(arcade.Section):
         if self.view.player.components[ActionDelay].ticks > 0:
             self.view.world.step_time()
             self.view.world.handle_regen()
-            self.view.world.process_ai()
+            self.view.world.process_ai(self.view.message_log)
             self.view.world.handle_ailments()
 
     @property

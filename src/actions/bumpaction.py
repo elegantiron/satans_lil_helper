@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     import tcod.ecs
 
     from gamemap import GameMap
+    from messagelog import MessageLog
 
 
 class BumpAction(ActionWithDirection):
@@ -27,9 +28,11 @@ class BumpAction(ActionWithDirection):
         direction: tuple[int, int],
         gamemap: GameMap,
         rng: random.Random,
+        message_log: MessageLog,
     ) -> None:
         super().__init__(entity, direction, gamemap)
         self.rng = rng
+        self.message_log = message_log
 
     def perform(self) -> None:
         if self.target_entity:
@@ -39,6 +42,7 @@ class BumpAction(ActionWithDirection):
                     direction=self.direction,
                     gamemap=self.gamemap,
                     rng=self.rng,
+                    message_log=self.message_log,
                 ).perform()
         else:
             MoveAction(

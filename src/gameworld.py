@@ -29,6 +29,8 @@ if TYPE_CHECKING:
 
     import tcod.ecs
 
+    from messagelog import MessageLog
+
 
 class GameWorld:
     """The entire world, and the methods to make new maps"""
@@ -105,7 +107,7 @@ class GameWorld:
         for ent in self.registry.Q.all_of(components=[ActionDelay]):
             ent.components[ActionDelay].ticks -= 1
 
-    def process_ai(self) -> None:
+    def process_ai(self, message_log: MessageLog) -> None:
         for ent in self.registry.Q.all_of(components=[Position, AI, ActionDelay]):
             if ent.components[ActionDelay].ticks <= 0:
                 action_complete = False
@@ -120,7 +122,7 @@ class GameWorld:
                                 if confusion is None:
                                     raise MissingComponent
                                 if confusion.age < confusion.limit:
-                                    confused_action(ent, self.map, self.rng)
+                                    confused_action(ent, self.map, self.rng, message_log)
                                     confusion.age += 1
                                     action_complete = True
                                 else:
@@ -128,7 +130,7 @@ class GameWorld:
                                         AI
                                     ].base_type
                             case AIType.HOSTILE:
-                                hostile_action(ent, self.map, self.rng)
+                                hostile_action(ent, self.map, self.rng, message_log)
                                 action_complete = True
                             case AIType.HOWL_RESPONSE:
                                 pass

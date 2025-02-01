@@ -15,15 +15,16 @@ if TYPE_CHECKING:
     import random
 
     from gamemap import GameMap
+    from messagelog import MessageLog
 
 
 def confused_action(
-    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
+    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random, message_log: MessageLog
 ) -> None:
     """Execute an action for a confused entity."""
     directories = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
     directory = rng.choice(directories)
-    BumpAction(entity, directory, gamemap, rng).perform()
+    BumpAction(entity, directory, gamemap, rng, message_log).perform()
     entity.components[ActionDelay].ticks = 15
 
 
@@ -40,7 +41,7 @@ def wander_action(
 
 
 def hostile_action(
-    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
+    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random, message_log: MessageLog
 ) -> None:
     """Look for a valid target and wander if none found."""
     stats = entity.components[Stats]
@@ -54,7 +55,7 @@ def hostile_action(
     if visible_tiles[playerpos.xy]:
         if distance <= 1:
             entity.components[ActionDelay].ticks = 15
-            MeleeAction(entity, (dx, dy), gamemap, rng).perform()
+            MeleeAction(entity, (dx, dy), gamemap, rng, message_log).perform()
             return
         graph = tcod.path.SimpleGraph(
             cost=gamemap.tiles[Tile.MOVEMENTCOST], cardinal=2, diagonal=3

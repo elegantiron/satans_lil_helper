@@ -9,6 +9,7 @@ from components import Position, Stats
 from entities import enemies
 from exceptions import Impossible, OutOfBounds, PathBlocked
 from gameworld import GameWorld
+from messagelog import MessageLog
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -31,6 +32,10 @@ def entity(gameworld: GameWorld) -> tcod.ecs.Entity:
             gameworld.player.components[Position].y + 1,
         ),
     )
+
+@pytest.fixture(scope="class")
+def message_log() -> MessageLog:
+    return MessageLog()
 
 class TestActions:
     def test_movement(self, gameworld: GameWorld) -> None:
@@ -59,8 +64,8 @@ class TestActions:
 
     @pytest.mark.depends(on=["tests/messagelog_test.py::TestMessageLog::test_logging"])
     @pytest.mark.xfail(reason="Message log needs to be separated from view")
-    def test_melee_action(self, gameworld: GameWorld, entity: tcod.ecs.Entity) -> None:
+    def test_melee_action(self, gameworld: GameWorld, entity: tcod.ecs.Entity, message_log: MessageLog) -> None:
         assert entity is not None
         old_hp = entity.components[Stats].hp
-        MeleeAction(gameworld.player, (0, 1), gameworld.map, gameworld.rng).perform()
+        MeleeAction(gameworld.player, (0, 1), gameworld.map, gameworld.rng, message_log).perform()
         assert old_hp > entity.components[Stats].hp

@@ -1,9 +1,8 @@
 """Definitions for the Melee Action"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-
-import arcade
 
 from components import Attack, Name, Stats
 from constants import Color
@@ -17,21 +16,24 @@ if TYPE_CHECKING:
 
     import tcod.ecs
 
-    from engine import Engine
     from gamemap import GameMap
+    from messagelog import MessageLog
 
 
 class MeleeAction(ActionWithDirection):
     """For performing melee attacks"""
+
     def __init__(
         self,
         entity: tcod.ecs.Entity,
         direction: tuple[int, int],
         gamemap: GameMap,
         rng: Random,
+        message_log: MessageLog,
     ) -> None:
         super().__init__(entity, direction, gamemap)
         self.rng = rng
+        self.message_log = message_log
 
     def perform(self) -> None:
         target = self.target_entity
@@ -79,8 +81,7 @@ class MeleeAction(ActionWithDirection):
                 target.clear()
         else:
             description = f"{description}."
-        view: Engine = arcade.get_window().current_view # type: ignore
         if actor is self.gamemap.player:
-            view.message_log.add_message(description, Color.PLAYER_ATTACK)
+            self.message_log.add_message(description, Color.PLAYER_ATTACK)
         else:
-            view.message_log.add_message(description, Color.ENEMY_ATTACK)
+            self.message_log.add_message(description, Color.ENEMY_ATTACK)
