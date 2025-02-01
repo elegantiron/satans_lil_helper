@@ -52,6 +52,8 @@ class Name:
     """An entity's name"""
 
     name: str
+    definite_article: str = attrs.field(default=None, kw_only=True)
+    indefinite_article: str = attrs.field(default=None, kw_only=True)
 
 
 @attrs.define

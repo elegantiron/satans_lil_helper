@@ -45,7 +45,11 @@ class MeleeAction(ActionWithDirection):
             actor_name = actor_name.name
         target_name = target.components.get(Name, "the mysterious stranger")
         if isinstance(target_name, Name):
-            target_name = target_name.name
+            name = ""
+            if target_name.definite_article is not None:
+                name = f"{name}{target_name.definite_article} "
+            name = f"{name}{target_name.name}"
+            target_name = name
 
         if actor_name == "you":
             description = f"{actor_name.capitalize()} attack {target_name}"

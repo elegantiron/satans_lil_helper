@@ -35,5 +35,7 @@ def wolf(entity: tcod.ecs.Entity, position: tuple[int, int], rng: Random) -> Non
     )
     entity.components[AI] = AI(AIType.HOSTILE, AIType.HOSTILE)
     entity.components[ActionDelay] = ActionDelay(rng.randint(1, 15))
-    entity.components[Name] = Name("wolf")
+    entity.components[Name] = Name(
+        "wolf", definite_article="the", indefinite_article="a"
+    )
     entity.tags.add(EntityTags.HOSTILE)
