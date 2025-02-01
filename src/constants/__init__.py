@@ -1,6 +1,7 @@
 """Constants"""
 
 from enum import StrEnum
+from typing import Final
 
 from . import keylists
 from .colors import Color
@@ -16,9 +17,9 @@ __all__ = [
     "ItemType",
 ]
 
-TILE_SIZE = 32
+TILE_SIZE: Final = 32
 
-LINE_SPACING = 2
+LINE_SPACING: Final = 2
 
 
 class Tile(StrEnum):

@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Final
+
 from arcade import key
 
-MOVEMENT = {
+MOVEMENT: Final = {
     key.NUM_1: (-1, -1),
     key.NUM_2: (0, -1),
     key.NUM_3: (1, -1),
@@ -23,7 +25,7 @@ MOVEMENT = {
     key.PAGEDOWN: (1, -1),
 }
 
-CONFIRMATION = {
+CONFIRMATION: Final = {
     key.RETURN,
     key.NUM_ENTER,
 }

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 import pytest
 
@@ -14,7 +14,7 @@ from messagelog import MessageLog
 if TYPE_CHECKING:
     import tcod.ecs
 
-SEED = 1737855529.0953882
+SEED: Final = 1737855529.0953882
 
 
 # pylint: disable=redefined-outer-name
@@ -63,7 +63,6 @@ class TestActions:
         assert exc.type is PathBlocked
 
     @pytest.mark.depends(on=["tests/messagelog_test.py::TestMessageLog::test_logging"])
-    @pytest.mark.xfail(reason="Message log needs to be separated from view")
     def test_melee_action(self, gameworld: GameWorld, entity: tcod.ecs.Entity, message_log: MessageLog) -> None:
         assert entity is not None
         old_hp = entity.components[Stats].hp

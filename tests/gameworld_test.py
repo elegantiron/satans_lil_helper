@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 import pytest
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
     import tcod.ecs
 
-SEED = 1737855529.0953882
+SEED: Final = 1737855529.0953882
 # pylint: disable=redefined-outer-name
 
 
