@@ -1,5 +1,5 @@
 """Enemy entity factories"""
 
-from . import forest
+from . import forest, testing
 
-__all__ = ["forest"]
+__all__ = ["forest", "testing"]
