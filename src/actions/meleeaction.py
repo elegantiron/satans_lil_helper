@@ -40,16 +40,12 @@ class MeleeAction(ActionWithDirection):
         actor = self.entity
         if not target:
             raise Impossible
-        actor_name = actor.components.get(Name, "the mysterious stranger")
-        if isinstance(actor_name, Name):
-            actor_name = actor_name.name
-        target_name = target.components.get(Name, "the mysterious stranger")
-        if isinstance(target_name, Name):
-            name = ""
-            if target_name.definite_article is not None:
-                name = f"{name}{target_name.definite_article} "
-            name = f"{name}{target_name.name}"
-            target_name = name
+        actor_name = actor.components.get(Name, Name("the mysterious stranger")).name
+        t_name = target.components.get(Name, Name("the mysterious stranger"))
+        target_name = ""
+        if t_name.definite_article is not None:
+            target_name = f"{target_name}{t_name.definite_article} "
+        target_name = f"{target_name}{t_name.name}"
 
         if actor_name == "you":
             description = f"{actor_name.capitalize()} attack {target_name}"
