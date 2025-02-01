@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     import tcod.ecs
 
     from gamemap import GameMap
+    from messagelog import MessageLog
 
 
 class ActionWithDirection(Action, metaclass=ABCMeta):
@@ -23,6 +24,7 @@ class ActionWithDirection(Action, metaclass=ABCMeta):
         entity: tcod.ecs.Entity,
         direction: tuple[int, int],
         gamemap: GameMap,
+        message_log: MessageLog,
     ) -> None:
         super().__init__(entity=entity)
         self.gamemap = gamemap
@@ -30,6 +32,7 @@ class ActionWithDirection(Action, metaclass=ABCMeta):
         position = entity.components[Position]
         self.target_xy = self.dx + position.x, self.dy + position.y
         self.target_entity = None
+        self.message_log = message_log
         for ent in (
             entity
             for entity in self.entity.registry.Q.all_of(components=[Position])

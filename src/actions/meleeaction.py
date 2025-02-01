@@ -31,9 +31,8 @@ class MeleeAction(ActionWithDirection):
         rng: Random,
         message_log: MessageLog,
     ) -> None:
-        super().__init__(entity, direction, gamemap)
+        super().__init__(entity, direction, gamemap, message_log)
         self.rng = rng
-        self.message_log = message_log
 
     def perform(self) -> None:
         target = self.target_entity

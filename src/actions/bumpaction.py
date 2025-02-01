@@ -28,7 +28,7 @@ class BumpAction(ActionWithDirection):
         rng: random.Random,
         message_log: MessageLog,
     ) -> None:
-        super().__init__(entity, direction, gamemap)
+        super().__init__(entity, direction, gamemap, message_log)
         self.rng = rng
         self.message_log = message_log
 
@@ -43,5 +43,8 @@ class BumpAction(ActionWithDirection):
             ).perform()
         else:
             MoveAction(
-                entity=self.entity, direction=self.direction, gamemap=self.gamemap
+                entity=self.entity,
+                direction=self.direction,
+                gamemap=self.gamemap,
+                message_log=self.message_log,
             ).perform()

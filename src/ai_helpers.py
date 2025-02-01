@@ -29,14 +29,14 @@ def confused_action(
 
 
 def wander_action(
-    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random
+    entity: tcod.ecs.Entity, gamemap: GameMap, rng: random.Random, message_log: MessageLog
 ) -> None:
     """Have an entity wander around randomly."""
     directories = [
         (x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)
     ]
     directory = rng.choice(directories)
-    MoveAction(entity, directory, gamemap).perform()
+    MoveAction(entity, directory, gamemap, message_log).perform()
     entity.components[ActionDelay].ticks = 15
 
 
@@ -66,9 +66,9 @@ def hostile_action(
 
     if path:
         dest_x, dest_y = path.pop(0)
-        MoveAction(entity, (dest_x - e_pos.x, dest_y - e_pos.y), gamemap).perform()
+        MoveAction(entity, (dest_x - e_pos.x, dest_y - e_pos.y), gamemap, message_log).perform()
         entity.components[ActionDelay].ticks = 15
         return
 
-    wander_action(entity, gamemap, rng)
+    wander_action(entity, gamemap, rng, message_log)
     return

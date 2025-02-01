@@ -78,35 +78,35 @@ class Engine(arcade.View):
         """Set up the sections"""
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
-        self.title_section = TitleSection(0, 0, self.width, self.height)
+        self.title_section = TitleSection(0, 0, self.width, self.height) # type: ignore
 
-        self.menu_section = MainMenuSection(0, 0, self.width, self.height)
+        self.menu_section = MainMenuSection(0, 0, self.width, self.height) # type: ignore
 
-        self.bestiary_section = BestiarySection(0, 0, self.width, self.height)
+        self.bestiary_section = BestiarySection(0, 0, self.width, self.height) # type: ignore
 
-        self.gamemap_section = GameMapSection(0, 0, self.width, self.height)
+        self.gamemap_section = GameMapSection(0, 0, self.width, self.height) # type: ignore
 
         self.status_section = StatusSection(
-            self.width * 2 / 3,
-            self.height / 5,
-            self.width / 3 + 5,
-            self.height * 4 / 5,
+            self.width * 2 / 3, # type: ignore
+            self.height / 5, # type: ignore
+            self.width / 3 + 5, # type: ignore
+            self.height * 4 / 5, # type: ignore
             accept_keyboard_keys=False,
         )
 
         self.message_section = MessageSection(
-            self.width * 2 / 3,
+            self.width * 2 / 3, # type: ignore
             0,
-            self.width / 3 + 5,
-            self.height / 5,
+            self.width / 3 + 5, # type: ignore
+            self.height / 5, # type: ignore
             accept_keyboard_keys=False,
         )
 
         self.pause_section = PauseSection(
-            self.width / 8,
-            self.height / 8,
-            self.width * 6 / 8,
-            self.height * 6 / 8,
+            self.width / 8, # type: ignore
+            self.height / 8, # type: ignore
+            self.width * 6 / 8, # type: ignore
+            self.height * 6 / 8, # type: ignore
         )
 
         self.inspector_section = InspectorSection(

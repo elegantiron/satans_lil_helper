@@ -115,7 +115,7 @@ class GameWorld:
                     try:
                         match ent.components[AI].type:
                             case AIType.WANDERING:
-                                wander_action(ent, self.map, self.rng)
+                                wander_action(ent, self.map, self.rng, message_log)
                                 action_complete = True
                             case AIType.CONFUSED:
                                 confusion = ent.components.get(Confusion, None)
