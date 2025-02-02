@@ -14,6 +14,8 @@ from gameworld import GameWorld
 from messagelog import MessageLog
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from tcod.ecs import Entity
 
 # pylint: disable=redefined-outer-name
@@ -27,20 +29,20 @@ def gameworld() -> GameWorld:
 
 
 @pytest.fixture
-def entity(gameworld: GameWorld) -> Entity: # type: ignore
-    nentity= gameworld.spawn_entity(
+def entity(gameworld: GameWorld) -> Iterator[Entity]:
+    nentity = gameworld.spawn_entity(
         enemies.forest.wolf,
         (
             gameworld.player.components[Position].x,
             gameworld.player.components[Position].y - 1,
         ),
     )
-    yield nentity # type: ignore
+    yield nentity
     nentity.clear()
 
 
 @pytest.fixture
-def strong_entity(gameworld: GameWorld) -> Entity: # type: ignore
+def strong_entity(gameworld: GameWorld) -> Iterator[Entity]:
     sentity = gameworld.spawn_entity(
         enemies.testing.strong,
         (
@@ -48,12 +50,12 @@ def strong_entity(gameworld: GameWorld) -> Entity: # type: ignore
             gameworld.player.components[Position].y - 1,
         ),
     )
-    yield sentity # type: ignore
+    yield sentity
     sentity.clear()
 
 
 @pytest.fixture
-def weak_entity(gameworld: GameWorld) -> Entity: # type: ignore
+def weak_entity(gameworld: GameWorld) -> Entity:  # type: ignore
     wentity = gameworld.spawn_entity(
         enemies.testing.weak,
         (
@@ -61,7 +63,7 @@ def weak_entity(gameworld: GameWorld) -> Entity: # type: ignore
             gameworld.player.components[Position].y - 1,
         ),
     )
-    yield wentity # type: ignore
+    yield wentity  # type: ignore
     wentity.clear()
 
 

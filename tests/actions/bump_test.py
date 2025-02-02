@@ -13,6 +13,8 @@ from gameworld import GameWorld
 from messagelog import MessageLog
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from tcod.ecs import Entity
 
 SEED: Final[float] = 1737855529.0953882
@@ -24,7 +26,7 @@ def gameworld() -> GameWorld:
 
 
 @pytest.fixture
-def entity(gameworld: GameWorld) -> Entity:  # type: ignore
+def entity(gameworld: GameWorld) -> Iterator[Entity]:
     nentity = gameworld.spawn_entity(
         enemies.forest.wolf,
         (
@@ -32,7 +34,7 @@ def entity(gameworld: GameWorld) -> Entity:  # type: ignore
             gameworld.player.components[Position].y - 1,
         ),
     )
-    yield nentity  # type: ignore
+    yield nentity
     nentity.clear()
 
 
@@ -41,6 +43,7 @@ def message_log() -> MessageLog:
     return MessageLog()
 
 
+@pytest.mark.depends(on="tests/messagelog_test.py")
 class TestBump:
     def test_bump_empty_space(
         self, gameworld: GameWorld, message_log: MessageLog
