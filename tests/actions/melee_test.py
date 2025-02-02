@@ -27,36 +27,42 @@ def gameworld() -> GameWorld:
 
 
 @pytest.fixture
-def entity(gameworld: GameWorld) -> Entity:
-    return gameworld.spawn_entity(
+def entity(gameworld: GameWorld) -> Entity: # type: ignore
+    nentity= gameworld.spawn_entity(
         enemies.forest.wolf,
         (
             gameworld.player.components[Position].x,
             gameworld.player.components[Position].y - 1,
         ),
     )
+    yield nentity # type: ignore
+    nentity.clear()
 
 
 @pytest.fixture
-def strong_entity(gameworld: GameWorld) -> Entity:
-    return gameworld.spawn_entity(
+def strong_entity(gameworld: GameWorld) -> Entity: # type: ignore
+    sentity = gameworld.spawn_entity(
         enemies.testing.strong,
         (
             gameworld.player.components[Position].x,
             gameworld.player.components[Position].y - 1,
         ),
     )
+    yield sentity # type: ignore
+    sentity.clear()
 
 
 @pytest.fixture
-def weak_entity(gameworld: GameWorld) -> Entity:
-    return gameworld.spawn_entity(
+def weak_entity(gameworld: GameWorld) -> Entity: # type: ignore
+    wentity = gameworld.spawn_entity(
         enemies.testing.weak,
         (
             gameworld.player.components[Position].x,
             gameworld.player.components[Position].y - 1,
         ),
     )
+    yield wentity # type: ignore
+    wentity.clear()
 
 
 @pytest.fixture(scope="class")
@@ -74,7 +80,6 @@ class TestMelee:
             gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
         ).perform()
         new_hp = entity.components[Stats].hp
-        entity.clear()
         assert new_hp < old_hp
 
     def test_melee_player_attack_message_color(
@@ -83,7 +88,6 @@ class TestMelee:
         MeleeAction(
             gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
         ).perform()
-        entity.clear()
         assert message_log.messages[-1].color == Color.PLAYER_ATTACK
 
     def test_melee_player_attack_message_text(
@@ -92,7 +96,6 @@ class TestMelee:
         MeleeAction(
             gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
         ).perform()
-        entity.clear()
         assert message_log.messages[-1].plain_text.find("You attack the wolf") != -1
 
     def test_melee_player_attack_empty_tile(
@@ -110,14 +113,12 @@ class TestMelee:
         old_hp = gameworld.player.components[Stats].hp
         MeleeAction(entity, (0, 1), gameworld.map, gameworld.rng, message_log).perform()
         new_hp = gameworld.player.components[Stats].hp
-        entity.clear()
         assert new_hp < old_hp
 
     def test_melee_enemy_attack_message_color(
         self, entity: Entity, gameworld: GameWorld, message_log: MessageLog
     ) -> None:
         MeleeAction(entity, (0, 1), gameworld.map, gameworld.rng, message_log).perform()
-        entity.clear()
         assert message_log.messages[-1].color == Color.ENEMY_ATTACK
 
     def test_melee_player_miss(
@@ -128,7 +129,6 @@ class TestMelee:
             gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
         ).perform()
         new_hp = strong_entity.components[Stats].hp
-        strong_entity.clear()
         assert old_hp == new_hp
 
     def test_melee_player_kill(
@@ -157,21 +157,15 @@ class TestMelee:
         ).perform()
         assert message_log.messages[-1].plain_text.find("killing it") != -1
 
-    def test_melee_player_death(
-            self, gameworld: GameWorld, strong_entity: Entity, message_log: MessageLog
-    )-> None:
-        MeleeAction(strong_entity, (0, 1), gameworld.map, gameworld.rng, message_log).perform()
-        assert gameworld.player.components[Stats].hp <= 0
-
     def test_melee_missing_stats(
         self, gameworld: GameWorld, entity: Entity, message_log: MessageLog
     ) -> None:
         del entity.components[Stats]
-        with pytest.raises(Impossible) as exc:
-            MeleeAction(
-                gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
-            ).perform()
-        entity.clear()
+        action = MeleeAction(
+            gameworld.player, (0, -1), gameworld.map, gameworld.rng, message_log
+        )
+        with pytest.raises(MissingComponent) as exc:
+            action.perform()
         assert exc.type is MissingComponent
 
     def test_melee_missing_attack(
@@ -182,5 +176,12 @@ class TestMelee:
             MeleeAction(
                 entity, (0, 1), gameworld.map, gameworld.rng, message_log
             ).perform()
-        entity.clear()
         assert exc.type is MissingComponent
+
+    def test_melee_player_death(
+        self, gameworld: GameWorld, strong_entity: Entity, message_log: MessageLog
+    ) -> None:
+        MeleeAction(
+            strong_entity, (0, 1), gameworld.map, gameworld.rng, message_log
+        ).perform()
+        assert gameworld.player.components[Stats].hp <= 0
