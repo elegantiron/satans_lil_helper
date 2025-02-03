@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING
 
 import pytest
 from tcod.ecs import Entity, Registry
@@ -11,8 +10,7 @@ from components import Skills, Stats
 from entities import professions
 from exceptions import Impossible, MissingComponent
 
-if TYPE_CHECKING:
-    from collections.abc import Iterator
+# pylint: disable=redefined-outer-name
 
 
 @pytest.fixture(scope="class")
@@ -21,10 +19,10 @@ def registry() -> Registry:
 
 
 @pytest.fixture
-def entity(registry: Registry) -> Iterator[Entity]:
+def entity(registry: Registry) -> Entity:  # type: ignore
     new_entity = registry.new_entity()
     professions.warrior_class(new_entity, (5, 5), random.Random())
-    yield new_entity
+    yield new_entity  # type: ignore
     new_entity.clear()
 
 
@@ -85,3 +83,19 @@ class TestAddFlag:
         entity.components[Skills].onetime |= Abilities.COLD_WEAPON
         addflag_effect.roll_back_skill_effect(entity)
         assert Abilities.COLD_WEAPON not in entity.components[Skills].onetime
+
+    def test_addflag_application_no_skills(
+        self, entity: Entity, addflag_effect: effects.AddFlag
+    ) -> None:
+        del entity.components[Skills]
+        with pytest.raises(Impossible) as excinfo:
+            addflag_effect.apply_skill_effect(entity)
+        assert excinfo.type is MissingComponent
+
+    def test_addflag_rollback_no_skill(
+        self, entity: Entity, addflag_effect: effects.AddFlag
+    ) -> None:
+        del entity.components[Skills]
+        with pytest.raises(Impossible) as excinfo:
+            addflag_effect.roll_back_skill_effect(entity)
+        assert excinfo.type is MissingComponent
