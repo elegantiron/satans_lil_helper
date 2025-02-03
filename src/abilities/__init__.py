@@ -1,4 +1,5 @@
+from . import effects
 from .requirements import Skill, SkillList
 from .tags import Abilities
 
-__all__ = ["Abilities", "SkillList", "Skill"]
+__all__ = ["effects", "Abilities", "SkillList", "Skill"]
