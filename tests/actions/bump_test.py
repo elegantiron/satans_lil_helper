@@ -43,7 +43,7 @@ def message_log() -> MessageLog:
     return MessageLog()
 
 
-@pytest.mark.depends(on="tests/messagelog_test.py")
+@pytest.mark.depends(on=["GameWorld", "MessageLog"])
 class TestBump:
     def test_bump_empty_space(
         self, gameworld: GameWorld, message_log: MessageLog

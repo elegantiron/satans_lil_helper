@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Final
 
 import pytest
-from tcod.ecs.entity import Entity
 
 from actions import MeleeAction
 from components import Attack, Position, Stats
@@ -72,7 +71,7 @@ def message_log() -> MessageLog:
     return MessageLog()
 
 
-@pytest.mark.depends(on=["tests/messagelog_test.py", "tests/gameworld_test.py"])
+@pytest.mark.depends(on=["MessageLog", "GameWorld"])
 class TestMelee:
     def test_melee_player_attack_damage(
         self, gameworld: GameWorld, entity: Entity, message_log: MessageLog

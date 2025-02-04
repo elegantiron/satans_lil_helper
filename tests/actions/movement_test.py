@@ -41,7 +41,7 @@ def message_log() -> MessageLog:
     return MessageLog()
 
 
-@pytest.mark.depends(on=["tests/gameworld_test.py", "tests/messagelog_test.py"])
+@pytest.mark.depends(on=["GameWorld", "MessageLog"])
 class TestMovement:
     def test_movement_unblocked(
         self, gameworld: GameWorld, message_log: MessageLog

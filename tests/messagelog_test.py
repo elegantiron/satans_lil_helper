@@ -27,6 +27,7 @@ def messagelog() -> MessageLog:
         ("A third event happens, but it doesn't go your way.", Color.AMERICAN_ROSE),
     ],
 )
+@pytest.mark.depends(name="MessageLog")
 class TestMessageLog:
     def test_logging(
         self, messagelog: MessageLog, text: str, color: tuple[int, int, int, int]

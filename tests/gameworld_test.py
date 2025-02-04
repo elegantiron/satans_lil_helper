@@ -41,8 +41,8 @@ def gameworld3() -> GameWorld:
 def message_log() -> MessageLog:
     return MessageLog()
 
-
-@pytest.mark.depends(on="tests/messagelog_test.py")
+@pytest.mark.slow
+@pytest.mark.depends(on="MessageLog", name="GameWorld")
 class TestGameWorld:
     @pytest.mark.parametrize("iteration", range(5))
     def test_player_position(self, gameworld: GameWorld, iteration: int) -> None:  # pylint: disable=unused-argument
