@@ -89,4 +89,7 @@ class TestMovement:
             MoveAction(
                 gameworld.player, (-500, 0), gameworld.map, message_log
             ).perform()
-        assert message_log.messages[-1].plain_text == "There is nothing but the Void in that direction"
+        assert (
+            message_log.messages[-1].plain_text
+            == "There is nothing but the Void in that direction"
+        )
