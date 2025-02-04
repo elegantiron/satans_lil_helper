@@ -1,12 +1,5 @@
 """Satan's Lil Helper"""
 
-# nuitka-project: --standalone
-# nuitka-project: --include-data-dir=assets=assets
-# nuitka-project: --output-filename=slh.exe
-## nuitka-project: --windows-console-mode=disable
-## nuitka-project: --deployment
-# nuitka-project: --output-dir=build
-
 from __future__ import annotations
 
 import sys
