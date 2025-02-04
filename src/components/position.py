@@ -19,6 +19,8 @@ class Position:
             self.sprite = arcade.Sprite(
                 center_x=self._x * TILE_SIZE, center_y=self._y * TILE_SIZE
             )
+        self.sprite.center_x = x * TILE_SIZE
+        self.sprite.center_y = y * TILE_SIZE
 
     @property
     def x(self) -> int:
