@@ -45,6 +45,7 @@ class Inventory:
     """How many items an entity can hold"""
 
     size: int = 0
+    item_count: int = 0
 
 
 @attrs.define

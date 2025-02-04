@@ -76,7 +76,7 @@ class TestGameWorld:
             gameworld.spawn_entity(spawn_function, (0, 0))
         assert exc.type is SpawnBlocked
 
-    @pytest.mark.xfail(reason="unritten", strict=False)
+    @pytest.mark.xfail(reason="unwritten", strict=False)
     def test_determinism(
         self, gameworld2: GameWorld, gameworld3: GameWorld, message_log: MessageLog
     ) -> None:

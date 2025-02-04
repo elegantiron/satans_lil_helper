@@ -30,13 +30,13 @@ class StatUp(BaseSkillEffect):
         entity_stats = target.components.get(Stats)
         if entity_stats is None:
             raise MissingComponent
-        entity_stats += self.stat_block
+        target.components[Stats] = self.stat_block + entity_stats
 
     def roll_back_skill_effect(self, target):
         entity_stats = target.components.get(Stats)
         if entity_stats is None:
             raise MissingComponent
-        entity_stats -= self.stat_block
+        target.components[Stats] = entity_stats - self.stat_block
 
 
 class AddFlag(BaseSkillEffect):
