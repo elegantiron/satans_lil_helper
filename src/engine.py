@@ -45,6 +45,7 @@ class Engine(arcade.View):
 
     world: GameWorld
     bestiary: Bestiary
+    debug: bool = False
 
     def __init__(
         self,
@@ -78,35 +79,35 @@ class Engine(arcade.View):
         """Set up the sections"""
         self.sm = arcade.SectionManager(self)
         self.sm.enable()
-        self.title_section = TitleSection(0, 0, self.width, self.height) # type: ignore
+        self.title_section = TitleSection(0, 0, self.width, self.height)  # type: ignore
 
-        self.menu_section = MainMenuSection(0, 0, self.width, self.height) # type: ignore
+        self.menu_section = MainMenuSection(0, 0, self.width, self.height)  # type: ignore
 
-        self.bestiary_section = BestiarySection(0, 0, self.width, self.height) # type: ignore
+        self.bestiary_section = BestiarySection(0, 0, self.width, self.height)  # type: ignore
 
-        self.gamemap_section = GameMapSection(0, 0, self.width, self.height) # type: ignore
+        self.gamemap_section = GameMapSection(0, 0, self.width, self.height)  # type: ignore
 
         self.status_section = StatusSection(
-            self.width * 2 / 3, # type: ignore
-            self.height / 5, # type: ignore
-            self.width / 3 + 5, # type: ignore
-            self.height * 4 / 5, # type: ignore
+            self.width * 2 / 3,  # type: ignore
+            self.height / 5,  # type: ignore
+            self.width / 3 + 5,  # type: ignore
+            self.height * 4 / 5,  # type: ignore
             accept_keyboard_keys=False,
         )
 
         self.message_section = MessageSection(
-            self.width * 2 / 3, # type: ignore
+            self.width * 2 / 3,  # type: ignore
             0,
-            self.width / 3 + 5, # type: ignore
-            self.height / 5, # type: ignore
+            self.width / 3 + 5,  # type: ignore
+            self.height / 5,  # type: ignore
             accept_keyboard_keys=False,
         )
 
         self.pause_section = PauseSection(
-            self.width / 8, # type: ignore
-            self.height / 8, # type: ignore
-            self.width * 6 / 8, # type: ignore
-            self.height * 6 / 8, # type: ignore
+            self.width / 8,  # type: ignore
+            self.height / 8,  # type: ignore
+            self.width * 6 / 8,  # type: ignore
+            self.height * 6 / 8,  # type: ignore
         )
 
         self.inspector_section = InspectorSection(
@@ -196,9 +197,13 @@ class Engine(arcade.View):
         self.satan_sprites.append(self.satan["eyes open"])
         self.satan_sprites.append(self.satan["eyes closed"])
 
-    def new_world(self) -> None:
+    def new_world(self, *, debug: bool = False) -> None:
         """Make a new world"""
-        self.world = GameWorld()
+        seed = None
+        self.debug = debug
+        if debug:
+            seed = 1737855529.0953882
+        self.world = GameWorld(seed)
         p_pos = self.player.components[Position]
         while not self.world.map.tiles[Tile.WALKABLE][p_pos.xy]:
             if self.rng.random() < 0.5:
@@ -231,11 +236,12 @@ class Engine(arcade.View):
         self.gamemap_section.set_camera()
         self.status_section.update_player_stats()
         self.message_section.update_messages()
-        for _ in range(25):
-            entity = self.world.spawn_entity(enemies.forest.wolf)
-            e_pos = entity.components.get(Position)
-            if e_pos is not None and e_pos.sprite is not None:
-                self.gamemap_section.entity_sprites.append(e_pos.sprite)
+        if not debug:
+            for _ in range(25):
+                entity = self.world.spawn_entity(enemies.forest.wolf)
+                e_pos = entity.components.get(Position)
+                if e_pos is not None and e_pos.sprite is not None:
+                    self.gamemap_section.entity_sprites.append(e_pos.sprite)
         self.gamemap_section.update_player_fov()
 
     @property

@@ -10,6 +10,7 @@ import numpy as np
 from actions import BumpAction
 from components import ActionDelay, Position, Stats
 from constants import Color, Tile, keylists
+from entities import enemies
 from exceptions import PathBlocked
 
 if TYPE_CHECKING:
@@ -31,15 +32,15 @@ class GameMapSection(arcade.Section):
         width,
         height,
         *,
-        name = None,
-        accept_keyboard_keys = True,
-        accept_mouse_events = True,
-        prevent_dispatch = None,
-        prevent_dispatch_view = None,
-        local_mouse_coordinates = False,
-        enabled = False,
-        modal = False,
-        draw_order = 1,
+        name=None,
+        accept_keyboard_keys=True,
+        accept_mouse_events=True,
+        prevent_dispatch=None,
+        prevent_dispatch_view=None,
+        local_mouse_coordinates=False,
+        enabled=False,
+        modal=False,
+        draw_order=1,
     ):
         super().__init__(
             left,
@@ -126,6 +127,30 @@ class GameMapSection(arcade.Section):
                 self.view.inventory_section.enabled = True
             case arcade.key.C:
                 self.view.character_section.enabled = True
+            case arcade.key.S if self.view.debug:
+                player_pos = self.view.player.components[Position].xy
+                pos = None
+                if self.view.world.map.tiles[Tile.WALKABLE][
+                    player_pos[0], player_pos[1] + 1
+                ]:
+                    pos = (player_pos[0], player_pos[1] + 1)
+                elif self.view.world.map.tiles[Tile.WALKABLE][
+                    player_pos[0], player_pos[1] - 1
+                ]:
+                    pos = (player_pos[0], player_pos[1] - 1)
+                elif self.view.world.map.tiles[Tile.WALKABLE][
+                    player_pos[0] + 1, player_pos[1]
+                ]:
+                    pos = (player_pos[0] + 1, player_pos[1])
+                elif self.view.world.map.tiles[Tile.WALKABLE][
+                    player_pos[0] - 1, player_pos[1]
+                ]:
+                    pos = (player_pos[0] - 1, player_pos[1])
+                if pos is not None:
+                    entity = self.view.world.spawn_entity(enemies.forest.wolf, pos)
+                    self.entity_sprites.append(entity.components[Position].sprite)
+            case arcade.key.R if self.view.debug:
+                self.view.player.components[Stats].hp = self.view.player.components[Stats].max_hp
 
     def handle_move_key(self, key: int) -> None:
         """Handle moving the player"""
@@ -141,7 +166,7 @@ class GameMapSection(arcade.Section):
                         direction,
                         self.view.map,
                         self.view.rng,
-                        self.view.message_log
+                        self.view.message_log,
                     ).perform()
                     self.set_camera()
                     self.view.status_section.update_player_stats()
@@ -188,6 +213,8 @@ class GameMapSection(arcade.Section):
             self.view.world.handle_regen()
             self.view.world.process_ai(self.view.message_log)
             self.view.world.handle_ailments()
+            self.view.message_section.update_messages()
+            self.view.status_section.update_player_stats()
 
     @property
     def map(self) -> GameMap:
@@ -205,13 +232,11 @@ class GameMapSection(arcade.Section):
         tiles = self.map.get_fov(
             self.player.components[Position].xy, int(min(stats.light, stats.sight))
         )
-        self.map.tiles[Tile.EXPLORED] |= tiles # type: ignore
-        self.map.tiles[Tile.VISIBLE] = tiles # type: ignore
+        self.map.tiles[Tile.EXPLORED] |= tiles  # type: ignore
+        self.map.tiles[Tile.VISIBLE] = tiles  # type: ignore
         i, j = np.nonzero(tiles)
-        # pylint: disable=consider-using-enumerate
-        for x in range(len(i)):
+        for x in range(len(i)):  # pylint: disable=consider-using-enumerate
             self.map.sprites[i[x]][j[x]].visible = True
-        # pylint: enable=consider-using-enumerate
         for ent in self.view.world.map.registry.Q.all_of(components=[Position]):
             ent.components[Position].sprite.visible = self.view.map.tiles[Tile.VISIBLE][
                 ent.components[Position].xy
