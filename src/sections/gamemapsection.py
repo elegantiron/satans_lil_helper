@@ -150,7 +150,13 @@ class GameMapSection(arcade.Section):
                     entity = self.view.world.spawn_entity(enemies.forest.wolf, pos)
                     self.entity_sprites.append(entity.components[Position].sprite)
             case arcade.key.R if self.view.debug:
-                self.view.player.components[Stats].hp = self.view.player.components[Stats].max_hp
+                self.view.player.components[Stats].hp = self.view.player.components[
+                    Stats
+                ].max_hp
+            case arcade.key.Z if self.view.debug and modifiers == arcade.key.MOD_CTRL:
+                self.rollback()
+            case arcade.key.Y if self.view.debug and modifiers == arcade.key.MOD_CTRL:
+                self.replay()
 
     def handle_move_key(self, key: int) -> None:
         """Handle moving the player"""
@@ -241,3 +247,9 @@ class GameMapSection(arcade.Section):
             ent.components[Position].sprite.visible = self.view.map.tiles[Tile.VISIBLE][
                 ent.components[Position].xy
             ]
+
+    def rollback(self) -> None:
+        raise NotImplementedError
+
+    def replay(self) -> None:
+        raise NotImplementedError
