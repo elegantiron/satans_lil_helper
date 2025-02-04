@@ -12,8 +12,9 @@
 		"python.analysis.typeEvaluation.deprecateTypingAliases": true,
 		"pylint.args": [
 			"--disable=C0114",
+			"--disable=C0115",
 			"--disable=C0116",
-			"--disable=C0115"
+			"--disable=W0613",
 		]
 	},
 	"extensions": {
