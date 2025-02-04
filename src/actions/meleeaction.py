@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from components import Attack, Name, Stats
+from components import Attack, Name, Position, Stats
 from constants import Color
 from exceptions import Impossible, MissingComponent
 from utils import get_damage, get_damage_factor
@@ -77,6 +77,7 @@ class MeleeAction(ActionWithDirection):
             description = f"{description} and killing it."
             a_stats.xp += t_stats.xp_granted
             if target is not self.gamemap.player:
+                target.components[Position].sprite.remove_from_sprite_lists()
                 target.clear()
         else:
             description = f"{description}."
