@@ -76,12 +76,6 @@ class TestGameWorld:
             gameworld.spawn_entity(spawn_function, (0, 0))
         assert exc.type is SpawnBlocked
 
-    @pytest.mark.xfail(reason="unwritten", strict=False)
-    def test_determinism(
-        self, gameworld2: GameWorld, gameworld3: GameWorld, message_log: MessageLog
-    ) -> None:
-        pass
-
     def test_time_step(self, gameworld: GameWorld) -> None:
         entity = gameworld.spawn_entity(professions.warrior_class)
         action_delay = entity.components.get(ActionDelay)
