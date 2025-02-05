@@ -17,6 +17,8 @@ class Action(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def perform(self) -> None:
-        """Perform the action in question.
+        """Perform the action in question."""
 
-        Subclasses **must** override this method."""
+    @abc.abstractmethod
+    def rollback(self) -> None:
+        """Undo the effects of this action."""
