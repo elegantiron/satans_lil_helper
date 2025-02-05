@@ -52,6 +52,10 @@ class CharacterSection(arcade.Section):
             draw_order=draw_order,
         )
         self.view: Engine
+        self.healthmana: arcade.Text
+        self.abilityscores: arcade.Text
+        self.equipment: arcade.Text
+        self.skills: arcade.Text
 
     def setup(self):
         self.camera = arcade.Camera2D(self.rect)
