@@ -39,3 +39,6 @@ class PickupAction(Action):
 
         if not found_item:
             raise NoItem
+
+    def rollback(self) -> None:
+        raise NotImplementedError
