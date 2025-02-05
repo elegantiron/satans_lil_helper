@@ -36,7 +36,7 @@ def addflag_effect() -> effects.AddFlag:
     return effects.AddFlag(Abilities.COLD_WEAPON)
 
 
-class TestSatUp:
+class TestStatUp:
     def test_statup_application(
         self, entity: Entity, statup_effect: effects.StatUp
     ) -> None:
