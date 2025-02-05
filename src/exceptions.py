@@ -30,5 +30,10 @@ class SpawnBlocked(Impossible):
 class OutOfBounds(Impossible):
     """Raised when an action targets something outside the world."""
 
+
 class NoItem(Impossible):
     """Raised when trying to pick up an item where none exists"""
+
+
+class NoTarget(Impossible):
+    """Raise when trying to perform a targeted action on no target."""
