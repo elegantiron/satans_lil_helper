@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from components import Attack, Name, Position, Stats
+from components import Attack, Name, Stats
 from constants import Color
-from exceptions import Impossible, MissingComponent
+from exceptions import MissingComponent, NoTarget
 from utils import get_damage, get_damage_factor
 
 from .actionwithdirection import ActionWithDirection
@@ -32,13 +32,13 @@ class MeleeAction(ActionWithDirection):
         message_log: MessageLog,
     ) -> None:
         super().__init__(entity, direction, gamemap, message_log)
+        self.kill = False
         self.rng = rng
-
-    def perform(self) -> None:
+        self._pre_state = self.rng.getstate()
         target = self.target_entity
         actor = self.entity
         if not target:
-            raise Impossible
+            raise NoTarget
         actor_name = actor.components.get(Name, Name("the mysterious stranger")).name
         t_name = target.components.get(Name, Name("the mysterious stranger"))
         target_name = ""
@@ -61,27 +61,48 @@ class MeleeAction(ActionWithDirection):
         attack = actor.components.get(Attack, None)
         if attack is None:
             raise MissingComponent("An entity with out an attack tried to attack.")
-        damage = get_damage(
+        self.damage = get_damage(
             damage_factor=damage_factor,
             dice=attack.dice,
             sides=attack.sides,
             rng=self.rng,
             strength=int(a_stats.strength),
         )
-        t_stats.hp -= damage
-        if damage == 0:
+        if self.damage == 0:
             description = f"{description} but deals no damage."
         else:
-            description = f"{description}, dealing {damage} damage"
-        if t_stats.hp <= 0:
+            description = f"{description}, dealing {self.damage} damage"
+        if t_stats.hp <= self.damage:
+            self.kill = True
             description = f"{description} and killing it."
-            a_stats.xp += t_stats.xp_granted
-            if target is not self.gamemap.player:
-                target.components[Position].sprite.remove_from_sprite_lists()
-                target.clear()
+
         else:
             description = f"{description}."
-        if actor is self.gamemap.player:
-            self.message_log.add_message(description, Color.PLAYER_ATTACK)
+        self.description = description
+        self._post_state = self.rng.getstate()
+
+    def perform(self) -> None:
+        if self.target_entity is None:
+            raise NoTarget
+        self.target_entity.components[Stats].hp -= self.damage
+        if self.kill:
+            self.entity.components[Stats].xp += self.target_entity.components[
+                Stats
+            ].xp_granted
+        self.rng.setstate(self._post_state)
+
+        if self.entity is self.gamemap.player:
+            self.message_log.add_message(self.description, Color.PLAYER_ATTACK)
         else:
-            self.message_log.add_message(description, Color.ENEMY_ATTACK)
+            self.message_log.add_message(self.description, Color.ENEMY_ATTACK)
+
+    def rollback(self) -> None:
+        if self.target_entity is None:
+            raise NoTarget
+        self.target_entity.components[Stats].hp += self.damage
+        if self.kill:
+            self.entity.components[Stats].xp -= self.target_entity.components[
+                Stats
+            ].xp_granted
+        del self.message_log.messages[-1]
+        self.rng.setstate(self._pre_state)

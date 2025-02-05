@@ -20,6 +20,8 @@ if TYPE_CHECKING:
 class BumpAction(ActionWithDirection):
     """'Bumps' a tile and performs the appropriate action"""
 
+    action: ActionWithDirection
+
     def __init__(
         self,
         entity: tcod.ecs.Entity,
@@ -31,20 +33,24 @@ class BumpAction(ActionWithDirection):
         super().__init__(entity, direction, gamemap, message_log)
         self.rng = rng
         self.message_log = message_log
-
-    def perform(self) -> None:
         if self.target_entity:
-            MeleeAction(
+            self.action = MeleeAction(
                 entity=self.entity,
                 direction=self.direction,
                 gamemap=self.gamemap,
                 rng=self.rng,
                 message_log=self.message_log,
-            ).perform()
+            )
         else:
-            MoveAction(
+            self.action = MoveAction(
                 entity=self.entity,
                 direction=self.direction,
                 gamemap=self.gamemap,
                 message_log=self.message_log,
-            ).perform()
+            )
+
+    def perform(self) -> None:
+        self.action.perform()
+
+    def rollback(self) -> None:
+        self.action.rollback()

@@ -28,3 +28,8 @@ class MoveAction(ActionWithDirection):
         position = self.entity.components[Position]
         position.x += self.dx
         position.y += self.dy
+
+    def rollback(self) -> None:
+        position = self.entity.components[Position]
+        position.x -= self.dx
+        position.y -= self.dy
