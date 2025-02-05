@@ -30,7 +30,7 @@ class TestMovement:
             ).perform()
         assert gameworld_fixed_seed.player.components[Position].xy == (5, 1)
 
-    def test__movement_blocked_wall(
+    def test_movement_blocked_wall(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         with pytest.raises(Impossible) as exc:
