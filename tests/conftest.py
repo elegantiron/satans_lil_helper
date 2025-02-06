@@ -58,6 +58,16 @@ def gameworld_fixed_seed() -> GameWorld:
 
 
 @pytest.fixture
+def gameworld_random_seed() -> GameWorld:
+    return GameWorld()
+
+
+@pytest.fixture
+def gameworld_random_seed2() -> GameWorld:
+    return GameWorld()
+
+
+@pytest.fixture
 def wolf_one_below(gameworld_fixed_seed: GameWorld) -> Iterator[Entity]:
     nentity = gameworld_fixed_seed.spawn_entity(
         enemies.forest.wolf,
