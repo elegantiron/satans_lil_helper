@@ -15,7 +15,8 @@
 			"--disable=C0115",
 			"--disable=C0116",
 			"--disable=W0613",
-		]
+		],
+		"testing.coverageToolbarEnabled": true
 	},
 	"extensions": {
 		"recommendations": [
