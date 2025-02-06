@@ -253,7 +253,35 @@ class TestView(arcade.View):
     ) -> None:
         super().__init__(window, background_color)
         self.satan_sprites = arcade.SpriteList()
+        self.satan = {
+            "main": arcade.Sprite(
+                ":images:satan/main.png", 1, self.width // 2, self.height // 2
+            ),
+            "eyes open": arcade.Sprite(
+                ":images:satan/eyes_open.png",
+                1,
+                self.width / 2,
+                self.height / 2,
+            ),
+            "mouth_closed": arcade.Sprite(
+                ":images:satan/mouth_closed.png",
+                1,
+                self.width / 2,
+                self.height / 2,
+            ),
+            "eyes closed": arcade.Sprite(
+                ":images:satan/eyes_closed.png",
+                1,
+                self.width / 2,
+                self.height / 2,
+            ),
+        }
+        self.satan["eyes closed"].visible = False
 
+        self.satan_sprites.append(self.satan["main"])
+        self.satan_sprites.append(self.satan["mouth_closed"])
+        self.satan_sprites.append(self.satan["eyes open"])
+        self.satan_sprites.append(self.satan["eyes closed"])
 
 @pytest.fixture
 def view(window: arcade.Window) -> arcade.View:
