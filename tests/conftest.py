@@ -10,6 +10,7 @@ import pytest
 from arcade import gl
 
 from components import Inventory, Position
+from engine import Engine
 from entities import consumables, enemies
 from gameworld import GameWorld
 from messagelog import MessageLog
@@ -23,8 +24,8 @@ if TYPE_CHECKING:
 PROJECT_ROOT = (Path(__file__).parent.parent).resolve()
 FIXTURE_ROOT = PROJECT_ROOT / "tests" / "fixtures"
 REAL_WINDOW_CLASS = arcade.Window  # pylint: disable=invalid-name
-WINDOW = None
-OFFSCREEN = None
+WINDOW: arcade.Window | None = None
+OFFSCREEN: arcade.Window | None = None
 
 arcade.resources.add_resource_handle("images", PROJECT_ROOT / "assets" / "images")
 arcade.resources.add_resource_handle("fonts", PROJECT_ROOT / "assets" / "fonts")
@@ -283,6 +284,7 @@ class TestView(arcade.View):
         self.satan_sprites.append(self.satan["eyes open"])
         self.satan_sprites.append(self.satan["eyes closed"])
 
+
 @pytest.fixture
 def view(window: arcade.Window) -> arcade.View:
     new_view = TestView(window)
@@ -293,3 +295,8 @@ def view(window: arcade.Window) -> arcade.View:
 @pytest.fixture
 def section_manager(view: arcade.View) -> arcade.SectionManager:
     return arcade.SectionManager(view)
+
+
+@pytest.fixture
+def engine(window: arcade.Window) -> Engine:
+    return Engine(window)
