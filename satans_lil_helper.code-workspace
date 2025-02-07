@@ -16,7 +16,12 @@
 			"--disable=C0116",
 			"--disable=W0613",
 		],
-		"testing.coverageToolbarEnabled": true
+		"testing.coverageToolbarEnabled": true,
+		"python.testing.pytestArgs": [
+			"tests"
+		],
+		"python.testing.unittestEnabled": false,
+		"python.testing.pytestEnabled": true
 	},
 	"extensions": {
 		"recommendations": [
