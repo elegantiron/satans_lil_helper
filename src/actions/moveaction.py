@@ -14,7 +14,8 @@ from .actionwithdirection import ActionWithDirection
 class MoveAction(ActionWithDirection):
     """Move an entity"""
 
-    def perform(self) -> None:
+    def __init__(self, entity, direction, gamemap, message_log):
+        super().__init__(entity, direction, gamemap, message_log)
         if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.tiles.shape):
             raise OutOfBounds
         if not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
@@ -22,6 +23,7 @@ class MoveAction(ActionWithDirection):
         if self.target_entity is not None:
             raise PathBlocked
 
+    def perform(self) -> None:
         position = self.entity.components[Position]
         position.x += self.dx
         position.y += self.dy
