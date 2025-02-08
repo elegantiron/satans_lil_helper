@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 
 from components import Position
-from constants import Color, Tile
+from constants import Tile
 from exceptions import OutOfBounds, PathBlocked
 
 from .actionwithdirection import ActionWithDirection
@@ -16,9 +16,6 @@ class MoveAction(ActionWithDirection):
 
     def perform(self) -> None:
         if (self.target_x, self.target_y) not in np.ndindex(self.gamemap.tiles.shape):
-            self.message_log.add_message(
-                "There is nothing but the Void in that direction", Color.IMPOSSIBLE
-            )
             raise OutOfBounds
         if not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
             raise PathBlocked
