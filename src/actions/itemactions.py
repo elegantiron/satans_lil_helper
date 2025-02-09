@@ -7,13 +7,13 @@ from components import Equippable, Skills
 from constants import EntityTags
 from exceptions import Impossible, MissingComponent
 
-from .baseaction import Action
+from .baseaction import BaseAction
 
 if TYPE_CHECKING:
     import tcod.ecs
 
 
-class ItemAction(Action, metaclass=ABCMeta):
+class ItemAction(BaseAction, metaclass=ABCMeta):
     def __init__(self, entity: tcod.ecs.Entity, item: tcod.ecs.Entity) -> None:
         super().__init__(entity)
         self.item = item

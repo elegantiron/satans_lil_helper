@@ -8,9 +8,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     import tcod.ecs
 
+    from messagelog import MessageLog
 
-class Action(metaclass=abc.ABCMeta):
+
+class BaseAction(metaclass=abc.ABCMeta):
     """Define base init and abstract functions"""
+
+    message_log: MessageLog | None = None
 
     def __init__(self, entity: tcod.ecs.Entity) -> None:
         self.entity = entity
@@ -22,3 +26,6 @@ class Action(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def rollback(self) -> None:
         """Undo the effects of this action."""
+
+    def get_text(self) -> str | None:
+        return None

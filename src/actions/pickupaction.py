@@ -6,10 +6,10 @@ from components import Inventory, Position
 from constants import EntityTags
 from exceptions import InventoryFull, MissingComponent, NoItem
 
-from .baseaction import Action
+from .baseaction import BaseAction
 
 
-class PickupAction(Action):
+class PickupAction(BaseAction):
     """Pick up items on the ground"""
 
     def perform(self) -> None:

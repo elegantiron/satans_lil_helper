@@ -23,6 +23,8 @@ if TYPE_CHECKING:
 class MeleeAction(ActionWithDirection):
     """For performing melee attacks"""
 
+    message_log: MessageLog
+
     def __init__(
         self,
         entity: tcod.ecs.Entity,

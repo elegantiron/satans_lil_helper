@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from components import Position
 
-from .baseaction import Action
+from .baseaction import BaseAction
 
 if TYPE_CHECKING:
     import tcod.ecs
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from messagelog import MessageLog
 
 
-class ActionWithDirection(Action, metaclass=ABCMeta):
+class ActionWithDirection(BaseAction, metaclass=ABCMeta):
     """Base class for directional actions"""
 
     def __init__(
