@@ -35,3 +35,13 @@ class MessageLog:
             self.messages[-1].count += 1
         else:
             self.messages.append(_Message(text, color))
+
+    def prune_message(self, text: str) -> None:
+        if self.messages[-1].plain_text != text:
+            raise RuntimeError
+        if self.messages[-1].count > 1:
+            self.messages[-1].count -= 1
+        elif self.messages[-1].count == 1:
+            self.messages.pop()
+        else:
+            raise RuntimeError
