@@ -157,7 +157,7 @@ def create_window(width=1280, height=720, caption="Testing", **kwargs):
         # This value is being monkey-patched into the Window class so that tests can identify
         # if we are using arcade-accelerate easily in case they need to disable something when
         # it is enabled.
-        WINDOW.using_accelerate = os.environ.get("ARCADE_PYTEST_USE_RUST")  # pyright: ignore
+        WINDOW.using_accelerate = os.environ.get("ARCADE_PYTEST_USE_RUST")  # type: ignore
     return WINDOW
 
 

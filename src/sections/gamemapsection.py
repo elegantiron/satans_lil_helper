@@ -249,7 +249,7 @@ class GameMapSection(arcade.Section):
             ]
 
     def rollback(self) -> None:
-        raise NotImplementedError
+        self.view.rollback()
 
     def replay(self) -> None:
-        raise NotImplementedError
+        self.view.replay()
