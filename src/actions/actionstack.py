@@ -32,7 +32,7 @@ class _ActionStackFrame:
     def rollback(self) -> None:
         self.action.rollback()
         if isinstance(self.action, ActionWithDirection) and self.tile_state is not None:
-            self.action.gamemap.tiles[Tile.EXPLORED] = self.tile_state[Tile.EXPLORED]
+            self.action.gamemap.tiles[Tile.EXPLORED] = copy.copy(self.tile_state[Tile.EXPLORED])
 
 
 class ActionStack:
