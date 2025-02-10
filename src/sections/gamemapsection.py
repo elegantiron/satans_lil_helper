@@ -167,13 +167,17 @@ class GameMapSection(arcade.Section):
                 delay = ActionDelay(0)
             if delay.ticks == 0:
                 try:
-                    BumpAction(
-                        self.view.player,
-                        direction,
-                        self.view.map,
-                        self.view.rng,
-                        self.view.message_log,
-                    ).perform()
+                    stack = self.view.action_stack
+                    action = BumpAction(
+                            self.view.player,
+                            direction,
+                            self.view.map,
+                            self.view.rng,
+                            self.view.message_log,
+                        )
+                    stack.add_action(
+                        action,
+                    )
                     self.set_camera()
                     self.view.status_section.update_player_stats()
                     self.update_player_fov()

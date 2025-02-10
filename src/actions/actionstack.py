@@ -1,36 +1,38 @@
 from __future__ import annotations
 
+import copy
 from typing import TYPE_CHECKING
 
-from constants import Color
+from constants import Tile
+
+from .actionwithdirection import ActionWithDirection
 
 if TYPE_CHECKING:
+    import numpy_typing as npt
+
     from messagelog import MessageLog
 
-    from .actionwithdirection import ActionWithDirection
     from .baseaction import BaseAction
 
 
 class _ActionStackFrame:
+    tile_state: npt.np.ndarray | None = None
+
     def __init__(
         self,
         action: ActionWithDirection | BaseAction,
-        text: str | None = None,
-        color: Color = Color.WHITE,
     ) -> None:
         self.action = action
-        self.text = text
-        self.color = color
+        if isinstance(action, ActionWithDirection):
+            self.tile_state = copy.copy(action.gamemap.tiles)
 
     def perform(self) -> None:
         self.action.perform()
-        if self.action.message_log is not None and self.text is not None:
-            self.action.message_log.add_message(self.text, self.color)
 
     def rollback(self) -> None:
         self.action.rollback()
-        if self.action.message_log is not None and self.text is not None:
-            self.action.message_log.prune_message(self.text)
+        if isinstance(self.action, ActionWithDirection) and self.tile_state is not None:
+            self.action.gamemap.tiles[Tile.EXPLORED] = self.tile_state[Tile.EXPLORED]
 
 
 class ActionStack:
@@ -53,11 +55,9 @@ class ActionStack:
     def add_action(
         self,
         action: BaseAction,
-        text: str | None = None,
-        color: Color = Color.WHITE,
     ) -> None:
         """Adds an action to the stack and performs it"""
-        new_frame = _ActionStackFrame(action, text, color)
+        new_frame = _ActionStackFrame(action)
         if self.idx != self.len - 1:
             del self._stack[self.idx + 1 :]
         self._stack.append(new_frame)
