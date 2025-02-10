@@ -10,6 +10,7 @@ import pytest
 from arcade import gl
 
 from components import Inventory, Position
+from constants import Color
 from engine import Engine
 from entities import consumables, enemies
 from gameworld import GameWorld
@@ -35,7 +36,9 @@ SEED: Final[float] = 1737855529.0953882
 
 @pytest.fixture
 def message_log() -> MessageLog:
-    return MessageLog()
+    new_log = MessageLog()
+    new_log.add_message("Message for testing.", Color.WHITE)
+    return new_log
 
 
 @pytest.fixture

@@ -10,8 +10,6 @@ from constants import Color
 from exceptions import Impossible, OutOfBounds, PathBlocked
 
 if TYPE_CHECKING:
-    from tcod.ecs import Entity
-
     from gameworld import GameWorld
     from messagelog import MessageLog
 
@@ -30,7 +28,7 @@ class TestMovement:
             ).perform()
         assert gameworld_fixed_seed.player.components[Position].xy == (5, 1)
 
-    def test_movement_blocked_wall(
+    def test_non_player_movement_blocked_wall(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         with pytest.raises(Impossible) as exc:
@@ -42,8 +40,35 @@ class TestMovement:
             ).perform()
         assert exc.type is PathBlocked
 
-    def test_movement_blocked_entity(
-        self, gameworld_fixed_seed: GameWorld, wolf_one_above: Entity, message_log: MessageLog
+    def test_player_movement_blocked_wall_message_text(
+        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
+    ) -> None:
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (0, -1),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
+        assert message_log.messages[-1].plain_text == "That way is blocked."
+
+    def test_player_movement_blocked_wall_message_color(
+        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
+    ) -> None:
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (0, -1),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
+        assert message_log.messages[-1].color == Color.IMPOSSIBLE
+
+    @pytest.mark.usefixtures("wolf_one_above")
+    def test_non_player_movement_blocked_entity(
+        self,
+        gameworld_fixed_seed: GameWorld,
+        message_log: MessageLog,
     ) -> None:
         with pytest.raises(Impossible) as exc:
             MoveAction(
@@ -54,7 +79,37 @@ class TestMovement:
             ).perform()
         assert exc.type is PathBlocked
 
-    def test_movement_out_of_bounds(
+    @pytest.mark.usefixtures("wolf_one_above")
+    def test_player_movement_blocked_entity_message(
+        self,
+        gameworld_fixed_seed: GameWorld,
+        message_log: MessageLog,
+    ) -> None:
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (0, 1),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
+        assert message_log.messages[-1].plain_text == "A wolf blocks your path."
+
+    @pytest.mark.usefixtures("wolf_one_above")
+    def test_player_movement_blocked_entity_message_color(
+        self,
+        gameworld_fixed_seed: GameWorld,
+        message_log: MessageLog,
+    ) -> None:
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (0, 1),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
+        assert message_log.messages[-1].color == Color.IMPOSSIBLE
+
+    def test_non_player_movement_out_of_bounds(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         with pytest.raises(Impossible) as exc:
@@ -66,29 +121,29 @@ class TestMovement:
             ).perform()
         assert exc.type is OutOfBounds
 
-    def test_movement_out_of_bounds_message_color(
+    def test_player_movement_out_of_bounds_message_color(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
-        with pytest.raises(Impossible):
-            MoveAction(
-                gameworld_fixed_seed.player,
-                (-500, 0),
-                gameworld_fixed_seed.map,
-                message_log,
-            ).perform()
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (-500, 0),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
         assert message_log.messages[-1].color == Color.IMPOSSIBLE
 
-    def test_movement_out_of_bounds_message_text(
+    def test_player_movement_out_of_bounds_message_text(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
-        with pytest.raises(Impossible):
-            MoveAction(
-                gameworld_fixed_seed.player,
-                (-500, 0),
-                gameworld_fixed_seed.map,
-                message_log,
-            ).perform()
+        MoveAction(
+            gameworld_fixed_seed.player,
+            (-500, 0),
+            gameworld_fixed_seed.map,
+            message_log,
+            is_player=True,
+        ).perform()
         assert (
             message_log.messages[-1].plain_text
-            == "There is nothing but the Void in that direction"
+            == "There is nothing but the Void in that direction."
         )

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from components import Position
+from components import Name, Position
 from constants import Color, Tile
 from exceptions import OutOfBounds, PathBlocked
 
@@ -21,6 +21,8 @@ if TYPE_CHECKING:
 
 class MoveAction(ActionWithDirection):
     """Move an entity"""
+
+    possible: bool = True
 
     def __init__(
         self,
@@ -37,29 +39,38 @@ class MoveAction(ActionWithDirection):
                 raise OutOfBounds
             self.log_entry = "There is nothing but the Void in that direction."
             self.log_color = Color.IMPOSSIBLE
-        if not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
-            raise PathBlocked
-        if self.target_entity is not None:
-            raise PathBlocked
+            self.possible = False
+        elif not self.gamemap.tiles[Tile.WALKABLE][self.target_xy]:
+            if not self.is_player:
+                raise PathBlocked
+            self.log_entry = "That way is blocked."
+            self.log_color = Color.IMPOSSIBLE
+            self.possible = False
+        elif self.target_entity is not None:
+            if not self.is_player:
+                raise PathBlocked
+            t_name = self.target_entity.components.get(
+                Name, Name("mysterious stranger", indefinite_article="a")
+            )
+            name = (
+                f"{t_name.indefinite_article.capitalize()} {t_name.name}"
+                if t_name.indefinite_article != ""
+                else f"{t_name.name.capitalize()}"
+            )
+            self.log_entry = f"{name} blocks your path."
+            self.log_color = Color.IMPOSSIBLE
+            self.possible = False
 
     def perform(self) -> None:
-        position = self.entity.components[Position]
-        position.x += self.dx
-        position.y += self.dy
-        if (
-            self.is_player
-            and self.message_log is not None
-            and self.log_entry is not None
-        ):
-            self.message_log.add_message(self.log_entry, self.log_color)
+        if self.possible:
+            position = self.entity.components[Position]
+            position.x += self.dx
+            position.y += self.dy
+        super().perform()
 
     def rollback(self) -> None:
-        position = self.entity.components[Position]
-        position.x -= self.dx
-        position.y -= self.dy
-        if (
-            self.is_player
-            and self.message_log is not None
-            and self.log_entry is not None
-        ):
-            self.message_log.prune_message(self.log_entry)
+        if self.possible:
+            position = self.entity.components[Position]
+            position.x -= self.dx
+            position.y -= self.dy
+        super().rollback()
