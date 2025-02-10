@@ -67,12 +67,7 @@ def gameworld_fixed_seed() -> GameWorld:
 
 
 @pytest.fixture
-def gameworld_random_seed() -> GameWorld:
-    return GameWorld()
-
-
-@pytest.fixture
-def gameworld_random_seed2() -> GameWorld:
+def gameworld() -> GameWorld:
     return GameWorld()
 
 
