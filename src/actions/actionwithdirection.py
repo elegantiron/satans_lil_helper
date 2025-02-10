@@ -18,15 +18,17 @@ if TYPE_CHECKING:
 
 class ActionWithDirection(BaseAction, metaclass=ABCMeta):
     """Base class for directional actions"""
-
+    log_entry: str | None = None
     def __init__(
         self,
         entity: tcod.ecs.Entity,
         direction: tuple[int, int],
         gamemap: GameMap,
         message_log: MessageLog,
+        *,
+        is_player: bool = False
     ) -> None:
-        super().__init__(entity=entity)
+        super().__init__(entity=entity, is_player=is_player)
         self.gamemap = gamemap
         self.direction = direction
         position = entity.components[Position]

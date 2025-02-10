@@ -16,8 +16,9 @@ class BaseAction(metaclass=abc.ABCMeta):
 
     message_log: MessageLog | None = None
 
-    def __init__(self, entity: tcod.ecs.Entity) -> None:
+    def __init__(self, entity: tcod.ecs.Entity, *, is_player: bool = False) -> None:
         self.entity = entity
+        self.is_player = is_player
 
     @abc.abstractmethod
     def perform(self) -> None:
