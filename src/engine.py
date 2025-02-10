@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 import arcade
 import numpy as np
 
+from actions import ActionStack
 from bestiary import Bestiary
 from components import (
     Position,
@@ -55,6 +56,7 @@ class Engine(arcade.View):
         super().__init__(window, background_color)
 
         self.message_log = MessageLog()
+        self.action_stack = ActionStack()
 
         self.load_satan()
         self.setup_sections()
@@ -263,3 +265,11 @@ class Engine(arcade.View):
     def rng(self) -> random.Random:
         """The RNG"""
         return self.world.rng
+
+    def rollback(self) -> None:
+        self.action_stack.undo_action(self.message_log)
+        self.status_section.update_player_stats()
+        self.message_section.update_messages()
+
+    def replay(self) -> None:
+        pass
