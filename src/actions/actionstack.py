@@ -8,7 +8,7 @@ from constants import Tile
 from .actionwithdirection import ActionWithDirection
 
 if TYPE_CHECKING:
-    import numpy_typing as npt
+    import numpy.typing as npt
 
     from messagelog import MessageLog
 
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 class _ActionStackFrame:
-    tile_state: npt.np.ndarray | None = None
+    tile_state: npt.NDArray | None = None
 
     def __init__(
         self,
