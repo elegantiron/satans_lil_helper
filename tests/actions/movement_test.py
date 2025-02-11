@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
 
 @pytest.mark.depends(on=["GameWorld", "MessageLog"])
-class TestMovement:
-    def test_movement_unblocked(
+class TestPlayerMovement:
+    def test_unblocked(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         for _ in range(4):
@@ -28,19 +28,7 @@ class TestMovement:
             ).perform()
         assert gameworld_fixed_seed.player.components[Position].xy == (5, 1)
 
-    def test_non_player_movement_blocked_wall(
-        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
-    ) -> None:
-        with pytest.raises(Impossible) as exc:
-            MoveAction(
-                gameworld_fixed_seed.player,
-                (0, -1),
-                gameworld_fixed_seed.map,
-                message_log,
-            ).perform()
-        assert exc.type is PathBlocked
-
-    def test_player_movement_blocked_wall_message_text(
+    def test_blocked_by_wall_message_text(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         MoveAction(
@@ -52,7 +40,7 @@ class TestMovement:
         ).perform()
         assert message_log.messages[-1].plain_text == "That way is blocked."
 
-    def test_player_movement_blocked_wall_message_color(
+    def test_blocked_by_wall_message_color(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         MoveAction(
@@ -65,22 +53,7 @@ class TestMovement:
         assert message_log.messages[-1].color == Color.IMPOSSIBLE
 
     @pytest.mark.usefixtures("wolf_one_above")
-    def test_non_player_movement_blocked_entity(
-        self,
-        gameworld_fixed_seed: GameWorld,
-        message_log: MessageLog,
-    ) -> None:
-        with pytest.raises(Impossible) as exc:
-            MoveAction(
-                gameworld_fixed_seed.player,
-                (0, 1),
-                gameworld_fixed_seed.map,
-                message_log,
-            ).perform()
-        assert exc.type is PathBlocked
-
-    @pytest.mark.usefixtures("wolf_one_above")
-    def test_player_movement_blocked_entity_message(
+    def test_blocked_by_entity_message(
         self,
         gameworld_fixed_seed: GameWorld,
         message_log: MessageLog,
@@ -95,7 +68,7 @@ class TestMovement:
         assert message_log.messages[-1].plain_text == "A wolf blocks your path."
 
     @pytest.mark.usefixtures("wolf_one_above")
-    def test_player_movement_blocked_entity_message_color(
+    def test_blocked_by_entity_message_color(
         self,
         gameworld_fixed_seed: GameWorld,
         message_log: MessageLog,
@@ -109,19 +82,7 @@ class TestMovement:
         ).perform()
         assert message_log.messages[-1].color == Color.IMPOSSIBLE
 
-    def test_non_player_movement_out_of_bounds(
-        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
-    ) -> None:
-        with pytest.raises(Impossible) as exc:
-            MoveAction(
-                gameworld_fixed_seed.player,
-                (-500, 0),
-                gameworld_fixed_seed.map,
-                message_log,
-            ).perform()
-        assert exc.type is OutOfBounds
-
-    def test_player_movement_out_of_bounds_message_color(
+    def test_out_of_bounds_message_color(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         MoveAction(
@@ -133,7 +94,7 @@ class TestMovement:
         ).perform()
         assert message_log.messages[-1].color == Color.IMPOSSIBLE
 
-    def test_player_movement_out_of_bounds_message_text(
+    def test_out_of_bounds_message_text(
         self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
     ) -> None:
         MoveAction(
@@ -147,3 +108,57 @@ class TestMovement:
             message_log.messages[-1].plain_text
             == "There is nothing but the Void in that direction."
         )
+
+
+@pytest.mark.depends(on=["GameWorld", "MessageLog"])
+class TestNonPlayerMovement:
+    def test_unblocked(
+        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
+    ) -> None:
+        for _ in range(4):
+            MoveAction(
+                gameworld_fixed_seed.player,
+                (0, -1),
+                gameworld_fixed_seed.map,
+                message_log,
+            ).perform()
+        assert gameworld_fixed_seed.player.components[Position].xy == (5, 1)
+
+    def test_blocked_by_wall(
+        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
+    ) -> None:
+        with pytest.raises(Impossible) as exc:
+            MoveAction(
+                gameworld_fixed_seed.player,
+                (0, -1),
+                gameworld_fixed_seed.map,
+                message_log,
+            ).perform()
+        assert exc.type is PathBlocked
+
+    @pytest.mark.usefixtures("wolf_one_above")
+    def test_blocked_by_entity(
+        self,
+        gameworld_fixed_seed: GameWorld,
+        message_log: MessageLog,
+    ) -> None:
+        with pytest.raises(Impossible) as exc:
+            MoveAction(
+                gameworld_fixed_seed.player,
+                (0, 1),
+                gameworld_fixed_seed.map,
+                message_log,
+            ).perform()
+        assert exc.type is PathBlocked
+
+    def test_out_of_bounds(
+        self, gameworld_fixed_seed: GameWorld, message_log: MessageLog
+    ) -> None:
+        with pytest.raises(Impossible) as exc:
+            MoveAction(
+                gameworld_fixed_seed.player,
+                (-500, 0),
+                gameworld_fixed_seed.map,
+                message_log,
+            ).perform()
+        assert exc.type is OutOfBounds
