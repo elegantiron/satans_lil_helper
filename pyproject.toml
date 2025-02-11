@@ -13,7 +13,7 @@ addopts = [
 	"--strict-markers",
 	"--cov-report=html",
 	"--cov-branch",
-	"-m 'not gui'",
+	"-m not gui",
 ]
 pythonpath = "src"
 markers = [
