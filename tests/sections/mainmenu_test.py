@@ -28,6 +28,7 @@ def menu_section(section_manager: arcade.SectionManager) -> MainMenuSection: # t
 
 
 @pytest.mark.depends(on=["MessageLog", "GameWorld"], name="MainMenu")
+@pytest.mark.gui
 class TestMainMenu:
     def test_main_menu_creation(self, menu_section: MainMenuSection) -> None:
         if menu_section.section_manager is None:

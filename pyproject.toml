@@ -15,7 +15,10 @@ addopts = [
 	"--cov-branch",
 ]
 pythonpath = "src"
-markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
+markers = [
+	"slow: marks tests as slow (deselect with '-m \"not slow\"')",
+	"gui: marks tests as using the gui (deselect with '-m \"not slow\"')",
+]
 xfail_strict = true
 
 [tool.coverage.report]

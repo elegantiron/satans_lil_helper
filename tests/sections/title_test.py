@@ -28,6 +28,7 @@ def title_section(section_manager: arcade.SectionManager) -> TitleSection:  # ty
 
 
 @pytest.mark.depends(on=["MessageLog", "GameWorld"], name="Title")
+@pytest.mark.gui
 class TestTitle:
     def test_title_creation(self, title_section: TitleSection) -> None:
         if title_section.section_manager is None:
