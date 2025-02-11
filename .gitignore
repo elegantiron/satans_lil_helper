@@ -9,3 +9,5 @@ build
 dist
 *.dat
 .coverage
+.mypy_cache
+.pytest_cache
