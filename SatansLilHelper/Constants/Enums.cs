@@ -16,4 +16,7 @@ public enum MusicID { }
 
 public enum EffectID { }
 
-public enum FontID { }
+public enum FontID
+{
+    Status,
+}
