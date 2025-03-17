@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Content;
+
 namespace SatansLilHelper;
 
 public class Engine : Game
@@ -41,7 +42,10 @@ public class Engine : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (
+            GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
+            || Keyboard.GetState().IsKeyDown(Keys.Escape)
+        )
             Exit();
 
         // TODO: Add your update logic here
@@ -57,6 +61,7 @@ public class Engine : Game
 
         base.Draw(gameTime);
     }
+
 #nullable enable
     public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs) { }
 }
