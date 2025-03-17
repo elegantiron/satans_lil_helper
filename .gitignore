@@ -12,3 +12,4 @@ dist
 .coverage
 .mypy_cache
 .pytest_cache
+obj
