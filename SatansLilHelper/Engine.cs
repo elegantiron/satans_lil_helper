@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using SatansLilHelper.Content;
 namespace SatansLilHelper;
 
 public class Engine : Game
@@ -19,6 +20,14 @@ public class Engine : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth = 1280;
+        _graphics.PreferredBackBufferHeight = 720;
+        _graphics.SynchronizeWithVerticalRetrace = true;
+        _graphics.ApplyChanges();
+
+        Window.Title = GameStrings.title_game;
+        Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
 
         base.Initialize();
     }
@@ -48,4 +57,6 @@ public class Engine : Game
 
         base.Draw(gameTime);
     }
+#nullable enable
+    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs) { }
 }
