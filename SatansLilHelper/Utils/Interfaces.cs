@@ -6,27 +6,26 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Constants;
 
 namespace SatansLilHelper.Utils;
 
 public interface ICellGrid
 {
-    public bool IsPassable(Point tile);
-    public bool PassesLight(Point tile);
-    public void SetLight(Point tile, float distanceSquared);
-    public void GenerateMap(Random rng, Point size);
+    bool IsPassable(Point tile);
+    bool PassesLight(Point tile);
+    void SetLight(Point tile, float distanceSquared);
+    void GenerateMap(Random rng, Point size);
 
-    public int XDim { get; }
-    public int YDim { get; }
-    public Entity Player { get; }
-    public EntityStore Registry { get; }
-    public Tile[,] Tiles { get; }
+    int XDim { get; }
+    int YDim { get; }
+    Entity Player { get; }
+    EntityStore Registry { get; }
+    Types.Tile[,] Tiles { get; }
 }
 
 public interface IDrawable
 {
-    public void Draw(
+    void Draw(
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
@@ -37,5 +36,5 @@ public interface IDrawable
 
 public interface IInputHandler : IDrawable
 {
-    public IInputHandler HandleKey(Keys key);
+    IInputHandler HandleKey(Keys key);
 }
