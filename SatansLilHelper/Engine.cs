@@ -87,6 +87,7 @@ public class Engine : Game
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
+        _inputHandler.HandleKey(eventArgs.Key);
     }
 
     public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
