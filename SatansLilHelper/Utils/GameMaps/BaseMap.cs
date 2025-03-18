@@ -18,8 +18,9 @@ public abstract class BaseMap : ICellGrid, IDrawable
     protected Tile[,] tiles;
     protected Point mapSize;
     protected Random rng;
+    protected Camera camera;
 
-    public BaseMap(Point mapSize, Random rng)
+    public BaseMap(Point mapSize, Random rng, Point screenSize)
     {
         this.mapSize = mapSize;
         this.rng = rng;
@@ -32,6 +33,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         Debug.WriteLine(player);
 #endif
         GenerateMap(this.rng, this.mapSize);
+        camera = new(screenSize, 32);
     }
 
     #region interface implementation
@@ -45,13 +47,14 @@ public abstract class BaseMap : ICellGrid, IDrawable
 
     public Tile[,] Tiles => tiles;
 
-    public abstract void Draw(
+    public virtual void Draw(
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<MusicID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
-    );
+    ) { }
+
     public abstract void GenerateMap(Random rng, Point size);
 
     public bool IsPassable(Point tile)
