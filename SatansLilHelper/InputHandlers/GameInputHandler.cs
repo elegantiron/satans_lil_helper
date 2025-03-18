@@ -6,11 +6,15 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Exceptions;
+using SatansLilHelper.Utils;
+using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.InputHandlers;
 
 class GameInputHandler : IInputHandler
 {
+    protected List<BaseMap> maps;
+
     public IInputHandler HandleKey(Keys key)
     {
         switch (key)
