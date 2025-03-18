@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace SatansLilHelper.Exceptions;
+
+public class PathBlockedException : Exception
+{
+    public PathBlockedException()
+        : base() { }
+
+    public PathBlockedException(string message)
+        : base(message) { }
+}
