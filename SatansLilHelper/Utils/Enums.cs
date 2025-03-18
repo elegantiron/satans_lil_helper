@@ -1,4 +1,4 @@
-﻿namespace SatansLilHelper;
+﻿namespace SatansLilHelper.Utils;
 
 public enum TextureID
 {
