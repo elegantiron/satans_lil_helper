@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Entities;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -53,7 +53,22 @@ public abstract class BaseMap : ICellGrid, IDrawable
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<MusicID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
-    ) { }
+    )
+    {
+        Point offset = camera.GetOffset();
+        Vector2 spriteTarget = Vector2.Zero;
+        for (int i = offset.X; i < offset.X + camera.TileWidth; i++)
+        {
+            if (i < 0 || i >= mapSize.X) continue;
+            spriteTarget.X = (i - camera.TileWidth) * 32;
+            for (int j = offset.Y; j < offset.Y + camera.TileHeight; j++)
+            {
+                if (j < 0 || j >= mapSize.Y) continue;
+                spriteTarget.Y = (j - camera.TileHeight) * 32;
+                spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
+            }
+        }
+    }
 
     public abstract void GenerateMap(Random rng, Point size);
 
