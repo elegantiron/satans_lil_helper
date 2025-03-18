@@ -1,0 +1,11 @@
+﻿namespace SatansLilHelper.Constants;
+
+public struct Tile(TextureID texture, bool walkable, bool passesLight)
+{
+    public TextureID Texture = texture;
+    public bool Walkable = walkable;
+    public bool PassesLight = passesLight;
+    public bool Visible = false;
+    public bool Explored = false;
+    public float LightDistance = 0f;
+}
