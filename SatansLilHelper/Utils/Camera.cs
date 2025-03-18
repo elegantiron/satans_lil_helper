@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Utils;
 
@@ -59,4 +54,8 @@ public class Camera
         _offset.X = _center.X - _screenSizeTiles.X / 2;
         _offset.Y = _center.Y - _screenSizeTiles.Y / 2;
     }
+
+    public Point GetOffset() { return _offset; }
+    public int TileWidth { get { return _screenSizeTiles.X; } }
+    public int TileHeight { get { return _screenSizeTiles.Y; } }
 }
