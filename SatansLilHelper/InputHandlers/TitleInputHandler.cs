@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Constants;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
