@@ -37,6 +37,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 #endif
         GenerateMap(this.rng, this.mapSize);
         camera = new(screenSize, 32);
+        camera.SetCenter(0, 0);
 
         #region Queries
         GetActionDelay = registry.Query<ActionDelay>();
@@ -69,12 +70,12 @@ public abstract class BaseMap : ICellGrid, IDrawable
         {
             if (i < 0 || i >= mapSize.X)
                 continue;
-            spriteTarget.X = (i - camera.TileWidth) * 32;
+            spriteTarget.X = (i - offset.X) * 32;
             for (int j = offset.Y; j < offset.Y + camera.TileHeight; j++)
             {
                 if (j < 0 || j >= mapSize.Y)
                     continue;
-                spriteTarget.Y = (j - camera.TileHeight) * 32;
+                spriteTarget.Y = (j - offset.Y) * 32;
                 spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
             }
         }
