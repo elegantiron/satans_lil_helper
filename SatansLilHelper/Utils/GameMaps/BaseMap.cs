@@ -1,13 +1,13 @@
-﻿using Friflo.Engine.ECS;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Constants;
+using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -15,25 +15,33 @@ public abstract class BaseMap : ICellGrid, IDrawable
 {
     protected Entity player;
     protected EntityStore registry;
-    protected Tile[,] tiles;
+    protected Types.Tile[,] tiles;
     protected Point mapSize;
     protected Random rng;
     protected Camera camera;
+    protected ArchetypeQuery GetActionDelay,
+        GetBlockingEntities;
 
     public BaseMap(Point mapSize, Random rng, Point screenSize)
     {
         this.mapSize = mapSize;
         this.rng = rng;
         registry = new EntityStore();
+
         player = registry.CreateEntity();
         player.AddComponent(new EntityName("player"));
         Professions.Warrior(player);
-        tiles = new Tile[this.mapSize.X, this.mapSize.Y];
+        tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
         Debug.WriteLine(player);
 #endif
         GenerateMap(this.rng, this.mapSize);
         camera = new(screenSize, 32);
+
+        #region Queries
+        GetActionDelay = registry.Query<ActionDelay>();
+        GetBlockingEntities = registry.Query<Position>().AllTags(Tags.Get<Blocking>());
+        #endregion Queries
     }
 
     #region interface implementation
@@ -45,7 +53,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 
     public EntityStore Registry => registry;
 
-    public Tile[,] Tiles => tiles;
+    public Types.Tile[,] Tiles => tiles;
 
     public virtual void Draw(
         SpriteBatch spriteBatch,
@@ -59,11 +67,13 @@ public abstract class BaseMap : ICellGrid, IDrawable
         Vector2 spriteTarget = Vector2.Zero;
         for (int i = offset.X; i < offset.X + camera.TileWidth; i++)
         {
-            if (i < 0 || i >= mapSize.X) continue;
+            if (i < 0 || i >= mapSize.X)
+                continue;
             spriteTarget.X = (i - camera.TileWidth) * 32;
             for (int j = offset.Y; j < offset.Y + camera.TileHeight; j++)
             {
-                if (j < 0 || j >= mapSize.Y) continue;
+                if (j < 0 || j >= mapSize.Y)
+                    continue;
                 spriteTarget.Y = (j - camera.TileHeight) * 32;
                 spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
             }
