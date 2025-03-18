@@ -9,18 +9,12 @@ public struct ActionDelay : IComponent
 }
 
 [ComponentKey("location")]
-public struct Location : IIndexedComponent<(int, int)>
+public struct Location(int x, int y) : IIndexedComponent<(int, int)>
 {
-    public int X,
-        Y;
-
-    public Location(int x, int y)
-    {
-        X = x;
+    public int X = x,
         Y = y;
-    }
 
-    public (int, int) GetIndexedValue()
+    public readonly (int, int) GetIndexedValue()
     {
         return (X, Y);
     }
