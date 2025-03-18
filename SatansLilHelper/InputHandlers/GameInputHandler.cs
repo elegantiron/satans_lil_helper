@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,13 +6,24 @@ using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Utils;
-using SatansLilHelper.Utils.GameMaps;
+using System;
+using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
-class GameInputHandler : IInputHandler
+
+public class GameInputHandler : IInputHandler
 {
-    protected List<BaseMap> maps;
+    protected Random rng;
+    protected Point mapSize;
+    protected GameWorld GameWorld;
+
+    public GameInputHandler()
+    {
+        rng = new Random();
+        mapSize = new Point(100, 100);
+        GameWorld = new(rng, mapSize);
+    }
 
     public IInputHandler HandleKey(Keys key)
     {
@@ -33,11 +43,6 @@ class GameInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        spriteBatch.DrawString(
-            fontMap[FontID.Status],
-            "This is some test text",
-            Vector2.Zero,
-            Color.White
-        );
+        GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 }
