@@ -50,8 +50,7 @@ public class GameInputHandler : IInputHandler
 
     public void HandleMovement(Keys key)
     {
-        ActionDelay playerDelay;
-        if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out playerDelay))
+        if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out ActionDelay playerDelay))
             return;
         if (playerDelay.value != 0) { }
     }
