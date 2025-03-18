@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework;
 using SatansLilHelper.Constants;
+using System;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public class ForestMap(Point mapSize, Random rng) : BaseMap(mapSize, rng)
+public class ForestMap(Point mapSize, Random rng, Point screenSize) : BaseMap(mapSize, rng, screenSize)
 {
-    public override void Draw(
-        SpriteBatch spriteBatch,
-        Dictionary<TextureID, Texture2D> textureMap,
-        Dictionary<EffectID, SoundEffect> effectMap,
-        Dictionary<MusicID, Song> songMap,
-        Dictionary<FontID, SpriteFont> fontMap
-    ) { }
+
 
     public override void GenerateMap(Random rng, Point size)
     {
@@ -61,6 +51,6 @@ public class ForestMap(Point mapSize, Random rng) : BaseMap(mapSize, rng)
 
     private int GetNeighbors(Point target)
     {
-        return 0;
+        throw new NotImplementedException();
     }
 }
