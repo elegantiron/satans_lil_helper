@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace SatansLilHelper;
+namespace SatansLilHelper.Utils;
 
 public static class Constants
 {
