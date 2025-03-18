@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using SatansLilHelper.Constants;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public class ForestMap(Point mapSize, Random rng, Point screenSize) : BaseMap(mapSize, rng, screenSize)
+public class ForestMap(Point mapSize, Random rng, Point screenSize)
+    : BaseMap(mapSize, rng, screenSize)
 {
-
-
     public override void GenerateMap(Random rng, Point size)
     {
         bool[,] tempMap = new bool[mapSize.X, mapSize.Y];
@@ -39,18 +37,15 @@ public class ForestMap(Point mapSize, Random rng, Point screenSize) : BaseMap(ma
         {
             for (int j = 0; j < mapSize.Y; j++)
             {
-                Tile tile;
+                Types.Tile tile;
                 if (tempMap[i, j])
-                    tile = new Tile(TextureID.ForestWall, false, false);
+                    tile = new Types.Tile(TextureID.ForestWall, false, false);
                 else
-                    tile = new Tile(TextureID.ForestFloor, true, true);
+                    tile = new Types.Tile(TextureID.ForestFloor, true, true);
                 tiles[i, j] = tile;
             }
         }
     }
 
-    private int GetNeighbors(Point target)
-    {
-        throw new NotImplementedException();
-    }
+    private int GetNeighbors(Point target) { }
 }
