@@ -27,6 +27,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         player = registry.CreateEntity();
         player.AddComponent(new EntityName("player"));
         Professions.Warrior(player);
+        tiles = new Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
         Debug.WriteLine(player);
 #endif
