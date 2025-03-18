@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Content;
 using SatansLilHelper.InputHandlers;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper;
 
@@ -20,6 +21,7 @@ public class Engine : Game
     private Dictionary<EffectID, SoundEffect> _effectMap;
     private Dictionary<MusicID, Song> _songMap;
     private Dictionary<FontID, SpriteFont> _fontMap;
+    private List<Keys> _keyList;
 
     public Engine()
     {
@@ -30,6 +32,7 @@ public class Engine : Game
         _effectMap = [];
         _songMap = [];
         _fontMap = [];
+        _keyList = [];
         _inputHandler = new GameInputHandler();
     }
 
@@ -44,6 +47,7 @@ public class Engine : Game
 
         Window.Title = GameStrings.title_game;
         Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
+        Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
         base.Initialize();
     }
@@ -82,5 +86,15 @@ public class Engine : Game
     }
 
 #nullable enable
-    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs) { }
+    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
+    {
+        if (_keyList.Contains(eventArgs.Key))
+            return;
+        _keyList.Add(eventArgs.Key);
+    }
+
+    public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
+    {
+        _keyList.Remove(eventArgs.Key);
+    }
 }
