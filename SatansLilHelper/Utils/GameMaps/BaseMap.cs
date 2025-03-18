@@ -30,6 +30,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 #if DEBUG
         Debug.WriteLine(player);
 #endif
+        GenerateMap(this.rng, this.mapSize);
     }
 
     #region interface implementation
