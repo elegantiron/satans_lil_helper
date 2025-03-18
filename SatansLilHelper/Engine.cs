@@ -57,17 +57,14 @@ public class Engine : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
 
+        _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
+        _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
+
         // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (
-            GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-            || Keyboard.GetState().IsKeyDown(Keys.Escape)
-        )
-            Exit();
-
         // TODO: Add your update logic here
 
         base.Update(gameTime);
