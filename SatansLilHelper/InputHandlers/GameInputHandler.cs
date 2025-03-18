@@ -1,16 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Constants;
+using SatansLilHelper.Components;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Utils;
-using System;
-using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
-
 
 public class GameInputHandler : IInputHandler
 {
@@ -31,6 +30,9 @@ public class GameInputHandler : IInputHandler
         {
             case Keys.Escape:
                 throw new GameExitException();
+            case Keys when Constants.MovementKeys.ContainsKey(key):
+                HandleMovement(key);
+                break;
         }
         return this;
     }
@@ -44,5 +46,13 @@ public class GameInputHandler : IInputHandler
     )
     {
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+    }
+
+    public void HandleMovement(Keys key)
+    {
+        ActionDelay playerDelay;
+        if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out playerDelay))
+            return;
+        if (playerDelay.value != 0) { }
     }
 }
