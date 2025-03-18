@@ -61,6 +61,24 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/Tiles/Forest/Floor/000.
+        /// </summary>
+        internal static string ForestFloor {
+            get {
+                return ResourceManager.GetString("ForestFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Tiles/Forest/Wall/000.
+        /// </summary>
+        internal static string ForestWall {
+            get {
+                return ResourceManager.GetString("ForestWall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fonts/StatusFont.
         /// </summary>
         internal static string StatusFont {
