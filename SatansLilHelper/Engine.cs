@@ -33,7 +33,7 @@ public class Engine : Game
         _songMap = [];
         _fontMap = [];
         _keyList = [];
-        _inputHandler = new GameInputHandler();
+        _inputHandler = new TitleInputHandler();
     }
 
     protected override void Initialize()
@@ -45,7 +45,7 @@ public class Engine : Game
         _graphics.SynchronizeWithVerticalRetrace = true;
         _graphics.ApplyChanges();
 
-        Window.Title = GameStrings.title_game;
+        Window.Title = GameStrings.GameTitle;
         Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
         Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
@@ -55,8 +55,12 @@ public class Engine : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
 
+        // Load fonts
+        _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
+        _fontMap.Add(FontID.Title, Content.Load<SpriteFont>(FilePaths.TitleFont));
+
+        // Load textures
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
