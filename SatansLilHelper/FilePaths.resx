@@ -129,4 +129,7 @@
   <data name="StatusFont" xml:space="preserve">
     <value>Fonts/StatusFont</value>
   </data>
+  <data name="TitleFont" xml:space="preserve">
+    <value>Fonts/TitleFont</value>
+  </data>
 </root>
