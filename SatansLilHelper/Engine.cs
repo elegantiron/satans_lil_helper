@@ -59,6 +59,7 @@ public class Engine : Game
 
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
+        _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
 
         // TODO: use this.Content to load your game content here
     }
