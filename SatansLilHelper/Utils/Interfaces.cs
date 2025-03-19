@@ -1,11 +1,11 @@
-﻿using Friflo.Engine.ECS;
+﻿using System;
+using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System;
-using System.Collections.Generic;
 
 namespace SatansLilHelper.Utils;
 
@@ -25,10 +25,16 @@ public interface ICellGrid
         Tiles[tile.X, tile.Y].Explored = true;
         Tiles[tile.X, tile.Y].LightDistance = distanceSquared;
     }
-    void GenerateMap(Random rng, Point size);
+    void GenerateMap(Point size);
 
-    int XDim { get { return Tiles.GetLength(0); } }
-    int YDim { get { return Tiles.GetLength(1); } }
+    int XDim
+    {
+        get { return Tiles.GetLength(0); }
+    }
+    int YDim
+    {
+        get { return Tiles.GetLength(1); }
+    }
     Entity Player { get; }
     EntityStore Registry { get; }
     Types.Tile[,] Tiles { get; }

@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public class ForestMap(Point mapSize, Random rng, Point screenSize)
+public class ForestMap(Point mapSize, MersenneTwister rng, Point screenSize)
     : BaseMap(mapSize, rng, screenSize)
 {
-    public override void GenerateMap(Random rng, Point size)
+    public override void GenerateMap(Point size)
     {
         int[,] tempMap = new int[mapSize.X, mapSize.Y];
         for (int i = 0; i < mapSize.X; i++)

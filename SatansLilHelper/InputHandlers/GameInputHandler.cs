@@ -14,7 +14,7 @@ namespace SatansLilHelper.InputHandlers;
 
 public class GameInputHandler : IInputHandler
 {
-    protected Random rng;
+    protected MersenneTwister rng;
     protected Point mapSize;
     protected GameWorld GameWorld;
     protected ActionStack ActionStack;
@@ -22,7 +22,7 @@ public class GameInputHandler : IInputHandler
 
     public GameInputHandler()
     {
-        rng = new Random();
+        rng = new();
         mapSize = new Point(100, 100);
         GameWorld = new(rng, mapSize);
         ActionStack = new();

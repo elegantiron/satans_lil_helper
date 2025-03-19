@@ -17,12 +17,12 @@ public abstract class BaseMap : ICellGrid, IDrawable
     protected EntityStore registry;
     protected Types.Tile[,] tiles;
     protected Point mapSize;
-    protected Random rng;
+    protected MersenneTwister rng;
     protected Camera camera;
     public ArchetypeQuery GetActionDelay,
         GetBlockingEntities;
 
-    public BaseMap(Point mapSize, Random rng, Point screenSize)
+    public BaseMap(Point mapSize, MersenneTwister rng, Point screenSize)
     {
         this.mapSize = mapSize;
         this.rng = rng;
@@ -35,7 +35,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 #if DEBUG
         Debug.WriteLine(player);
 #endif
-        GenerateMap(this.rng, this.mapSize);
+        GenerateMap(this.mapSize);
         camera = new(screenSize, 32);
         camera.SetCenter(0, 0);
 
@@ -86,7 +86,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
     }
 
-    public abstract void GenerateMap(Random rng, Point size);
+    public abstract void GenerateMap(Point size);
 
     #endregion interface implementation
 }
