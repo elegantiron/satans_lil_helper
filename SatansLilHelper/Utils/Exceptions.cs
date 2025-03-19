@@ -2,6 +2,8 @@
 
 namespace SatansLilHelper.Exceptions;
 
+public class GameExitException : Exception { }
+
 public class PathBlockedException : Exception
 {
     public PathBlockedException()
