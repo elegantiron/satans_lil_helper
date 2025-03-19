@@ -37,4 +37,9 @@ public static class Constants
         { Keys.PageUp, new Point(1, -1) },
         { Keys.PageDown, new Point(1, 1) },
     };
+
+    public static class Colors
+    {
+        public static readonly Color Impossible = new(0x80, 0x80, 0x80);
+    }
 }
