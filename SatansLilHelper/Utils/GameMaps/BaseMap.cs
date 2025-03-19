@@ -69,6 +69,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     {
         Point offset = camera.GetOffset();
         Vector2 spriteTarget = Vector2.Zero;
+        Vector2 playerPos = new((camera.TileWidth / 2) * 32, (camera.TileHeight / 2) * 32);
         for (int i = offset.X; i < offset.X + camera.TileWidth; i++)
         {
             if (i < 0 || i >= mapSize.X)
@@ -82,6 +83,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
                 spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
             }
         }
+        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
     }
 
     public abstract void GenerateMap(Random rng, Point size);
