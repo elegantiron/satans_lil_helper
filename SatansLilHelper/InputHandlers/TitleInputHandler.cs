@@ -31,6 +31,11 @@ public class TitleInputHandler : IInputHandler
 
     public IInputHandler HandleKey(Keys key)
     {
-        throw new System.NotImplementedException();
+        switch (key)
+        {
+            case Keys.Escape:
+                throw new Exceptions.GameExitException();
+        }
+        return this;
     }
 }
