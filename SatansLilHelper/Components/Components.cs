@@ -1,4 +1,6 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Security.Cryptography;
+using Friflo.Engine.ECS;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Components;
 
@@ -21,10 +23,11 @@ public struct Location(int x, int y) : IIndexedComponent<(int, int)>
 }
 
 [ComponentKey("attack")]
-public struct Attack : IComponent
+public struct Attack(int dice, int sides, int bonus = 0) : IComponent
 {
-    public int dice,
-        sides;
+    public int Dice = dice,
+        Sides = sides,
+        Bonus = bonus;
 }
 
 [ComponentKey("defense")]
@@ -34,38 +37,55 @@ public struct Defense : IComponent
         physical;
 }
 
-[ComponentKey("health")]
-public struct Health : IComponent
+public struct ResourceStat : IRelation<ResourceID>
 {
-    public int Cur;
-    public int Max;
+    public ResourceID Type;
+    public int Cur,
+        Max;
+    public decimal Growth;
 
-    public Health(int max, int cur)
+    public readonly ResourceID GetRelationKey() => Type;
+
+    public ResourceStat(ResourceID type, int max, int cur, decimal growth)
     {
+        Type = type;
+        Growth = growth;
         Max = max;
         Cur = cur;
     }
 
-    public Health(int max)
+    public ResourceStat(ResourceID type, int max, decimal growth)
     {
+        Growth = growth;
+        Type = type;
         Max = Cur = max;
     }
 }
 
-[ComponentKey("mana")]
-public struct Mana : IComponent
+public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRelation<AbilityID>
 {
-    public int Cur;
-    public int Max;
+    public AbilityID Type = type;
+    public decimal Basis = basis,
+        Growth = growth;
 
-    public Mana(int max, int cur)
-    {
-        Max = max;
-        Cur = cur;
-    }
+    public readonly AbilityID GetRelationKey() => Type;
+}
 
-    public Mana(int max)
-    {
-        Max = Cur = max;
-    }
+public struct Skill : IRelation<SkillID>
+{
+    public SkillID Type;
+
+    public readonly SkillID GetRelationKey() => Type;
+}
+
+public struct Equipment(Entity target) : ILinkRelation
+{
+    public Entity Target = target;
+
+    public readonly Entity GetRelationKey() => Target;
+}
+
+public struct ItemSlots : IComponent
+{
+    public ItemType Types;
 }

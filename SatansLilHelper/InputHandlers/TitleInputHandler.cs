@@ -35,6 +35,8 @@ public class TitleInputHandler : IInputHandler
         {
             case Keys.Escape:
                 throw new Exceptions.GameExitException();
+            case Keys.Enter:
+                return new GameInputHandler();
         }
         return this;
     }

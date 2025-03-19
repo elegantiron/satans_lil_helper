@@ -64,10 +64,10 @@ public class Engine : Game
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
-
+#if RELEASE
         // Load music
         _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
-
+#endif
         // TODO: use this.Content to load your game content here
     }
 
@@ -98,7 +98,7 @@ public class Engine : Game
         _keyList.Add(eventArgs.Key);
         try
         {
-            _inputHandler.HandleKey(eventArgs.Key);
+            _inputHandler = _inputHandler.HandleKey(eventArgs.Key);
         }
         catch (GameExitException)
         {

@@ -34,6 +34,10 @@ public abstract class BaseMap : ICellGrid, IDrawable
         tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
         Debug.WriteLine(player);
+        foreach (ResourceStat stat in player.GetRelations<ResourceStat>())
+            Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Max}+{stat.Growth})");
+        foreach (AbilityStat stat in player.GetRelations<AbilityStat>())
+            Debug.WriteLine($"{stat.Type}: {stat.Basis}+{stat.Growth}");
 #endif
         GenerateMap(this.mapSize);
         camera = new(screenSize, 32);
