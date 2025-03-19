@@ -28,7 +28,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Content\GameStrings.Designer.cs">
+    <Compile Update="Content\Text\GameStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GameStrings.resx</DependentUpon>
@@ -40,7 +40,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Content\GameStrings.resx">
+    <EmbeddedResource Update="Content\Text\GameStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GameStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
