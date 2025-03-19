@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
@@ -10,8 +11,10 @@ namespace SatansLilHelper.Actions;
 
 internal class MeleeAction : ActionWithDirection
 {
-    private byte[] preState,
+    protected byte[] preState,
         postState;
+    protected MersenneTwister rng;
+    protected int Damage;
 
     public MeleeAction(
         Entity entity,
@@ -32,16 +35,23 @@ internal class MeleeAction : ActionWithDirection
             throw new Exceptions.MissingComponentException();
         if (!(bool)TargetEntity?.TryGetComponent<Defense>(out Defense targetDef))
             throw new Exceptions.MissingComponentException();
+
+        this.rng = rng;
         preState = rng.GetState();
+
+        // TODO: calculate the attack resulte
+
+        postState = rng.GetState();
+        rng.SetState(preState);
     }
 
     public override void Perform()
     {
-        throw new NotImplementedException();
+        rng.SetState(postState);
     }
 
     public override void Rewind()
     {
-        throw new NotImplementedException();
+        rng.SetState(preState);
     }
 }
