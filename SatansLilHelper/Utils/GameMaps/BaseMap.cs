@@ -19,7 +19,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     protected Point mapSize;
     protected Random rng;
     protected Camera camera;
-    protected ArchetypeQuery GetActionDelay,
+    public ArchetypeQuery GetActionDelay,
         GetBlockingEntities;
 
     public BaseMap(Point mapSize, Random rng, Point screenSize)
@@ -43,6 +43,11 @@ public abstract class BaseMap : ICellGrid, IDrawable
         GetActionDelay = registry.Query<ActionDelay>();
         GetBlockingEntities = registry.Query<Position>().AllTags(Tags.Get<Blocking>());
         #endregion Queries
+    }
+
+    public Camera Camera
+    {
+        get { return camera; }
     }
 
     #region interface implementation
