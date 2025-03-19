@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Content;
+using SatansLilHelper.Exceptions;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Utils;
 
@@ -87,7 +88,14 @@ public class Engine : Game
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
-        _inputHandler.HandleKey(eventArgs.Key);
+        try
+        {
+            _inputHandler.HandleKey(eventArgs.Key);
+        }
+        catch (GameExitException)
+        {
+            Exit();
+        }
     }
 
     public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
