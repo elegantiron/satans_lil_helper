@@ -79,6 +79,15 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/Player/player.
+        /// </summary>
+        internal static string Player {
+            get {
+                return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fonts/StatusFont.
         /// </summary>
         internal static string StatusFont {

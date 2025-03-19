@@ -123,6 +123,9 @@
   <data name="ForestWall" xml:space="preserve">
     <value>Images/Tiles/Forest/Wall/000</value>
   </data>
+  <data name="Player" xml:space="preserve">
+    <value>Images/Player/player</value>
+  </data>
   <data name="StatusFont" xml:space="preserve">
     <value>Fonts/StatusFont</value>
   </data>
