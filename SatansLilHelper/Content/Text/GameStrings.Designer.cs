@@ -63,9 +63,9 @@ namespace SatansLilHelper.Content.Text {
         /// <summary>
         ///   Looks up a localized string similar to Satan&apos;s Lil Helper.
         /// </summary>
-        internal static string title_game {
+        internal static string GameTitle {
             get {
-                return ResourceManager.GetString("title_game", resourceCulture);
+                return ResourceManager.GetString("GameTitle", resourceCulture);
             }
         }
     }
