@@ -33,3 +33,39 @@ public struct Defense : IComponent
     public int magic,
         physical;
 }
+
+[ComponentKey("health")]
+public struct Health : IComponent
+{
+    public int Cur;
+    public int Max;
+
+    public Health(int max, int cur)
+    {
+        Max = max;
+        Cur = cur;
+    }
+
+    public Health(int max)
+    {
+        Max = Cur = max;
+    }
+}
+
+[ComponentKey("mana")]
+public struct Mana : IComponent
+{
+    public int Cur;
+    public int Max;
+
+    public Mana(int max, int cur)
+    {
+        Max = max;
+        Cur = cur;
+    }
+
+    public Mana(int max)
+    {
+        Max = Cur = max;
+    }
+}
