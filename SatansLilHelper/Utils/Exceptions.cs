@@ -14,3 +14,5 @@ public class PathBlockedException : Exception
 }
 
 public class MissingTargetException : Exception { }
+
+public class MissingComponentException : Exception { }
