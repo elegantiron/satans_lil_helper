@@ -10,3 +10,5 @@ public class PathBlockedException : Exception
     public PathBlockedException(string message)
         : base(message) { }
 }
+
+public class MissingTargetException : Exception { }
