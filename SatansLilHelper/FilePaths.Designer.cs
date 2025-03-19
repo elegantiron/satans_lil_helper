@@ -79,6 +79,15 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Music/hide_and_seek.
+        /// </summary>
+        internal static string HideAndSeek {
+            get {
+                return ResourceManager.GetString("HideAndSeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/Player/player.
         /// </summary>
         internal static string Player {
