@@ -17,7 +17,7 @@ public class ForestMap(Point mapSize, Random rng, Point screenSize)
             }
         }
 
-        for (int iters = 0; iters < 5; iters++)
+        for (int _ = 0; _ < 4; _++)
         {
             int[,] newMap = tempMap;
             for (int i = 0; i < mapSize.X; i++)
