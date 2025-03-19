@@ -62,6 +62,11 @@ public enum TextureID
 }
 
 public enum SongID
+{
+    HideAndSeek,
+    Scavenge1,
+    Scavenge2,
+}
 
 public enum EffectID { }
 
