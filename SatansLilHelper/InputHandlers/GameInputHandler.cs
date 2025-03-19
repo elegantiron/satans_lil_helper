@@ -18,6 +18,7 @@ public class GameInputHandler : IInputHandler
     protected Point mapSize;
     protected GameWorld GameWorld;
     protected ActionStack ActionStack;
+    protected MessageLog MessageLog;
 
     public GameInputHandler()
     {
@@ -25,6 +26,7 @@ public class GameInputHandler : IInputHandler
         mapSize = new Point(100, 100);
         GameWorld = new(rng, mapSize);
         ActionStack = new();
+        MessageLog = new();
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -73,7 +75,10 @@ public class GameInputHandler : IInputHandler
                     )
                 );
             }
-            catch (PathBlockedException exception) { }
+            catch (PathBlockedException exception)
+            {
+                MessageLog.AddMessage(exception.Message, Constants.Colors.Impossible);
+            }
             Location playerPos = GameWorld.CurrentMap.Player.GetComponent<Location>();
             GameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
         }
