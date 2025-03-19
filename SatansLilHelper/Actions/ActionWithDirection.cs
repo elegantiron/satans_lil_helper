@@ -35,7 +35,13 @@ public abstract class ActionWithDirection : BaseAction
                 break;
             }
         }
-        if (!gameMap.Tiles[Destination.X, Destination.Y].Walkable)
+        if (
+            Destination.X < 0
+            || Destination.Y < 0
+            || Destination.X >= gameMap.Tiles.GetLength(0)
+            || Destination.Y >= gameMap.Tiles.GetLength(1)
+            || !gameMap.Tiles[Destination.X, Destination.Y].Walkable
+        )
             IsBlocked = true;
     }
 }
