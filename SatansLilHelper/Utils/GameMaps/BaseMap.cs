@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -51,9 +51,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     }
 
     #region interface implementation
-    public int XDim => mapSize.X;
 
-    public int YDim => mapSize.Y;
 
     public Entity Player => player;
 
@@ -88,21 +86,6 @@ public abstract class BaseMap : ICellGrid, IDrawable
 
     public abstract void GenerateMap(Random rng, Point size);
 
-    public bool IsPassable(Point tile)
-    {
-        return tiles[tile.X, tile.Y].Walkable;
-    }
 
-    public bool PassesLight(Point tile)
-    {
-        return tiles[tile.X, tile.Y].PassesLight;
-    }
-
-    public void SetLight(Point tile, float distanceSquared)
-    {
-        tiles[tile.X, tile.Y].Visible = true;
-        tiles[tile.X, tile.Y].Explored = true;
-        tiles[tile.X, tile.Y].LightDistance = distanceSquared;
-    }
     #endregion interface implementation
 }
