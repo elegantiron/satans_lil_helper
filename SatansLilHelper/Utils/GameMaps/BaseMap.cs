@@ -1,13 +1,13 @@
-﻿using Friflo.Engine.ECS;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -29,7 +29,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         registry = new EntityStore();
 
         player = registry.CreateEntity();
-        player.AddComponent(new EntityName("player"));
+        player.AddComponent(new EntityName("Player"));
         Professions.Warrior(player);
         tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
@@ -85,7 +85,6 @@ public abstract class BaseMap : ICellGrid, IDrawable
     }
 
     public abstract void GenerateMap(Random rng, Point size);
-
 
     #endregion interface implementation
 }
