@@ -19,7 +19,7 @@ public class Engine : Game
     private IInputHandler _inputHandler;
     private Dictionary<TextureID, Texture2D> _textureMap;
     private Dictionary<EffectID, SoundEffect> _effectMap;
-    private Dictionary<MusicID, Song> _songMap;
+    private Dictionary<SongID, Song> _songMap;
     private Dictionary<FontID, SpriteFont> _fontMap;
     private List<Keys> _keyList;
 
@@ -64,6 +64,9 @@ public class Engine : Game
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
+
+        // Load music
+        _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
 
         // TODO: use this.Content to load your game content here
     }

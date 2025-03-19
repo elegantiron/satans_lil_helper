@@ -63,7 +63,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
-        Dictionary<MusicID, Song> songMap,
+        Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {

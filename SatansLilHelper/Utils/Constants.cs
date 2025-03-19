@@ -61,7 +61,7 @@ public enum TextureID
     SatanMouthClosed,
 }
 
-public enum MusicID { }
+public enum SongID
 
 public enum EffectID { }
 
