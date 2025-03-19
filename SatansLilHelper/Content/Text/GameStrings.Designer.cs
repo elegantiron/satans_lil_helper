@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SatansLilHelper.Content {
+namespace SatansLilHelper.Content.Text {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SatansLilHelper.Content {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SatansLilHelper.Content.GameStrings", typeof(GameStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SatansLilHelper.Content.Text.GameStrings", typeof(GameStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
