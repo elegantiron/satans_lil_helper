@@ -19,3 +19,17 @@ public struct Location(int x, int y) : IIndexedComponent<(int, int)>
         return (X, Y);
     }
 }
+
+[ComponentKey("attack")]
+public struct Attack : IComponent
+{
+    public int dice,
+        sides;
+}
+
+[ComponentKey("defense")]
+public struct Defense : IComponent
+{
+    public int magic,
+        physical;
+}
