@@ -95,5 +95,14 @@ namespace SatansLilHelper {
                 return ResourceManager.GetString("StatusFont", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fonts/TitleFont.
+        /// </summary>
+        internal static string TitleFont {
+            get {
+                return ResourceManager.GetString("TitleFont", resourceCulture);
+            }
+        }
     }
 }
