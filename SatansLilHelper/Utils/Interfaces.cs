@@ -1,23 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
+using System.Collections.Generic;
 
 namespace SatansLilHelper.Utils;
 
 public interface ICellGrid
 {
-    bool IsPassable(Point tile);
-    bool PassesLight(Point tile);
-    void SetLight(Point tile, float distanceSquared);
+    bool IsPassable(Point tile)
+    {
+        return Tiles[tile.X, tile.Y].Walkable;
+    }
+    bool PassesLight(Point tile)
+    {
+        return Tiles[tile.X, tile.Y].PassesLight;
+    }
+    void SetLight(Point tile, float distanceSquared)
+    {
+        Tiles[tile.X, tile.Y].Visible = true;
+        Tiles[tile.X, tile.Y].Explored = true;
+        Tiles[tile.X, tile.Y].LightDistance = distanceSquared;
+    }
     void GenerateMap(Random rng, Point size);
 
-    int XDim { get; }
-    int YDim { get; }
+    int XDim { get { return Tiles.GetLength(0); } }
+    int YDim { get { return Tiles.GetLength(1); } }
     Entity Player { get; }
     EntityStore Registry { get; }
     Types.Tile[,] Tiles { get; }
