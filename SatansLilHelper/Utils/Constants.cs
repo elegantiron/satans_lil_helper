@@ -41,5 +41,32 @@ public static class Constants
     public static class Colors
     {
         public static readonly Color Impossible = new(0x80, 0x80, 0x80);
+        public static readonly Color PlayerAttack = new(0xFF, 0x90, 0xFF, 0xFF);
+        public static readonly Color EnemyAttack = new(0xFF, 0x70, 0x70, 0xFF);
+        public static readonly Color AmericanRose = new(0xFF, 0x03, 0x3E, 0xFF);
+        public static readonly Color RubineRed = new(0xD1, 0x00, 0x56, 0xFF);
+        public static readonly Color TranslucentBlack = new(0x00, 0x00, 0x00, 0xB0);
     }
+}
+
+public enum TextureID
+{
+    Player,
+    ForestFloor,
+    ForestWall,
+    SatanMain,
+    SatanEyesOpen,
+    SatanEyesClosed,
+    SatanMouthOpen,
+    SatanMouthClosed,
+}
+
+public enum MusicID { }
+
+public enum EffectID { }
+
+public enum FontID
+{
+    Status,
+    Title,
 }
