@@ -3,9 +3,9 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:DesktopGL
+/platform:Windows
 /config:
-/profile:Reach
+/profile:HiDef
 /compress:True
 
 #-------------------------------- References --------------------------------#
@@ -60,12 +60,12 @@
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
+/processorParam:ColorKeyEnabled=False
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=Color
 /build:Images/Player/player.png
 
 #begin Images/Satan/eyes_closed.png
