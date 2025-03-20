@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using MessagePack;
 
 namespace SatansLilHelper.Utils;
@@ -61,6 +62,11 @@ public class MersenneTwister
     public uint Next(uint maxValue)
     {
         return (uint)(Next() * (maxValue / 4294967296.0));
+    }
+
+    public uint Next(uint minValue, uint maxValue)
+    {
+        return (uint)(Next(maxValue) + minValue);
     }
 
     public double NextDouble()
