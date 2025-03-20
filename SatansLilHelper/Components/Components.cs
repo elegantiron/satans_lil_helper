@@ -89,3 +89,9 @@ public struct ItemSlots : IComponent
 {
     public ItemType Types;
 }
+
+[ComponentKey("level")]
+public struct Level : IComponent
+{
+    public int Value;
+}
