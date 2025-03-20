@@ -69,6 +69,11 @@ public class MersenneTwister
         return (uint)(Next(maxValue) + minValue);
     }
 
+    public int Next(int minValue, int maxValue)
+    {
+        return (int)(Next((uint)(maxValue - minValue)) + minValue);
+    }
+
     public double NextDouble()
     {
         return Next() * (1.0 / uint.MaxValue);
