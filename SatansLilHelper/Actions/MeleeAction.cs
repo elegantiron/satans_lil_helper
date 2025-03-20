@@ -26,20 +26,16 @@ internal class MeleeAction : ActionWithDirection
     )
         : base(entity, direction, gameMap, query, isPlayer)
     {
-        if (!IsBlocked)
-            throw new MissingTargetException();
-        if (TargetEntity == null)
+        if (!IsBlocked || TargetEntity == null)
             throw new MissingTargetException();
 
-        if (!Entity.TryGetComponent<Attack>(out Attack aggressorAtk))
-            throw new Exceptions.MissingComponentException();
-        if (!(bool)TargetEntity?.TryGetComponent<Defense>(out Defense targetDef))
-            throw new Exceptions.MissingComponentException();
+        // TODO grab stats
 
         this.rng = rng;
         preState = rng.GetState();
 
-        // TODO: calculate the attack resulte
+        // TODO Calculate damage
+
 
         postState = rng.GetState();
         rng.SetState(preState);
