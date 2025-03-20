@@ -35,7 +35,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 #if DEBUG
         Debug.WriteLine(player);
         foreach (ResourceStat stat in player.GetRelations<ResourceStat>())
-            Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Max}+{stat.Growth})");
+            Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Basis}+{stat.Growth})");
         foreach (AbilityStat stat in player.GetRelations<AbilityStat>())
             Debug.WriteLine($"{stat.Type}: {stat.Basis}+{stat.Growth}");
 #endif

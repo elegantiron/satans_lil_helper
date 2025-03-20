@@ -41,7 +41,7 @@ public struct ResourceStat : IRelation<ResourceID>
 {
     public ResourceID Type;
     public int Cur,
-        Max;
+        Basis;
     public decimal Growth;
 
     public readonly ResourceID GetRelationKey() => Type;
@@ -50,7 +50,7 @@ public struct ResourceStat : IRelation<ResourceID>
     {
         Type = type;
         Growth = growth;
-        Max = max;
+        Basis = max;
         Cur = cur;
     }
 
@@ -58,7 +58,7 @@ public struct ResourceStat : IRelation<ResourceID>
     {
         Growth = growth;
         Type = type;
-        Max = Cur = max;
+        Basis = Cur = max;
     }
 }
 
