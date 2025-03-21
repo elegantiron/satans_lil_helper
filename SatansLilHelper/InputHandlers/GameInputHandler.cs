@@ -19,6 +19,7 @@ public class GameInputHandler : IInputHandler
     protected GameWorld GameWorld;
     protected ActionStack ActionStack;
     protected MessageLog MessageLog;
+    protected Rectangle StatusShadeShape;
 
     public GameInputHandler()
     {
@@ -27,6 +28,7 @@ public class GameInputHandler : IInputHandler
         GameWorld = new(rng, mapSize);
         ActionStack = new();
         MessageLog = new();
+        StatusShadeShape = Rectangle.Empty;
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -50,7 +52,18 @@ public class GameInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        if (StatusShadeShape == Rectangle.Empty)
+        {
+            StatusShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width * 4 / 5;
+            StatusShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 5;
+            StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
+        }
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.Draw(
+            textureMap[TextureID.WhitePixel],
+            StatusShadeShape,
+            Constants.Colors.TranslucentBlack
+        );
     }
 
     public void HandleMovement(Keys key)
@@ -59,7 +72,7 @@ public class GameInputHandler : IInputHandler
             return;
         if (playerDelay.Value != 0)
         {
-            // TODO tick entities' ActionDelays
+            return;
         }
         else
         {
