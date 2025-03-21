@@ -45,7 +45,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 
         #region Queries
         GetActionDelay = registry.Query<ActionDelay>();
-        GetBlockingEntities = registry.Query<Position>().AllTags(Tags.Get<Blocking>());
+        GetBlockingEntities = registry.Query<Position>().AllTags(Tags.Get<IsBlocking>());
         #endregion Queries
     }
 
