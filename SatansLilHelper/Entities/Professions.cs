@@ -8,8 +8,11 @@ public static class Professions
 {
     public static void Warrior(Entity entity)
     {
-        entity.AddComponent(new ActionDelay { value = 0 });
+        BaseActor.Make(entity);
+        entity.AddComponent(new ActionDelay(0));
         entity.AddComponent(new Location(0, 0));
+        entity.AddComponent(new Level(1));
+        entity.AddComponent(new ItemSlots(ItemType.Warrior));
 
         #region Resource Stats
         entity.AddRelation(new ResourceStat(ResourceID.Health, 60, 10));
@@ -26,7 +29,7 @@ public static class Professions
         #endregion Ability Stats
 
         #region Equipment Slots
-        // TODO figure this the fuck out
+        //// TODO figure this the fuck out
         #endregion Equipment Slots
     }
 }
