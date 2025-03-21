@@ -100,14 +100,21 @@ public enum SkillID { }
 
 public enum SlotID { }
 
-[Flags]
 public enum ItemType
 {
-    None = 0,
+    // Base item types
+    None = 0 << 0,
     Weapon1H = 1 << 0,
     Shield = 1 << 1,
     Armor = 1 << 2,
     Helm = 1 << 3,
     Gauntlets = 1 << 4,
-    boots = 1 << 5,
+    Boots = 1 << 5,
+    RingL = 1 << 6,
+    RingR = 1 << 7,
+    Amulet = 1 << 8,
+
+    // Common combinations
+    Base = RingL | RingR | Amulet,
+    Warrior = Base | Weapon1H | Shield | Armor | Helm | Gauntlets | Boots,
 }
