@@ -64,11 +64,11 @@ public class Engine : Game
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
-#if RELEASE
+        _textureMap.Add(TextureID.WhitePixel, new Texture2D(GraphicsDevice, 1, 1));
+        _textureMap[TextureID.WhitePixel].SetData([Color.White]);
+
         // Load music
         _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
-#endif
-        // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
