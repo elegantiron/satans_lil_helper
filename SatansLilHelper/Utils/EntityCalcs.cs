@@ -66,4 +66,8 @@ public static class EntityCalcs
         damage = (int)(damage * factor);
         return damage;
     }
+    public static int DoNothing()
+    {
+        return 0;
+    }
 }
