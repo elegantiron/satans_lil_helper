@@ -60,6 +60,7 @@ public enum TextureID
     SatanEyesClosed,
     SatanMouthOpen,
     SatanMouthClosed,
+    WhitePixel,
 }
 
 public enum SongID
