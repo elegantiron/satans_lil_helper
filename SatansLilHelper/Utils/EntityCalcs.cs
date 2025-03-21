@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,7 @@ public static class EntityCalcs
         damage = (int)(damage * factor);
         return damage;
     }
+
     public static int DoNothing()
     {
         return 0;
