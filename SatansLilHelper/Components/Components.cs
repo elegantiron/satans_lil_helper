@@ -5,9 +5,9 @@ using SatansLilHelper.Utils;
 namespace SatansLilHelper.Components;
 
 [ComponentKey("action-delay")]
-public struct ActionDelay : IComponent
+public struct ActionDelay(int value) : IComponent
 {
-    public int value;
+    public int Value = value;
 }
 
 [ComponentKey("location")]
@@ -60,6 +60,13 @@ public struct ResourceStat : IRelation<ResourceID>
         Type = type;
         Basis = Cur = max;
     }
+
+    public ResourceStat(ResourceID type, int max)
+    {
+        Growth = 0;
+        Type = type;
+        Basis = Cur = max;
+    }
 }
 
 public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRelation<AbilityID>
@@ -67,6 +74,9 @@ public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRela
     public AbilityID Type = type;
     public decimal Basis = basis,
         Growth = growth;
+
+    public AbilityStat(AbilityID type, decimal basis)
+        : this(type, basis, 0m) { }
 
     public readonly AbilityID GetRelationKey() => Type;
 }
@@ -78,20 +88,24 @@ public struct Skill : IRelation<SkillID>
     public readonly SkillID GetRelationKey() => Type;
 }
 
-public struct Equipment(Entity target) : ILinkRelation
+public struct EquippedItem(ItemType type, Entity target) : ILinkComponent, IRelation<ItemType>
 {
     public Entity Target = target;
+    public ItemType Type = type;
 
-    public readonly Entity GetRelationKey() => Target;
+    public readonly ItemType GetRelationKey() => Type;
+
+    public readonly Entity GetIndexedValue() => Target;
 }
 
-public struct ItemSlots : IComponent
+[ComponentKey("item-slots")]
+public struct ItemSlots(ItemType types) : IComponent
 {
-    public ItemType Types;
+    public ItemType Types = types;
 }
 
 [ComponentKey("level")]
-public struct Level : IComponent
+public struct Level(int value) : IComponent
 {
-    public int Value;
+    public int Value = value;
 }
