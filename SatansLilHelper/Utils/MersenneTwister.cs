@@ -25,7 +25,7 @@ public class MersenneTwister
     private static readonly uint[] Mag01 = [0, MatrixA];
 
     private static readonly uint[] _state = new uint[N];
-    private MessagePackSerializerOptions lz4Options =
+    private readonly MessagePackSerializerOptions lz4Options =
         MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4Block);
 
     private int _index = N + 1;
