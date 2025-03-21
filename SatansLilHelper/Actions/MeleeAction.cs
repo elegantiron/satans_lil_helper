@@ -13,7 +13,7 @@ internal class MeleeAction : ActionWithDirection
 {
     protected byte[] preState,
         postState;
-    protected MersenneTwister rng;
+    protected MersenneTwister Twister;
     protected int Damage;
 
     public MeleeAction(
@@ -29,12 +29,11 @@ internal class MeleeAction : ActionWithDirection
         if (!IsBlocked || TargetEntity == null)
             throw new MissingTargetException();
 
-        // TODO grab stats
 
-        this.rng = rng;
+        Twister = rng;
         preState = rng.GetState();
 
-        // TODO Calculate damage
+        Damage = EntityCalcs.GetDamage(Twister, Entity, (Entity)TargetEntity);
 
 
         postState = rng.GetState();
@@ -43,11 +42,11 @@ internal class MeleeAction : ActionWithDirection
 
     public override void Perform()
     {
-        rng.SetState(postState);
+        Twister.SetState(postState);
     }
 
     public override void Rewind()
     {
-        rng.SetState(preState);
+        Twister.SetState(preState);
     }
 }
