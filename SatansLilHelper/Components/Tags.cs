@@ -2,6 +2,10 @@
 
 namespace SatansLilHelper.Components;
 
-public struct Blocking : ITag { }
+public struct IsBlocking : ITag { }
 
-public struct Hostile : ITag { }
+public struct IsHostile : ITag { }
+
+public struct IsActor : ITag { }
+
+public struct IsPlayer : ITag { }
