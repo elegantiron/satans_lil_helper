@@ -57,7 +57,7 @@ public class GameInputHandler : IInputHandler
     {
         if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out ActionDelay playerDelay))
             return;
-        if (playerDelay.value != 0)
+        if (playerDelay.Value != 0)
         {
             // TODO tick entities' ActionDelays
         }
