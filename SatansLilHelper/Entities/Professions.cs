@@ -24,12 +24,12 @@ public static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.MagicPower, 0, 0.25m));
         entity.AddRelation(new AbilityStat(AbilityID.PhysicalDefense, 7, 0.5m));
         entity.AddRelation(new AbilityStat(AbilityID.MagicDefense, 2, 0.25m));
-        entity.AddRelation(new AbilityStat(AbilityID.Evasion, 0, 0));
-        entity.AddRelation(new AbilityStat(AbilityID.Crit, 0, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Speed, 2, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Vision, 7, 0));
         #endregion Ability Stats
 
-        #region Equipment Slots
-        //// TODO figure this the fuck out
-        #endregion Equipment Slots
+        #region Tags
+        entity.AddTag<IsPlayer>();
+        #endregion Tags
     }
 }
