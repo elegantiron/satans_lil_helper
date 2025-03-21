@@ -12,6 +12,8 @@ public static class BaseActor
         entity.AddComponent(new Location(-200, -200));
         entity.AddComponent(new Level(-1));
         entity.AddComponent(new ItemSlots(ItemType.None));
+        entity.AddComponent(new Attack(0, 0));
+        
 
         entity.AddRelation(new ResourceStat(ResourceID.Health, 0));
         entity.AddRelation(new ResourceStat(ResourceID.Mana, 0));
@@ -25,5 +27,8 @@ public static class BaseActor
         entity.AddRelation(new AbilityStat(AbilityID.Speed, 0));
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 0));
         entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 0));
+
+        entity.AddTag<IsActor>();
+        entity.AddTag<IsBlocking>();
     }
 }
