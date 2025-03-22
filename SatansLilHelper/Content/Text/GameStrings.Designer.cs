@@ -70,6 +70,15 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resume.
+        /// </summary>
+        internal static string Resume {
+            get {
+                return ResourceManager.GetString("Resume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Health: {0:D} / {1:D}.
         /// </summary>
         internal static string StatusHealth {
@@ -102,6 +111,33 @@ namespace SatansLilHelper.Content.Text {
         internal static string StatusTitle {
             get {
                 return ResourceManager.GetString("StatusTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit to Desktop.
+        /// </summary>
+        internal static string ToDesktop {
+            get {
+                return ResourceManager.GetString("ToDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit to Menu.
+        /// </summary>
+        internal static string ToMenu {
+            get {
+                return ResourceManager.GetString("ToMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Your Bestiary.
+        /// </summary>
+        internal static string ViewBestiary {
+            get {
+                return ResourceManager.GetString("ViewBestiary", resourceCulture);
             }
         }
     }
