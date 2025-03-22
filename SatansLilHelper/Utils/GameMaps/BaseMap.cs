@@ -22,15 +22,17 @@ public abstract class BaseMap : ICellGrid, IDrawable
     public ArchetypeQuery GetActionDelay,
         GetBlockingEntities;
 
-    public BaseMap(Point mapSize, MersenneTwister rng, Point screenSize)
+    public BaseMap(Point mapSize, MersenneTwister rng, Point screenSize, bool makePlayer = false)
     {
         this.mapSize = mapSize;
         this.rng = rng;
         registry = new EntityStore();
-
-        player = registry.CreateEntity();
-        player.AddComponent(new EntityName("Player"));
-        Professions.Warrior(player);
+        if (makePlayer)
+        {
+            player = registry.CreateEntity();
+            player.AddComponent(new EntityName("Player"));
+            Professions.Warrior(player);
+        }
         tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
         Debug.WriteLine(player);
