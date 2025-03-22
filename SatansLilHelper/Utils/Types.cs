@@ -1,4 +1,6 @@
-﻿namespace SatansLilHelper.Utils;
+﻿using Microsoft.Xna.Framework;
+
+namespace SatansLilHelper.Utils;
 
 public static class Types
 {
@@ -10,5 +12,16 @@ public static class Types
         public bool Visible = false;
         public bool Explored = false;
         public float LightDistance = 0f;
+    }
+}
+
+public struct TextVecs
+{
+    public Vector2 Location,
+        Origin;
+
+    public TextVecs()
+    {
+        Location = Origin = Vector2.Zero;
     }
 }
