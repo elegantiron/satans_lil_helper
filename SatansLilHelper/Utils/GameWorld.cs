@@ -16,7 +16,7 @@ public class GameWorld
     {
         this.rng = rng;
         this.mapSize = mapSize;
-        maps = [new ForestMap(this.mapSize, this.rng, new Point(1280, 720))];
+        maps = [new ForestMap(this.mapSize, this.rng, new Point(1280, 720), true)];
     }
 
     public BaseMap CurrentMap
