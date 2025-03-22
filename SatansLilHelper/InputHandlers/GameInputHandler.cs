@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
+using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Utils;
 
@@ -20,6 +22,11 @@ public class GameInputHandler : IInputHandler
     protected ActionStack ActionStack;
     protected MessageLog MessageLog;
     protected Rectangle StatusShadeShape;
+    private TextVecs StatusVecs,
+        LocationVecs,
+        HealthVecs,
+        ManaVecs;
+    private bool ShowStatus = true;
 
     public GameInputHandler()
     {
@@ -29,6 +36,10 @@ public class GameInputHandler : IInputHandler
         ActionStack = new();
         MessageLog = new();
         StatusShadeShape = Rectangle.Empty;
+        StatusVecs = new();
+        LocationVecs = new();
+        HealthVecs = new();
+        ManaVecs = new();
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -36,9 +47,21 @@ public class GameInputHandler : IInputHandler
         switch (key)
         {
             case Keys.Escape:
-                throw new GameExitException();
+                return new PauseInputHandler(this);
             case Keys when Constants.MovementKeys.ContainsKey(key):
                 HandleMovement(key);
+                break;
+            case Keys.H:
+                ShowStatus = !ShowStatus;
+                break;
+            case Keys.I:
+                // This will show the inventory
+                break;
+            case Keys.C:
+                // This will show the character screen
+                break;
+            case Keys.M:
+                // This will show castable magic
                 break;
         }
         return this;
@@ -57,13 +80,63 @@ public class GameInputHandler : IInputHandler
             StatusShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width * 4 / 5;
             StatusShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 5;
             StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
+
+            Vector2 textSize = fontMap[FontID.Status].MeasureString(GameStrings.StatusTitle);
+            StatusVecs.Origin.X = textSize.X / 2;
+            StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
+            LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
+            LocationVecs.Location.X = StatusShadeShape.X + 15;
+            HealthVecs.Location.X = LocationVecs.Location.X;
+            HealthVecs.Location.Y = LocationVecs.Location.Y + 2 * textSize.Y;
+            ManaVecs.Location.Y = HealthVecs.Location.Y + textSize.Y;
+            ManaVecs.Location.X = LocationVecs.Location.X;
         }
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
-        spriteBatch.Draw(
-            textureMap[TextureID.WhitePixel],
-            StatusShadeShape,
-            Constants.Colors.TranslucentBlack
-        );
+        if (ShowStatus)
+        {
+            spriteBatch.Draw(
+                textureMap[TextureID.WhitePixel],
+                StatusShadeShape,
+                Constants.Colors.TranslucentBlack
+            );
+            spriteBatch.DrawString(
+                fontMap[FontID.Status],
+                GameStrings.StatusTitle,
+                StatusVecs.Location,
+                Color.White,
+                0f,
+                StatusVecs.Origin,
+                1f,
+                SpriteEffects.None,
+                1f
+            );
+            Location playerLoc = GameWorld.CurrentMap.Player.GetComponent<Location>();
+            spriteBatch.DrawString(
+                fontMap[FontID.Status],
+                String.Format(GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
+                LocationVecs.Location,
+                Color.White
+            );
+            ResourceStat playerResource = GameWorld.CurrentMap.Player.GetRelation<
+                ResourceStat,
+                ResourceID
+            >(ResourceID.Health);
+            spriteBatch.DrawString(
+                fontMap[FontID.Status],
+                String.Format(GameStrings.StatusHealth, playerResource.Cur, playerResource.Basis),
+                HealthVecs.Location,
+                Color.White
+            );
+            playerResource = GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(
+                ResourceID.Mana
+            );
+            spriteBatch.DrawString(
+                fontMap[FontID.Status],
+                String.Format(GameStrings.StatusMana, playerResource.Cur, playerResource.Basis),
+                ManaVecs.Location,
+                Color.White
+            );
+        }
     }
 
     public void HandleMovement(Keys key)
