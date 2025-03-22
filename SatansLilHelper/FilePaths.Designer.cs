@@ -88,6 +88,24 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fonts/MenuFont.
+        /// </summary>
+        internal static string MenuFont {
+            get {
+                return ResourceManager.GetString("MenuFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Enemies/Orc.
+        /// </summary>
+        internal static string Orc {
+            get {
+                return ResourceManager.GetString("Orc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/Player/player.
         /// </summary>
         internal static string Player {
@@ -111,6 +129,15 @@ namespace SatansLilHelper {
         internal static string TitleFont {
             get {
                 return ResourceManager.GetString("TitleFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Enemies/Wolf32.
+        /// </summary>
+        internal static string Wolf {
+            get {
+                return ResourceManager.GetString("Wolf", resourceCulture);
             }
         }
     }
