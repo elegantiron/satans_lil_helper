@@ -9,3 +9,7 @@ public struct IsHostile : ITag { }
 public struct IsActor : ITag { }
 
 public struct IsPlayer : ITag { }
+
+public struct IsVisible : ITag { }
+
+public struct IsInvisible : ITag { }
