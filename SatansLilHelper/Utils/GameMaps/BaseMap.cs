@@ -35,20 +35,53 @@ public abstract class BaseMap : ICellGrid, IDrawable
         }
         tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
 #if DEBUG
-        Debug.WriteLine(player);
-        foreach (ResourceStat stat in player.GetRelations<ResourceStat>())
-            Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Basis}+{stat.Growth})");
-        foreach (AbilityStat stat in player.GetRelations<AbilityStat>())
-            Debug.WriteLine($"{stat.Type}: {stat.Basis}+{stat.Growth}");
+        if (makePlayer)
+        {
+            Debug.WriteLine(player);
+            foreach (ResourceStat stat in player.GetRelations<ResourceStat>())
+                Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Basis}+{stat.Growth})");
+            foreach (AbilityStat stat in player.GetRelations<AbilityStat>())
+                Debug.WriteLine($"{stat.Type}: {stat.Basis}+{stat.Growth}");
+        }
 #endif
         GenerateMap(this.mapSize);
+        if (makePlayer)
+        {
+            PlaceEntity(player);
+        }
         camera = new(screenSize, 32);
-        camera.SetCenter(0, 0);
+        Location playerLoc = player.GetComponent<Location>();
+        camera.SetCenter(playerLoc.X, playerLoc.Y);
 
         #region Queries
         GetActionDelay = registry.Query<ActionDelay>();
         GetBlockingEntities = registry.Query<Position>().AllTags(Tags.Get<IsBlocking>());
         #endregion Queries
+    }
+
+    public void PlaceEntity(Entity entity, int X, int Y)
+    {
+        entity.AddComponent(new Location(X, Y));
+    }
+
+    public void PlaceEntity(Entity entity)
+    {
+        bool chosen = false;
+        while (!chosen)
+        {
+            int X = rng.Next(1, mapSize.X);
+            int Y = rng.Next(1, mapSize.Y);
+            if (tiles[X, Y].Walkable)
+            {
+                PlaceEntity(entity, X, Y);
+                chosen = true;
+            }
+        }
+    }
+
+    public void PlaceEntity(Entity entity, (int X, int Y) position)
+    {
+        PlaceEntity(entity, position.X, position.Y);
     }
 
     public Camera Camera
