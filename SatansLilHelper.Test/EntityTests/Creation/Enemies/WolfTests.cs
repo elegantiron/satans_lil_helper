@@ -7,14 +7,14 @@ using TUnit.Core;
 namespace SatansLilHelper.Test.EntityTests.Creation.Enemies;
 
 [DependsOn(typeof(BaseActorTests))]
-internal class WolfTests
+internal class Wolf
 {
     private EntityStore World;
     private Entity Entity;
 
     private MersenneTwister Rng;
 
-    public WolfTests()
+    public Wolf()
     {
         World = new();
         Rng = new(1);
@@ -23,19 +23,19 @@ internal class WolfTests
     }
 
     [Test]
-    public async Task NameTest()
+    public async Task Name()
     {
         await Assert.That(Entity.GetComponent<EntityName>().value).IsEqualTo("wolf");
     }
 
     [Test, Repeat(5)]
-    public async Task ActionDelayTest()
+    public async Task ActionDelay()
     {
         await Assert.That(Entity.GetComponent<ActionDelay>().Value).IsBetween(1, 15);
     }
 
     [Test, Repeat(5)]
-    public async Task HealthTest()
+    public async Task Health()
     {
         await Assert
             .That(Entity.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
@@ -48,7 +48,8 @@ internal class WolfTests
     [Arguments(AbilityID.Crit, 1, 0)]
     [Arguments(AbilityID.Speed, 3, 0)]
     [Arguments(AbilityID.Vision, 8, 0)]
-    public async Task AbilityTests(AbilityID ability, int basis, decimal growth)
+    [DisplayName("$ability")]
+    public async Task Abilities(AbilityID ability, int basis, decimal growth)
     {
         await Assert
             .That(Entity.GetRelation<AbilityStat, AbilityID>(ability).Basis)
@@ -56,5 +57,11 @@ internal class WolfTests
         await Assert
             .That(Entity.GetRelation<AbilityStat, AbilityID>(ability).Growth)
             .IsEqualTo(growth);
+    }
+
+    [Test]
+    public async Task Texture()
+    {
+        await Assert.That(Entity.GetComponent<TextureIndex>().Index).IsEqualTo(TextureID.Wolf);
     }
 }
