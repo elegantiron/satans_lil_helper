@@ -52,6 +52,7 @@ public static class Constants
 
 public enum TextureID
 {
+    Missing,
     Player,
     ForestFloor,
     ForestWall,
