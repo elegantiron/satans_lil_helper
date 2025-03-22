@@ -17,7 +17,7 @@ public static class EntityCalcs
             throw new Exceptions.MissingComponentException();
         if (!entity.TryGetComponent<Level>(out Level level))
             throw new Exceptions.MissingComponentException();
-        int total = (int)(stat.Basis + stat.Growth * level.Value);
+        int total = (int)(stat.Basis + stat.Growth * (level.Value - 1));
 
         return total;
     }
@@ -29,7 +29,7 @@ public static class EntityCalcs
         if (!entity.TryGetComponent<Level>(out Level level))
             throw new Exceptions.MissingComponentException();
 
-        int total = (int)(stat.Basis + stat.Growth * level.Value);
+        int total = (int)(stat.Basis + stat.Growth * (level.Value - 1));
 
         return total;
     }
