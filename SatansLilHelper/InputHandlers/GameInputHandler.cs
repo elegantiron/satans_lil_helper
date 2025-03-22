@@ -63,6 +63,13 @@ public class GameInputHandler : IInputHandler
             case Keys.M:
                 // This will show castable magic
                 break;
+            case Keys.X:
+                GameWorld
+                    .CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health)
+                    .Cur--;
+                break;
+            case Keys.D:
+                return new DebugMenuInputHandler(this);
         }
         return this;
     }
@@ -169,4 +176,15 @@ public class GameInputHandler : IInputHandler
             GameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
         }
     }
+
+    public void HealPlayer()
+    {
+        int maxHealth = EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health);
+        GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur =
+            maxHealth;
+    }
+
+    public void SpawnNear() { }
+
+    public void SpawnRandom() { }
 }
