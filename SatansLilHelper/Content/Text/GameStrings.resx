@@ -120,4 +120,16 @@
   <data name="GameTitle" xml:space="preserve">
     <value>Satan's Lil Helper</value>
   </data>
+  <data name="StatusHealth" xml:space="preserve">
+    <value>Health: {0:D} / {1:D}</value>
+  </data>
+  <data name="StatusLocation" xml:space="preserve">
+    <value>Location: {0:D2}, {1:D2}</value>
+  </data>
+  <data name="StatusMana" xml:space="preserve">
+    <value>Mana: {0:D} / {1:D}</value>
+  </data>
+  <data name="StatusTitle" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>
