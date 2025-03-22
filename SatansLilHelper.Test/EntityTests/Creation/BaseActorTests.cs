@@ -18,54 +18,60 @@ public class BaseActorTests
 
     [Test]
     [MethodDataSource(typeof(EntityTestData), nameof(EntityTestData.ResourceIDs))]
-    public async Task ResourceTest(ResourceID id)
+    public async Task Resources(ResourceID id)
     {
         await Assert.That(Entity.GetRelation<ResourceStat, ResourceID>(id)).IsNotNull();
     }
 
     [Test]
     [MethodDataSource(typeof(EntityTestData), nameof(EntityTestData.AbilityIDs))]
-    public async Task AbilityTest(AbilityID id)
+    public async Task Abilities(AbilityID id)
     {
         await Assert.That(Entity.GetRelation<AbilityStat, AbilityID>(id)).IsNotNull();
     }
 
     [Test]
-    public async Task ActionDelayTest()
+    public async Task ActionDelay()
     {
         await Assert.That(Entity.GetComponent<ActionDelay>()).IsNotNull();
     }
 
     [Test]
-    public async Task LocationTest()
+    public async Task Location()
     {
         await Assert.That(Entity.GetComponent<Location>()).IsNotNull();
     }
 
     [Test]
-    public async Task LevelTest()
+    public async Task Level()
     {
         await Assert.That(Entity.GetComponent<Level>()).IsNotNull();
     }
 
     [Test]
-    public async Task ItemSlotsTest()
+    public async Task ItemSlots()
     {
         await Assert.That(Entity.GetComponent<ItemSlots>()).IsNotNull();
     }
 
     [Test]
-    public async Task AttackTest()
+    public async Task Attack()
     {
         await Assert.That(Entity.GetComponent<Attack>()).IsNotNull();
     }
 
     [Test]
-    public async Task TagTest()
+    public async Task Tags()
     {
         Tags baseActorTags = new();
         baseActorTags.Add<IsBlocking>();
         baseActorTags.Add<IsActor>();
         await Assert.That(Entity.Tags.HasAll(baseActorTags)).IsTrue();
+    }
+
+    [Test]
+    public async Task TextureIndex()
+    {
+        await Assert.That(Entity.GetComponent<TextureIndex>()).IsNotNull();
     }
 }
