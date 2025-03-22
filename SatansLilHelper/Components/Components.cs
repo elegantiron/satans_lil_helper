@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Friflo.Engine.ECS;
+using Microsoft.Xna.Framework.Graphics;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Components;
@@ -108,4 +109,20 @@ public struct ItemSlots(ItemType types) : IComponent
 public struct Level(int value) : IComponent
 {
     public int Value = value;
+}
+
+[ComponentKey("texture-index")]
+public struct TextureIndex : IComponent
+{
+    public TextureID Index;
+
+    public TextureIndex()
+    {
+        Index = TextureID.Missing;
+    }
+
+    public TextureIndex(TextureID index)
+    {
+        Index = index;
+    }
 }
