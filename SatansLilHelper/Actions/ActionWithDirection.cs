@@ -23,9 +23,9 @@ public abstract class ActionWithDirection : BaseAction
     {
         Origin = entity.GetComponent<Location>();
         Destination = new Location(Origin.X + direction.X, Origin.Y + direction.Y);
-        ArchetypeQuery Query = query.HasValue<Location, (int X, int Y)>(
-            (Destination.X, Destination.Y)
-        );
+        ArchetypeQuery Query = entity
+            .Store.Query()
+            .HasValue<Location, (int X, int Y)>((Destination.X, Destination.Y));
         if (Query.Count > 0)
         {
             IsBlocked = true;
