@@ -4,14 +4,27 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Content.Text;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
 
-internal class PauseInputHandler(IInputHandler parent) : IInputHandler
+internal class PauseInputHandler : IInputHandler
 {
-    private IInputHandler Parent = parent;
-    private Rectangle ShadeShape = Rectangle.Empty;
+    private IInputHandler Parent;
+    private Rectangle ShadeShape;
+    private readonly Menu Menu;
+
+    public PauseInputHandler(IInputHandler parent)
+    {
+        Parent = parent;
+        ShadeShape = Rectangle.Empty;
+        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu.AddItem(GameStrings.Resume);
+        Menu.AddItem(GameStrings.ViewBestiary);
+        Menu.AddItem(GameStrings.ToMenu);
+        Menu.AddItem(GameStrings.ToDesktop);
+    }
 
     public void Draw(
         SpriteBatch spriteBatch,
@@ -41,6 +54,7 @@ internal class PauseInputHandler(IInputHandler parent) : IInputHandler
         switch (key)
         {
             case Keys.Escape:
+            case Keys.I:
                 return Parent;
         }
         return this;
