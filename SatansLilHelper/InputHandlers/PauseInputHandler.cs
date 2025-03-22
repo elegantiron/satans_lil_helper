@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,6 +48,7 @@ internal class PauseInputHandler : IInputHandler
             ShadeShape,
             Constants.Colors.TranslucentBlack
         );
+        Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -56,7 +58,26 @@ internal class PauseInputHandler : IInputHandler
             case Keys.Escape:
             case Keys.I:
                 return Parent;
+            case Keys.Up:
+            case Keys.Down:
+                Menu.HandleKey(key);
+                break;
+            case Keys.Enter:
+                return OnExit();
         }
         return this;
+    }
+
+    public IInputHandler OnExit()
+    {
+        IInputHandler value = Parent;
+        if (Menu.Selection == GameStrings.ViewBestiary)
+            // Return a bestiary handler here
+            ;
+        else if (Menu.Selection == GameStrings.ToMenu)
+            value = new TitleInputHandler();
+        else if (Menu.Selection == GameStrings.ToDesktop)
+            throw new Exceptions.GameExitException();
+        return value;
     }
 }
