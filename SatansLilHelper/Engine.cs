@@ -15,12 +15,12 @@ namespace SatansLilHelper;
 public class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    private SpriteBatch SpriteBatch;
     private IInputHandler _inputHandler;
-    private Dictionary<TextureID, Texture2D> _textureMap;
+    private Dictionary<TextureID, Texture2D> TextureMap;
     private Dictionary<EffectID, SoundEffect> _effectMap;
-    private Dictionary<SongID, Song> _songMap;
-    private Dictionary<FontID, SpriteFont> _fontMap;
+    private Dictionary<SongID, Song> SongMap;
+    private Dictionary<FontID, SpriteFont> FontMap;
     private List<Keys> _keyList;
 
     public Engine()
@@ -28,10 +28,10 @@ public class Engine : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        _textureMap = [];
+        TextureMap = [];
         _effectMap = [];
-        _songMap = [];
-        _fontMap = [];
+        SongMap = [];
+        FontMap = [];
         _keyList = [];
         _inputHandler = new TitleInputHandler();
     }
@@ -54,21 +54,24 @@ public class Engine : Game
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
+        SpriteBatch = new SpriteBatch(GraphicsDevice);
 
         // Load fonts
-        _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
-        _fontMap.Add(FontID.Title, Content.Load<SpriteFont>(FilePaths.TitleFont));
+        FontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
+        FontMap.Add(FontID.Title, Content.Load<SpriteFont>(FilePaths.TitleFont));
+        FontMap.Add(FontID.Menu, Content.Load<SpriteFont>(FilePaths.MenuFont));
 
         // Load textures
-        _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
-        _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
-        _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
-        _textureMap.Add(TextureID.WhitePixel, new Texture2D(GraphicsDevice, 1, 1));
-        _textureMap[TextureID.WhitePixel].SetData([Color.White]);
+        TextureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
+        TextureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
+        TextureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
+        TextureMap.Add(TextureID.Orc, Content.Load<Texture2D>(FilePaths.Orc));
+        TextureMap.Add(TextureID.Wolf, Content.Load<Texture2D>(FilePaths.Wolf));
+        TextureMap.Add(TextureID.WhitePixel, new Texture2D(GraphicsDevice, 1, 1));
+        TextureMap[TextureID.WhitePixel].SetData([Color.White]);
 
         // Load music
-        _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
+        SongMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
     }
 
     protected override void Update(GameTime gameTime)
@@ -81,9 +84,9 @@ public class Engine : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin();
-        _inputHandler.Draw(_spriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
-        _spriteBatch.End();
+        SpriteBatch.Begin();
+        _inputHandler.Draw(SpriteBatch, TextureMap, _effectMap, SongMap, FontMap);
+        SpriteBatch.End();
 
         // TODO: Add your drawing code here
 
