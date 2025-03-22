@@ -120,6 +120,9 @@
   <data name="GameTitle" xml:space="preserve">
     <value>Satan's Lil Helper</value>
   </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
   <data name="StatusHealth" xml:space="preserve">
     <value>Health: {0:D} / {1:D}</value>
   </data>
@@ -131,5 +134,14 @@
   </data>
   <data name="StatusTitle" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="ToDesktop" xml:space="preserve">
+    <value>Quit to Desktop</value>
+  </data>
+  <data name="ToMenu" xml:space="preserve">
+    <value>Quit to Menu</value>
+  </data>
+  <data name="ViewBestiary" xml:space="preserve">
+    <value>View Your Bestiary</value>
   </data>
 </root>
