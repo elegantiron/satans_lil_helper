@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Content.Text;
+using SatansLilHelper.Utils;
+
+namespace SatansLilHelper.InputHandlers;
+
+public class DebugMenuInputHandler : IInputHandler
+{
+    private GameInputHandler Parent;
+    private Rectangle ShadeShape;
+    private Menu Menu;
+
+    public DebugMenuInputHandler(GameInputHandler parent)
+    {
+        Parent = parent;
+        ShadeShape = Rectangle.Empty;
+        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu.AddItem(GameStrings.Resume);
+        Menu.AddItem(GameStrings.DebugHeal);
+        Menu.AddItem(GameStrings.DebugSpawnNear);
+        Menu.AddItem(GameStrings.DebugSpawnRandom);
+    }
+
+    public void Draw(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<EffectID, SoundEffect> effectMap,
+        Dictionary<SongID, Song> songMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    )
+    {
+        if (ShadeShape == Rectangle.Empty)
+        {
+            ShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 8;
+            ShadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 8;
+            ShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
+            ShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
+        }
+        Parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.Draw(
+            textureMap[TextureID.WhitePixel],
+            ShadeShape,
+            Constants.Colors.TranslucentBlack
+        );
+        Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+    }
+
+    public IInputHandler HandleKey(Keys key)
+    {
+        switch (key)
+        {
+            case Keys.Up:
+            case Keys.Down:
+                Menu.HandleKey(key);
+                break;
+            case Keys.Enter:
+                return OnExit();
+        }
+        return this;
+    }
+
+    public GameInputHandler OnExit()
+    {
+        if (Menu.Selection == GameStrings.DebugHeal)
+            Parent.HealPlayer();
+        else if (Menu.Selection == GameStrings.DebugSpawnNear)
+            Parent.SpawnNear();
+        else if (Menu.Selection == GameStrings.DebugSpawnRandom)
+            Parent.SpawnRandom();
+
+        return Parent;
+    }
+}
