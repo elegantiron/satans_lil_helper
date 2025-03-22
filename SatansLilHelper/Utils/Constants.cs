@@ -76,6 +76,7 @@ public enum FontID
 {
     Status,
     Title,
+    Menu,
 }
 
 public enum ResourceID
