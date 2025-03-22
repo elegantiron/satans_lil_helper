@@ -6,12 +6,12 @@ using SatansLilHelper.Utils;
 namespace SatansLilHelper.Test.EntityTests.Creation.ProfessionTests;
 
 [DependsOn(typeof(BaseActorTests))]
-public class WarriorTests
+public class Warrior
 {
     private readonly EntityStore World;
     private readonly Entity Entity;
 
-    public WarriorTests()
+    public Warrior()
     {
         World = new();
         Entity = World.CreateEntity();
@@ -19,19 +19,19 @@ public class WarriorTests
     }
 
     [Test]
-    public async Task ActionDelayTest()
+    public async Task ActionDelay()
     {
         await Assert.That(Entity.GetComponent<ActionDelay>().Value).IsEqualTo(0);
     }
 
     [Test]
-    public async Task LevelTest()
+    public async Task Level()
     {
         await Assert.That(Entity.GetComponent<Level>().Value).IsEqualTo(1);
     }
 
     [Test]
-    public async Task ItemSlotsTest()
+    public async Task ItemSlots()
     {
         ItemType expectedResult = ItemType.Warrior;
         await Assert.That(Entity.GetComponent<ItemSlots>().Types).IsEqualTo(expectedResult);
@@ -40,7 +40,8 @@ public class WarriorTests
     [Test]
     [Arguments(ResourceID.Health, 60, 10)]
     [Arguments(ResourceID.Mana, 5, 1)]
-    public async Task ResourceTest(ResourceID resource, int basis, decimal growth)
+    [DisplayName("$resource")]
+    public async Task Resource(ResourceID resource, int basis, decimal growth)
     {
         await Assert
             .That(Entity.GetRelation<ResourceStat, ResourceID>(resource).Basis)
@@ -60,6 +61,7 @@ public class WarriorTests
     [Arguments(AbilityID.Speed, 2, 0)]
     [Arguments(AbilityID.Vision, 7, 0)]
     [Arguments(AbilityID.LightRadius, 0, 0)]
+    [DisplayName("$ability")]
     public async Task AbilityTest(AbilityID ability, int basis, decimal growth)
     {
         await Assert
