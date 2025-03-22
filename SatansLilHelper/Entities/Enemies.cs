@@ -8,8 +8,10 @@ public static class Enemies
 {
     public static void Wolf(MersenneTwister rng, Entity entity)
     {
+        BaseActor.Make(entity);
         entity.AddComponent(new EntityName("wolf"));
         entity.AddComponent(new ActionDelay(rng.Next(1, 15)));
+        entity.AddComponent(new TextureIndex(TextureID.Wolf));
 
         entity.AddRelation(new ResourceStat(ResourceID.Health, rng.Next(1, 8) + 16));
 
