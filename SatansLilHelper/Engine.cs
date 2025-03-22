@@ -16,7 +16,7 @@ public class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch SpriteBatch;
-    private IInputHandler _inputHandler;
+    private IInputHandler InputHandler;
     private Dictionary<TextureID, Texture2D> TextureMap;
     private Dictionary<EffectID, SoundEffect> _effectMap;
     private Dictionary<SongID, Song> SongMap;
@@ -33,7 +33,12 @@ public class Engine : Game
         SongMap = [];
         FontMap = [];
         _keyList = [];
-        _inputHandler = new TitleInputHandler();
+#if RELEASE
+        InputHandler = new TitleInputHandler();
+#endif
+#if DEBUG
+        InputHandler = new GameInputHandler();
+#endif
     }
 
     protected override void Initialize()
@@ -85,7 +90,7 @@ public class Engine : Game
     {
         GraphicsDevice.Clear(Color.Black);
         SpriteBatch.Begin();
-        _inputHandler.Draw(SpriteBatch, TextureMap, _effectMap, SongMap, FontMap);
+        InputHandler.Draw(SpriteBatch, TextureMap, _effectMap, SongMap, FontMap);
         SpriteBatch.End();
 
         // TODO: Add your drawing code here
@@ -101,7 +106,7 @@ public class Engine : Game
         _keyList.Add(eventArgs.Key);
         try
         {
-            _inputHandler = _inputHandler.HandleKey(eventArgs.Key);
+            InputHandler = InputHandler.HandleKey(eventArgs.Key);
         }
         catch (GameExitException)
         {
