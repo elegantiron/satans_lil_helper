@@ -61,6 +61,33 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Heal to Full.
+        /// </summary>
+        internal static string DebugHeal {
+            get {
+                return ResourceManager.GetString("DebugHeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spawn a Wolf Nearby.
+        /// </summary>
+        internal static string DebugSpawnNear {
+            get {
+                return ResourceManager.GetString("DebugSpawnNear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spawn a Wolf at a Random Location.
+        /// </summary>
+        internal static string DebugSpawnRandom {
+            get {
+                return ResourceManager.GetString("DebugSpawnRandom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Satan&apos;s Lil Helper.
         /// </summary>
         internal static string GameTitle {
