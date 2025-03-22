@@ -68,5 +68,41 @@ namespace SatansLilHelper.Content.Text {
                 return ResourceManager.GetString("GameTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Health: {0:D} / {1:D}.
+        /// </summary>
+        internal static string StatusHealth {
+            get {
+                return ResourceManager.GetString("StatusHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location: {0:D2}, {1:D2}.
+        /// </summary>
+        internal static string StatusLocation {
+            get {
+                return ResourceManager.GetString("StatusLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mana: {0:D} / {1:D}.
+        /// </summary>
+        internal static string StatusMana {
+            get {
+                return ResourceManager.GetString("StatusMana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string StatusTitle {
+            get {
+                return ResourceManager.GetString("StatusTitle", resourceCulture);
+            }
+        }
     }
 }
