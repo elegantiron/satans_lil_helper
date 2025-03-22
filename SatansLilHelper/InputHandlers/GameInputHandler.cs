@@ -11,6 +11,7 @@ using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Utils;
+using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.InputHandlers;
 
@@ -74,6 +75,7 @@ public class GameInputHandler : IInputHandler
         return this;
     }
 
+    #region Draw methods
     public void Draw(
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
@@ -92,7 +94,7 @@ public class GameInputHandler : IInputHandler
             StatusVecs.Origin.X = textSize.X / 2;
             StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
             LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
-            LocationVecs.Location.X = StatusShadeShape.X + 15;
+            LocationVecs.Location.X = StatusShadeShape.X + 10;
             HealthVecs.Location.X = LocationVecs.Location.X;
             HealthVecs.Location.Y = LocationVecs.Location.Y + 2 * textSize.Y;
             ManaVecs.Location.Y = HealthVecs.Location.Y + textSize.Y;
@@ -101,51 +103,69 @@ public class GameInputHandler : IInputHandler
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
         if (ShowStatus)
         {
-            spriteBatch.Draw(
-                textureMap[TextureID.WhitePixel],
-                StatusShadeShape,
-                Constants.Colors.TranslucentBlack
-            );
-            spriteBatch.DrawString(
-                fontMap[FontID.Status],
-                GameStrings.StatusTitle,
-                StatusVecs.Location,
-                Color.White,
-                0f,
-                StatusVecs.Origin,
-                1f,
-                SpriteEffects.None,
-                1f
-            );
-            Location playerLoc = GameWorld.CurrentMap.Player.GetComponent<Location>();
-            spriteBatch.DrawString(
-                fontMap[FontID.Status],
-                String.Format(GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
-                LocationVecs.Location,
-                Color.White
-            );
-            ResourceStat playerResource = GameWorld.CurrentMap.Player.GetRelation<
-                ResourceStat,
-                ResourceID
-            >(ResourceID.Health);
-            spriteBatch.DrawString(
-                fontMap[FontID.Status],
-                String.Format(GameStrings.StatusHealth, playerResource.Cur, playerResource.Basis),
-                HealthVecs.Location,
-                Color.White
-            );
-            playerResource = GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(
-                ResourceID.Mana
-            );
-            spriteBatch.DrawString(
-                fontMap[FontID.Status],
-                String.Format(GameStrings.StatusMana, playerResource.Cur, playerResource.Basis),
-                ManaVecs.Location,
-                Color.White
-            );
+            DrawStatus(spriteBatch, textureMap, fontMap);
         }
     }
 
+    private void DrawStatus(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    )
+    {
+        spriteBatch.Draw(
+            textureMap[TextureID.WhitePixel],
+            StatusShadeShape,
+            Constants.Colors.TranslucentBlack
+        );
+        spriteBatch.DrawString(
+            fontMap[FontID.Status],
+            GameStrings.StatusTitle,
+            StatusVecs.Location,
+            Color.White,
+            0f,
+            StatusVecs.Origin,
+            1f,
+            SpriteEffects.None,
+            1f
+        );
+        Location playerLoc = GameWorld.CurrentMap.Player.GetComponent<Location>();
+        spriteBatch.DrawString(
+            fontMap[FontID.Status],
+            String.Format(GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
+            LocationVecs.Location,
+            Color.White
+        );
+        ResourceStat playerResource = GameWorld.CurrentMap.Player.GetRelation<
+            ResourceStat,
+            ResourceID
+        >(ResourceID.Health);
+        spriteBatch.DrawString(
+            fontMap[FontID.Status],
+            String.Format(
+                GameStrings.StatusHealth,
+                playerResource.Cur,
+                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health)
+            ),
+            HealthVecs.Location,
+            Color.White
+        );
+        playerResource = GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(
+            ResourceID.Mana
+        );
+        spriteBatch.DrawString(
+            fontMap[FontID.Status],
+            String.Format(
+                GameStrings.StatusMana,
+                playerResource.Cur,
+                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Mana)
+            ),
+            ManaVecs.Location,
+            Color.White
+        );
+    }
+
+    #endregion draw methods
     public void HandleMovement(Keys key)
     {
         if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out ActionDelay playerDelay))
@@ -177,6 +197,8 @@ public class GameInputHandler : IInputHandler
         }
     }
 
+    #region debug functions
+#if DEBUG
     public void HealPlayer()
     {
         int maxHealth = EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health);
@@ -184,7 +206,20 @@ public class GameInputHandler : IInputHandler
             maxHealth;
     }
 
-    public void SpawnNear() { }
+    public void SpawnNear()
+    {
+        BaseMap currentMap = GameWorld.CurrentMap;
+        EntityStore registry = currentMap.Registry;
+        Entity entity = registry.CreateEntity();
+        Location playerPos = currentMap.Player.GetComponent<Location>();
+        Entities.Enemies.Wolf(rng, entity);
+        entity.Add(new Location(playerPos.X, playerPos.Y + 1));
+    }
 
-    public void SpawnRandom() { }
+    public void SpawnRandom()
+    {
+        throw new NotImplementedException();
+    }
+#endif
+    #endregion
 }
