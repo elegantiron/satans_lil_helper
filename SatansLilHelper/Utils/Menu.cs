@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 namespace SatansLilHelper.Utils;
@@ -14,6 +15,7 @@ public class Menu : Utils.IDrawable
     private TextVecs TextVecs;
     private Vector2 Size;
     private FontID Font;
+    private int Index;
 
     public Menu(Color selected, Color unselected, FontID font)
     {
@@ -23,6 +25,7 @@ public class Menu : Utils.IDrawable
         TextVecs = new();
         Size = Vector2.Zero;
         Font = font;
+        Index = 0;
     }
 
     public void AddItem(string key)
@@ -40,6 +43,10 @@ public class Menu : Utils.IDrawable
     {
         if (Items.Count < 1)
             return;
+        if (Size == Vector2.Zero)
+        {
+            TextVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+        }
         Size = fontMap[Font].MeasureString("String"); // only care about the height here
         TextVecs.Location.Y =
             spriteBatch.GraphicsDevice.Viewport.Height / 2 - (Size.Y * Items.Count / 2);
@@ -51,7 +58,7 @@ public class Menu : Utils.IDrawable
                 fontMap[Font],
                 item,
                 TextVecs.Location,
-                UnselectedColor,
+                Items.IndexOf(item) == Index ? SelectedColor : UnselectedColor,
                 0f,
                 TextVecs.Origin,
                 1f,
@@ -61,4 +68,22 @@ public class Menu : Utils.IDrawable
             TextVecs.Location.Y += Size.Y;
         }
     }
+
+    public void HandleKey(Keys key)
+    {
+        if (Items.Count < 1)
+            return;
+        switch (key)
+        {
+            case Keys.Up:
+                if (--Index < 0)
+                    Index = Items.Count - 1;
+                break;
+            case Keys.Down:
+                Index = ++Index % Items.Count;
+                break;
+        }
+    }
+
+    public string Selection => Items[Index];
 }
