@@ -126,6 +126,12 @@
   <data name="HideAndSeek" xml:space="preserve">
     <value>Music/hide_and_seek</value>
   </data>
+  <data name="MenuFont" xml:space="preserve">
+    <value>Fonts/MenuFont</value>
+  </data>
+  <data name="Orc" xml:space="preserve">
+    <value>Images/Enemies/Orc</value>
+  </data>
   <data name="Player" xml:space="preserve">
     <value>Images/Player/player</value>
   </data>
@@ -134,5 +140,8 @@
   </data>
   <data name="TitleFont" xml:space="preserve">
     <value>Fonts/TitleFont</value>
+  </data>
+  <data name="Wolf" xml:space="preserve">
+    <value>Images/Enemies/Wolf32</value>
   </data>
 </root>
