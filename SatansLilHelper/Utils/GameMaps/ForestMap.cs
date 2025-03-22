@@ -3,8 +3,12 @@ using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public class ForestMap(Point mapSize, MersenneTwister rng, Point screenSize)
-    : BaseMap(mapSize, rng, screenSize)
+public class ForestMap(
+    Point mapSize,
+    MersenneTwister rng,
+    Point screenSize,
+    bool makePlayer = false
+) : BaseMap(mapSize, rng, screenSize, makePlayer)
 {
     public override void GenerateMap(Point size)
     {
@@ -13,11 +17,11 @@ public class ForestMap(Point mapSize, MersenneTwister rng, Point screenSize)
         {
             for (int j = 0; j < mapSize.Y; j++)
             {
-                tempMap[i, j] = rng.NextDouble() < 0.35f ? 1 : 0;
+                tempMap[i, j] = rng.NextDouble() < 0.33f ? 1 : 0;
             }
         }
 
-        for (int _ = 0; _ < 4; _++)
+        for (int _ = 0; _ < 3; _++)
         {
             int[,] newMap = tempMap;
             for (int i = 0; i < mapSize.X; i++)
@@ -38,7 +42,7 @@ public class ForestMap(Point mapSize, MersenneTwister rng, Point screenSize)
             for (int j = 0; j < mapSize.Y; j++)
             {
                 Types.Tile tile;
-                if (tempMap[i, j] == 0)
+                if (tempMap[i, j] == 1)
                     tile = new Types.Tile(TextureID.ForestWall, false, false);
                 else
                     tile = new Types.Tile(TextureID.ForestFloor, true, true);
