@@ -13,3 +13,5 @@ public struct IsPlayer : ITag { }
 public struct IsVisible : ITag { }
 
 public struct IsInvisible : ITag { }
+
+public struct IsAlive : ITag { }
