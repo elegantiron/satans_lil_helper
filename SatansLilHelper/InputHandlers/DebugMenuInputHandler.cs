@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if DEBUG
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -76,3 +77,4 @@ public class DebugMenuInputHandler : IInputHandler
         return Parent;
     }
 }
+#endif
