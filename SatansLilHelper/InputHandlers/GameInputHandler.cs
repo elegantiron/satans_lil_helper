@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -10,6 +11,7 @@ using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
+using SatansLilHelper.Extensions;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -24,6 +26,7 @@ public class GameInputHandler : IInputHandler
     protected MessageLog MessageLog;
     protected Rectangle StatusShadeShape;
     private TextVecs StatusVecs,
+        MessageLogVecs,
         LocationVecs,
         HealthVecs,
         ManaVecs;
@@ -41,6 +44,8 @@ public class GameInputHandler : IInputHandler
         LocationVecs = new();
         HealthVecs = new();
         ManaVecs = new();
+        MessageLogVecs = new();
+        EventBus.Send(Events.AddLogMessage, new LogMessage("test", Color.White));
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -104,6 +109,7 @@ public class GameInputHandler : IInputHandler
         if (ShowStatus)
         {
             DrawStatus(spriteBatch, textureMap, fontMap);
+            DrawMessageLog(spriteBatch, fontMap);
         }
     }
 
@@ -165,6 +171,40 @@ public class GameInputHandler : IInputHandler
         );
     }
 
+    private void DrawMessageLog(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
+    {
+        if (MessageLogVecs.Location == Vector2.Zero)
+        {
+            MessageLogVecs.Location = LocationVecs.Location;
+        }
+        MessageLogVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2 + 5;
+        var messages = MessageLog.Messages;
+        messages.Reverse();
+        foreach ((string message, Color color) in messages)
+        {
+            Vector2 textSize = Vector2.Zero;
+            List<string> wrappedText = message.Wrap(
+                fontMap[FontID.Messages],
+                StatusShadeShape.Width - 15
+            );
+            foreach (string textLine in wrappedText)
+            {
+                spriteBatch.DrawString(
+                    fontMap[FontID.Messages],
+                    textLine,
+                    MessageLogVecs.Location,
+                    color
+                );
+                textSize = fontMap[FontID.Messages].MeasureString(textLine);
+                MessageLogVecs.Location.Y += textSize.Y;
+                if (MessageLogVecs.Location.Y >= StatusShadeShape.Height - textSize.Y)
+                    break;
+            }
+            if (MessageLogVecs.Location.Y >= StatusShadeShape.Height - textSize.Y)
+                break;
+        }
+    }
+
     #endregion draw methods
     public void HandleMovement(Keys key)
     {
@@ -179,11 +219,12 @@ public class GameInputHandler : IInputHandler
             try
             {
                 ActionStack.AddAction(
-                    new MoveAction(
+                    new BumpAction(
                         GameWorld.CurrentMap.Player,
                         Constants.MovementKeys[key],
                         GameWorld.CurrentMap,
                         GameWorld.CurrentMap.GetBlockingEntities,
+                        rng,
                         true
                     )
                 );
