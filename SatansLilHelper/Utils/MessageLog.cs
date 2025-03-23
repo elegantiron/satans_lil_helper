@@ -16,9 +16,12 @@ public class MessageLog
         get
         {
             List<(string, Color)> messageList = [];
-            foreach (var message in _messages)
+            if (_messages.Count > 0)
             {
-                messageList.Add(message.FullText);
+                foreach (var message in _messages)
+                {
+                    messageList.Add(message.FullText);
+                }
             }
             return messageList;
         }
@@ -91,7 +94,7 @@ public class MessageLog
             if (_messages[^1].Count > 1)
                 _messages[^1].UnStack();
             else
-                _messages[^1] = null;
+                _messages.RemoveAt(_messages.Count - 1);
         }
     }
 }
