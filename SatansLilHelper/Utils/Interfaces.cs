@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -53,4 +56,9 @@ public interface IDrawable
 public interface IInputHandler : IDrawable
 {
     IInputHandler HandleKey(Keys key);
+}
+
+public interface IMessageHandler
+{
+    void Write(string message);
 }
