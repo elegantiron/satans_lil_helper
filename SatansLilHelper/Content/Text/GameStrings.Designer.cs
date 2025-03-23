@@ -88,11 +88,56 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} succumbs to its wounds..
+        /// </summary>
+        internal static string EnemyDeath {
+            get {
+                return ResourceManager.GetString("EnemyDeath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You gain {0} experience..
+        /// </summary>
+        internal static string GainExperience {
+            get {
+                return ResourceManager.GetString("GainExperience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Satan&apos;s Lil Helper.
         /// </summary>
         internal static string GameTitle {
             get {
                 return ResourceManager.GetString("GameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to That way is blocked..
+        /// </summary>
+        internal static string PathBlocked {
+            get {
+                return ResourceManager.GetString("PathBlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You attack {0}, dealing {1} damage..
+        /// </summary>
+        internal static string PlayerAttack {
+            get {
+                return ResourceManager.GetString("PlayerAttack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You land a powerful strike!.
+        /// </summary>
+        internal static string PowerfulStrike {
+            get {
+                return ResourceManager.GetString("PowerfulStrike", resourceCulture);
             }
         }
         
