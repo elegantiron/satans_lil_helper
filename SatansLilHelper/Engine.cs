@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
-using SatansLilHelper.Extensions;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Utils;
 
@@ -79,6 +78,8 @@ public class Engine : Game
 
         // Load music
         _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
+        _songMap.Add(SongID.Scavenge1, Content.Load<Song>(FilePaths.Scavenge1));
+        _songMap.Add(SongID.Scavenge2, Content.Load<Song>(FilePaths.Scavenge2));
     }
 
     protected override void Update(GameTime gameTime)
