@@ -31,7 +31,7 @@ internal class MeleeAction : ActionWithDirection
     {
         if (!IsBlocked || TargetEntity == null)
             throw new MissingTargetException();
-        TargetName = TargetEntity?.GetComponent<EntityName>().ToString();
+        TargetName = TargetEntity?.GetComponent<EntityName>().value;
         Twister = rng;
         preState = rng.GetState();
 
