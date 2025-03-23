@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
-using SlimMessageBus.Host.Memory;
 
 namespace SatansLilHelper.Utils;
 
