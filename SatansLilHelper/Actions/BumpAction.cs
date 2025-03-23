@@ -24,7 +24,7 @@ internal class BumpAction : ActionWithDirection
     )
         : base(entity, direction, gameMap, query, isPlayer)
     {
-        if (TargetEntity != null)
+        if (TargetEntity == null)
             Action = new MoveAction(Entity, direction, gameMap, query, isPlayer);
         else
             Action = new MeleeAction(Entity, direction, gameMap, query, rng, isPlayer);
