@@ -1,33 +1,97 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
+using SlimMessageBus.Host.Memory;
 
 namespace SatansLilHelper.Utils;
 
 public class MessageLog
 {
-    private List<Message> Messages = [];
+    private List<Message> _messages;
+
+    public List<(string, Color)> Messages
+    {
+        get
+        {
+            List<(string, Color)> messageList = [];
+            foreach (var message in _messages)
+            {
+                messageList.Add(message.FullText);
+            }
+            return messageList;
+        }
+    }
+
+    public MessageLog()
+    {
+        _messages = [];
+        EventBus.Subscribe<LogMessage>(this, Events.AddLogMessage, AddMessage);
+        EventBus.Subscribe<LogMessage>(this, Events.PruneLogMessage, RemoveMessage);
+    }
 
     private class Message(string text, Color color)
     {
-        private string Text = text;
-        private Color Color = color;
-        private int Count = 0;
+        private string _text = text;
+        private Color _color = color;
+        private int _count = 1;
+
+        public int Count
+        {
+            get { return _count; }
+        }
         public string PlainText
         {
-            get { return Text; }
+            get { return _text; }
         }
 
         public void Stack()
         {
-            Count++;
+            _count++;
+        }
+
+        public void UnStack()
+        {
+            _count--;
+        }
+
+        public (string, Color) FullText
+        {
+            get { return ($"{_text}{(Count > 1 ? string.Format(" (x{0})", Count) : "")}", _color); }
         }
     }
 
     public void AddMessage(string text, Color color, bool stack = true)
     {
-        if (stack && Messages.Count > 0 && Messages[^1].PlainText == text)
-            Messages[^1].Stack();
+        if (stack && _messages.Count > 0 && _messages[^1].PlainText == text)
+            _messages[^1].Stack();
         else
-            Messages.Add(new Message(text, color));
+        {
+            _messages.Add(new Message(text, color));
+            Debug.WriteLine($"{text} {color}");
+        }
+    }
+
+    public void AddMessage(LogMessage logMessage)
+    {
+        AddMessage(logMessage.Message, logMessage.Color, logMessage.Stack);
+    }
+
+    public void RemoveMessage(LogMessage logMessage)
+    {
+        RemoveMessage(logMessage.Message);
+    }
+
+    public void RemoveMessage(string text)
+    {
+        Debug.WriteLine($"Pruning message: {text}");
+        if (_messages.Count > 0 && _messages[^1].PlainText == text)
+        {
+            if (_messages[^1].Count > 1)
+                _messages[^1].UnStack();
+            else
+                _messages[^1] = null;
+        }
     }
 }
