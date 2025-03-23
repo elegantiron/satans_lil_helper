@@ -1,4 +1,6 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Friflo.Engine.ECS;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Actions;
@@ -8,17 +10,19 @@ public abstract class BaseAction(Entity entity, ArchetypeQuery query, bool isPla
     protected Entity Entity = entity;
     protected bool IsPlayer = isPlayer;
     protected ArchetypeQuery Query = query;
-    protected LogMessage? _logMessage;
+    protected List<LogMessage> _logMessages = [];
 
     public virtual void Perform()
     {
-        if (_logMessage != null)
-            EventBus.Send(Events.AddLogMessage, _logMessage ?? default);
+        if (_logMessages != null)
+            foreach (LogMessage logMessage in _logMessages)
+                EventBus.Send(Events.AddLogMessage, logMessage);
     }
 
     public virtual void Rewind()
     {
-        if (_logMessage != null)
-            EventBus.Send(Events.PruneLogMessage, _logMessage ?? default);
+        if (_logMessages != null)
+            foreach (LogMessage logMessage in _logMessages.AsReadOnly().Reverse())
+                EventBus.Send(Events.PruneLogMessage, logMessage);
     }
 }
