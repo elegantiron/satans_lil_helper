@@ -16,6 +16,8 @@ internal class MeleeAction : ActionWithDirection
         postState;
     protected MersenneTwister Twister;
     protected int Damage;
+    protected bool IsKill;
+    protected string TargetName;
 
     public MeleeAction(
         Entity entity,
@@ -29,20 +31,30 @@ internal class MeleeAction : ActionWithDirection
     {
         if (!IsBlocked || TargetEntity == null)
             throw new MissingTargetException();
-
+        TargetName = TargetEntity?.GetComponent<EntityName>().ToString();
         Twister = rng;
         preState = rng.GetState();
 
         Damage = EntityCalcs.GetDamage(Twister, Entity, (Entity)TargetEntity);
-        _logMessage = new(
-            string.Format(
-                GameStrings.PlayerAttack,
-                TargetEntity?.GetComponent<EntityName>().ToString(),
-                Damage
-            ),
-            Constants.Colors.PlayerAttack
+        _logMessages.Add(
+            new(
+                string.Format(GameStrings.PlayerAttack, TargetName, Damage),
+                Constants.Colors.PlayerAttack
+            )
         );
-
+        if (Damage >= TargetEntity?.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
+        {
+            IsKill = true;
+            _logMessages.Add(
+                new(
+                    string.Format(GameStrings.EnemyDeath, TargetName),
+                    Constants.Colors.PlayerAttack
+                )
+            );
+            _logMessages.Add(
+                new(string.Format(GameStrings.GainExperience, 5), Constants.Colors.AmericanRose)
+            );
+        }
         postState = rng.GetState();
         rng.SetState(preState);
     }
@@ -55,7 +67,7 @@ internal class MeleeAction : ActionWithDirection
             ResourceID.Health
         );
         entHealth.Cur -= Damage;
-        if (entHealth.Cur <= 0)
+        if (IsKill)
             entity.RemoveTag<IsAlive>();
         base.Perform();
     }
@@ -68,7 +80,7 @@ internal class MeleeAction : ActionWithDirection
             ResourceID.Health
         );
         entHealth.Cur += Damage;
-        if (entHealth.Cur > 0)
+        if (IsKill)
             entity.AddTag<IsAlive>();
         base.Rewind();
     }
