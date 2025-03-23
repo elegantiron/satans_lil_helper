@@ -70,4 +70,6 @@ public class ForestMap(
         }
         return neighbors;
     }
+
+    public override void SpawnEntities() { }
 }
