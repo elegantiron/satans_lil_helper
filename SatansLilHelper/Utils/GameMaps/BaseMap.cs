@@ -121,12 +121,12 @@ public abstract class BaseMap : ICellGrid, IDrawable
         Point offset = camera.GetOffset();
         Vector2 spriteTarget = Vector2.Zero;
 
-        for (int i = offset.X; i < offset.X + camera.TileWidth; i++)
+        for (int i = offset.X; i < offset.X + camera.TileWidth + 1; i++)
         {
             if (i < 0 || i >= mapSize.X)
                 continue;
             spriteTarget.X = (i - offset.X) * 32;
-            for (int j = offset.Y; j < offset.Y + camera.TileHeight; j++)
+            for (int j = offset.Y; j < offset.Y + camera.TileHeight + 1; j++)
             {
                 if (j < 0 || j >= mapSize.Y)
                     continue;
@@ -141,7 +141,11 @@ public abstract class BaseMap : ICellGrid, IDrawable
             entityLocation = entity.GetComponent<Location>();
             drawLocation.X = (entityLocation.X - offset.X) * 32;
             drawLocation.Y = (entityLocation.Y - offset.Y) * 32;
-            spriteBatch.Draw(textureMap[index.Index], drawLocation, Color.White);
+            spriteBatch.Draw(
+                textureMap[index.Index],
+                drawLocation,
+                entity.Tags.Has<IsAlive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
+            );
         }
     }
 
