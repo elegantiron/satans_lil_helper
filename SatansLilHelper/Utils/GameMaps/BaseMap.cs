@@ -101,9 +101,9 @@ public abstract class BaseMap : ICellGrid, IDrawable
         get { return camera; }
     }
 
+    public abstract void SpawnEntities();
+
     #region interface implementation
-
-
     public Entity Player => player;
 
     public EntityStore Registry => registry;
