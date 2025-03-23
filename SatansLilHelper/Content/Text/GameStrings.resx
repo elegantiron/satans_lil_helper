@@ -126,8 +126,23 @@
   <data name="DebugSpawnRandom" xml:space="preserve">
     <value>Spawn a Wolf at a Random Location</value>
   </data>
+  <data name="EnemyDeath" xml:space="preserve">
+    <value>The {0} succumbs to its wounds.</value>
+  </data>
+  <data name="GainExperience" xml:space="preserve">
+    <value>You gain {0} experience.</value>
+  </data>
   <data name="GameTitle" xml:space="preserve">
     <value>Satan's Lil Helper</value>
+  </data>
+  <data name="PathBlocked" xml:space="preserve">
+    <value>That way is blocked.</value>
+  </data>
+  <data name="PlayerAttack" xml:space="preserve">
+    <value>You attack {0}, dealing {1} damage.</value>
+  </data>
+  <data name="PowerfulStrike" xml:space="preserve">
+    <value>You land a powerful strike!</value>
   </data>
   <data name="Resume" xml:space="preserve">
     <value>Resume</value>
