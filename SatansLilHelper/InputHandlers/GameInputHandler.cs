@@ -45,7 +45,6 @@ public class GameInputHandler : IInputHandler
         HealthVecs = new();
         ManaVecs = new();
         MessageLogVecs = new();
-        EventBus.Send(Events.AddLogMessage, new LogMessage("test", Color.White));
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -76,7 +75,15 @@ public class GameInputHandler : IInputHandler
                 break;
             case Keys.D:
                 return new DebugMenuInputHandler(this);
+            case Keys.Z:
+                ActionStack.Rewind();
+                break;
+            case Keys.Y:
+                ActionStack.Replay();
+                break;
         }
+        Location playerPos = GameWorld.CurrentMap.Player.GetComponent<Location>();
+        GameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
         return this;
     }
 
@@ -233,8 +240,6 @@ public class GameInputHandler : IInputHandler
             {
                 MessageLog.AddMessage(exception.Message, Constants.Colors.Impossible);
             }
-            Location playerPos = GameWorld.CurrentMap.Player.GetComponent<Location>();
-            GameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
         }
     }
 
