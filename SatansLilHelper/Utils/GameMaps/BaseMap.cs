@@ -12,18 +12,24 @@ namespace SatansLilHelper.Utils.GameMaps;
 
 public abstract class BaseMap : ICellGrid, IDrawable
 {
+    //public fields
+    public ArchetypeQuery GetActionDelay,
+        GetBlockingEntities,
+        GetDrawableEntities,
+        GetActors;
+
+    // protected fields
     protected Entity player;
     protected EntityStore registry;
     protected Types.Tile[,] tiles;
     protected Point mapSize;
     protected MersenneTwister rng;
     protected Camera camera;
-    public ArchetypeQuery GetActionDelay,
-        GetBlockingEntities,
-        GetDrawableEntities;
+    protected List<Entity> initiativeList;
+
+    // private fields
     private Vector2 playerPos,
         drawLocation;
-
     private TextureIndex index;
     private Location entityLocation;
 
@@ -152,4 +158,16 @@ public abstract class BaseMap : ICellGrid, IDrawable
     public abstract void GenerateMap(Point size);
 
     #endregion interface implementation
+
+    #region gameplay methods
+    public virtual void CalculateInitiative()
+    {
+        SortedList<int, Entity> entitiesToRoll = [];
+        foreach (Entity entity in GetActors.Entities)
+        {
+            entitiesToRoll.Add(1, entity);
+        }
+    }
+
+    #endregion gameplay methods
 }
