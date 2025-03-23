@@ -135,6 +135,12 @@
   <data name="Player" xml:space="preserve">
     <value>Images/Player/player</value>
   </data>
+  <data name="Scavenge1" xml:space="preserve">
+    <value>Music/night_time_scavenge1</value>
+  </data>
+  <data name="Scavenge2" xml:space="preserve">
+    <value>Music/night_time_scavenge2</value>
+  </data>
   <data name="StatusFont" xml:space="preserve">
     <value>Fonts/StatusFont</value>
   </data>
