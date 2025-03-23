@@ -1,11 +1,14 @@
 ﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
+using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
+using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Actions;
 
+#nullable enable
 public class MoveAction : ActionWithDirection
 {
     public MoveAction(
@@ -18,16 +21,20 @@ public class MoveAction : ActionWithDirection
         : base(entity, direction, gameMap, query, isPlayer)
     {
         if (IsBlocked)
-            throw new PathBlockedException("The way is blocked.");
+            _logMessage = new(GameStrings.PathBlocked, Constants.Colors.Impossible);
     }
 
     public override void Perform()
     {
-        Entity.AddComponent<Location>(Destination);
+        if (!IsBlocked)
+            Entity.AddComponent<Location>(Destination);
+        base.Perform();
     }
 
     public override void Rewind()
     {
-        Entity.AddComponent<Location>(Origin);
+        if (!IsBlocked)
+            Entity.AddComponent<Location>(Origin);
+        base.Rewind();
     }
 }
