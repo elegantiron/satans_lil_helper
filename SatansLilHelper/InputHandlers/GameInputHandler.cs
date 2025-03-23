@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -73,6 +72,7 @@ public class GameInputHandler : IInputHandler
                     .CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health)
                     .Cur--;
                 break;
+#if DEBUG
             case Keys.D:
                 return new DebugMenuInputHandler(this);
             case Keys.Z:
@@ -81,6 +81,7 @@ public class GameInputHandler : IInputHandler
             case Keys.Y:
                 ActionStack.Replay();
                 break;
+#endif
         }
         Location playerPos = GameWorld.CurrentMap.Player.GetComponent<Location>();
         GameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
@@ -243,7 +244,6 @@ public class GameInputHandler : IInputHandler
         }
     }
 
-    #region debug functions
 #if DEBUG
     public void HealPlayer()
     {
@@ -267,5 +267,11 @@ public class GameInputHandler : IInputHandler
         throw new NotImplementedException();
     }
 #endif
-    #endregion
+
+    #region Gameplay methods
+    private void GenerateInitiative()
+    {
+        throw new NotImplementedException();
+    }
+    #endregion gameplay methods
 }
