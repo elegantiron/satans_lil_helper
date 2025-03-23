@@ -115,6 +115,24 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Music/night_time_scavenge1.
+        /// </summary>
+        internal static string Scavenge1 {
+            get {
+                return ResourceManager.GetString("Scavenge1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Music/night_time_scavenge2.
+        /// </summary>
+        internal static string Scavenge2 {
+            get {
+                return ResourceManager.GetString("Scavenge2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fonts/StatusFont.
         /// </summary>
         internal static string StatusFont {
