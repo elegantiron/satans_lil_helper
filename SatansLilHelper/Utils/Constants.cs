@@ -47,6 +47,8 @@ public static class Constants
         public static readonly Color AmericanRose = new(0xFF, 0x03, 0x3E, 0xFF);
         public static readonly Color RubineRed = new(0xD1, 0x00, 0x56, 0xFF);
         public static readonly Color TranslucentBlack = new(0x00, 0x00, 0x00, 0xB0);
+        public static readonly Color DeadActor = new(0x80, 0x80, 0x80, 0x80);
+        public static readonly Color LiveActor = Color.White;
     }
 }
 
@@ -80,6 +82,7 @@ public enum FontID
     Status,
     Title,
     Menu,
+    Messages,
 }
 
 public enum ResourceID
@@ -122,4 +125,10 @@ public enum ItemType
     // Common combinations
     Base = RingL | RingR | Amulet,
     Warrior = Base | Weapon1H | Shield | Armor | Helm | Gauntlets | Boots,
+}
+
+public enum Events
+{
+    AddLogMessage,
+    PruneLogMessage,
 }
