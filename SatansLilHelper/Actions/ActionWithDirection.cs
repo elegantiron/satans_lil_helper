@@ -25,7 +25,8 @@ public abstract class ActionWithDirection : BaseAction
         Destination = new Location(Origin.X + direction.X, Origin.Y + direction.Y);
         ArchetypeQuery Query = entity
             .Store.Query()
-            .HasValue<Location, (int X, int Y)>((Destination.X, Destination.Y));
+            .HasValue<Location, (int X, int Y)>((Destination.X, Destination.Y))
+            .AllTags(Tags.Get<IsAlive>());
         if (Query.Count > 0)
         {
             IsBlocked = true;
