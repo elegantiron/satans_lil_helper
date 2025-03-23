@@ -30,5 +30,6 @@ public static class BaseActor
 
         entity.AddTag<IsActor>();
         entity.AddTag<IsBlocking>();
+        entity.AddTag<IsAlive>();
     }
 }
