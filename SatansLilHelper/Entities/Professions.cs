@@ -13,6 +13,7 @@ public static class Professions
         entity.AddComponent(new Location(0, 0));
         entity.AddComponent(new Level(1));
         entity.AddComponent(new ItemSlots(ItemType.Warrior));
+        entity.AddComponent(new Attack(1, 6));
 
         #region Resource Stats
         entity.AddRelation(new ResourceStat(ResourceID.Health, 60, 10));
