@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
-using SatansLilHelper.Exceptions;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -21,7 +20,7 @@ public class MoveAction : ActionWithDirection
         : base(entity, direction, gameMap, query, isPlayer)
     {
         if (IsBlocked)
-            _logMessage = new(GameStrings.PathBlocked, Constants.Colors.Impossible);
+            _logMessages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
     }
 
     public override void Perform()
