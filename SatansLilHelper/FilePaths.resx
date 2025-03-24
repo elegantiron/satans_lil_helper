@@ -135,6 +135,21 @@
   <data name="Player" xml:space="preserve">
     <value>Images/Player/player</value>
   </data>
+  <data name="SatanEyesClosed" xml:space="preserve">
+    <value>Images/Satan/eyes_closed</value>
+  </data>
+  <data name="SatanEyesOpen" xml:space="preserve">
+    <value>Images/Satan/eyes_open</value>
+  </data>
+  <data name="SatanMain" xml:space="preserve">
+    <value>Images/Satan/main</value>
+  </data>
+  <data name="SatanMouthClosed" xml:space="preserve">
+    <value>Images/Satan/mouth_closed</value>
+  </data>
+  <data name="SatanMouthOpen" xml:space="preserve">
+    <value>Images/Satan/mouth_open</value>
+  </data>
   <data name="Scavenge1" xml:space="preserve">
     <value>Music/night_time_scavenge1</value>
   </data>
