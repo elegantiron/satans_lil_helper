@@ -32,4 +32,9 @@ public static class Bases
         entity.AddTag<IsBlocking>();
         entity.AddTag<IsAlive>();
     }
+
+    public static void Item(Entity entity)
+    {
+        entity.AddTag<IsItem>();
+    }
 }
