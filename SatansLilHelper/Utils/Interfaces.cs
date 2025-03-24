@@ -53,7 +53,12 @@ public interface IDrawable
     );
 }
 
-public interface IInputHandler : IDrawable
+public interface IUpdateable
+{
+    void Update(GameTime gameTime);
+}
+
+public interface IInputHandler : IDrawable, IUpdateable
 {
     IInputHandler HandleKey(Keys key);
 }
