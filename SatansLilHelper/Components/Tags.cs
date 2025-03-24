@@ -15,3 +15,5 @@ public struct IsVisible : ITag { }
 public struct IsInvisible : ITag { }
 
 public struct IsAlive : ITag { }
+
+public struct IsItem : ITag { }
