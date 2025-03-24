@@ -77,7 +77,7 @@ internal class PauseInputHandler : IInputHandler
         else if (Menu.Selection == GameStrings.ToMenu)
             value = new TitleInputHandler();
         else if (Menu.Selection == GameStrings.ToDesktop)
-            throw new Exceptions.GameExitException();
+            EventBus.Send(Events.QuitGame);
         return value;
     }
 }
