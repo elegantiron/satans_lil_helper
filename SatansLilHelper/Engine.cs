@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,6 +7,8 @@ using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace SatansLilHelper;
 
