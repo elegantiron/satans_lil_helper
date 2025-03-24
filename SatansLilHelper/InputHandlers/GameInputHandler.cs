@@ -1,4 +1,6 @@
-﻿using Friflo.Engine.ECS;
+﻿using System;
+using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,8 +13,6 @@ using SatansLilHelper.Exceptions;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
-using System;
-using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
@@ -224,23 +224,16 @@ public class GameInputHandler : IInputHandler
         }
         else
         {
-            try
-            {
-                ActionStack.AddAction(
-                    new BumpAction(
-                        GameWorld.CurrentMap.Player,
-                        Constants.MovementKeys[key],
-                        GameWorld.CurrentMap,
-                        GameWorld.CurrentMap.GetBlockingEntities,
-                        rng,
-                        true
-                    )
-                );
-            }
-            catch (PathBlockedException exception)
-            {
-                MessageLog.AddMessage(exception.Message, Constants.Colors.Impossible);
-            }
+            ActionStack.AddAction(
+                new BumpAction(
+                    GameWorld.CurrentMap.Player,
+                    Constants.MovementKeys[key],
+                    GameWorld.CurrentMap,
+                    GameWorld.CurrentMap.GetBlockingEntities,
+                    rng,
+                    true
+                )
+            );
         }
     }
 
