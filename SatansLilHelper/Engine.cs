@@ -54,6 +54,8 @@ public class Engine : Game
         Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
         Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
+        EventBus.Subscribe(this, Events.QuitGame, QuitGame);
+
         base.Initialize();
     }
 
@@ -108,18 +110,16 @@ public class Engine : Game
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
-        try
-        {
-            InputHandler = InputHandler.HandleKey(eventArgs.Key);
-        }
-        catch (GameExitException)
-        {
-            Exit();
-        }
+        InputHandler = InputHandler.HandleKey(eventArgs.Key);
     }
 
     public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
     {
         _keyList.Remove(eventArgs.Key);
+    }
+
+    public void QuitGame()
+    {
+        Exit();
     }
 }
