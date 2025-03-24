@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +11,8 @@ using SatansLilHelper.Exceptions;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
+using System;
+using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
