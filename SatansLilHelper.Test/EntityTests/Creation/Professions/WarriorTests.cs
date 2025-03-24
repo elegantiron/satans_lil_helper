@@ -3,7 +3,7 @@ using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
 using SatansLilHelper.Utils;
 
-namespace SatansLilHelper.Test.EntityTests.Creation.ProfessionTests;
+namespace SatansLilHelper.Test.EntityTests.Creation.Professions;
 
 [DependsOn(typeof(BaseActorTests))]
 public class Warrior
@@ -15,7 +15,7 @@ public class Warrior
     {
         World = new();
         Entity = World.CreateEntity();
-        Professions.Warrior(Entity);
+        Entities.Professions.Warrior(Entity);
     }
 
     [Test]
