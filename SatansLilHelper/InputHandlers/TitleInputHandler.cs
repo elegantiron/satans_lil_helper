@@ -13,6 +13,13 @@ public class TitleInputHandler : IInputHandler
 {
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
+    private TextVecs satanVecs = new();
+    private List<TextureID> satanTextures =
+    [
+        TextureID.SatanMain,
+        TextureID.SatanMouthClosed,
+        TextureID.SatanEyesOpen,
+    ];
 
     public void Draw(
         SpriteBatch spriteBatch,
@@ -28,6 +35,10 @@ public class TitleInputHandler : IInputHandler
             titlePosition.Y = 5;
             Vector2 width = fontMap[FontID.Title].MeasureString(GameStrings.GameTitle);
             titleOrigin.X = width.X / 2;
+            satanVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+            satanVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2;
+            satanVecs.Origin.X = textureMap[TextureID.SatanMain].Width / 2;
+            satanVecs.Origin.Y = textureMap[TextureID.SatanMain].Height / 2;
         }
         spriteBatch.DrawString(
             fontMap[FontID.Title],
@@ -40,6 +51,20 @@ public class TitleInputHandler : IInputHandler
             SpriteEffects.None,
             1f
         );
+        foreach (TextureID index in satanTextures)
+        {
+            spriteBatch.Draw(
+                textureMap[index],
+                satanVecs.Location,
+                null,
+                Color.White,
+                0f,
+                satanVecs.Origin,
+                1f,
+                SpriteEffects.None,
+                1f
+            );
+        }
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -47,7 +72,7 @@ public class TitleInputHandler : IInputHandler
         switch (key)
         {
             case Keys.Escape:
-                EventBus.Send(Events.QuitGame);
+                EventBus.Send(Events.QuitGame, new EventMessage());
                 break;
             case Keys.Enter:
                 return new GameInputHandler();
