@@ -37,7 +37,7 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
-        InputHandler = new GameInputHandler();
+        InputHandler = new TitleInputHandler();
 #endif
     }
 
@@ -54,7 +54,7 @@ public class Engine : Game
         Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
         Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
-        EventBus.Subscribe(this, Events.QuitGame, QuitGame);
+        EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
 
         base.Initialize();
     }
@@ -75,6 +75,20 @@ public class Engine : Game
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
         _textureMap.Add(TextureID.Orc, Content.Load<Texture2D>(FilePaths.Orc));
         _textureMap.Add(TextureID.Wolf, Content.Load<Texture2D>(FilePaths.Wolf));
+        _textureMap.Add(TextureID.SatanMain, Content.Load<Texture2D>(FilePaths.SatanMain));
+        _textureMap.Add(
+            TextureID.SatanEyesClosed,
+            Content.Load<Texture2D>(FilePaths.SatanEyesOpen)
+        );
+        _textureMap.Add(TextureID.SatanEyesOpen, Content.Load<Texture2D>(FilePaths.SatanEyesOpen));
+        _textureMap.Add(
+            TextureID.SatanMouthClosed,
+            Content.Load<Texture2D>(FilePaths.SatanMouthClosed)
+        );
+        _textureMap.Add(
+            TextureID.SatanMouthOpen,
+            Content.Load<Texture2D>(FilePaths.SatanMouthOpen)
+        );
         _textureMap.Add(TextureID.WhitePixel, new Texture2D(GraphicsDevice, 1, 1));
         _textureMap[TextureID.WhitePixel].SetData([Color.White]);
 
@@ -118,7 +132,7 @@ public class Engine : Game
         _keyList.Remove(eventArgs.Key);
     }
 
-    public void QuitGame()
+    public void QuitGame(EventMessage _)
     {
         Exit();
     }
