@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,8 +9,6 @@ using SatansLilHelper.Content.Text;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Utils;
-using System;
-using System.Collections.Generic;
 
 namespace SatansLilHelper;
 
@@ -85,7 +85,8 @@ public class Engine : Game
     protected override void Update(GameTime gameTime)
     {
         // TODO: Add your update logic here
-
+        if (InputHandler is Utils.IUpdateable inputHandler)
+            inputHandler.Update(gameTime);
         base.Update(gameTime);
     }
 
