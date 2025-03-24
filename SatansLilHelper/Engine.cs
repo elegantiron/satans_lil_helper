@@ -37,7 +37,7 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
-        InputHandler = new TitleInputHandler();
+        InputHandler = new GameInputHandler();
 #endif
     }
 
