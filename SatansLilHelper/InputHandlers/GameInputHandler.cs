@@ -16,7 +16,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.InputHandlers;
 
-public class GameInputHandler : IInputHandler
+public class GameInputHandler : IInputHandler, Utils.IUpdateable
 {
     protected MersenneTwister rng;
     protected Point mapSize;
@@ -58,21 +58,12 @@ public class GameInputHandler : IInputHandler
             case Keys.H:
                 ShowStatus = !ShowStatus;
                 break;
-            case Keys.I:
-                // This will show the inventory
-                break;
-            case Keys.C:
-                // This will show the character screen
-                break;
-            case Keys.M:
-                // This will show castable magic
-                break;
+#if DEBUG
             case Keys.X:
                 GameWorld
                     .CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health)
                     .Cur--;
                 break;
-#if DEBUG
             case Keys.D:
                 return new DebugMenuInputHandler(this);
             case Keys.Z:
@@ -216,25 +207,18 @@ public class GameInputHandler : IInputHandler
     #endregion draw methods
     public void HandleMovement(Keys key)
     {
-        if (!GameWorld.CurrentMap.Player.TryGetComponent<ActionDelay>(out ActionDelay playerDelay))
+        if (!GameWorld.CurrentMap.IsPlayerNext)
             return;
-        if (playerDelay.Value != 0)
-        {
-            return;
-        }
-        else
-        {
-            ActionStack.AddAction(
-                new BumpAction(
-                    GameWorld.CurrentMap.Player,
-                    Constants.MovementKeys[key],
-                    GameWorld.CurrentMap,
-                    GameWorld.CurrentMap.GetBlockingEntities,
-                    rng,
-                    true
-                )
-            );
-        }
+        ActionStack.AddAction(
+            new BumpAction(
+                GameWorld.CurrentMap.Player,
+                Constants.MovementKeys[key],
+                GameWorld.CurrentMap,
+                GameWorld.CurrentMap.GetBlockingEntities,
+                rng,
+                true
+            )
+        );
     }
 
 #if DEBUG
@@ -259,12 +243,14 @@ public class GameInputHandler : IInputHandler
     {
         throw new NotImplementedException();
     }
-#endif
 
-    #region Gameplay methods
-    private void GenerateInitiative()
+    public void Update(GameTime gameTime)
     {
-        throw new NotImplementedException();
+        while (!GameWorld.IsPlayerNext)
+        {
+            // Handle enemy turns
+            GameWorld.GetNextActor();
+        }
     }
-    #endregion gameplay methods
+#endif
 }
