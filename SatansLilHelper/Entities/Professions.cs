@@ -8,7 +8,7 @@ public static class Professions
 {
     public static void Warrior(Entity entity)
     {
-        BaseActor.Make(entity);
+        Bases.Actor(entity);
         entity.AddComponent(new ActionDelay(0));
         entity.AddComponent(new Location(0, 0));
         entity.AddComponent(new Level(1));
