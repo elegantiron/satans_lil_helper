@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -25,7 +25,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     protected Point mapSize;
     protected MersenneTwister rng;
     protected Camera camera;
-    protected List<Entity> initiativeList;
+    protected SortedList<decimal, Entity> initiativeList;
 
     // private fields
     private Vector2 playerPos,
@@ -162,10 +162,11 @@ public abstract class BaseMap : ICellGrid, IDrawable
     #region gameplay methods
     public virtual void CalculateInitiative()
     {
-        SortedList<int, Entity> entitiesToRoll = [];
         foreach (Entity entity in GetActors.Entities)
         {
-            entitiesToRoll.Add(1, entity);
+            // Roll initiative
+            decimal initiative = 0;
+            initiativeList.Add(initiative, entity);
         }
     }
 
