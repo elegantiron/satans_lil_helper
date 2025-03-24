@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Entities;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Test.EntityTests.Creation;
@@ -13,7 +14,7 @@ public class BaseActorTests
     {
         World = new();
         Entity = World.CreateEntity();
-        Entities.BaseActor.Make(Entity);
+        Bases.Actor(Entity);
     }
 
     [Test]
