@@ -1,12 +1,12 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -25,7 +25,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     protected Point mapSize;
     protected MersenneTwister rng;
     protected Camera camera;
-    protected SortedList<decimal, Entity> initiativeList;
+    protected InitiativeTracker _initiativeTracker;
 
     // private fields
     private Vector2 playerPos,
@@ -45,16 +45,6 @@ public abstract class BaseMap : ICellGrid, IDrawable
             Professions.Warrior(player);
         }
         tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
-#if DEBUG
-        if (makePlayer)
-        {
-            Debug.WriteLine(player);
-            foreach (ResourceStat stat in player.GetRelations<ResourceStat>())
-                Debug.WriteLine($"{stat.Type}: {stat.Cur}/({stat.Basis}+{stat.Growth})");
-            foreach (AbilityStat stat in player.GetRelations<AbilityStat>())
-                Debug.WriteLine($"{stat.Type}: {stat.Basis}+{stat.Growth}");
-        }
-#endif
         GenerateMap(this.mapSize);
         if (makePlayer)
         {
@@ -74,7 +64,10 @@ public abstract class BaseMap : ICellGrid, IDrawable
             .Query()
             .AllComponents(ComponentTypes.Get<Location, TextureIndex>())
             .WithoutAnyTags(Tags.Get<IsInvisible, IsPlayer>());
+        GetActors = registry.Query<Location>().AllTags(Tags.Get<IsActor>());
         #endregion Queries
+
+        _initiativeTracker = new(GetActors, rng);
     }
 
     public static void PlaceEntity(Entity entity, int X, int Y)
@@ -105,6 +98,16 @@ public abstract class BaseMap : ICellGrid, IDrawable
     public Camera Camera
     {
         get { return camera; }
+    }
+
+    public bool IsPlayerNext
+    {
+        get { return _initiativeTracker.IsPlayerNext; }
+    }
+
+    public Entity GetNextActor()
+    {
+        return _initiativeTracker.GetNextActor();
     }
 
     public abstract void SpawnEntities();
@@ -158,17 +161,4 @@ public abstract class BaseMap : ICellGrid, IDrawable
     public abstract void GenerateMap(Point size);
 
     #endregion interface implementation
-
-    #region gameplay methods
-    public virtual void CalculateInitiative()
-    {
-        foreach (Entity entity in GetActors.Entities)
-        {
-            // Roll initiative
-            decimal initiative = 0;
-            initiativeList.Add(initiative, entity);
-        }
-    }
-
-    #endregion gameplay methods
 }
