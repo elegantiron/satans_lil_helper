@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -77,7 +78,7 @@ internal class PauseInputHandler : IInputHandler
         else if (Menu.Selection == GameStrings.ToMenu)
             value = new TitleInputHandler();
         else if (Menu.Selection == GameStrings.ToDesktop)
-            EventBus.Send(Events.QuitGame);
+            EventBus.Send<EventMessage>(Events.QuitGame, new EventMessage());
         return value;
     }
 }
