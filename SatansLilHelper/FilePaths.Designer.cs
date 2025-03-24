@@ -115,6 +115,51 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/Satan/eyes_closed.
+        /// </summary>
+        internal static string SatanEyesClosed {
+            get {
+                return ResourceManager.GetString("SatanEyesClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Satan/eyes_open.
+        /// </summary>
+        internal static string SatanEyesOpen {
+            get {
+                return ResourceManager.GetString("SatanEyesOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Satan/main.
+        /// </summary>
+        internal static string SatanMain {
+            get {
+                return ResourceManager.GetString("SatanMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Satan/mouth_closed.
+        /// </summary>
+        internal static string SatanMouthClosed {
+            get {
+                return ResourceManager.GetString("SatanMouthClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/Satan/mouth_open.
+        /// </summary>
+        internal static string SatanMouthOpen {
+            get {
+                return ResourceManager.GetString("SatanMouthOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Music/night_time_scavenge1.
         /// </summary>
         internal static string Scavenge1 {
