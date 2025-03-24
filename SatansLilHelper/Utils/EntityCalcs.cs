@@ -68,8 +68,10 @@ public static class EntityCalcs
         return damage;
     }
 
-    public static int DoNothing()
+    public static decimal GetInitiative(Entity entity, MersenneTwister rng)
     {
-        return 0;
+        int speed = GetStat(entity, AbilityID.Speed);
+        int evasion = GetStat(entity, AbilityID.Evasion);
+        return speed * rng.NextDecimal() + evasion * rng.NextDecimal();
     }
 }
