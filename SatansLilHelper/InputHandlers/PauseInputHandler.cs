@@ -71,8 +71,9 @@ internal class PauseInputHandler : IInputHandler
     {
         IInputHandler value = Parent;
         if (Menu.Selection == GameStrings.ViewBestiary)
+        {
             // Return a bestiary handler here
-            ;
+        }
         else if (Menu.Selection == GameStrings.ToMenu)
             value = new TitleInputHandler();
         else if (Menu.Selection == GameStrings.ToDesktop)
