@@ -70,7 +70,6 @@ public class MessageLog
         else
         {
             _messages.Add(new Message(text, color));
-            Debug.WriteLine($"{text} {color}");
         }
     }
 
@@ -86,7 +85,6 @@ public class MessageLog
 
     public void RemoveMessage(string text)
     {
-        Debug.WriteLine($"Pruning message: {text}");
         if (_messages.Count > 0 && _messages[^1].PlainText == text)
         {
             if (_messages[^1].Count > 1)
