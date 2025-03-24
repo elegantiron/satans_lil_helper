@@ -78,6 +78,11 @@ public class MersenneTwister
         return Next() * (1.0 / uint.MaxValue);
     }
 
+    public decimal NextDecimal()
+    {
+        return Next() * (1.0m / uint.MaxValue);
+    }
+
     private void Twist()
     {
         uint twister;
