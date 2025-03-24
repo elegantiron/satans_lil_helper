@@ -75,7 +75,10 @@ public enum SongID
     Scavenge2,
 }
 
-public enum EffectID { }
+public enum EffectID
+{
+    Test,
+}
 
 public enum FontID
 {
