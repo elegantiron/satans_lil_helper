@@ -44,11 +44,14 @@ public class TitleInputHandler : IInputHandler
 
     public IInputHandler HandleKey(Keys key)
     {
-        return key switch
+        switch (key)
         {
-            Keys.Enter => new GameInputHandler(),
-            Keys.Escape => throw new Exceptions.GameExitException(),
-            _ => this,
-        };
+            case Keys.Escape:
+                EventBus.Send(Events.QuitGame);
+                break;
+            case Keys.Enter:
+                return new GameInputHandler();
+        }
+        return this;
     }
 }
