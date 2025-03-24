@@ -32,3 +32,5 @@ public struct LogMessage(string message, Color color, bool stack = true)
     public Color Color = color;
     public bool Stack = stack;
 }
+
+public struct EventMessage { }
