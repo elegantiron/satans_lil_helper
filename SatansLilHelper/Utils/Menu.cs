@@ -7,26 +7,15 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SatansLilHelper.Utils;
 
-public class Menu : Utils.IDrawable
+public class Menu(Color selected, Color unselected, FontID font) : IDrawable
 {
-    private Color SelectedColor,
-        UnselectedColor;
-    private List<string> Items;
-    private TextVecs TextVecs;
-    private Vector2 Size;
-    private FontID Font;
-    private int Index;
-
-    public Menu(Color selected, Color unselected, FontID font)
-    {
-        SelectedColor = selected;
+    private Color SelectedColor = selected,
         UnselectedColor = unselected;
-        Items = [];
-        TextVecs = new();
-        Size = Vector2.Zero;
-        Font = font;
-        Index = 0;
-    }
+    private List<string> Items = [];
+    private TextVecs TextVecs = new();
+    private Vector2 Size = Vector2.Zero;
+    private FontID Font = font;
+    private int Index = 0;
 
     public void AddItem(string key)
     {
