@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -21,5 +22,15 @@ public class GameWorld
     public BaseMap CurrentMap
     {
         get { return maps[currentMap]; }
+    }
+
+    public bool IsPlayerNext
+    {
+        get { return maps[currentMap].IsPlayerNext; }
+    }
+
+    public Entity GetNextActor()
+    {
+        return maps[currentMap].GetNextActor();
     }
 }
