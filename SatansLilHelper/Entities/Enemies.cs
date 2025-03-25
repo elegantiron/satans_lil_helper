@@ -6,7 +6,7 @@ namespace SatansLilHelper.Entities;
 
 public static class Enemies
 {
-    public static void Wolf(MersenneTwister rng, Entity entity)
+    public static void Wolf(Entity entity, MersenneTwister rng)
     {
         Bases.Actor(entity);
         entity.AddComponent(new EntityName("wolf"));
