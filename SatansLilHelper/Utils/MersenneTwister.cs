@@ -75,12 +75,12 @@ public class MersenneTwister
 
     public uint Next(uint maxValue)
     {
-        return (uint)(Next() * (maxValue / 4294967296.0));
+        return (uint)(Next() * (maxValue / (double)uint.MaxValue));
     }
 
     public uint Next(uint minValue, uint maxValue)
     {
-        return (uint)(Next(maxValue) + minValue);
+        return (uint)(Next(maxValue - minValue) + minValue);
     }
 
     public int Next(int minValue, int maxValue)
