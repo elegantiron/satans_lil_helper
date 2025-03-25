@@ -10,13 +10,13 @@ using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
 using SatansLilHelper.Extensions;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
-using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.InputHandlers;
 
-public class GameInputHandler : IInputHandler, Utils.IUpdateable
+internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 {
     protected MersenneTwister rng;
     protected Point mapSize;
@@ -232,12 +232,15 @@ public class GameInputHandler : IInputHandler, Utils.IUpdateable
 
     public void SpawnNear()
     {
-        BaseMap currentMap = GameWorld.CurrentMap;
-        EntityStore registry = currentMap.Registry;
-        Entity entity = registry.CreateEntity();
-        Location playerPos = currentMap.Player.GetComponent<Location>();
-        Entities.Enemies.Wolf(rng, entity);
-        entity.Add(new Location(playerPos.X, playerPos.Y + 1));
+        Location playerPos = GameWorld.CurrentMap.Player.GetComponent<Location>();
+        ActionStack.AddAction(
+            new SpawnAction(
+                Entities.Enemies.Wolf,
+                GameWorld.CurrentMap,
+                rng,
+                (playerPos.X, playerPos.Y + 1)
+            )
+        );
     }
 
     public void SpawnRandom()
