@@ -18,17 +18,11 @@ internal class MoveAction : ActionWithDirection, IMessageSender
         get { return _messages; }
     }
 
-    public MoveAction(
-        Entity entity,
-        Point direction,
-        BaseMap gameMap,
-        ArchetypeQuery query,
-        bool isPlayer
-    )
-        : base(entity, direction, gameMap, query, isPlayer)
+    public MoveAction(Entity entity, Point direction, BaseMap gameMap, bool isPlayer)
+        : base(entity, direction, gameMap, isPlayer)
     {
-        if (IsBlocked)
-            if (IsOffMap)
+        if (_isBlocked)
+            if (_isOffMap)
                 _messages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
             else
                 _messages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
@@ -36,13 +30,13 @@ internal class MoveAction : ActionWithDirection, IMessageSender
 
     public override void Perform()
     {
-        if (!IsBlocked)
+        if (!_isBlocked)
             _entity.AddComponent<Location>(Destination);
     }
 
     public override void Rewind()
     {
-        if (!IsBlocked)
+        if (!_isBlocked)
             _entity.AddComponent<Location>(Origin);
     }
 }
