@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Friflo.Engine.ECS;
+using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Actions;
