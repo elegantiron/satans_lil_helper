@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -21,7 +22,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
     // protected fields
     protected Entity player;
     protected EntityStore registry;
-    protected Types.Tile[,] tiles;
+    protected Tile[,] tiles;
     protected Point mapSize;
     protected MersenneTwister rng;
     protected Camera camera;
@@ -44,7 +45,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
             player.AddComponent(new EntityName("Player"));
             Professions.Warrior(player);
         }
-        tiles = new Types.Tile[this.mapSize.X, this.mapSize.Y];
+        tiles = new Tile[this.mapSize.X, this.mapSize.Y];
         GenerateMap(this.mapSize);
         if (makePlayer)
         {
@@ -117,7 +118,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
 
     public EntityStore Registry => registry;
 
-    public Types.Tile[,] Tiles => tiles;
+    public Tile[,] Tiles => tiles;
 
     public virtual void Draw(
         SpriteBatch spriteBatch,
