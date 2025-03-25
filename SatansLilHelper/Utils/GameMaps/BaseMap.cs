@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -7,11 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public abstract class BaseMap : ICellGrid, IDrawable
+internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 {
     //public fields
     public ArchetypeQuery GetActionDelay,
@@ -71,7 +71,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         _initiativeTracker = new(GetActors, rng);
     }
 
-    public static void PlaceEntity(Entity entity, int X, int Y)
+    public void PlaceEntity(Entity entity, int X, int Y)
     {
         entity.AddComponent(new Location(X, Y));
     }
@@ -91,7 +91,7 @@ public abstract class BaseMap : ICellGrid, IDrawable
         }
     }
 
-    public static void PlaceEntity(Entity entity, (int X, int Y) position)
+    public void PlaceEntity(Entity entity, (int X, int Y) position)
     {
         PlaceEntity(entity, position.X, position.Y);
     }
