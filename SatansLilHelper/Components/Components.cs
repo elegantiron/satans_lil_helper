@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-using Friflo.Engine.ECS;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Components;
