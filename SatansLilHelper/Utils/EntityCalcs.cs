@@ -74,4 +74,10 @@ public static class EntityCalcs
         int evasion = GetStat(entity, AbilityID.Evasion);
         return speed * rng.NextDecimal() + evasion * rng.NextDecimal();
     }
+
+    public static EntityActions GetActions(Entity entity)
+    {
+        int entitySpeed = GetStat(entity, AbilityID.Speed);
+        return new EntityActions(entitySpeed);
+    }
 }
