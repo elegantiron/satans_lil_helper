@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using SatansLilHelper.Actions;
+using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
 
-public class ActionStack
+internal class ActionStack
 {
-    private Stack<BaseAction> history = new(),
+    private Stack<IAction> history = new(),
         future = new();
 
-    public void AddAction(BaseAction action)
+    public void AddAction(IAction action)
     {
         future.Clear();
         action.Perform();
@@ -19,7 +19,7 @@ public class ActionStack
     {
         if (history.Count == 0)
             return;
-        BaseAction action = history.Pop();
+        IAction action = history.Pop();
         action.Rewind();
         future.Push(action);
     }
@@ -28,7 +28,7 @@ public class ActionStack
     {
         if (future.Count == 0)
             return;
-        BaseAction action = future.Pop();
+        IAction action = future.Pop();
         action.Perform();
         history.Push(action);
     }
