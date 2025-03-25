@@ -1,17 +1,22 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
+using SatansLilHelper.Interfaces;
+using SatansLilHelper.Types;
 using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Actions;
 
-internal abstract class ActionWithDirection : BaseActorAction
+internal abstract class ActionWithDirection : IAction
 {
     protected Location Destination,
         Origin;
     protected bool IsBlocked = false,
         IsOffMap = false;
-    protected Entity? TargetEntity = null;
+    protected Entity? _target = null;
+    protected Entity _entity;
+    protected List<LogMessage> _messages;
 
     public ActionWithDirection(
         Entity entity,
@@ -20,8 +25,8 @@ internal abstract class ActionWithDirection : BaseActorAction
         ArchetypeQuery query,
         bool isPlayer
     )
-        : base(entity, query, isPlayer)
     {
+        _entity = entity;
         Origin = entity.GetComponent<Location>();
         Destination = new Location(Origin.X + direction.X, Origin.Y + direction.Y);
         ArchetypeQuery Query = entity
@@ -33,7 +38,7 @@ internal abstract class ActionWithDirection : BaseActorAction
             IsBlocked = true;
             foreach (Entity ent in Query.Entities)
             {
-                TargetEntity = ent;
+                _target = ent;
                 break;
             }
         }
@@ -50,4 +55,10 @@ internal abstract class ActionWithDirection : BaseActorAction
         if (!IsOffMap && !gameMap.Tiles[Destination.X, Destination.Y].Walkable)
             IsBlocked = true;
     }
+
+    public Entity Entity => throw new System.NotImplementedException();
+
+    public abstract void Perform();
+
+    public abstract void Rewind();
 }
