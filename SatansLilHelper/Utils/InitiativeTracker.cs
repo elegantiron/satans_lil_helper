@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Friflo.Engine.ECS;
-using SatansLilHelper.Components;
+using SatansLilHelper.EntityTags;
 
 namespace SatansLilHelper.Utils;
 
@@ -44,7 +44,7 @@ public class InitiativeTracker(ArchetypeQuery query, MersenneTwister rng)
         {
             if (_initiativeStack.Count == 0)
                 CalculateInitiative();
-            return _initiativeStack.Peek().Tags.Has<IsPlayer>();
+            return _initiativeStack.Peek().Tags.Has<Player>();
         }
     }
 }
