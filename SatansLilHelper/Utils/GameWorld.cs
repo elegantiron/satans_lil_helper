@@ -29,6 +29,10 @@ public class GameWorld
         get { return maps[currentMap].IsPlayerNext; }
     }
 
+    /// <summary>
+    /// Used to get the next actor in the initiative order.
+    /// </summary>
+    /// <returns>The <c>Entity</c> to act next.</returns>
     public Entity GetNextActor()
     {
         return maps[currentMap].GetNextActor();
