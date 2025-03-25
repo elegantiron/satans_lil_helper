@@ -8,7 +8,7 @@ using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils;
 
-public class Menu(Color selected, Color unselected, FontID font) : IDrawable
+internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.IDrawable
 {
     private Color SelectedColor = selected,
         UnselectedColor = unselected;
