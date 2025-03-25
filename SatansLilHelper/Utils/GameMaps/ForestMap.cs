@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
@@ -40,11 +41,11 @@ public class ForestMap(
         {
             for (int j = 0; j < mapSize.Y; j++)
             {
-                Types.Tile tile;
+                Tile tile;
                 if (tempMap[i, j] == 1)
-                    tile = new Types.Tile(TextureID.ForestWall, false, false);
+                    tile = new Tile(TextureID.ForestWall, false, false);
                 else
-                    tile = new Types.Tile(TextureID.ForestFloor, true, true);
+                    tile = new Tile(TextureID.ForestFloor, true, true);
                 tiles[i, j] = tile;
             }
         }
