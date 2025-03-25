@@ -1,5 +1,4 @@
-﻿using System;
-using SatansLilHelper.Utils;
+﻿using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Test.EntityTests;
 
