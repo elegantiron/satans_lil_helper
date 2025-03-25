@@ -29,14 +29,25 @@ public class MersenneTwister
 
     private int _index = N + 1;
 
+    /// <summary>
+    /// Initializes a generator with a seed taken from the environment.
+    /// </summary>
     public MersenneTwister()
         : this((uint)Environment.TickCount) { }
 
+    /// <summary>
+    /// Initializes a generator with the given seed.
+    /// </summary>
+    /// <param name="seed">An unsigned integer to use as the seed.</param>
     public MersenneTwister(uint seed)
     {
         Seed(seed);
     }
 
+    /// <summary>
+    /// Sets the generator's seed to a specific value.
+    /// </summary>
+    /// <param name="seed">Value to set as the seed</param>
     public void Seed(uint seed)
     {
         _state[0] = seed;
@@ -49,6 +60,10 @@ public class MersenneTwister
         }
     }
 
+    /// <summary>
+    /// Get the next value as a <c>uint</c>
+    /// </summary>
+    /// <returns></returns>
     public uint Next()
     {
         if (_index >= N)
