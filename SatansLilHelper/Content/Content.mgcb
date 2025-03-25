@@ -20,6 +20,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/MenuFont.spritefont
 
+#begin Fonts/MomsTypewriter.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/MomsTypewriter.spritefont
+
 #begin Fonts/StatusFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
