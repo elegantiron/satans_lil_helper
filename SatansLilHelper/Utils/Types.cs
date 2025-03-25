@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Utils;
 
@@ -34,3 +35,12 @@ public struct LogMessage(string message, Color color, bool stack = true)
 }
 
 public struct EventMessage { }
+
+public struct EntityActions(int moves = 0, int attacks = 0)
+{
+    public int Moves = moves;
+    public int Attacks = attacks;
+
+    public EntityActions()
+        : this(0, 0) { }
+}
