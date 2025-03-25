@@ -115,6 +115,15 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You consume the potion, restoring {0} health..
+        /// </summary>
+        internal static string HealPotionMessage {
+            get {
+                return ResourceManager.GetString("HealPotionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is nothing but the void in that direction..
         /// </summary>
         internal static string MapEdge {
