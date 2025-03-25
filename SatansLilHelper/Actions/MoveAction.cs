@@ -8,7 +8,7 @@ using SatansLilHelper.Utils.GameMaps;
 namespace SatansLilHelper.Actions;
 
 #nullable enable
-public class MoveAction : ActionWithDirection
+internal class MoveAction : ActionWithDirection
 {
     public MoveAction(
         Entity entity,
