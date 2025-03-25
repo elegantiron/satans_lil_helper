@@ -1,8 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
-using SatansLilHelper.Test.EntityTests.Creation;
 using SatansLilHelper.Utils;
-using TUnit.Core;
 
 namespace SatansLilHelper.Test.EntityTests.Creation.Enemies;
 
@@ -19,7 +17,7 @@ internal class Wolf
         World = new();
         Rng = new(1);
         Entity = World.CreateEntity();
-        Entities.Enemies.Wolf(Rng, Entity);
+        Entities.Enemies.Wolf(Entity, Rng);
     }
 
     [Test]
