@@ -245,14 +245,18 @@ public class GameInputHandler : IInputHandler, Utils.IUpdateable
     {
         throw new NotImplementedException();
     }
+#endif
 
     public void Update(GameTime gameTime)
     {
         while (!GameWorld.IsPlayerNext)
         {
             // Handle enemy turns
-            Entity entity = GameWorld.GetNextActor();
+            GameWorld.GetNextActor();
+
+            // Decide what the entity should do
+            // Check that the entity has enough of the right moves
+            // to perform the chosen action
         }
     }
-#endif
 }
