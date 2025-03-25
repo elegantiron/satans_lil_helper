@@ -115,6 +115,15 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is nothing but the void in that direction..
+        /// </summary>
+        internal static string MapEdge {
+            get {
+                return ResourceManager.GetString("MapEdge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to That way is blocked..
         /// </summary>
         internal static string PathBlocked {
