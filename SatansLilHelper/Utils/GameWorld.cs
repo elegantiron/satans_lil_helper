@@ -5,7 +5,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Utils;
 
-public class GameWorld
+internal class GameWorld
 {
     private List<BaseMap> maps;
     private int currentMap = 0;
