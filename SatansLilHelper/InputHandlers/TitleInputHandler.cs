@@ -5,12 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Content.Text;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
 
-public class TitleInputHandler : IInputHandler
+internal class TitleInputHandler : IInputHandler
 {
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
