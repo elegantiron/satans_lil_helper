@@ -1,14 +1,18 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
+using SatansLilHelper.EntityTags;
 using SatansLilHelper.Exceptions;
+using SatansLilHelper.Interfaces;
+using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Actions;
 
-internal class MeleeAction : ActionWithDirection
+internal class MeleeAction : ActionWithDirection, IMessageSender
 {
     protected byte[] preState,
         postState;
@@ -16,18 +20,21 @@ internal class MeleeAction : ActionWithDirection
     protected int Damage;
     protected bool IsKill;
     protected string TargetName;
+    public List<LogMessage> Messages
+    {
+        get { return _messages; }
+    }
 
     public MeleeAction(
         Entity entity,
         Point direction,
         BaseMap gameMap,
-        ArchetypeQuery query,
         MersenneTwister rng,
         bool isPlayer
     )
-        : base(entity, direction, gameMap, query, isPlayer)
+        : base(entity, direction, gameMap, isPlayer)
     {
-        if (!IsBlocked || _target == null)
+        if (!_isBlocked || _target == null)
             throw new MissingTargetException();
         TargetName = _target?.GetComponent<EntityName>().value;
         Twister = rng;
@@ -59,6 +66,7 @@ internal class MeleeAction : ActionWithDirection
 
     public override void Perform()
     {
+        base.Perform();
         Twister.SetState(postState);
         Entity entity = _target ?? default;
         ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
@@ -66,11 +74,12 @@ internal class MeleeAction : ActionWithDirection
         );
         entHealth.Cur -= Damage;
         if (IsKill)
-            entity.RemoveTag<IsAlive>();
+            entity.RemoveTag<Alive>();
     }
 
     public override void Rewind()
     {
+        base.Rewind();
         Twister.SetState(preState);
         Entity entity = _target ?? default;
         ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
@@ -78,6 +87,6 @@ internal class MeleeAction : ActionWithDirection
         );
         entHealth.Cur += Damage;
         if (IsKill)
-            entity.AddTag<IsAlive>();
+            entity.AddTag<Alive>();
     }
 }
