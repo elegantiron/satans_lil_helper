@@ -5,7 +5,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Actions;
 
-public abstract class ActionWithDirection : BaseAction
+internal abstract class ActionWithDirection : BaseActorAction
 {
     protected Location Destination,
         Origin;
