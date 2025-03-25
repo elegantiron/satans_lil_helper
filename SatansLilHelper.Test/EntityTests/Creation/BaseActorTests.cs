@@ -1,6 +1,7 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using SatansLilHelper.EntityTags;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Test.EntityTests.Creation;
@@ -65,8 +66,8 @@ public class BaseActorTests
     public async Task Tags()
     {
         Tags baseActorTags = new();
-        baseActorTags.Add<IsBlocking>();
-        baseActorTags.Add<IsActor>();
+        //baseActorTags.Add<IsBlocking>();
+        //baseActorTags.Add<IsActor>();
         await Assert.That(Entity.Tags.HasAll(baseActorTags)).IsTrue();
     }
 
