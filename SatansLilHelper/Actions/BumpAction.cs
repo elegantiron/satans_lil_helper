@@ -13,16 +13,15 @@ internal class BumpAction : ActionWithDirection
         Entity entity,
         Point direction,
         BaseMap gameMap,
-        ArchetypeQuery query,
         MersenneTwister rng,
         bool isPlayer
     )
-        : base(entity, direction, gameMap, query, isPlayer)
+        : base(entity, direction, gameMap, isPlayer)
     {
         if (_target == null)
-            Action = new MoveAction(_entity, direction, gameMap, query, isPlayer);
+            Action = new MoveAction(_entity, direction, gameMap, isPlayer);
         else
-            Action = new MeleeAction(_entity, direction, gameMap, query, rng, isPlayer);
+            Action = new MeleeAction(_entity, direction, gameMap, rng, isPlayer);
     }
 
     public override void Perform()
