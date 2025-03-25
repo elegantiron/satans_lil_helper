@@ -19,10 +19,10 @@ internal class BumpAction : ActionWithDirection
     )
         : base(entity, direction, gameMap, query, isPlayer)
     {
-        if (TargetEntity == null)
-            Action = new MoveAction(Entity, direction, gameMap, query, isPlayer);
+        if (_target == null)
+            Action = new MoveAction(_entity, direction, gameMap, query, isPlayer);
         else
-            Action = new MeleeAction(Entity, direction, gameMap, query, rng, isPlayer);
+            Action = new MeleeAction(_entity, direction, gameMap, query, rng, isPlayer);
     }
 
     public override void Perform()
