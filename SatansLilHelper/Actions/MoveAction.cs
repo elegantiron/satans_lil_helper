@@ -20,7 +20,10 @@ public class MoveAction : ActionWithDirection
         : base(entity, direction, gameMap, query, isPlayer)
     {
         if (IsBlocked)
-            _logMessages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
+            if (IsOffMap)
+                _logMessages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
+            else
+                _logMessages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
     }
 
     public override void Perform()
