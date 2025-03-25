@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.EntityTags;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Entities;
@@ -28,13 +29,8 @@ public static class Bases
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 0));
         entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 0));
 
-        entity.AddTag<IsActor>();
-        entity.AddTag<IsBlocking>();
-        entity.AddTag<IsAlive>();
-    }
-
-    public static void Item(Entity entity)
-    {
-        entity.AddTag<IsItem>();
+        entity.AddTag<Actor>();
+        entity.AddTag<Blocking>();
+        entity.AddTag<Alive>();
     }
 }
