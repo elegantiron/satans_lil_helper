@@ -27,29 +27,29 @@ internal class MeleeAction : ActionWithDirection
     )
         : base(entity, direction, gameMap, query, isPlayer)
     {
-        if (!IsBlocked || TargetEntity == null)
+        if (!IsBlocked || _target == null)
             throw new MissingTargetException();
-        TargetName = TargetEntity?.GetComponent<EntityName>().value;
+        TargetName = _target?.GetComponent<EntityName>().value;
         Twister = rng;
         preState = rng.GetState();
 
-        Damage = EntityCalcs.GetDamage(Twister, Entity, (Entity)TargetEntity);
-        _logMessages.Add(
+        Damage = EntityCalcs.GetDamage(Twister, _entity, (Entity)_target);
+        _messages.Add(
             new(
                 string.Format(GameStrings.PlayerAttack, TargetName, Damage),
                 Constants.Colors.PlayerAttack
             )
         );
-        if (Damage >= TargetEntity?.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
+        if (Damage >= _target?.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
         {
             IsKill = true;
-            _logMessages.Add(
+            _messages.Add(
                 new(
                     string.Format(GameStrings.EnemyDeath, TargetName),
                     Constants.Colors.PlayerAttack
                 )
             );
-            _logMessages.Add(
+            _messages.Add(
                 new(string.Format(GameStrings.GainExperience, 5), Constants.Colors.AmericanRose)
             );
         }
@@ -60,26 +60,24 @@ internal class MeleeAction : ActionWithDirection
     public override void Perform()
     {
         Twister.SetState(postState);
-        Entity entity = TargetEntity ?? default;
+        Entity entity = _target ?? default;
         ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
             ResourceID.Health
         );
         entHealth.Cur -= Damage;
         if (IsKill)
             entity.RemoveTag<IsAlive>();
-        base.Perform();
     }
 
     public override void Rewind()
     {
         Twister.SetState(preState);
-        Entity entity = TargetEntity ?? default;
+        Entity entity = _target ?? default;
         ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
             ResourceID.Health
         );
         entHealth.Cur += Damage;
         if (IsKill)
             entity.AddTag<IsAlive>();
-        base.Rewind();
     }
 }
