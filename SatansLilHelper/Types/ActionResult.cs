@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SatansLilHelper.Utils;
+﻿using System.Collections.Generic;
 
 namespace SatansLilHelper.Types;
 
@@ -15,10 +10,28 @@ public struct ActionResult()
     public List<EntityCreationResult>? EntityCreationResults = null;
     public List<AttackResult>? AttackResults = null;
 
-    public ActionResult(MovementResult movementResult, List<LogMessage>? messages = null)
+    public ActionResult(List<LogMessage>? messages)
         : this()
     {
-        MovementResult = movementResult;
         Messages = messages;
+    }
+
+    public ActionResult(MovementResult movementResult, List<LogMessage>? messages = null)
+        : this(messages)
+    {
+        MovementResult = movementResult;
+    }
+
+    public ActionResult(AttackResult attackResult, List<LogMessage>? messages = null)
+        : this(messages)
+    {
+        AttackResults = [];
+        AttackResults.Add(attackResult);
+    }
+
+    public ActionResult(List<AttackResult> attackResults, List<LogMessage>? messages = null)
+        : this(messages)
+    {
+        AttackResults = attackResults;
     }
 }
