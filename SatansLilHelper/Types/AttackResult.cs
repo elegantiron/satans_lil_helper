@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Friflo.Engine.ECS;
 
 namespace SatansLilHelper.Types;
 
-public struct AttackResult { }
+public struct AttackResult
+{
+    public byte[] OriginalState,
+        NewState;
+    public bool IsKill;
+    public Entity Attacker,
+        Target;
+}
