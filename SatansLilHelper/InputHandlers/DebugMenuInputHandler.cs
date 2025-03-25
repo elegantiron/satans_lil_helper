@@ -1,16 +1,17 @@
 ﻿#if DEBUG
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Content.Text;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
+using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
-public class DebugMenuInputHandler : IInputHandler
+internal class DebugMenuInputHandler : IInputHandler
 {
     private GameInputHandler Parent;
     private Rectangle ShadeShape;
