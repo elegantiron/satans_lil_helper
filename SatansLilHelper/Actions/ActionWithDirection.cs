@@ -9,7 +9,8 @@ public abstract class ActionWithDirection : BaseAction
 {
     protected Location Destination,
         Origin;
-    protected bool IsBlocked = false;
+    protected bool IsBlocked = false,
+        IsOffMap = false;
     protected Entity? TargetEntity = null;
 
     public ActionWithDirection(
@@ -41,8 +42,12 @@ public abstract class ActionWithDirection : BaseAction
             || Destination.Y < 0
             || Destination.X >= gameMap.Tiles.GetLength(0)
             || Destination.Y >= gameMap.Tiles.GetLength(1)
-            || !gameMap.Tiles[Destination.X, Destination.Y].Walkable
         )
+        {
+            IsOffMap = true;
+            IsBlocked = true;
+        }
+        if (!IsOffMap && !gameMap.Tiles[Destination.X, Destination.Y].Walkable)
             IsBlocked = true;
     }
 }
