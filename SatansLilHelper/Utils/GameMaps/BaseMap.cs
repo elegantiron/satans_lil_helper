@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
+using SatansLilHelper.EntityTags;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
@@ -60,12 +61,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
         #region Queries
         GetActionDelay = registry.Query<ActionDelay>();
-        GetBlockingEntities = registry.Query<Location>().AllTags(Tags.Get<IsBlocking>());
+        GetBlockingEntities = registry.Query<Location>().AllTags(Tags.Get<Blocking>());
         GetDrawableEntities = registry
             .Query()
             .AllComponents(ComponentTypes.Get<Location, TextureIndex>())
-            .WithoutAnyTags(Tags.Get<IsInvisible, IsPlayer>());
-        GetActors = registry.Query<Location>().AllTags(Tags.Get<IsActor>());
+            .WithoutAnyTags(Tags.Get<Invisible, Player>());
+        GetActors = registry.Query<Location>().AllTags(Tags.Get<Actor>());
         #endregion Queries
 
         _initiativeTracker = new(GetActors, rng);
@@ -154,7 +155,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             spriteBatch.Draw(
                 textureMap[index.Index],
                 drawLocation,
-                entity.Tags.Has<IsAlive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
+                entity.Tags.Has<Alive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
             );
         }
     }
