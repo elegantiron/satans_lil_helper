@@ -135,6 +135,9 @@
   <data name="GameTitle" xml:space="preserve">
     <value>Satan's Lil Helper</value>
   </data>
+  <data name="HealPotionMessage" xml:space="preserve">
+    <value>You consume the potion, restoring {0} health.</value>
+  </data>
   <data name="MapEdge" xml:space="preserve">
     <value>There is nothing but the void in that direction.</value>
   </data>
