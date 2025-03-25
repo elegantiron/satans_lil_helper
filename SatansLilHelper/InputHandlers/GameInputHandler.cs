@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -219,6 +220,7 @@ public class GameInputHandler : IInputHandler, Utils.IUpdateable
                 true
             )
         );
+        GameWorld.GetNextActor();
     }
 
 #if DEBUG
@@ -249,7 +251,7 @@ public class GameInputHandler : IInputHandler, Utils.IUpdateable
         while (!GameWorld.IsPlayerNext)
         {
             // Handle enemy turns
-            GameWorld.GetNextActor();
+            Entity entity = GameWorld.GetNextActor();
         }
     }
 #endif
