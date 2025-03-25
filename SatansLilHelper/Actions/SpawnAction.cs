@@ -9,14 +9,19 @@ namespace SatansLilHelper.Actions;
 #nullable enable
 internal class SpawnAction : IAction
 {
-    private byte[]? preState = null,
-        postState = null;
-    private MersenneTwister? Rng = null;
-    private Entity Entity;
+    private byte[]? _preState = null,
+        _postState = null;
+    private MersenneTwister? _rng = null;
+    private Entity _entity;
+
+    public Entity Entity
+    {
+        get { return _entity; }
+    }
 
     private SpawnAction(BaseMap gameMap)
     {
-        Entity = gameMap.Registry.CreateEntity();
+        _entity = gameMap.Registry.CreateEntity();
     }
 
     public SpawnAction(
@@ -27,29 +32,30 @@ internal class SpawnAction : IAction
     )
         : this(gameMap)
     {
-        Rng = rng;
-        preState = Rng.GetState();
-        spawnFunction(Entity, Rng);
-        gameMap.PlaceEntity(Entity, location);
-        Entity.Enabled = false;
+        _rng = rng;
+        _preState = _rng.GetState();
+        spawnFunction(_entity, _rng);
+        gameMap.PlaceEntity(_entity, location);
+        _entity.Enabled = false;
+        _postState = _rng.GetState();
     }
 
     public SpawnAction(Action<Entity> spawnFunction, BaseMap gameMap)
         : this(gameMap)
     {
-        spawnFunction(Entity);
-        Entity.Enabled = false;
+        spawnFunction(_entity);
+        _entity.Enabled = false;
     }
 
     public void Perform()
     {
-        Rng?.SetState(postState);
-        Entity.Enabled = true;
+        _rng?.SetState(_postState);
+        _entity.Enabled = true;
     }
 
     public void Rewind()
     {
-        Rng?.SetState(preState);
-        Entity.Enabled = false;
+        _rng?.SetState(_preState);
+        _entity.Enabled = false;
     }
 }
