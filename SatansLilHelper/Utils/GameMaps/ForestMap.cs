@@ -3,7 +3,7 @@ using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-public class ForestMap(
+internal class ForestMap(
     Point mapSize,
     MersenneTwister rng,
     Point screenSize,
