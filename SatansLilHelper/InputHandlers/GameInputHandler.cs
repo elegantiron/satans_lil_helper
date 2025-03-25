@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -10,8 +9,8 @@ using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Content.Text;
-using SatansLilHelper.Exceptions;
 using SatansLilHelper.Extensions;
+using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
