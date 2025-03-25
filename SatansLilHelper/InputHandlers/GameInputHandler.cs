@@ -214,7 +214,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 GameWorld.CurrentMap.Player,
                 Constants.MovementKeys[key],
                 GameWorld.CurrentMap,
-                GameWorld.CurrentMap.GetBlockingEntities,
                 rng,
                 true
             )
@@ -225,9 +224,12 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 #if DEBUG
     public void HealPlayer()
     {
-        int maxHealth = EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health);
-        GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur =
-            maxHealth;
+        ActionStack.AddAction(
+            new HealAction(
+                GameWorld.CurrentMap.Player,
+                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health)
+            )
+        );
     }
 
     public void SpawnNear()
