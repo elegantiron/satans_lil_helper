@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Friflo.Engine.ECS;
+﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
