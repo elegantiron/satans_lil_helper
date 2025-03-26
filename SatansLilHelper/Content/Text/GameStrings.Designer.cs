@@ -79,6 +79,15 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to God has taken an interest in your life. You lose 1 health..
+        /// </summary>
+        internal static string DebugSmite {
+            get {
+                return ResourceManager.GetString("DebugSmite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spawn a Wolf Nearby.
         /// </summary>
         internal static string DebugSpawnNear {
@@ -102,6 +111,15 @@ namespace SatansLilHelper.Content.Text {
         internal static string EnemyDeath {
             get {
                 return ResourceManager.GetString("EnemyDeath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You feel rejuvenated. Your health is restored to full..
+        /// </summary>
+        internal static string FullHeal {
+            get {
+                return ResourceManager.GetString("FullHeal", resourceCulture);
             }
         }
         
@@ -210,6 +228,15 @@ namespace SatansLilHelper.Content.Text {
         internal static string StatusTitle {
             get {
                 return ResourceManager.GetString("StatusTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a mysterious stranger.
+        /// </summary>
+        internal static string Stranger {
+            get {
+                return ResourceManager.GetString("Stranger", resourceCulture);
             }
         }
         
