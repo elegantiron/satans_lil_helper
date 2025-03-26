@@ -120,6 +120,9 @@
   <data name="DebugHeal" xml:space="preserve">
     <value>Heal to Full</value>
   </data>
+  <data name="DebugNewSeed" xml:space="preserve">
+    <value>Reset the RNG with a new seed</value>
+  </data>
   <data name="DebugSpawnNear" xml:space="preserve">
     <value>Spawn a Wolf Nearby</value>
   </data>
