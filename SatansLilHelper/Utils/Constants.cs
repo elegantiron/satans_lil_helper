@@ -109,7 +109,11 @@ public enum AbilityID
 
 public enum SkillID { }
 
-public enum SlotID { }
+public enum SlotID
+{
+    Weapon,
+    Helm,
+}
 
 public enum ItemType
 {
@@ -136,3 +140,7 @@ public enum Events
     PruneLogMessage,
     QuitGame,
 }
+
+public struct WeaponType { }
+
+public struct HelmType { }
