@@ -53,7 +53,10 @@ internal abstract class ActionWithDirection : IAction
             _isBlocked = true;
     }
 
-    public Entity Entity => throw new System.NotImplementedException();
+    public Entity? Entity
+    {
+        get { return _entity; }
+    }
 
     public virtual void Perform()
     {
