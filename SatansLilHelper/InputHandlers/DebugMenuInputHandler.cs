@@ -25,7 +25,7 @@ internal class DebugMenuInputHandler : IInputHandler
         Menu.AddItem(GameStrings.Resume);
         Menu.AddItem(GameStrings.DebugHeal);
         Menu.AddItem(GameStrings.DebugSpawnNear);
-        Menu.AddItem(GameStrings.DebugSpawnRandom);
+        Menu.AddItem(GameStrings.DebugNewSeed);
     }
 
     public void Draw(
@@ -72,8 +72,8 @@ internal class DebugMenuInputHandler : IInputHandler
             Parent.HealPlayer();
         else if (Menu.Selection == GameStrings.DebugSpawnNear)
             Parent.SpawnNear();
-        else if (Menu.Selection == GameStrings.DebugSpawnRandom)
-            Parent.SpawnRandom();
+        else if (Menu.Selection == GameStrings.DebugNewSeed)
+            Parent.ResetSeed();
 
         return Parent;
     }
