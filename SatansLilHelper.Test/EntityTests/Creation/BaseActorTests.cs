@@ -1,7 +1,5 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
-using SatansLilHelper.Entities;
-using SatansLilHelper.EntityTags;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Test.EntityTests.Creation;
