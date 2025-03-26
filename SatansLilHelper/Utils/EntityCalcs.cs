@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
 using SatansLilHelper.Types;
@@ -42,25 +43,24 @@ public static class EntityCalcs
         decimal factor = 1m;
         if (roll > 95 - crit)
             factor = 2m;
-        else if (roll <= Math.Max(targetLevel.Value - attackerLevel.Value, 1))
+        else if (roll <= Math.Max(Math.Min(targetLevel.Value - attackerLevel.Value, 0), 1))
             factor = 0m;
         else if (roll <= 10)
             factor = 0.5m;
         else if (roll > 61)
             factor = 1.25m;
-
         return factor;
     }
 
-    public static int GetDamage(MersenneTwister rng, Entity attacker, Entity target)
+    public static uint GetDamage(MersenneTwister rng, Entity attacker, Entity target)
     {
         decimal factor = GetDamageFactor(rng, attacker, target);
         if (!attacker.TryGetComponent<Attack>(out Attack attack))
             throw new Exceptions.MissingComponentException();
-        int damage = 0;
+        uint damage = 0;
         for (int i = 0; i < attack.Dice; i++)
             damage += rng.Next(1, attack.Sides);
-        damage = (int)(damage * factor);
+        damage = (uint)(damage * factor);
         return damage;
     }
 
