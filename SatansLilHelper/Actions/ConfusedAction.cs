@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
@@ -12,11 +8,11 @@ namespace SatansLilHelper.Actions;
 
 internal class ConfusedAction : IAction
 {
-    private byte[] _preState,
-        _postState;
+    private byte[] _preState;
     private BumpAction _action;
     private Entity _entity;
     private bool _isPlayer;
+    private BaseMap _gameMap;
 
     public ConfusedAction(
         Entity entity,
@@ -28,13 +24,10 @@ internal class ConfusedAction : IAction
         _preState = rng.GetState();
         _entity = entity;
         _isPlayer = isPlayer;
-        int X = rng.Next() < 0.5 ? 1 : 0;
-        X *= rng.Next() < 0.5 ? -1 : 1;
-        int Y = rng.Next() < 0.5 ? 1 : 0;
-        Y *= rng.Next() < 0.5 ? -1 : 1;
+        _gameMap = gameMap;
     }
 
-    public Entity Entity
+    public Entity? Entity
     {
         get { return _entity; }
     }
