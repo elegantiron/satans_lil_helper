@@ -1,17 +1,18 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
 using SatansLilHelper.EntityTags;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Entities;
 
-public static class Enemies
+internal static class Enemies
 {
     private static void Base(Entity entity)
     {
         entity.AddComponent(new ActionDelay(1500));
         entity.AddComponent(new Location(-200, -200));
-        entity.AddComponent(new Level(-1));
+        entity.AddComponent(new Level(0));
         entity.AddComponent(new ItemSlots(ItemType.None));
         entity.AddComponent(new Attack(0, 0));
         entity.AddComponent(new TextureIndex());
@@ -34,7 +35,7 @@ public static class Enemies
         entity.AddTag<Alive>();
     }
 
-    public static void Wolf(Entity entity, MersenneTwister rng)
+    public static void Wolf(Entity entity, IRandom rng)
     {
         Base(entity);
         entity.AddComponent(new EntityName("wolf"));
