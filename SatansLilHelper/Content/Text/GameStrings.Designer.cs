@@ -70,6 +70,15 @@ namespace SatansLilHelper.Content.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset the RNG with a new seed.
+        /// </summary>
+        internal static string DebugNewSeed {
+            get {
+                return ResourceManager.GetString("DebugNewSeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spawn a Wolf Nearby.
         /// </summary>
         internal static string DebugSpawnNear {
