@@ -7,5 +7,5 @@ internal interface IAction
     void Perform();
     void Rewind();
 
-    Entity Entity { get; }
+    Entity? Entity { get; }
 }
