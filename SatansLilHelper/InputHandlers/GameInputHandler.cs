@@ -245,9 +245,9 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         );
     }
 
-    public void SpawnRandom()
+    public void ResetSeed()
     {
-        throw new NotImplementedException();
+        rng.Seed((uint)Environment.TickCount);
     }
 #endif
 
