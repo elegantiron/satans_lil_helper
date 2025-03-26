@@ -60,9 +60,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 break;
 #if DEBUG
             case Keys.X:
-                GameWorld
-                    .CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(ResourceID.Health)
-                    .Cur--;
+                ActionStack.AddAction(new SmiteAction(GameWorld.CurrentMap.Player));
                 break;
             case Keys.D:
                 return new DebugMenuInputHandler(this);
@@ -224,12 +222,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 #if DEBUG
     public void HealPlayer()
     {
-        ActionStack.AddAction(
-            new HealAction(
-                GameWorld.CurrentMap.Player,
-                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health)
-            )
-        );
+        ActionStack.AddAction(new FullHealAction(GameWorld.CurrentMap.Player));
     }
 
     public void SpawnNear()
