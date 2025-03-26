@@ -123,6 +123,9 @@
   <data name="DebugNewSeed" xml:space="preserve">
     <value>Reset the RNG with a new seed</value>
   </data>
+  <data name="DebugSmite" xml:space="preserve">
+    <value>God has taken an interest in your life. You lose 1 health.</value>
+  </data>
   <data name="DebugSpawnNear" xml:space="preserve">
     <value>Spawn a Wolf Nearby</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="EnemyDeath" xml:space="preserve">
     <value>The {0} succumbs to its wounds.</value>
+  </data>
+  <data name="FullHeal" xml:space="preserve">
+    <value>You feel rejuvenated. Your health is restored to full.</value>
   </data>
   <data name="GainExperience" xml:space="preserve">
     <value>You gain {0} experience.</value>
@@ -167,6 +173,9 @@
   </data>
   <data name="StatusTitle" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="Stranger" xml:space="preserve">
+    <value>a mysterious stranger</value>
   </data>
   <data name="ToDesktop" xml:space="preserve">
     <value>Quit to Desktop</value>
