@@ -1,9 +1,10 @@
 ﻿using System;
 using MessagePack;
+using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
 
-public class MersenneTwister
+public class MersenneTwister : IRandom
 {
     private const int N = 624;
 
@@ -80,7 +81,7 @@ public class MersenneTwister
 
     public uint Next(uint minValue, uint maxValue)
     {
-        return (uint)(Next(maxValue - minValue) + minValue);
+        return Next(maxValue - minValue) + minValue;
     }
 
     public int Next(int minValue, int maxValue)
