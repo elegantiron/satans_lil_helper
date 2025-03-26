@@ -15,4 +15,9 @@
     <ProjectReference Include="..\SatansLilHelper\SatansLilHelper.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EntityTests\Creation\Enemies\" />
+    <Folder Include="EntityTests\Creation\Professions\" />
+  </ItemGroup>
+
 </Project>
