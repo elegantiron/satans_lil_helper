@@ -11,7 +11,7 @@ public static class Professions
     {
         entity.AddComponent(new ActionDelay(1500));
         entity.AddComponent(new Location(-200, -200));
-        entity.AddComponent(new Level(-1));
+        entity.AddComponent(new Level(0));
         entity.AddComponent(new ItemSlots(ItemType.None));
         entity.AddComponent(new Attack(0, 0));
         entity.AddComponent(new TextureIndex());
@@ -32,6 +32,7 @@ public static class Professions
         entity.AddTag<Actor>();
         entity.AddTag<Blocking>();
         entity.AddTag<Alive>();
+        entity.AddTag<Player>();
     }
 
     public static void Warrior(Entity entity)
@@ -56,9 +57,5 @@ public static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.Speed, 2, 0));
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 7, 0));
         #endregion Ability Stats
-
-        #region Tags
-        entity.AddTag<Player>();
-        #endregion Tags
     }
 }
