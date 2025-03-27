@@ -25,13 +25,25 @@ namespace SatansLilHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShowHealthBars {
             get {
                 return ((bool)(this["ShowHealthBars"]));
             }
             set {
                 this["ShowHealthBars"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowStatus {
+            get {
+                return ((bool)(this["ShowStatus"]));
+            }
+            set {
+                this["ShowStatus"] = value;
             }
         }
     }
