@@ -69,7 +69,7 @@ internal class PauseInputHandler : IInputHandler
         return this;
     }
 
-    public IInputHandler OnExit()
+    private IInputHandler OnExit()
     {
         IInputHandler value = Parent;
         if (Menu.Selection == GameStrings.ViewBestiary)
