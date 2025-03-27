@@ -24,6 +24,11 @@ internal class Bestiary
             kill.RemoveKill(isAlpha);
     }
 
+    public bool GetStats(EnemyType enemyType, out IKill kill)
+    {
+        return _kills.TryGetValue(enemyType, out kill);
+    }
+
     private class Kill : IKill
     {
         private int _alpha,
