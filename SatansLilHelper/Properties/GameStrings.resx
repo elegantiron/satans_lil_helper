@@ -165,6 +165,12 @@
   <data name="Resume" xml:space="preserve">
     <value>Resume</value>
   </data>
+  <data name="SettingsShowHealthBars" xml:space="preserve">
+    <value>Show enemy health bars: {0}</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="StatusHealth" xml:space="preserve">
     <value>Health: {0:D} / {1:D}</value>
   </data>
