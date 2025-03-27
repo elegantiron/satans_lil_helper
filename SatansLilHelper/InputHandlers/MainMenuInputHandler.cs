@@ -19,7 +19,7 @@ internal class MainMenuInputHandler : IInputHandler
 
     public MainMenuInputHandler()
     {
-        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
         Menu.AddItem(GameStrings.NewGame);
         Menu.AddItem(GameStrings.ViewBestiary);
         Menu.AddItem(GameStrings.ViewSettings);
@@ -73,12 +73,12 @@ internal class MainMenuInputHandler : IInputHandler
     private IInputHandler OnExit()
     {
         IInputHandler handler = this;
-        if (Menu.Selection == GameStrings.ViewBestiary) { }
-        else if (Menu.Selection == GameStrings.ToDesktop)
+        if (Menu.Selection.Key == GameStrings.ViewBestiary) { }
+        else if (Menu.Selection.Key == GameStrings.ToDesktop)
             EventBus.Send<EventMessage>(Events.QuitGame, new EventMessage());
-        else if (Menu.Selection == GameStrings.NewGame)
+        else if (Menu.Selection.Key == GameStrings.NewGame)
             handler = new GameInputHandler();
-        else if (Menu.Selection == GameStrings.ViewSettings)
+        else if (Menu.Selection.Key == GameStrings.ViewSettings)
             handler = new SettingsInputHandler(this);
         return handler;
     }
