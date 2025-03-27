@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,10 +22,8 @@ internal class SettingsInputHandler : IInputHandler
     public SettingsInputHandler(IInputHandler parent)
     {
         _parent = parent;
-        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
         TextVecs = new();
-
-        Menu.AddItem(GameStrings.SettingsShowHealthBars, Settings.Default.ShowHealthBars);
     }
 
     public void Draw(
@@ -65,7 +65,22 @@ internal class SettingsInputHandler : IInputHandler
             case Keys.Down:
                 Menu.HandleKey(key);
                 break;
+            case Keys.Left:
+            case Keys.Right:
+                ChangeSetting();
+                break;
         }
         return this;
+    }
+
+    private void ChangeSetting()
+    {
+        if (Menu.Selection.Args.Length < 1)
+            return;
+        Type argType = Menu.Selection.Args[0].GetType();
+        if (argType == typeof(bool))
+        {
+            Menu.Selection.Args[0] = !(bool)Menu.Selection.Args[0];
+        }
     }
 }
