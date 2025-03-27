@@ -9,6 +9,27 @@ using SatansLilHelper.Types;
 namespace SatansLilHelper.Utils;
 
 #nullable enable
+
+internal struct MenuItem
+{
+    public string Key;
+    public object[]? Args;
+    public bool Enabled = true;
+
+    public MenuItem(string key, bool enabled, params object[]? args)
+    {
+        Key = key;
+        Enabled = enabled;
+        Args = args;
+    }
+
+    public MenuItem(string key, params object[]? args)
+    {
+        Key = key;
+        Args = args;
+    }
+}
+
 internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.IDrawable
 {
     private Color _selectedColor = selected,
@@ -85,13 +106,16 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
 
     public void SetEnabled(int index, bool enabled)
     {
-        if (_items.Count! > index)
+        if (!(_items.Count > index))
             return;
+        MenuItem item = _items[index];
+        item.Enabled = enabled;
+        _items[index] = item;
     }
 
-    public string Selection
+    public MenuItem Selection
     {
-        get { return _items[_index].Key; }
+        get { return _items[_index]; }
     }
 
     public int Index
@@ -106,25 +130,5 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
         if (_items.IndexOf(item) == _index)
             return _selectedColor;
         return _unselectedColor;
-    }
-
-    private struct MenuItem
-    {
-        public string Key;
-        public object[]? Args;
-        public bool Enabled = true;
-
-        public MenuItem(string key, bool enabled, params object[]? args)
-        {
-            Key = key;
-            Enabled = enabled;
-            Args = args;
-        }
-
-        public MenuItem(string key, params object[]? args)
-        {
-            Key = key;
-            Args = args;
-        }
     }
 }
