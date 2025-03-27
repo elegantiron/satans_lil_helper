@@ -49,6 +49,8 @@ public static class Constants
         public static readonly Color DeadActor = new(0x80, 0x80, 0x80, 0x80);
         public static readonly Color LiveActor = Color.White;
         public static readonly Color PlayerHeal = Color.PeachPuff;
+        public static readonly Color Red = Color.Red;
+        public static readonly Color Green = Color.Green;
     }
 }
 
