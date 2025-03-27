@@ -40,7 +40,7 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
-        InputHandler = new GameInputHandler();
+        InputHandler = new TitleInputHandler();
         Properties.Settings.Default.Reset();
 #endif
     }
