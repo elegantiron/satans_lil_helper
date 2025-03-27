@@ -22,7 +22,7 @@ internal class MainMenuInputHandler : IInputHandler
         Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
         Menu.AddItem(GameStrings.NewGame);
         Menu.AddItem(GameStrings.ViewBestiary);
-        Menu.AddItem(GameStrings.ViewSettings);
+        //Menu.AddItem(GameStrings.ViewSettings);
         Menu.AddItem(GameStrings.ToDesktop);
         titlePosition = titleOrigin = Vector2.Zero;
     }
