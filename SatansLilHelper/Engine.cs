@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
-using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
@@ -34,11 +33,15 @@ public class Engine : Game
         _songMap = [];
         _fontMap = [];
         _keyList = [];
+        Properties.Settings.Default.Upgrade();
+        Properties.Settings.Default.Save();
+        Properties.Settings.Default.Reload();
 #if RELEASE
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
         InputHandler = new GameInputHandler();
+        Properties.Settings.Default.Reset();
 #endif
     }
 
@@ -51,7 +54,7 @@ public class Engine : Game
         _graphics.SynchronizeWithVerticalRetrace = true;
         _graphics.ApplyChanges();
 
-        Window.Title = GameStrings.GameTitle;
+        Window.Title = Properties.GameStrings.GameTitle;
         Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
         Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
@@ -135,6 +138,7 @@ public class Engine : Game
 
     public void QuitGame(EventMessage _)
     {
+        Properties.Settings.Default.Save();
         Exit();
     }
 }
