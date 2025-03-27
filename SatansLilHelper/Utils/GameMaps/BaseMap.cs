@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -159,7 +158,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 drawLocation,
                 entity.Tags.Has<Alive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
             );
-            if (new Settings().ShowHealthBars)
+            if (Settings.Default.ShowHealthBars)
                 if (
                     entity.TryGetRelation<ResourceStat, ResourceID>(
                         ResourceID.Health,
