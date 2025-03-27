@@ -9,6 +9,7 @@ using SatansLilHelper.Components;
 using SatansLilHelper.Entities;
 using SatansLilHelper.EntityTags;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
@@ -158,6 +159,36 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 drawLocation,
                 entity.Tags.Has<Alive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
             );
+            if (new Settings().ShowHealthBars)
+                if (
+                    entity.TryGetRelation<ResourceStat, ResourceID>(
+                        ResourceID.Health,
+                        out ResourceStat entHealth
+                    )
+                )
+                {
+                    int totalHealth = EntityCalcs.GetStat(entity, ResourceID.Health);
+                    Rectangle healthRect = new(
+                        (int)drawLocation.X + 4,
+                        (int)drawLocation.Y + 4,
+                        24,
+                        4
+                    );
+                    if (entHealth.Cur < totalHealth)
+                    {
+                        spriteBatch.Draw(
+                            textureMap[TextureID.WhitePixel],
+                            healthRect,
+                            Constants.Colors.Red
+                        );
+                        healthRect.Width = (int)(24.0m * ((decimal)entHealth.Cur / totalHealth));
+                        spriteBatch.Draw(
+                            textureMap[TextureID.WhitePixel],
+                            healthRect,
+                            Constants.Colors.Green
+                        );
+                    }
+                }
         }
     }
 
