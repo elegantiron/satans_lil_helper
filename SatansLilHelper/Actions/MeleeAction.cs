@@ -15,12 +15,12 @@ namespace SatansLilHelper.Actions;
 #nullable enable
 internal class MeleeAction : ActionWithDirection, IMessageSender
 {
-    protected byte[] preState,
-        postState;
-    protected MersenneTwister Twister;
-    protected uint Damage;
-    protected bool IsKill;
-    protected string TargetName;
+    protected byte[] _preState,
+        _postState;
+    protected MersenneTwister _twister;
+    protected uint _damage;
+    protected bool _isKill;
+    protected string _targetName;
     public List<LogMessage> Messages
     {
         get { return _messages; }
@@ -37,23 +37,23 @@ internal class MeleeAction : ActionWithDirection, IMessageSender
     {
         if (_isBlocked && _target is Entity targetEnt)
         {
-            TargetName = targetEnt.GetComponent<EntityName>().value;
-            Twister = rng;
-            preState = Twister.GetState();
+            _targetName = targetEnt.GetComponent<EntityName>().value;
+            _twister = rng;
+            _preState = _twister.GetState();
 
-            Damage = EntityCalcs.GetDamage(Twister, _entity, targetEnt);
+            _damage = EntityCalcs.GetDamage(_twister, _entity, targetEnt);
             _messages.Add(
                 new(
-                    string.Format(GameStrings.PlayerAttack, TargetName, Damage),
+                    string.Format(GameStrings.PlayerAttack, _targetName, _damage),
                     Constants.Colors.PlayerAttack
                 )
             );
-            if (Damage >= targetEnt.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
+            if (_damage >= targetEnt.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
             {
-                IsKill = true;
+                _isKill = true;
                 _messages.Add(
                     new(
-                        string.Format(GameStrings.EnemyDeath, TargetName),
+                        string.Format(GameStrings.EnemyDeath, _targetName),
                         Constants.Colors.PlayerAttack
                     )
                 );
@@ -61,7 +61,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender
                     new(string.Format(GameStrings.GainExperience, 5), Constants.Colors.AmericanRose)
                 );
             }
-            postState = Twister.GetState();
+            _postState = _twister.GetState();
         }
         else
             throw new MissingTargetException();
@@ -74,10 +74,10 @@ internal class MeleeAction : ActionWithDirection, IMessageSender
             ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
                 ResourceID.Health
             );
-            entHealth.Cur -= Damage;
-            if (IsKill)
+            entHealth.Cur -= _damage;
+            if (_isKill)
                 entity.RemoveTag<Alive>();
-            Twister.SetState(postState);
+            _twister.SetState(_postState);
             base.Perform();
         }
     }
@@ -89,10 +89,10 @@ internal class MeleeAction : ActionWithDirection, IMessageSender
             ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
                 ResourceID.Health
             );
-            entHealth.Cur += Damage;
-            if (IsKill)
+            entHealth.Cur += _damage;
+            if (_isKill)
                 entity.AddTag<Alive>();
-            Twister.SetState(preState);
+            _twister.SetState(_preState);
             base.Rewind();
         }
     }
