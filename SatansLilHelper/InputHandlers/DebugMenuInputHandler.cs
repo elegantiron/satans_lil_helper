@@ -68,11 +68,11 @@ internal class DebugMenuInputHandler : IInputHandler
 
     public GameInputHandler OnExit()
     {
-        if (Menu.Selection == GameStrings.DebugHeal)
+        if (Menu.Selection.Key == GameStrings.DebugHeal)
             Parent.HealPlayer();
-        else if (Menu.Selection == GameStrings.DebugSpawnNear)
+        else if (Menu.Selection.Key == GameStrings.DebugSpawnNear)
             Parent.SpawnNear();
-        else if (Menu.Selection == GameStrings.DebugNewSeed)
+        else if (Menu.Selection.Key == GameStrings.DebugNewSeed)
             Parent.ResetSeed();
 
         return Parent;
