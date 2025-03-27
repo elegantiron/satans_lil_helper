@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
@@ -13,14 +14,17 @@ namespace SatansLilHelper.InputHandlers;
 internal class MainMenuInputHandler : IInputHandler
 {
     private Menu Menu;
+    private Vector2 titlePosition,
+        titleOrigin;
 
-    public MainMenuInputHandler(Color selectedColor, Color unselectedColor, FontID font)
+    public MainMenuInputHandler()
     {
-        Menu = new(selectedColor, unselectedColor, font);
+        Menu = new(Color.Blue, Color.White, FontID.Menu);
         Menu.AddItem(Properties.GameStrings.NewGame);
         Menu.AddItem(Properties.GameStrings.ViewBestiary);
         Menu.AddItem(Properties.GameStrings.ViewSettings);
         Menu.AddItem(Properties.GameStrings.ToDesktop);
+        titlePosition = titleOrigin = Vector2.Zero;
     }
 
     public void Draw(
@@ -31,6 +35,24 @@ internal class MainMenuInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        if (titlePosition == Vector2.Zero)
+        {
+            titlePosition.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+            titlePosition.Y = 5;
+            Vector2 width = fontMap[FontID.Title].MeasureString(GameStrings.GameTitle);
+            titleOrigin.X = width.X / 2;
+        }
+        spriteBatch.DrawString(
+            fontMap[FontID.Title],
+            GameStrings.GameTitle,
+            titlePosition,
+            Constants.Colors.AmericanRose,
+            0f,
+            titleOrigin,
+            1f,
+            SpriteEffects.None,
+            1f
+        );
         Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 
