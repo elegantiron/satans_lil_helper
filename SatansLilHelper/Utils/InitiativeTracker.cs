@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Friflo.Engine.ECS;
 using SatansLilHelper.EntityTags;
+using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
 
-public class InitiativeTracker(ArchetypeQuery query, MersenneTwister rng)
+internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
 {
     private Stack<Entity> _initiativeStack = new();
     private ArchetypeQuery _query = query;
-    private MersenneTwister _rng = rng;
+    private IRandom _rng = rng;
 
     private void CalculateInitiative()
     {
