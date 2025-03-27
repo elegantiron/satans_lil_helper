@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
-using SatansLilHelper.Content.Text;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
