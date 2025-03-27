@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
-using SatansLilHelper.Content.Text;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
