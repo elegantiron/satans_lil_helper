@@ -160,6 +160,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start a new game.
+        /// </summary>
+        internal static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to That way is blocked..
         /// </summary>
         internal static string PathBlocked {
@@ -264,6 +273,15 @@ namespace SatansLilHelper.Properties {
         internal static string ViewBestiary {
             get {
                 return ResourceManager.GetString("ViewBestiary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string ViewSettings {
+            get {
+                return ResourceManager.GetString("ViewSettings", resourceCulture);
             }
         }
     }
