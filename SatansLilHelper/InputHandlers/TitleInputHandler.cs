@@ -77,7 +77,7 @@ internal class TitleInputHandler : IInputHandler
                 EventBus.Send(Events.QuitGame, new EventMessage());
                 break;
             case Keys.Enter:
-                return new GameInputHandler();
+                return new MainMenuInputHandler();
         }
         return this;
     }
