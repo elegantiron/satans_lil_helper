@@ -25,6 +25,7 @@ internal class ConfusedAction : IAction
         _entity = entity;
         _isPlayer = isPlayer;
         _gameMap = gameMap;
+        _action = new(entity, new Microsoft.Xna.Framework.Point(0, 0), gameMap, rng, isPlayer);
     }
 
     public Entity? Entity
@@ -34,11 +35,13 @@ internal class ConfusedAction : IAction
 
     public void Perform()
     {
+        _action.Perform();
         throw new NotImplementedException();
     }
 
     public void Rewind()
     {
+        _action.Rewind();
         throw new NotImplementedException();
     }
 }
