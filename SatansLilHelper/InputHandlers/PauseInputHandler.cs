@@ -21,7 +21,7 @@ internal class PauseInputHandler : IInputHandler
     {
         Parent = parent;
         ShadeShape = Rectangle.Empty;
-        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
         Menu.AddItem(GameStrings.Resume);
         Menu.AddItem(GameStrings.ViewBestiary);
         Menu.AddItem(GameStrings.ToMenu);
@@ -72,13 +72,13 @@ internal class PauseInputHandler : IInputHandler
     private IInputHandler OnExit()
     {
         IInputHandler value = Parent;
-        if (Menu.Selection == GameStrings.ViewBestiary)
+        if (Menu.Selection.Key == GameStrings.ViewBestiary)
         {
             // Return a bestiary handler here
         }
-        else if (Menu.Selection == GameStrings.ToMenu)
+        else if (Menu.Selection.Key == GameStrings.ToMenu)
             value = new TitleInputHandler();
-        else if (Menu.Selection == GameStrings.ToDesktop)
+        else if (Menu.Selection.Key == GameStrings.ToDesktop)
             EventBus.Send<EventMessage>(Events.QuitGame, new EventMessage());
         return value;
     }
