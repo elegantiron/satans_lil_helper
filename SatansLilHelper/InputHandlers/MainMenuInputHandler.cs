@@ -20,10 +20,10 @@ internal class MainMenuInputHandler : IInputHandler
     public MainMenuInputHandler()
     {
         Menu = new(Color.Blue, Color.White, FontID.Menu);
-        Menu.AddItem(Properties.GameStrings.NewGame);
-        Menu.AddItem(Properties.GameStrings.ViewBestiary);
-        Menu.AddItem(Properties.GameStrings.ViewSettings);
-        Menu.AddItem(Properties.GameStrings.ToDesktop);
+        Menu.AddItem(GameStrings.NewGame);
+        Menu.AddItem(GameStrings.ViewBestiary);
+        Menu.AddItem(GameStrings.ViewSettings);
+        Menu.AddItem(GameStrings.ToDesktop);
         titlePosition = titleOrigin = Vector2.Zero;
     }
 
@@ -73,12 +73,12 @@ internal class MainMenuInputHandler : IInputHandler
     private IInputHandler OnExit()
     {
         IInputHandler handler = this;
-        if (Menu.Selection == Properties.GameStrings.ViewBestiary) { }
-        else if (Menu.Selection == Properties.GameStrings.ToDesktop)
+        if (Menu.Selection == GameStrings.ViewBestiary) { }
+        else if (Menu.Selection == GameStrings.ToDesktop)
             EventBus.Send<EventMessage>(Events.QuitGame, new EventMessage());
-        else if (Menu.Selection == Properties.GameStrings.NewGame)
+        else if (Menu.Selection == GameStrings.NewGame)
             handler = new GameInputHandler();
-        else if (Menu.Selection == Properties.GameStrings.ViewSettings)
+        else if (Menu.Selection == GameStrings.ViewSettings)
             handler = new SettingsInputHandler(this);
         return handler;
     }
