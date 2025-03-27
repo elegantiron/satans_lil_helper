@@ -5,14 +5,26 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
+using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
 
-internal class SettingsInputHandler(IInputHandler parent) : IInputHandler
+internal class SettingsInputHandler : IInputHandler
 {
-    private IInputHandler _parent = parent;
-    private Menu Menu = new(Color.Blue, Color.White, FontID.Menu);
+    private IInputHandler _parent;
+    private Menu Menu;
+    private TextVecs TextVecs;
+
+    public SettingsInputHandler(IInputHandler parent)
+    {
+        _parent = parent;
+        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        TextVecs = new();
+
+        Menu.AddItem(GameStrings.SettingsShowHealthBars, Settings.Default.ShowHealthBars);
+    }
 
     public void Draw(
         SpriteBatch spriteBatch,
@@ -22,6 +34,24 @@ internal class SettingsInputHandler(IInputHandler parent) : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        if (TextVecs.Location == Vector2.Zero)
+        {
+            TextVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+            TextVecs.Location.Y = 5;
+            Vector2 width = fontMap[FontID.Title].MeasureString(GameStrings.SettingsTitle);
+            TextVecs.Origin.X = width.X / 2;
+        }
+        spriteBatch.DrawString(
+            fontMap[FontID.Title],
+            GameStrings.SettingsTitle,
+            TextVecs.Location,
+            Constants.Colors.AmericanRose,
+            0f,
+            TextVecs.Origin,
+            1f,
+            SpriteEffects.None,
+            1f
+        );
         Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 
