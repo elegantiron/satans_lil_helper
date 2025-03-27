@@ -10,7 +10,6 @@ using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
-using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
@@ -29,7 +28,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         LocationVecs,
         HealthVecs,
         ManaVecs;
-    private bool ShowStatus = true;
 
     public GameInputHandler()
     {
@@ -56,7 +54,11 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 HandleMovement(key);
                 break;
             case Keys.H:
-                ShowStatus = !ShowStatus;
+                SatansLilHelper.Properties.Settings.Default.ShowStatus = !SatansLilHelper
+                    .Properties
+                    .Settings
+                    .Default
+                    .ShowStatus;
                 break;
 #if DEBUG
             case Keys.X:
@@ -92,7 +94,8 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             StatusShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 5;
             StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
 
-            Vector2 textSize = fontMap[FontID.Status].MeasureString(GameStrings.StatusTitle);
+            Vector2 textSize = fontMap[FontID.Status]
+                .MeasureString(SatansLilHelper.Properties.GameStrings.StatusTitle);
             StatusVecs.Origin.X = textSize.X / 2;
             StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
             LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
@@ -103,7 +106,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             ManaVecs.Location.X = LocationVecs.Location.X;
         }
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
-        if (ShowStatus)
+        if (SatansLilHelper.Properties.Settings.Default.ShowStatus)
         {
             DrawStatus(spriteBatch, textureMap, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
@@ -123,7 +126,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            GameStrings.StatusTitle,
+            SatansLilHelper.Properties.GameStrings.StatusTitle,
             StatusVecs.Location,
             Color.White,
             0f,
@@ -135,7 +138,11 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         Location playerLoc = GameWorld.CurrentMap.Player.GetComponent<Location>();
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
+            String.Format(
+                SatansLilHelper.Properties.GameStrings.StatusLocation,
+                playerLoc.X,
+                playerLoc.Y
+            ),
             LocationVecs.Location,
             Color.White
         );
@@ -146,7 +153,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         spriteBatch.DrawString(
             fontMap[FontID.Status],
             String.Format(
-                GameStrings.StatusHealth,
+                SatansLilHelper.Properties.GameStrings.StatusHealth,
                 playerResource.Cur,
                 EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health)
             ),
@@ -159,7 +166,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         spriteBatch.DrawString(
             fontMap[FontID.Status],
             String.Format(
-                GameStrings.StatusMana,
+                SatansLilHelper.Properties.GameStrings.StatusMana,
                 playerResource.Cur,
                 EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Mana)
             ),
