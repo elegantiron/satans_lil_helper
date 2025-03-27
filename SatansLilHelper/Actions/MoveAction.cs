@@ -2,8 +2,8 @@
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
-using SatansLilHelper.Content.Text;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
