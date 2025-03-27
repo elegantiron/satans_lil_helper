@@ -205,6 +205,24 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show enemy health bars: {0}.
+        /// </summary>
+        internal static string SettingsShowHealthBars {
+            get {
+                return ResourceManager.GetString("SettingsShowHealthBars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Health: {0:D} / {1:D}.
         /// </summary>
         internal static string StatusHealth {
