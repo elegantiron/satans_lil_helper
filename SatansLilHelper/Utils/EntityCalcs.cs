@@ -1,11 +1,12 @@
 ﻿using System;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils;
 
-public static class EntityCalcs
+internal static class EntityCalcs
 {
     public static int GetStat(Entity entity, AbilityID ability)
     {
@@ -30,7 +31,7 @@ public static class EntityCalcs
         return total;
     }
 
-    public static decimal GetDamageFactor(MersenneTwister rng, Entity attacker, Entity target)
+    public static decimal GetDamageFactor(IRandom rng, Entity attacker, Entity target)
     {
         //throw new NotImplementedException();
         if (!attacker.TryGetComponent<Level>(out Level attackerLevel))
@@ -38,7 +39,7 @@ public static class EntityCalcs
         if (!target.TryGetComponent<Level>(out Level targetLevel))
             throw new Exceptions.MissingComponentException();
         int crit = GetStat(attacker, AbilityID.Crit);
-        int roll = rng.Next(1, 100);
+        uint roll = rng.Next(1, 100);
         decimal factor = 1m;
         if (roll > 95 - crit)
             factor = 2m;
@@ -51,7 +52,7 @@ public static class EntityCalcs
         return factor;
     }
 
-    public static uint GetDamage(MersenneTwister rng, Entity attacker, Entity target)
+    public static uint GetDamage(IRandom rng, Entity attacker, Entity target)
     {
         decimal factor = GetDamageFactor(rng, attacker, target);
         if (!attacker.TryGetComponent<Attack>(out Attack attack))
@@ -63,11 +64,11 @@ public static class EntityCalcs
         return damage;
     }
 
-    public static decimal GetInitiative(Entity entity, MersenneTwister rng)
+    public static decimal GetInitiative(Entity entity, IRandom rng)
     {
         int speed = GetStat(entity, AbilityID.Speed);
         int evasion = GetStat(entity, AbilityID.Evasion);
-        return speed * rng.NextDecimal() + evasion * rng.NextDecimal();
+        return speed * (decimal)rng.NextDouble() + evasion * (decimal)rng.NextDouble();
     }
 
     public static EntityActions GetActions(Entity entity)
