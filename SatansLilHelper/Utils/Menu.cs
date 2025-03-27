@@ -8,19 +8,26 @@ using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils;
 
+#nullable enable
 internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.IDrawable
 {
-    private Color SelectedColor = selected,
-        UnselectedColor = unselected;
-    private List<string> Items = [];
-    private TextVecs TextVecs = new();
-    private Vector2 Size = Vector2.Zero;
-    private FontID Font = font;
-    private int Index = 0;
+    private Color _selectedColor = selected,
+        _unselectedColor = unselected,
+        _disabledColor = Color.Gray;
+    private List<MenuItem> _items = [];
+    private TextVecs _textVecs = new();
+    private Vector2 _size = Vector2.Zero;
+    private FontID _font = font;
+    private int _index = 0;
 
-    public void AddItem(string key)
+    public void AddItem(string key, params object[]? args)
     {
-        Items.Add(key);
+        _items.Add(new MenuItem(key, args));
+    }
+
+    public void AddItem(string key, bool enabled, params object[]? args)
+    {
+        _items.Add(new MenuItem(key, enabled, args));
     }
 
     public void Draw(
@@ -31,49 +38,93 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        if (Items.Count < 1)
+        if (_items.Count < 1)
             return;
-        if (Size == Vector2.Zero)
+        if (_size == Vector2.Zero)
         {
-            TextVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+            _textVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
         }
-        Size = fontMap[Font].MeasureString("String"); // only care about the height here
-        TextVecs.Location.Y =
-            spriteBatch.GraphicsDevice.Viewport.Height / 2 - (Size.Y * Items.Count / 2);
-        foreach (string item in Items)
+        _size = fontMap[_font].MeasureString("String"); // only care about the height here
+        _textVecs.Location.Y =
+            spriteBatch.GraphicsDevice.Viewport.Height / 2 - (_size.Y * _items.Count / 2);
+        foreach (MenuItem item in _items)
         {
-            Size = fontMap[Font].MeasureString(item);
-            TextVecs.Origin.X = Size.X / 2;
+            string formatted = string.Format(item.Key, item.Args ?? []);
+            _size = fontMap[_font].MeasureString(formatted);
+            _textVecs.Origin.X = _size.X / 2;
             spriteBatch.DrawString(
-                fontMap[Font],
-                item,
-                TextVecs.Location,
-                Items.IndexOf(item) == Index ? SelectedColor : UnselectedColor,
+                fontMap[_font],
+                formatted,
+                _textVecs.Location,
+                GetColor(item),
                 0f,
-                TextVecs.Origin,
+                _textVecs.Origin,
                 1f,
                 SpriteEffects.None,
                 1f
             );
-            TextVecs.Location.Y += Size.Y;
+            _textVecs.Location.Y += _size.Y;
         }
     }
 
     public void HandleKey(Keys key)
     {
-        if (Items.Count < 1)
+        if (_items.Count < 1)
             return;
         switch (key)
         {
             case Keys.Up:
-                if (--Index < 0)
-                    Index = Items.Count - 1;
+                if (--_index < 0)
+                    _index = _items.Count - 1;
                 break;
             case Keys.Down:
-                Index = ++Index % Items.Count;
+                _index = ++_index % _items.Count;
                 break;
         }
     }
 
-    public string Selection => Items[Index];
+    public void SetEnabled(int index, bool enabled)
+    {
+        if (_items.Count! > index)
+            return;
+    }
+
+    public string Selection
+    {
+        get { return _items[_index].Key; }
+    }
+
+    public int Index
+    {
+        get { return _index; }
+    }
+
+    private Color GetColor(MenuItem item)
+    {
+        if (!item.Enabled)
+            return Color.Gray;
+        if (_items.IndexOf(item) == _index)
+            return _selectedColor;
+        return _unselectedColor;
+    }
+
+    private struct MenuItem
+    {
+        public string Key;
+        public object[]? Args;
+        public bool Enabled = true;
+
+        public MenuItem(string key, bool enabled, params object[]? args)
+        {
+            Key = key;
+            Enabled = enabled;
+            Args = args;
+        }
+
+        public MenuItem(string key, params object[]? args)
+        {
+            Key = key;
+            Args = args;
+        }
+    }
 }
