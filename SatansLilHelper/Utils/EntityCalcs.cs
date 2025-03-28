@@ -1,6 +1,7 @@
 ﻿using System;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
@@ -29,23 +30,6 @@ internal static class EntityCalcs
         {
             total += GetStat(ent, ability);
         }
-
-        return total;
-    }
-
-    public static int GetStat(Entity entity, ResourceID resource)
-    {
-        int total = 0;
-
-        if (entity.TryGetRelation(resource, out ResourceStat stat))
-        {
-            total += (int)stat.Basis;
-            if (entity.TryGetComponent<Level>(out Level level))
-                total += (int)(stat.Growth * (level.Value - 1));
-        }
-
-        foreach (Entity ent in entity.GetIncomingLinks<Equipper>().Entities)
-            total += GetStat(ent, resource);
 
         return total;
     }
@@ -94,5 +78,15 @@ internal static class EntityCalcs
     {
         int entitySpeed = GetStat(entity, AbilityID.Speed);
         return new EntityActions(entitySpeed);
+    }
+
+    private static int GetTotal(decimal growth, int level)
+    {
+        return (int)(growth * level);
+    }
+
+    private static int GetTotal(decimal growth, uint level)
+    {
+        return (int)(growth * level);
     }
 }
