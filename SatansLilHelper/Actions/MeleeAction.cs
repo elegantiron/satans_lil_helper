@@ -2,6 +2,7 @@
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.EntityTags;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Interfaces;
@@ -48,7 +49,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
                     Constants.Colors.PlayerAttack
                 )
             );
-            if (_damage >= targetEnt.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur)
+            if (_damage >= targetEnt.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur)
             {
                 _isKill = true;
                 _messages.Add(
@@ -71,8 +72,8 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
     {
         if (_target is Entity entity)
         {
-            ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
-                ResourceID.Health
+            ref AbilityStat entHealth = ref entity.GetRelation<AbilityStat, AbilityID>(
+                AbilityID.Health
             );
             entHealth.Cur -= _damage;
             if (_isKill)
@@ -86,8 +87,8 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
     {
         if (_target is Entity entity)
         {
-            ref ResourceStat entHealth = ref entity.GetRelation<ResourceStat, ResourceID>(
-                ResourceID.Health
+            ref AbilityStat entHealth = ref entity.GetRelation<AbilityStat, AbilityID>(
+                AbilityID.Health
             );
             entHealth.Cur += _damage;
             if (_isKill)
