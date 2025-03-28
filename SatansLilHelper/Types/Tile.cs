@@ -1,4 +1,5 @@
-﻿using SatansLilHelper.Utils;
+﻿using SatansLilHelper.Constants;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Types;
 
