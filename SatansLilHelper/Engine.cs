@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Constants;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -22,6 +24,7 @@ public class Engine : Game
     private Dictionary<SongID, Song> _songMap;
     private Dictionary<FontID, SpriteFont> _fontMap;
     private List<Keys> _keyList;
+    private string _gamePath;
 
     public Engine()
     {
@@ -43,6 +46,27 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
         Properties.Settings.Default.Reset();
 #endif
+        _gamePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "SmuB Games",
+            "Satans Lil Helper"
+        );
+        Directory.CreateDirectory(_gamePath);
+        /*
+        MersenneTwister rng = new();
+        EntityStore store = new();
+        for (int i = 0; i < 10; i++)
+            Entities.Enemies.Wolf(store.CreateEntity(), rng);
+        string gamePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "SmuB Games",
+            "Satans Lil Helper"
+        );
+        string bestiaryPath = Path.Combine(gamePath, "bestiary.dat");
+        EntitySerializer serializer = new();
+        using FileStream fs = new(bestiaryPath, FileMode.Create, FileAccess.Write);
+        serializer.WriteStore(store, fs);
+        */
     }
 
     protected override void Initialize()
@@ -139,6 +163,10 @@ public class Engine : Game
     public void QuitGame(EventMessage _)
     {
         Properties.Settings.Default.Save();
+        if (InputHandler is ISaveable inputHandler)
+        {
+            inputHandler.DumpData(_gamePath);
+        }
         Exit();
     }
 }
