@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Entities;
 using SatansLilHelper.EntityTags;
 using SatansLilHelper.Interfaces;
@@ -176,7 +177,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 if (!tiles[i, j].Explored)
                     continue;
                 spriteTarget.Y = (j - offset.Y) * 32;
-                spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
+                spriteBatch.Draw(
+                    textureMap[tiles[i, j].Texture],
+                    spriteTarget,
+                    tiles[i, j].Visible ? Color.White : Constants.Colors.HiddenTile
+                );
             }
         }
     }
@@ -199,14 +204,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 entity.Tags.Has<Alive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
             );
             if (Settings.Default.ShowHealthBars)
-                if (
-                    entity.TryGetRelation<ResourceStat, ResourceID>(
-                        ResourceID.Health,
-                        out ResourceStat entHealth
-                    )
-                )
+                if (entity.TryGetRelation(AbilityID.Health, out AbilityStat entHealth))
                 {
-                    int totalHealth = EntityCalcs.GetStat(entity, ResourceID.Health);
+                    int totalHealth = EntityCalcs.GetStat(entity, AbilityID.Health);
                     Rectangle healthRect = new(
                         (int)drawLocation.X + 4,
                         (int)drawLocation.Y + 4,
@@ -233,6 +233,13 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
     public void UpdatePlayerVision()
     {
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < tiles.GetLength(1); j++)
+            {
+                tiles[i, j].Visible = false;
+            }
+        }
         int viewRadius = EntityCalcs.GetStat(Player, AbilityID.Vision);
         int lightRadius = EntityCalcs.GetStat(Player, AbilityID.LightRadius);
         float playerView = (float)Math.Min(viewRadius, lightRadius);
