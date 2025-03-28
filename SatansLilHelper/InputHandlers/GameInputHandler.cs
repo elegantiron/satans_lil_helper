@@ -54,11 +54,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 HandleMovement(key);
                 break;
             case Keys.H:
-                SatansLilHelper.Properties.Settings.Default.ShowStatus = !SatansLilHelper
-                    .Properties
-                    .Settings
-                    .Default
-                    .ShowStatus;
+                Properties.Settings.Default.ShowStatus = !Properties.Settings.Default.ShowStatus;
                 break;
 #if DEBUG
             case Keys.X:
