@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
@@ -19,8 +20,8 @@ internal class FullHealAction : IAction, IMessageSender
     {
         _target = target;
         _healAmount =
-            (uint)EntityCalcs.GetStat(_target, ResourceID.Health)
-            - _target.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur;
+            (uint)EntityCalcs.GetStat(_target, AbilityID.Health)
+            - _target.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur;
         _messages.Add(new LogMessage(GameStrings.FullHeal, Constants.Colors.PlayerHeal));
     }
 
@@ -36,12 +37,12 @@ internal class FullHealAction : IAction, IMessageSender
     public void Perform()
     {
         (this as IMessageSender).SendMessages();
-        _target.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur += _healAmount;
+        _target.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur += _healAmount;
     }
 
     public void Rewind()
     {
         (this as IMessageSender).RetractMessages();
-        _target.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur -= _healAmount;
+        _target.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur -= _healAmount;
     }
 }
