@@ -11,7 +11,7 @@ using SatansLilHelper.Utils.GameMaps;
 namespace SatansLilHelper.Actions;
 
 #nullable enable
-internal class MoveAction : ActionWithDirection, IMessageSender
+internal class MoveAction : ActionWithDirection, IMessageSender, IMoveAction
 {
     public List<LogMessage> Messages
     {
