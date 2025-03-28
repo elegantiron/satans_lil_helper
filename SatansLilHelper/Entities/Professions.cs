@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.EntityTags;
 using SatansLilHelper.Utils;
 
@@ -16,8 +17,8 @@ public static class Professions
         entity.AddComponent(new Attack(0, 0));
         entity.AddComponent(new TextureIndex());
 
-        entity.AddRelation(new ResourceStat(ResourceID.Health, 0));
-        entity.AddRelation(new ResourceStat(ResourceID.Mana, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Health, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Mana, 0));
 
         entity.AddRelation(new AbilityStat(AbilityID.Strength, 0));
         entity.AddRelation(new AbilityStat(AbilityID.MagicPower, 0));
@@ -45,8 +46,8 @@ public static class Professions
         entity.AddComponent(new Attack(1, 6));
 
         #region Resource Stats
-        entity.AddRelation(new ResourceStat(ResourceID.Health, 60, 10));
-        entity.AddRelation(new ResourceStat(ResourceID.Mana, 5, 1));
+        entity.AddRelation(new AbilityStat(AbilityID.Health, 60, 10));
+        entity.AddRelation(new AbilityStat(AbilityID.Mana, 5, 1));
         #endregion Resource Stats
 
         #region Ability Stats
