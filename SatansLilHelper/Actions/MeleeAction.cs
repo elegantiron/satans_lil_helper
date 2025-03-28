@@ -13,7 +13,7 @@ using SatansLilHelper.Utils.GameMaps;
 namespace SatansLilHelper.Actions;
 
 #nullable enable
-internal class MeleeAction : ActionWithDirection, IMessageSender
+internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
 {
     protected byte[] _preState,
         _postState;
