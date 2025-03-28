@@ -56,6 +56,7 @@ public static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.MagicDefense, 2, 0.25m));
         entity.AddRelation(new AbilityStat(AbilityID.Speed, 2, 0));
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 7, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 7, 0));
         #endregion Ability Stats
     }
 }
