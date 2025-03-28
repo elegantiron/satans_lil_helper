@@ -251,7 +251,17 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         while (!GameWorld.IsPlayerNext)
         {
             // Handle enemy turns
-            GameWorld.GetNextActor();
+            Entity entity = GameWorld.GetNextActor();
+            Location location = entity.GetComponent<Location>();
+            Point entPos = new(location.X, location.Y);
+            int vision = EntityCalcs.GetStat(entity, AbilityID.Vision);
+            int light = EntityCalcs.GetStat(entity, AbilityID.LightRadius);
+            int radius = Math.Min(vision, light);
+            List<Point> visibleTiles = ShadowCast.GetVisibleTiles(
+                GameWorld.CurrentMap,
+                entPos,
+                radius
+            );
 
             // Decide what the entity should do
             // Check that the entity has enough of the right moves
