@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
@@ -28,12 +29,12 @@ internal class SmiteAction(Entity entity) : IAction, IMessageSender
     public void Perform()
     {
         (this as IMessageSender).SendMessages();
-        _entity.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur--;
+        _entity.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur--;
     }
 
     public void Rewind()
     {
         (this as IMessageSender).RetractMessages();
-        _entity.GetRelation<ResourceStat, ResourceID>(ResourceID.Health).Cur++;
+        _entity.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur++;
     }
 }
