@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -51,7 +52,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         {
             case Keys.Escape:
                 return new PauseInputHandler(this);
-            case Keys when Constants.MovementKeys.ContainsKey(key):
+            case Keys when Dicts.MovementKeys.ContainsKey(key):
                 HandleMovement(key);
                 break;
             case Keys.H:
@@ -92,7 +93,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
 
             Vector2 textSize = fontMap[FontID.Status]
-                .MeasureString(SatansLilHelper.Properties.GameStrings.StatusTitle);
+                .MeasureString(Properties.GameStrings.StatusTitle);
             StatusVecs.Origin.X = textSize.X / 2;
             StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
             LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
@@ -103,7 +104,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             ManaVecs.Location.X = LocationVecs.Location.X;
         }
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
-        if (SatansLilHelper.Properties.Settings.Default.ShowStatus)
+        if (Properties.Settings.Default.ShowStatus)
         {
             DrawStatus(spriteBatch, textureMap, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
@@ -119,11 +120,11 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         spriteBatch.Draw(
             textureMap[TextureID.WhitePixel],
             StatusShadeShape,
-            Constants.Colors.TranslucentBlack
+            Colors.TranslucentBlack
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            SatansLilHelper.Properties.GameStrings.StatusTitle,
+            Properties.GameStrings.StatusTitle,
             StatusVecs.Location,
             Color.White,
             0f,
@@ -135,37 +136,33 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         Location playerLoc = GameWorld.CurrentMap.Player.GetComponent<Location>();
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(
-                SatansLilHelper.Properties.GameStrings.StatusLocation,
-                playerLoc.X,
-                playerLoc.Y
-            ),
+            String.Format(Properties.GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
             LocationVecs.Location,
             Color.White
         );
-        ResourceStat playerResource = GameWorld.CurrentMap.Player.GetRelation<
-            ResourceStat,
-            ResourceID
-        >(ResourceID.Health);
+        AbilityStat playerResource = GameWorld.CurrentMap.Player.GetRelation<
+            AbilityStat,
+            AbilityID
+        >(AbilityID.Health);
         spriteBatch.DrawString(
             fontMap[FontID.Status],
             String.Format(
-                SatansLilHelper.Properties.GameStrings.StatusHealth,
+                Properties.GameStrings.StatusHealth,
                 playerResource.Cur,
-                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Health)
+                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, AbilityID.Health)
             ),
             HealthVecs.Location,
             Color.White
         );
-        playerResource = GameWorld.CurrentMap.Player.GetRelation<ResourceStat, ResourceID>(
-            ResourceID.Mana
+        playerResource = GameWorld.CurrentMap.Player.GetRelation<AbilityStat, AbilityID>(
+            AbilityID.Mana
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
             String.Format(
-                SatansLilHelper.Properties.GameStrings.StatusMana,
+                Properties.GameStrings.StatusMana,
                 playerResource.Cur,
-                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, ResourceID.Mana)
+                EntityCalcs.GetStat(GameWorld.CurrentMap.Player, AbilityID.Mana)
             ),
             ManaVecs.Location,
             Color.White
@@ -214,7 +211,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         ActionStack.AddAction(
             new BumpAction(
                 GameWorld.CurrentMap.Player,
-                Constants.MovementKeys[key],
+                Dicts.MovementKeys[key],
                 GameWorld.CurrentMap,
                 rng,
                 true
