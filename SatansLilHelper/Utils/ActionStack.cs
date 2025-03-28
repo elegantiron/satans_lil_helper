@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils;
 
@@ -12,6 +13,12 @@ internal class ActionStack
     {
         future.Clear();
         action.Perform();
+        history.Push(action);
+    }
+
+    public void AddAction(EntityTurn action)
+    {
+        future.Clear();
         history.Push(action);
     }
 
