@@ -10,23 +10,42 @@ internal static class EntityCalcs
 {
     public static int GetStat(Entity entity, AbilityID ability)
     {
-        if (!entity.TryGetRelation(ability, out AbilityStat stat))
-            throw new Exceptions.MissingComponentException();
-        if (!entity.TryGetComponent<Level>(out Level level))
-            throw new Exceptions.MissingComponentException();
-        int total = (int)(stat.Basis + stat.Growth * (level.Value - 1));
+        int total = 0;
+        // Try to get the stat, don't bother getting the level if
+        // the entity doesn't have the stat.
+        if (entity.TryGetRelation(ability, out AbilityStat stat))
+        {
+            // Add the stat's base value
+            total += (int)stat.Basis;
+            // Try to get the entity's level
+            if (entity.TryGetComponent<Level>(out Level level))
+                // Add the amount gained from levels
+                total += (int)(stat.Growth * (level.Value - 1));
+        }
+
+        // Recursively process any incoming "Equipper" links to
+        // also process any equipped items.
+        foreach (Entity ent in entity.GetIncomingLinks<Equipper>().Entities)
+        {
+            total += GetStat(ent, ability);
+        }
 
         return total;
     }
 
     public static int GetStat(Entity entity, ResourceID resource)
     {
-        if (!entity.TryGetRelation(resource, out ResourceStat stat))
-            throw new Exceptions.MissingComponentException();
-        if (!entity.TryGetComponent<Level>(out Level level))
-            throw new Exceptions.MissingComponentException();
+        int total = 0;
 
-        int total = (int)(stat.Basis + stat.Growth * (level.Value - 1));
+        if (entity.TryGetRelation(resource, out ResourceStat stat))
+        {
+            total += (int)stat.Basis;
+            if (entity.TryGetComponent<Level>(out Level level))
+                total += (int)(stat.Growth * (level.Value - 1));
+        }
+
+        foreach (Entity ent in entity.GetIncomingLinks<Equipper>().Entities)
+            total += GetStat(ent, resource);
 
         return total;
     }
