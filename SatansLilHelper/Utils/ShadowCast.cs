@@ -15,8 +15,11 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Interfaces;
+
+namespace SatansLilHelper.Utils;
 
 /*
 Field-of-vision calculation for a simple tiled map.
@@ -80,7 +83,7 @@ public static class ShadowCast
     }
 
     private static OctantTransform[] s_octantTransform =
-    {
+    [
         new(1, 0, 0, 1), // 0 E-NE
         new(0, 1, 1, 0), // 1 NE-N
         new(0, -1, 1, 0), // 2 N-NW
@@ -89,7 +92,7 @@ public static class ShadowCast
         new(0, -1, -1, 0), // 5 SW-S
         new(0, 1, -1, 0), // 6 S-SE
         new(1, 0, 0, -1), // 7 SE-E
-    };
+    ];
 
     /// <summary>
     /// Lights up cells visible from the current position.  Clear all lighting before calling.
@@ -233,7 +236,7 @@ public static class ShadowCast
                     grid.SetLight(new Point(gridX, gridY), distanceSquared);
                 }
 
-                bool curBlocked = !grid.IsPassable(new Point(gridX, gridY));
+                bool curBlocked = !grid.PassesLight(new Point(gridX, gridY));
 
                 if (prevWasBlocked)
                 {
@@ -291,5 +294,183 @@ public static class ShadowCast
                 break;
             }
         }
+    }
+
+    private static void ListLight(
+        ICellGrid grid,
+        Point gridPosn,
+        float viewRadius,
+        int startColumn,
+        float leftViewSlope,
+        float rightViewSlope,
+        OctantTransform txfrm,
+        ref List<Point> points
+    )
+    {
+        //Debug.Assert(leftViewSlope >= rightViewSlope);
+        // Used for distance test.
+        float viewRadiusSq = viewRadius * viewRadius;
+
+        int viewCeiling = (int)Math.Ceiling(viewRadius);
+
+        // Set true if the previous cell we encountered was blocked.
+        bool prevWasBlocked = false;
+
+        // As an optimization, when scanning past a block we keep track of the
+        // rightmost corner (bottom-right) of the last one seen.  If the next cell
+        // is empty, we can use this instead of having to compute the top-right corner
+        // of the empty cell.
+        float savedRightSlope = -1;
+
+        int xDim = grid.XDim;
+        int yDim = grid.YDim;
+
+        // Outer loop: walk across each column, stopping when we reach the visibility limit.
+        for (int currentCol = startColumn; currentCol <= viewCeiling; currentCol++)
+        {
+            int xc = currentCol;
+
+            // Inner loop: walk down the current column.  We start at the top, where X==Y.
+            //
+            // TODO: we waste time walking across the entire column when the view area
+            //   is narrow.  Experiment with computing the possible range of cells from
+            //   the slopes, and iterate over that instead.
+            for (int yc = currentCol; yc >= 0; yc--)
+            {
+                // Translate local coordinates to grid coordinates.  For the various octants
+                // we need to invert one or both values, or swap X for Y.
+                int gridX = gridPosn.X + xc * txfrm.xx + yc * txfrm.xy;
+                int gridY = gridPosn.Y + xc * txfrm.yx + yc * txfrm.yy;
+
+                // Range-check the values.  This lets us avoid the slope division for blocks
+                // that are outside the grid.
+                //
+                // Note that, while we will stop at a solid column of blocks, we do always
+                // start at the top of the column, which may be outside the grid if we're (say)
+                // checking the first octant while positioned at the north edge of the map.
+                if (gridX < 0 || gridX >= xDim || gridY < 0 || gridY >= yDim)
+                {
+                    continue;
+                }
+
+                // Compute slopes to corners of current block.  We use the top-left and
+                // bottom-right corners.  If we were iterating through a quadrant, rather than
+                // an octant, we'd need to flip the corners we used when we hit the midpoint.
+                //
+                // Note these values will be outside the view angles for the blocks at the
+                // ends -- left value > 1, right value < 0.
+                float leftBlockSlope = (yc + 0.5f) / (xc - 0.5f);
+                float rightBlockSlope = (yc - 0.5f) / (xc + 0.5f);
+
+                // Check to see if the block is outside our view area.  Note that we allow
+                // a "corner hit" to make the block visible.  Changing the tests to >= / <=
+                // will reduce the number of cells visible through a corner (from a 3-wide
+                // swath to a single diagonal line), and affect how far you can see past a block
+                // as you approach it.  This is mostly a matter of personal preference.
+                if (rightBlockSlope > leftViewSlope)
+                {
+                    // Block is above the left edge of our view area; skip.
+                    continue;
+                }
+                else if (leftBlockSlope < rightViewSlope)
+                {
+                    // Block is below the right edge of our view area; we're done.
+                    break;
+                }
+
+                // This cell is visible, given infinite vision range.  If it's also within
+                // our finite vision range, light it up.
+                //
+                // To avoid having a single lit cell poking out N/S/E/W, use a fractional
+                // viewRadius, e.g. 8.5.
+                //
+                // TODO: we're testing the middle of the cell for visibility.  If we tested
+                //  the bottom-left corner, we could say definitively that no part of the
+                //  cell is visible, and reduce the view area as if it were a wall.  This
+                //  could reduce iteration at the corners.
+                float distanceSquared = xc * xc + yc * yc;
+                if (distanceSquared <= viewRadiusSq)
+                {
+                    points.Add(new Point(gridX, gridY));
+                }
+
+                bool curBlocked = !grid.PassesLight(new Point(gridX, gridY));
+
+                if (prevWasBlocked)
+                {
+                    if (curBlocked)
+                    {
+                        // Still traversing a column of walls.
+                        savedRightSlope = rightBlockSlope;
+                    }
+                    else
+                    {
+                        // Found the end of the column of walls.  Set the left edge of our
+                        // view area to the right corner of the last wall we saw.
+                        prevWasBlocked = false;
+                        leftViewSlope = savedRightSlope;
+                    }
+                }
+                else
+                {
+                    if (curBlocked)
+                    {
+                        // Found a wall.  Split the view area, recursively pursuing the
+                        // part to the left.  The leftmost corner of the wall we just found
+                        // becomes the right boundary of the view area.
+                        //
+                        // If this is the first block in the column, the slope of the top-left
+                        // corner will be greater than the initial view slope (1.0).  Handle
+                        // that here.
+                        if (leftBlockSlope <= leftViewSlope)
+                        {
+                            ListLight(
+                                grid,
+                                gridPosn,
+                                viewRadius,
+                                currentCol + 1,
+                                leftViewSlope,
+                                leftBlockSlope,
+                                txfrm,
+                                ref points
+                            );
+                        }
+
+                        // Once that's done, we keep searching to the right (down the column),
+                        // looking for another opening.
+                        prevWasBlocked = true;
+                        savedRightSlope = rightBlockSlope;
+                    }
+                }
+            }
+
+            // Open areas are handled recursively, with the function continuing to search to
+            // the right (down the column).  If we reach the bottom of the column without
+            // finding an open cell, then the area defined by our view area is completely
+            // obstructed, and we can stop working.
+            if (prevWasBlocked)
+            {
+                break;
+            }
+        }
+    }
+
+    public static List<Point> GetVisibleTiles(ICellGrid grid, Point gridPosn, float viewRadius)
+    {
+        List<Point> points = [gridPosn];
+        for (int txidx = 0; txidx < s_octantTransform.Length; txidx++)
+        {
+            ListLight(
+                grid,
+                gridPosn,
+                viewRadius,
+                1,
+                1.0f,
+                0.0f,
+                s_octantTransform[txidx],
+                ref points
+            );
+        }
+        return points;
     }
 }
