@@ -1,12 +1,12 @@
-﻿using SatansLilHelper.Utils;
+﻿using SatansLilHelper.Constants;
 
 namespace SatansLilHelper.Test.EntityTests;
 
 public static class EntityTestData
 {
-    public static IEnumerable<ResourceID> ResourceIDs()
+    public static IEnumerable<AbilityID> ResourceIDs()
     {
-        foreach (ResourceID id in Enum.GetValues(typeof(ResourceID)))
+        foreach (AbilityID id in Enum.GetValues(typeof(AbilityID)))
         {
             yield return id;
         }
