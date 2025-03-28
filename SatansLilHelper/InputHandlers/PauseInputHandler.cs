@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
@@ -11,7 +12,7 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
 
-internal class PauseInputHandler : IInputHandler
+internal class PauseInputHandler : IInputHandler, ISaveable
 {
     private IInputHandler Parent;
     private Rectangle ShadeShape;
@@ -79,7 +80,13 @@ internal class PauseInputHandler : IInputHandler
         else if (Menu.Selection.Key == GameStrings.ToMenu)
             value = new TitleInputHandler();
         else if (Menu.Selection.Key == GameStrings.ToDesktop)
-            EventBus.Send<EventMessage>(Events.QuitGame, new EventMessage());
+            EventBus.Send(Events.QuitGame, new EventMessage());
         return value;
+    }
+
+    public void DumpData(string path)
+    {
+        if (Parent is ISaveable saveable)
+            saveable.DumpData(path);
     }
 }
