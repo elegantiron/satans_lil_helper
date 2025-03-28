@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -98,6 +99,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         PlaceEntity(entity, position.X, position.Y);
     }
 
+    public void PlaceEntity(Entity entity, Point position)
+    {
+        PlaceEntity(entity, position.X, position.Y);
+    }
+
     public Camera Camera
     {
         get { return camera; }
@@ -115,7 +121,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
     public abstract void SpawnEntities();
 
-    #region interface implementation
     public Entity Player => player;
 
     public EntityStore Registry => registry;
@@ -130,6 +135,32 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        DrawTiles(spriteBatch, textureMap);
+        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
+        DrawEntities(spriteBatch, textureMap);
+    }
+
+    public abstract void GenerateMap(Point size);
+
+    public virtual void ProcessTurns()
+    {
+        while (!_initiativeTracker.IsPlayerNext)
+        {
+            Entity entity = _initiativeTracker.GetNextActor();
+            Location entLoc = entity.GetComponent<Location>();
+            Point entLocPoint = new(entLoc.X, entLoc.Y);
+            int vision = EntityCalcs.GetStat(entity, AbilityID.Vision);
+            int light = EntityCalcs.GetStat(entity, AbilityID.LightRadius);
+            float radius = Math.Min(vision, light);
+            List<Point> points = ShadowCast.GetVisibleTiles(this, entLocPoint, radius);
+            Point playerPoint = new((int)playerPos.X, (int)playerPos.Y);
+            if (points.Contains(playerPoint)) { }
+            else { }
+        }
+    }
+
+    protected void DrawTiles(SpriteBatch spriteBatch, Dictionary<TextureID, Texture2D> textureMap)
+    {
         Point offset = camera.GetOffset();
         Vector2 spriteTarget = Vector2.Zero;
 
@@ -142,11 +173,20 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             {
                 if (j < 0 || j >= mapSize.Y)
                     continue;
+                if (!tiles[i, j].Explored)
+                    continue;
                 spriteTarget.Y = (j - offset.Y) * 32;
                 spriteBatch.Draw(textureMap[tiles[i, j].Texture], spriteTarget, Color.White);
             }
         }
-        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
+    }
+
+    protected void DrawEntities(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap
+    )
+    {
+        Point offset = camera.GetOffset();
         foreach (Entity entity in GetDrawableEntities.Entities)
         {
             index = entity.GetComponent<TextureIndex>();
@@ -191,7 +231,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         }
     }
 
-    public abstract void GenerateMap(Point size);
-
-    #endregion interface implementation
+    public void UpdatePlayerVision()
+    {
+        int viewRadius = EntityCalcs.GetStat(Player, AbilityID.Vision);
+        int lightRadius = EntityCalcs.GetStat(Player, AbilityID.LightRadius);
+        float playerView = (float)Math.Min(viewRadius, lightRadius);
+        Location playerLoc = Player.GetComponent<Location>();
+        ShadowCast.ComputeVisibility(this, new Point(playerLoc.X, playerLoc.Y), playerView);
+    }
 }
