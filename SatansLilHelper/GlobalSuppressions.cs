@@ -5,4 +5,13 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:SatansLilHelper.Utils.GameMaps.BaseMap.PlaceEntity(Friflo.Engine.ECS.Entity,System.Int32,System.Int32)")]
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1822:Mark members as static",
+    Justification = "<Pending>"
+)]
+[assembly: SuppressMessage(
+    "Style",
+    "IDE1006:Naming Styles",
+    Justification = "I don't care about your naming style!"
+)]
