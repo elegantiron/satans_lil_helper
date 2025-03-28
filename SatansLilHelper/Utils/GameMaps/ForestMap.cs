@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
@@ -55,7 +56,7 @@ internal class ForestMap(
     {
         int neighbors = map[target.X, target.Y];
         Point test = new(target.X, target.Y);
-        foreach ((int X, int Y) in Constants.NeighborDirections)
+        foreach ((int X, int Y) in Dicts.NeighborDirections)
         {
             test.X = target.X + X;
             test.Y = target.Y + Y;
