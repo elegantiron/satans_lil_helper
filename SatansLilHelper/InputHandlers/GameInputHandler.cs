@@ -34,6 +34,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         rng = new();
         mapSize = new Point(100, 100);
         GameWorld = new(rng, mapSize);
+        GameWorld.CurrentMap.UpdatePlayerVision();
         ActionStack = new();
         MessageLog = new();
         StatusShadeShape = Rectangle.Empty;
@@ -219,6 +220,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 true
             )
         );
+        GameWorld.CurrentMap.UpdatePlayerVision();
         GameWorld.GetNextActor();
     }
 
