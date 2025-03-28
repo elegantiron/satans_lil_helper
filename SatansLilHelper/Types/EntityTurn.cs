@@ -22,7 +22,8 @@ internal struct EntityTurn : IAction
         _entity = entity;
         _actions = [];
         _moves = _attacks = 0;
-        _attacksMax = EntityCalcs.GetStat(_entity, AbilityID.Speed);
+        _movesMax = EntityCalcs.GetStat(_entity, AbilityID.Speed);
+        _attacksMax = 1;
     }
 
     public readonly void Perform()
@@ -49,21 +50,27 @@ internal struct EntityTurn : IAction
             );
         if (action is IMoveAction && _moves < _movesMax)
         {
+            action.Perform();
             _actions.Add(action);
             _moves++;
         }
         else if (action is IAttackAction && _attacks < _attacksMax)
         {
+            action.Perform();
             _actions.Add(action);
             _attacks++;
         }
         else if (action is ISwiftAction && !_swift)
         {
+            action.Perform();
             _actions.Add(action);
             _swift = true;
         }
         else if (action is IFreeAction)
+        {
+            action.Perform();
             _actions.Add(action);
+        }
     }
 
     public void RemoveLastAction()
@@ -76,6 +83,7 @@ internal struct EntityTurn : IAction
             _attacks--;
         else if (_actions[^1] is ISwiftAction)
             _swift = false;
+        _actions[^1].Rewind();
         _actions.RemoveAt(_actions.Count - 1);
     }
 }
