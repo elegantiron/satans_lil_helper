@@ -18,4 +18,10 @@ public static class Items
         entity.AddComponent(new EntityName("Healing Potion"));
         entity.AddComponent(new EffectPower(rng.Next(1, 8) + 2));
     }
+
+    public static void Torch(Entity entity)
+    {
+        Base(entity);
+        entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 6m));
+    }
 }
