@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
 using SatansLilHelper.EntityTags;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
@@ -17,8 +18,8 @@ internal static class Enemies
         entity.AddComponent(new Attack(0, 0));
         entity.AddComponent(new TextureIndex());
 
-        entity.AddRelation(new ResourceStat(ResourceID.Health, 0));
-        entity.AddRelation(new ResourceStat(ResourceID.Mana, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Health, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Mana, 0));
 
         entity.AddRelation(new AbilityStat(AbilityID.Strength, 0));
         entity.AddRelation(new AbilityStat(AbilityID.MagicPower, 0));
@@ -42,7 +43,7 @@ internal static class Enemies
         entity.AddComponent(new ActionDelay(rng.Next(1, 15)));
         entity.AddComponent(new TextureIndex(TextureID.Wolf));
 
-        entity.AddRelation(new ResourceStat(ResourceID.Health, rng.Next(1, 8) + 16));
+        entity.AddRelation(new AbilityStat(AbilityID.Health, rng.Next(1, 8) + 16));
 
         entity.AddRelation(new AbilityStat(AbilityID.Strength, 2));
         entity.AddRelation(new AbilityStat(AbilityID.PhysicalDefense, 5));
