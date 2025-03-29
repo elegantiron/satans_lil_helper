@@ -20,7 +20,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
-    private MersenneTwister rng = new MersenneTwister();
+    private MersenneTwister rng = new();
 
     private bool _eyesOpen = true;
     private double _nextBlink;
