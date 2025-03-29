@@ -455,6 +455,13 @@ public static class ShadowCast
         }
     }
 
+    /// <summary>
+    /// Gets a list of tiles an entity can see.
+    /// </summary>
+    /// <param name="grid">Map to operate on</param>
+    /// <param name="gridPosn">Position of the viewing entity</param>
+    /// <param name="viewRadius">Distance the entity can see</param>
+    /// <returns>A <c>List</c> of <c>Point</c>s representing tiles the entity can see.</returns>
     public static List<Point> GetVisibleTiles(ICellGrid grid, Point gridPosn, float viewRadius)
     {
         List<Point> points = [gridPosn];
