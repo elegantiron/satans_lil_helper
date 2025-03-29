@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -9,13 +10,7 @@ internal class BumpAction : ActionWithDirection
 {
     private ActionWithDirection Action;
 
-    public BumpAction(
-        Entity entity,
-        Point direction,
-        BaseMap gameMap,
-        MersenneTwister rng,
-        bool isPlayer
-    )
+    public BumpAction(Entity entity, Point direction, BaseMap gameMap, IRandom rng, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)
     {
         if (_target == null)
