@@ -22,7 +22,7 @@ internal class DebugMenuInputHandler : IInputHandler
     {
         Parent = parent;
         ShadeShape = Rectangle.Empty;
-        Menu = new(Color.Blue, Color.White, FontID.Menu);
+        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
         Menu.AddItem(GameStrings.Resume);
         Menu.AddItem(GameStrings.DebugHeal);
         Menu.AddItem(GameStrings.DebugSpawnNear);
