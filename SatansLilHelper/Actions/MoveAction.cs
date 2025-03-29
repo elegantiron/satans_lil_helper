@@ -22,21 +22,25 @@ internal class MoveAction : ActionWithDirection, IMessageSender, IMoveAction
         : base(entity, direction, gameMap, isPlayer)
     {
         if (_isBlocked)
+        {
             if (_isOffMap)
                 _messages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
             else
                 _messages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
+        }
     }
 
     public override void Perform()
     {
         if (!_isBlocked)
             _entity.AddComponent<Location>(Destination);
+        base.Perform();
     }
 
     public override void Rewind()
     {
         if (!_isBlocked)
             _entity.AddComponent<Location>(Origin);
+        base.Rewind();
     }
 }
