@@ -18,7 +18,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
 {
     protected byte[] _preState,
         _postState;
-    protected MersenneTwister _twister;
+    protected IRandom _twister;
     protected uint _damage;
     protected bool _isKill;
     protected string _targetName;
@@ -27,13 +27,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
         get { return _messages; }
     }
 
-    public MeleeAction(
-        Entity entity,
-        Point direction,
-        BaseMap gameMap,
-        MersenneTwister rng,
-        bool isPlayer
-    )
+    public MeleeAction(Entity entity, Point direction, BaseMap gameMap, IRandom rng, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)
     {
         if (_isBlocked && _target is Entity targetEnt)
