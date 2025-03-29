@@ -106,7 +106,7 @@ public class Engine : Game
         _textureMap.Add(TextureID.SatanMain, Content.Load<Texture2D>(FilePaths.SatanMain));
         _textureMap.Add(
             TextureID.SatanEyesClosed,
-            Content.Load<Texture2D>(FilePaths.SatanEyesOpen)
+            Content.Load<Texture2D>(FilePaths.SatanEyesClosed)
         );
         _textureMap.Add(TextureID.SatanEyesOpen, Content.Load<Texture2D>(FilePaths.SatanEyesOpen));
         _textureMap.Add(
