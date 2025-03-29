@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using Friflo.Engine.ECS;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,11 +8,14 @@ using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
+using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
 internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 {
+    private struct Range { public int Min, Max; }
+    private Range _blinkInterval = new() { Min = 6, Max = 9 };
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
@@ -28,7 +27,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public TitleInputHandler()
     {
-        _nextBlink = rng.Next(60, 300);
+        _nextBlink = rng.Next(6, 9);
     }
 
     public void Draw(
@@ -109,7 +108,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     private void CalculateBlink(GameTime gameTime)
     {
-        _nextBlink = rng.Next(60, 80) + gameTime.TotalGameTime.TotalSeconds;
+        _nextBlink = rng.Next(_blinkInterval.Min, _blinkInterval.Max) + gameTime.TotalGameTime.TotalSeconds;
         _blinkEnd = rng.Next(1) + rng.NextDouble() + gameTime.TotalGameTime.TotalSeconds;
     }
 }
