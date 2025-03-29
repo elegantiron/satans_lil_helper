@@ -28,7 +28,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
     protected EntityStore registry;
     protected Tile[,] tiles;
     protected Point mapSize;
-    protected MersenneTwister rng;
+    protected IRandom rng;
     protected Camera camera;
     protected InitiativeTracker _initiativeTracker;
 
@@ -38,7 +38,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
     private TextureIndex index;
     private Location entityLocation;
 
-    public BaseMap(Point mapSize, MersenneTwister rng, Point screenSize, bool makePlayer = false)
+    public BaseMap(Point mapSize, IRandom rng, Point screenSize, bool makePlayer = false)
     {
         this.mapSize = mapSize;
         this.rng = rng;
@@ -85,8 +85,8 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         bool chosen = false;
         while (!chosen)
         {
-            int X = rng.Next(1, mapSize.X);
-            int Y = rng.Next(1, mapSize.Y);
+            int X = (int)rng.Next(1, (uint)mapSize.X);
+            int Y = (int)rng.Next(1, (uint)mapSize.Y);
             if (tiles[X, Y].Walkable)
             {
                 PlaceEntity(entity, X, Y);
