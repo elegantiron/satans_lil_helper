@@ -14,19 +14,19 @@ namespace SatansLilHelper.InputHandlers;
 
 internal class DebugMenuInputHandler : IInputHandler
 {
-    private GameInputHandler Parent;
-    private Rectangle ShadeShape;
-    private Menu Menu;
+    private GameInputHandler _parent;
+    private Rectangle _shadeShape;
+    private Menu _menu;
 
     public DebugMenuInputHandler(GameInputHandler parent)
     {
-        Parent = parent;
-        ShadeShape = Rectangle.Empty;
-        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
-        Menu.AddItem(GameStrings.Resume);
-        Menu.AddItem(GameStrings.DebugHeal);
-        Menu.AddItem(GameStrings.DebugSpawnNear);
-        Menu.AddItem(GameStrings.DebugNewSeed);
+        _parent = parent;
+        _shadeShape = Rectangle.Empty;
+        _menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
+        _menu.AddItem(GameStrings.Resume);
+        _menu.AddItem(GameStrings.DebugHeal);
+        _menu.AddItem(GameStrings.DebugSpawnNear);
+        _menu.AddItem(GameStrings.DebugNewSeed);
     }
 
     public void Draw(
@@ -37,20 +37,20 @@ internal class DebugMenuInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        if (ShadeShape == Rectangle.Empty)
+        if (_shadeShape == Rectangle.Empty)
         {
-            ShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 8;
-            ShadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 8;
-            ShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
-            ShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
+            _shadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 8;
+            _shadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 8;
+            _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
+            _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
         }
-        Parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
         spriteBatch.Draw(
             textureMap[TextureID.WhitePixel],
-            ShadeShape,
+            _shadeShape,
             Constants.Colors.TranslucentBlack
         );
-        Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -59,7 +59,7 @@ internal class DebugMenuInputHandler : IInputHandler
         {
             case Keys.Up:
             case Keys.Down:
-                Menu.HandleKey(key);
+                _menu.HandleKey(key);
                 break;
             case Keys.Enter:
                 return OnExit();
@@ -69,14 +69,14 @@ internal class DebugMenuInputHandler : IInputHandler
 
     public GameInputHandler OnExit()
     {
-        if (Menu.Selection.Key == GameStrings.DebugHeal)
-            Parent.HealPlayer();
-        else if (Menu.Selection.Key == GameStrings.DebugSpawnNear)
-            Parent.SpawnNear();
-        else if (Menu.Selection.Key == GameStrings.DebugNewSeed)
-            Parent.ResetSeed();
+        if (_menu.Selection.Key == GameStrings.DebugHeal)
+            _parent.HealPlayer();
+        else if (_menu.Selection.Key == GameStrings.DebugSpawnNear)
+            _parent.SpawnNear();
+        else if (_menu.Selection.Key == GameStrings.DebugNewSeed)
+            _parent.ResetSeed();
 
-        return Parent;
+        return _parent;
     }
 }
 #endif
