@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,17 +14,13 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
 
-internal class TitleInputHandler : IInputHandler
+internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 {
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
-    private List<TextureID> satanTextures =
-    [
-        TextureID.SatanMain,
-        TextureID.SatanMouthClosed,
-        TextureID.SatanEyesOpen,
-    ];
+
+    private bool eyes_open = true;
 
     public void Draw(
         SpriteBatch spriteBatch,
@@ -54,6 +52,11 @@ internal class TitleInputHandler : IInputHandler
             SpriteEffects.None,
             1f
         );
+        List<TextureID> satanTextures = [TextureID.SatanMain, TextureID.SatanMouthClosed];
+        if (eyes_open)
+            satanTextures.Add(TextureID.SatanEyesOpen);
+        else
+            satanTextures.Add(TextureID.SatanEyesClosed);
         foreach (TextureID index in satanTextures)
         {
             spriteBatch.Draw(
@@ -81,5 +84,10 @@ internal class TitleInputHandler : IInputHandler
                 return new MainMenuInputHandler();
         }
         return this;
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        // TODO put blink logic here
     }
 }
