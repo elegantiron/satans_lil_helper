@@ -100,7 +100,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 StatusShadeShape,
                 Colors.TranslucentBlack
             );
-            DrawStatus(spriteBatch, textureMap, fontMap);
+            DrawStatus(spriteBatch, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
         }
     }
@@ -123,11 +123,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         MessageLogVecs.Location = LocationVecs.Location;
     }
 
-    private void DrawStatus(
-        SpriteBatch spriteBatch,
-        Dictionary<TextureID, Texture2D> textureMap,
-        Dictionary<FontID, SpriteFont> fontMap
-    )
+    private void DrawStatus(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
     {
         spriteBatch.DrawString(
             fontMap[FontID.Status],
