@@ -18,7 +18,7 @@ namespace SatansLilHelper.InputHandlers;
 
 internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 {
-    protected MersenneTwister rng;
+    protected IRandom rng;
     protected Point mapSize;
     protected GameWorld GameWorld;
     protected ActionStack ActionStack;
@@ -32,7 +32,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public GameInputHandler()
     {
-        rng = new();
+        rng = new MersenneTwister();
         mapSize = new Point(100, 100);
         GameWorld = new(rng, mapSize);
         GameWorld.CurrentMap.UpdatePlayerVision();
@@ -88,20 +88,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     {
         if (StatusShadeShape == Rectangle.Empty)
         {
-            StatusShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width * 4 / 5;
-            StatusShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 5;
-            StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
-
-            Vector2 textSize = fontMap[FontID.Status]
-                .MeasureString(Properties.GameStrings.StatusTitle);
-            StatusVecs.Origin.X = textSize.X / 2;
-            StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
-            LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
-            LocationVecs.Location.X = StatusShadeShape.X + 10;
-            HealthVecs.Location.X = LocationVecs.Location.X;
-            HealthVecs.Location.Y = LocationVecs.Location.Y + 2 * textSize.Y;
-            ManaVecs.Location.Y = HealthVecs.Location.Y + textSize.Y;
-            ManaVecs.Location.X = LocationVecs.Location.X;
+            SetVecs(spriteBatch, fontMap);
         }
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
         if (Properties.Settings.Default.ShowStatus)
@@ -109,6 +96,24 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             DrawStatus(spriteBatch, textureMap, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
         }
+    }
+
+    private void SetVecs(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
+    {
+        StatusShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width * 4 / 5;
+        StatusShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 5;
+        StatusShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height;
+
+        Vector2 textSize = fontMap[FontID.Status].MeasureString(Properties.GameStrings.StatusTitle);
+        StatusVecs.Origin.X = textSize.X / 2;
+        StatusVecs.Location.X = StatusShadeShape.X + StatusShadeShape.Width / 2;
+        LocationVecs.Location.Y = StatusVecs.Location.Y + textSize.Y * 1.5f;
+        LocationVecs.Location.X = StatusShadeShape.X + 10;
+        HealthVecs.Location.X = LocationVecs.Location.X;
+        HealthVecs.Location.Y = LocationVecs.Location.Y + 2 * textSize.Y;
+        ManaVecs.Location.Y = HealthVecs.Location.Y + textSize.Y;
+        ManaVecs.Location.X = LocationVecs.Location.X;
+        MessageLogVecs.Location = LocationVecs.Location;
     }
 
     private void DrawStatus(
@@ -171,16 +176,12 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     private void DrawMessageLog(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
     {
-        if (MessageLogVecs.Location == Vector2.Zero)
-        {
-            MessageLogVecs.Location = LocationVecs.Location;
-        }
         MessageLogVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2 + 5;
-        var messages = MessageLog.Messages;
+        List<(string, Color)> messages = MessageLog.Messages;
         messages.Reverse();
+        Vector2 textSize = Vector2.Zero;
         foreach ((string message, Color color) in messages)
         {
-            Vector2 textSize = Vector2.Zero;
             List<string> wrappedText = message.Wrap(
                 fontMap[FontID.Messages],
                 StatusShadeShape.Width - 15
@@ -242,30 +243,12 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public void ResetSeed()
     {
-        rng.Seed((uint)Environment.TickCount);
+        rng.Seed(Environment.TickCount);
     }
 #endif
 
     public void Update(GameTime gameTime)
     {
-        while (!GameWorld.IsPlayerNext)
-        {
-            // Handle enemy turns
-            Entity entity = GameWorld.GetNextActor();
-            Location location = entity.GetComponent<Location>();
-            Point entPos = new(location.X, location.Y);
-            int vision = EntityCalcs.GetStat(entity, AbilityID.Vision);
-            int light = EntityCalcs.GetStat(entity, AbilityID.LightRadius);
-            int radius = Math.Min(vision, light);
-            List<Point> visibleTiles = ShadowCast.GetVisibleTiles(
-                GameWorld.CurrentMap,
-                entPos,
-                radius
-            );
-
-            // Decide what the entity should do
-            // Check that the entity has enough of the right moves
-            // to perform the chosen action
-        }
+        (GameWorld as IRegistry).Update(gameTime);
     }
 }
