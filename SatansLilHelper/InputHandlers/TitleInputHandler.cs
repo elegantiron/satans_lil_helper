@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -19,8 +20,16 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
+    private MersenneTwister rng = new MersenneTwister();
 
-    private bool eyes_open = true;
+    private bool _eyesOpen = true;
+    private double _nextBlink;
+    private double _blinkEnd;
+
+    public TitleInputHandler()
+    {
+        _nextBlink = rng.Next(60, 300);
+    }
 
     public void Draw(
         SpriteBatch spriteBatch,
@@ -45,7 +54,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
             fontMap[FontID.Title],
             GameStrings.GameTitle,
             titlePosition,
-            Constants.Colors.AmericanRose,
+            Colors.AmericanRose,
             0f,
             titleOrigin,
             1f,
@@ -53,7 +62,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
             1f
         );
         List<TextureID> satanTextures = [TextureID.SatanMain, TextureID.SatanMouthClosed];
-        if (eyes_open)
+        if (_eyesOpen)
             satanTextures.Add(TextureID.SatanEyesOpen);
         else
             satanTextures.Add(TextureID.SatanEyesClosed);
@@ -63,7 +72,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
                 textureMap[index],
                 satanVecs.Location,
                 null,
-                Color.White,
+                Colors.White,
                 0f,
                 satanVecs.Origin,
                 1f,
@@ -88,6 +97,19 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public void Update(GameTime gameTime)
     {
-        // TODO put blink logic here
+        double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
+        if (totalSeconds > _nextBlink)
+        {
+            CalculateBlink(gameTime);
+            _eyesOpen = false;
+        }
+        else if (totalSeconds > _blinkEnd)
+            _eyesOpen = true;
+    }
+
+    private void CalculateBlink(GameTime gameTime)
+    {
+        _nextBlink = rng.Next(60, 80) + gameTime.TotalGameTime.TotalSeconds;
+        _blinkEnd = rng.Next(1) + rng.NextDouble() + gameTime.TotalGameTime.TotalSeconds;
     }
 }
