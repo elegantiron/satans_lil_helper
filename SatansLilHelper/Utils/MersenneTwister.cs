@@ -61,6 +61,11 @@ public class MersenneTwister : IRandom
         }
     }
 
+    public void Seed(int seed)
+    {
+        Seed((uint)seed);
+    }
+
     /// <summary>
     /// Get the next value as a <c>uint</c>
     /// </summary>
