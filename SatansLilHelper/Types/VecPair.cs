@@ -2,12 +2,12 @@
 
 namespace SatansLilHelper.Types;
 
-public struct TextVecs
+public struct VecPair
 {
     public Vector2 Location,
         Origin;
 
-    public TextVecs()
+    public VecPair()
     {
         Location = Origin = Vector2.Zero;
     }

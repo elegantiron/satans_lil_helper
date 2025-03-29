@@ -37,7 +37,7 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
         _unselectedColor = unselected,
         _disabledColor = Color.Gray;
     private List<MenuItem> _items = [];
-    private TextVecs _textVecs = new();
+    private VecPair _textVecs = new();
     private Vector2 _size = Vector2.Zero;
     private FontID _font = font;
     private int _index = 0;

@@ -17,7 +17,7 @@ internal class SettingsInputHandler : IInputHandler
 {
     private IInputHandler _parent;
     private Menu Menu;
-    private TextVecs TextVecs;
+    private VecPair TextVecs;
 
     public SettingsInputHandler(IInputHandler parent)
     {

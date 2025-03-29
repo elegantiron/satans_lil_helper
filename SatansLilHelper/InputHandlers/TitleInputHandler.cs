@@ -16,7 +16,7 @@ internal class TitleInputHandler : IInputHandler
 {
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
-    private TextVecs satanVecs = new();
+    private VecPair satanVecs = new();
     private List<TextureID> satanTextures =
     [
         TextureID.SatanMain,

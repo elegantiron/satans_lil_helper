@@ -24,7 +24,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     protected ActionStack ActionStack;
     protected MessageLog MessageLog;
     protected Rectangle StatusShadeShape;
-    private TextVecs StatusVecs,
+    private VecPair StatusVecs,
         MessageLogVecs,
         LocationVecs,
         HealthVecs,
@@ -90,9 +90,16 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         {
             SetVecs(spriteBatch, fontMap);
         }
+
         GameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+
         if (Properties.Settings.Default.ShowStatus)
         {
+            spriteBatch.Draw(
+                textureMap[TextureID.WhitePixel],
+                StatusShadeShape,
+                Colors.TranslucentBlack
+            );
             DrawStatus(spriteBatch, textureMap, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
         }
@@ -122,11 +129,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        spriteBatch.Draw(
-            textureMap[TextureID.WhitePixel],
-            StatusShadeShape,
-            Colors.TranslucentBlack
-        );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
             Properties.GameStrings.StatusTitle,
