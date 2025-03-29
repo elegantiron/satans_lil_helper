@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using SatansLilHelper.Constants;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-internal class ForestMap(
-    Point mapSize,
-    MersenneTwister rng,
-    Point screenSize,
-    bool makePlayer = false
-) : BaseMap(mapSize, rng, screenSize, makePlayer)
+internal class ForestMap(Point mapSize, IRandom rng, Point screenSize, bool makePlayer = false)
+    : BaseMap(mapSize, rng, screenSize, makePlayer)
 {
     public override void GenerateMap(Point size)
     {
