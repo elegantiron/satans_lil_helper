@@ -47,7 +47,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         {
             player = registry.CreateEntity();
             player.AddComponent(new EntityName("Player"));
-            Professions.Warrior(player);
+            Professions.Warrior(player, rng);
         }
         tiles = new Tile[this.mapSize.X, this.mapSize.Y];
         GenerateMap(this.mapSize);
