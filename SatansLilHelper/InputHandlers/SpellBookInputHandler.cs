@@ -48,6 +48,7 @@ internal class SpellBookInputHandler(IInputHandler parent) : IInputHandler
     {
         return key switch
         {
+            Keys.S => _parent,
             Keys.Escape => _parent,
             _ => this,
         };
