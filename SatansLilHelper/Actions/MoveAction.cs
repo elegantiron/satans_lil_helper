@@ -21,7 +21,7 @@ internal class MoveAction : ActionWithDirection, IMessageSender, IMoveAction
     public MoveAction(Entity entity, Point direction, BaseMap gameMap, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)
     {
-        if (_isBlocked)
+        if (_isBlocked && _isPlayer)
         {
             if (_isOffMap)
                 _messages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
