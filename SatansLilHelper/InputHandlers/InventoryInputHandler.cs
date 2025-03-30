@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -45,16 +46,29 @@ internal class InventoryInputHandler(GameInputHandler parent) : IInputHandler
         );
 
         _listVecs.Location.Y = _titleVecs.Location.Y + fontMap[FontID.Menu].LineSpacing * 1.5f;
+        //_listVecs.Location.Y = _shadeShape.Y;
+        _listVecs.Location.X = _shadeShape.X + 25;
         foreach (Entity ent in _parent.CurrentMap.Player.GetIncomingLinks<Holder>().Entities)
         {
+            if (_listVecs.Location.Y > _shadeShape.Height)
+            {
+                _listVecs.Location.Y =
+                    _titleVecs.Location.Y + fontMap[FontID.Menu].LineSpacing * 1.5f;
+                _listVecs.Location.X += (_shadeShape.Width - 50) / 3;
+                if (_listVecs.Location.X > _shadeShape.Width)
+                    break;
+            }
             EntityName entName = ent.GetComponent<EntityName>();
+            string displayName = "" + entName.value;
+            if (ent.TryGetComponent(out Equipper _))
+                displayName += " (e)";
             spriteBatch.DrawString(
                 fontMap[FontID.Status],
-                entName.value,
+                displayName,
                 _listVecs.Location,
                 Colors.White
             );
-            _listVecs.Location.Y += fontMap[FontID.Status].LineSpacing;
+            _listVecs.Location.Y += fontMap[FontID.Status].LineSpacing * 1.15f;
         }
     }
 
@@ -79,6 +93,6 @@ internal class InventoryInputHandler(GameInputHandler parent) : IInputHandler
         _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
         _titleVecs.Location.Y = _shadeShape.Y + 10;
         _listVecs.Location.Y = _titleVecs.Location.Y + textSize.Y * 1.5f;
-        _listVecs.Location.X = _shadeShape.X + 10;
+        _listVecs.Location.X = _shadeShape.X + 25;
     }
 }
