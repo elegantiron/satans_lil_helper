@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.IO;
+using FontStashSharp;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,19 +11,24 @@ using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
-using System.Collections.Generic;
 
 namespace SatansLilHelper.InputHandlers;
 
 internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 {
-    private struct Range { public int Min, Max; }
+    private struct Range
+    {
+        public int Min,
+            Max;
+    }
+
     private Range _blinkInterval = new() { Min = 6, Max = 9 };
     private Vector2 titlePosition = Vector2.Zero;
     private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
     private MersenneTwister rng = new();
-
+    private SpriteFontBase _font;
+    private FontSystem _fontSystem;
     private bool _eyesOpen = true;
     private double _nextBlink;
     private double _blinkEnd;
@@ -28,6 +36,9 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
     public TitleInputHandler()
     {
         _nextBlink = rng.Next(6, 9);
+        _fontSystem = new();
+        _fontSystem.AddFont(File.ReadAllBytes(@"Content/Fonts/FairyDustB.ttf"));
+        _font = _fontSystem.GetFont(125);
     }
 
     public void Draw(
@@ -42,23 +53,21 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
         {
             titlePosition.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
             titlePosition.Y = 5;
-            Vector2 width = fontMap[FontID.Title].MeasureString(GameStrings.GameTitle);
+            Vector2 width = _font.MeasureString(GameStrings.GameTitle);
             titleOrigin.X = width.X / 2;
             satanVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
             satanVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2;
             satanVecs.Origin.X = textureMap[TextureID.SatanMain].Width / 2;
             satanVecs.Origin.Y = textureMap[TextureID.SatanMain].Height / 2;
         }
+
         spriteBatch.DrawString(
-            fontMap[FontID.Title],
+            _font,
             GameStrings.GameTitle,
             titlePosition,
             Colors.AmericanRose,
             0f,
-            titleOrigin,
-            1f,
-            SpriteEffects.None,
-            1f
+            titleOrigin
         );
         List<TextureID> satanTextures = [TextureID.SatanMain, TextureID.SatanMouthClosed];
         if (_eyesOpen)
@@ -108,7 +117,8 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     private void CalculateBlink(GameTime gameTime)
     {
-        _nextBlink = rng.Next(_blinkInterval.Min, _blinkInterval.Max) + gameTime.TotalGameTime.TotalSeconds;
+        _nextBlink =
+            rng.Next(_blinkInterval.Min, _blinkInterval.Max) + gameTime.TotalGameTime.TotalSeconds;
         _blinkEnd = rng.Next(1) + rng.NextDouble() + gameTime.TotalGameTime.TotalSeconds;
     }
 }
