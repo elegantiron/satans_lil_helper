@@ -44,7 +44,7 @@ internal static class Professions
         entity.AddComponent(new Location(0, 0));
         entity.AddComponent(new Level(1));
         entity.AddComponent(new ItemSlots(ItemType.Warrior));
-        entity.AddComponent(new Attack(1, 6));
+        entity.AddComponent(new Attack(1, 2));
 
         #region Resource Stats
         entity.AddRelation(new AbilityStat(AbilityID.Health, 60, 10));
@@ -57,20 +57,18 @@ internal static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.PhysicalDefense, 7, 0.5m));
         entity.AddRelation(new AbilityStat(AbilityID.MagicDefense, 2, 0.25m));
         entity.AddRelation(new AbilityStat(AbilityID.Speed, 2, 0));
-        entity.AddRelation(new AbilityStat(AbilityID.Vision, 7, 0));
+        entity.AddRelation(new AbilityStat(AbilityID.Vision, 6, 0));
         #endregion Ability Stats
 
         #region Starting gear
-        // Torch
-        Entity torch = entity.Store.CreateEntity();
-        Items.Torch(torch);
-        torch.AddComponent(new Equipper(entity));
-        torch.AddComponent(new Holder(entity));
-        // Healing potion
-        Entity healingPotion = entity.Store.CreateEntity();
-        Items.HealthPotion(healingPotion, rng);
-        healingPotion.AddComponent(new Holder(entity));
-
+        Items.Torch(entity.Store.CreateEntity(), entity);
+        for (int i = 0; i < 50; i++)
+            Items.HealthPotion(entity.Store.CreateEntity(), entity, rng);
         #endregion starting gear
+
+        #region Starting skills
+        Skills.ShieldUp(entity.Store.CreateEntity(), entity);
+        Skills.Charge(entity.Store.CreateEntity(), entity);
+        #endregion starting skills
     }
 }
