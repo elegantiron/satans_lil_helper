@@ -143,23 +143,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
     public abstract void GenerateMap(Point size);
 
-    public virtual void ProcessTurns()
-    {
-        while (!_initiativeTracker.IsPlayerNext)
-        {
-            Entity entity = _initiativeTracker.GetNextActor();
-            Location entLoc = entity.GetComponent<Location>();
-            Point entLocPoint = new(entLoc.X, entLoc.Y);
-            int vision = EntityCalcs.GetStat(entity, AbilityID.Vision);
-            int light = EntityCalcs.GetStat(entity, AbilityID.LightRadius);
-            float radius = Math.Min(vision, light);
-            List<Point> points = ShadowCast.GetVisibleTiles(this, entLocPoint, radius);
-            Point playerPoint = new((int)playerPos.X, (int)playerPos.Y);
-            if (points.Contains(playerPoint)) { }
-            else { }
-        }
-    }
-
     protected void DrawTiles(SpriteBatch spriteBatch, Dictionary<TextureID, Texture2D> textureMap)
     {
         Point offset = camera.GetOffset();
@@ -174,8 +157,8 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             {
                 if (j < 0 || j >= mapSize.Y)
                     continue;
-                if (!tiles[i, j].Explored)
-                    continue;
+                if (!tiles[i, j].Explored) { }
+                //continue;
                 spriteTarget.Y = (j - offset.Y) * 32;
                 spriteBatch.Draw(
                     textureMap[tiles[i, j].Texture],
