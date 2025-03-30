@@ -147,6 +147,9 @@
   <data name="HealPotionMessage" xml:space="preserve">
     <value>You consume the potion, restoring {0} health.</value>
   </data>
+  <data name="Inventory.Title" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
   <data name="MapEdge" xml:space="preserve">
     <value>There is nothing but the void in that direction.</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="SpellBook" xml:space="preserve">
+    <value>Your Grimoire is not yet implemented!</value>
   </data>
   <data name="StatusHealth" xml:space="preserve">
     <value>Health: {0:D} / {1:D}</value>
