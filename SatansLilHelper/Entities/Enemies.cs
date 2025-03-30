@@ -50,5 +50,6 @@ internal static class Enemies
         entity.AddRelation(new AbilityStat(AbilityID.Crit, 1));
         entity.AddRelation(new AbilityStat(AbilityID.Speed, 3));
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 8));
+        entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 5));
     }
 }
