@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using FontStashSharp;
 using Microsoft.Xna.Framework;
@@ -24,9 +25,8 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     private Range _blinkInterval = new() { Min = 6, Max = 9 };
     private Vector2 titlePosition = Vector2.Zero;
-    private Vector2 titleOrigin = Vector2.Zero;
     private VecPair satanVecs = new();
-    private MersenneTwister rng = new();
+    private MersenneTwister _rng = new();
     private SpriteFontBase _font;
     private FontSystem _fontSystem;
     private bool _eyesOpen = true;
@@ -35,8 +35,14 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public TitleInputHandler()
     {
-        _nextBlink = rng.Next(6, 9);
-        _fontSystem = new();
+        _nextBlink = _rng.Next(_blinkInterval.Min, _blinkInterval.Max);
+        FontSystemSettings fontSettings = new()
+        {
+            FontResolutionFactor = 4.0f,
+            KernelHeight = 4,
+            KernelWidth = 4,
+        };
+        _fontSystem = new(fontSettings);
         _fontSystem.AddFont(File.ReadAllBytes(@"Content/Fonts/FairyDustB.ttf"));
         _font = _fontSystem.GetFont(125);
     }
@@ -51,24 +57,11 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
     {
         if (titlePosition == Vector2.Zero)
         {
-            titlePosition.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
-            titlePosition.Y = 5;
-            Vector2 width = _font.MeasureString(GameStrings.GameTitle);
-            titleOrigin.X = width.X / 2;
-            satanVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
-            satanVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2;
-            satanVecs.Origin.X = textureMap[TextureID.SatanMain].Width / 2;
-            satanVecs.Origin.Y = textureMap[TextureID.SatanMain].Height / 2;
+            CalculateVectors(spriteBatch, textureMap);
         }
-
-        spriteBatch.DrawString(
-            _font,
-            GameStrings.GameTitle,
-            titlePosition,
-            Colors.AmericanRose,
-            0f,
-            titleOrigin
-        );
+        (int rand1, int rand2, int rand3) = GetOffsets();
+        string titleString = string.Format(GameStrings.GameTitle, rand1, rand2, rand3);
+        spriteBatch.DrawString(_font, titleString, titlePosition, Colors.AmericanRose);
         List<TextureID> satanTextures = [TextureID.SatanMain, TextureID.SatanMouthClosed];
         if (_eyesOpen)
             satanTextures.Add(TextureID.SatanEyesOpen);
@@ -88,6 +81,20 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
                 1f
             );
         }
+    }
+
+    private void CalculateVectors(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap
+    )
+    {
+        titlePosition.Y = 5;
+        Vector2 width = _font.MeasureString(GameStrings.GameTitle);
+        titlePosition.X = (spriteBatch.GraphicsDevice.Viewport.Width - width.X) / 2;
+        satanVecs.Location.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+        satanVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2;
+        satanVecs.Origin.X = textureMap[TextureID.SatanMain].Width / 2;
+        satanVecs.Origin.Y = textureMap[TextureID.SatanMain].Height / 2;
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -118,7 +125,16 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
     private void CalculateBlink(GameTime gameTime)
     {
         _nextBlink =
-            rng.Next(_blinkInterval.Min, _blinkInterval.Max) + gameTime.TotalGameTime.TotalSeconds;
-        _blinkEnd = rng.Next(1) + rng.NextDouble() + gameTime.TotalGameTime.TotalSeconds;
+            _rng.Next(_blinkInterval.Min, _blinkInterval.Max) + gameTime.TotalGameTime.TotalSeconds;
+        _blinkEnd = _rng.Next(1) + _rng.NextDouble() + gameTime.TotalGameTime.TotalSeconds;
+    }
+
+    private (int, int, int) GetOffsets()
+    {
+        return (
+            (int)(_rng.Next(25) * (_rng.NextDouble() < 0.5 ? 1 : -1)),
+            (int)(_rng.Next(25) * (_rng.NextDouble() < 0.5 ? 1 : -1)),
+            (int)(_rng.Next(25) * (_rng.NextDouble() < 0.5 ? 1 : -1))
+        );
     }
 }
