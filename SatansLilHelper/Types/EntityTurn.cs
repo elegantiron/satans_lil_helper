@@ -15,7 +15,7 @@ internal struct EntityTurn : IAction
     private int _movesMax;
     private int _attacks;
     private int _attacksMax;
-    private bool _swift = false;
+    private bool _swift = true;
     public readonly Entity? Entity => _entity;
 
     public EntityTurn(Entity entity)
@@ -65,7 +65,7 @@ internal struct EntityTurn : IAction
         {
             action.Perform();
             _actions.Add(action);
-            _swift = true;
+            _swift = false;
         }
         else if (action is IFreeAction)
         {
@@ -83,8 +83,28 @@ internal struct EntityTurn : IAction
         else if (_actions[^1] is IAttackAction)
             _attacks--;
         else if (_actions[^1] is ISwiftAction)
-            _swift = false;
+            _swift = true;
         _actions[^1].Rewind();
         _actions.RemoveAt(_actions.Count - 1);
+    }
+
+    public readonly bool HasActions
+    {
+        get { return HasMoves && HasAttacks && HasSwift; }
+    }
+
+    public readonly bool HasMoves
+    {
+        get { return _moves < _movesMax; }
+    }
+
+    public readonly bool HasAttacks
+    {
+        get { return _attacks < _attacksMax; }
+    }
+
+    public readonly bool HasSwift
+    {
+        get { return _swift; }
     }
 }
