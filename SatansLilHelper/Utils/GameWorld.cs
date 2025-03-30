@@ -8,31 +8,36 @@ namespace SatansLilHelper.Utils;
 
 internal class GameWorld : IRegistry
 {
-    private List<BaseMap> maps;
-    private int currentMap = 0;
-    private IRandom rng;
-    private Point mapSize;
+    private List<BaseMap> _maps;
+    private int _currentMap = 0;
+    private IRandom _rng;
+    private Point _mapSize;
 
     public GameWorld(IRandom rng, Point mapSize)
     {
-        this.rng = rng;
-        this.mapSize = mapSize;
-        maps = [new ForestMap(this.mapSize, this.rng, new Point(1280, 720), true)];
+        this._rng = rng;
+        this._mapSize = mapSize;
+        _maps = [new ForestMap(this._mapSize, this._rng, new Point(1280, 720), true)];
     }
 
     public Entity Player
     {
-        get { return maps[currentMap].Player; }
+        get { return _maps[_currentMap].Player; }
     }
 
     public BaseMap CurrentMap
     {
-        get { return maps[currentMap]; }
+        get { return _maps[_currentMap]; }
     }
 
     public bool IsPlayerNext
     {
-        get { return maps[currentMap].IsPlayerNext; }
+        get { return _maps[_currentMap].IsPlayerNext; }
+    }
+
+    public IRandom Generator
+    {
+        get { return _rng; }
     }
 
     /// <summary>
@@ -41,6 +46,6 @@ internal class GameWorld : IRegistry
     /// <returns>The <c>Entity</c> to act next.</returns>
     public Entity GetNextActor()
     {
-        return maps[currentMap].GetNextActor();
+        return _maps[_currentMap].GetNextActor();
     }
 }
