@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +44,7 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
-        InputHandler = new TitleInputHandler();
+        InputHandler = new GameInputHandler();
         Properties.Settings.Default.Reset();
 #endif
         _gamePath = Path.Combine(
