@@ -151,6 +151,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string Inventory_Title {
+            get {
+                return ResourceManager.GetString("Inventory.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is nothing but the void in that direction..
         /// </summary>
         internal static string MapEdge {
@@ -219,6 +228,15 @@ namespace SatansLilHelper.Properties {
         internal static string SettingsTitle {
             get {
                 return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Grimoire is not yet implemented!.
+        /// </summary>
+        internal static string SpellBook {
+            get {
+                return ResourceManager.GetString("SpellBook", resourceCulture);
             }
         }
         
