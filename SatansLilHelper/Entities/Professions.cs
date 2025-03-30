@@ -2,11 +2,12 @@
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.EntityTags;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Entities;
 
-public static class Professions
+internal static class Professions
 {
     private static void Base(Entity entity)
     {
@@ -36,7 +37,7 @@ public static class Professions
         entity.AddTag<Player>();
     }
 
-    public static void Warrior(Entity entity)
+    public static void Warrior(Entity entity, IRandom rng)
     {
         Base(entity);
         entity.AddComponent(new ActionDelay(0));
@@ -64,6 +65,11 @@ public static class Professions
         Entity torch = entity.Store.CreateEntity();
         Items.Torch(torch);
         torch.AddComponent(new Equipper(entity));
+        torch.AddComponent(new Holder(entity));
+        // Healing potion
+        Entity healingPotion = entity.Store.CreateEntity();
+        Items.HealthPotion(healingPotion, rng);
+        healingPotion.AddComponent(new Holder(entity));
 
         #endregion starting gear
     }
