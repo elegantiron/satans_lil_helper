@@ -235,8 +235,8 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         throw new NotImplementedException();
     }
 
-    public int GetMovementCost((int, int) tile)
+    public int GetMovementCost((int X, int Y) tile)
     {
-        throw new NotImplementedException();
+        return tiles[tile.X, tile.Y].MovementCost;
     }
 }
