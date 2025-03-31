@@ -28,8 +28,8 @@ internal static partial class Pathfinders
     )
     {
         PriorityQueue<(int, int), int> queue = new();
-        Dictionary<(int, int), int> dist = new();
-        Dictionary<(int, int), (int, int)> prev = new();
+        Dictionary<(int, int), int> dist = [];
+        Dictionary<(int, int), (int, int)> prev = [];
 
         dist[start] = 0;
         queue.Enqueue(start, 0);
@@ -49,19 +49,29 @@ internal static partial class Pathfinders
         while (queue.Count > 0)
         {
             (int X, int Y) current = queue.Dequeue();
+            if (current == end)
+                break;
             foreach ((int X, int Y) neighbor in gameMap.GetNeighbors(current))
             {
                 int alt = dist[current] + gameMap.GetMovementCost(neighbor);
-                if ( alt < dist[neighbor])
+                if (alt < dist[neighbor])
                 {
                     prev[neighbor] = current;
                     dist[neighbor] = alt;
-                    if(queue.Remove(neighbor, out (int, int) element, out int priority){
+                    if (queue.Remove(neighbor, out (int, int) _, out int _))
+                    {
                         queue.Enqueue(neighbor, alt);
                     }
                 }
             }
         }
-        throw new NotImplementedException();
+        List<(int, int)> path = [];
+        (int, int) temp = end;
+        while (temp != start)
+        {
+            path.Add(prev[temp]);
+            temp = prev[temp];
+        }
+        return path;
     }
 }
