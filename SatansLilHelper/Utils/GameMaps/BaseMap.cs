@@ -229,4 +229,14 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         Location playerLoc = Player.GetComponent<Location>();
         ShadowCast.ComputeVisibility(this, new Point(playerLoc.X, playerLoc.Y), playerView);
     }
+
+    public IEnumerable<(int, int)> GetNeighbors((int, int) tile)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int GetMovementCost((int, int) tile)
+    {
+        throw new NotImplementedException();
+    }
 }
