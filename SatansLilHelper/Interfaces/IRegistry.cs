@@ -12,14 +12,14 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Interfaces;
 
-internal interface IRegistry : IUpdateable
+internal interface IRegistry
 {
     BaseMap CurrentMap { get; }
     Entity Player { get; }
     IRandom Generator { get; }
     bool IsPlayerNext { get; }
     Entity GetNextActor();
-    void IUpdateable.Update(GameTime gameTime)
+    void Update(GameTime gameTime, ActionStack actionStack)
     {
         Location playerLoc = Player.GetComponent<Location>();
         while (!IsPlayerNext)
@@ -36,10 +36,6 @@ internal interface IRegistry : IUpdateable
                 );
 
                 List<Point> visibleTiles = ShadowCast.GetVisibleTiles(CurrentMap, entPos, radius);
-                foreach (var point in visibleTiles)
-                {
-                    Debug.WriteLine($"{point.X} {point.Y}");
-                }
 
                 if (visibleTiles.Exists(test => test.X == playerLoc.X && test.Y == playerLoc.Y))
                 {
@@ -59,6 +55,7 @@ internal interface IRegistry : IUpdateable
                         break;
                 }
             }
+            actionStack.AddAction(turn);
         }
     }
 }
