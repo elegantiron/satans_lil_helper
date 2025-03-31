@@ -32,7 +32,7 @@ public interface ICellGrid
         get { return Tiles.GetLength(1); }
     }
     IEnumerable<(int, int)> GetNeighbors((int, int) tile);
-    int GetMovementCost((int, int) tile);
+    int GetMovementCost((int X, int Y) tile);
     Entity Player { get; }
     EntityStore Registry { get; }
     Tile[,] Tiles { get; }
