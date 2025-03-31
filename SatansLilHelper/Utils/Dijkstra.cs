@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using SatansLilHelper.Components;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
@@ -19,6 +20,21 @@ internal static partial class Pathfinders
     public static List<(int, int)> Dijkstra(Vector2 start, Vector2 end, ICellGrid gameMap)
     {
         return Dijkstra(((int)start.X, (int)start.Y), ((int)end.X, (int)end.Y), gameMap);
+    }
+
+    public static List<(int, int)> Dijkstra(Point start, (int X, int Y) end, ICellGrid gameMap)
+    {
+        return Dijkstra((start.X, start.Y), end, gameMap);
+    }
+
+    public static List<(int, int)> Dijkstra((int X, int Y) start, Point end, ICellGrid gameMap)
+    {
+        return Dijkstra(start, (end.X, end.Y), gameMap);
+    }
+
+    public static List<(int, int)> Dijkstra(Location start, Location end, ICellGrid gameMap)
+    {
+        return Dijkstra((start.X, start.Y), (end.X, end.Y), gameMap);
     }
 
     public static List<(int, int)> Dijkstra(
