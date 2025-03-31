@@ -19,7 +19,8 @@ internal interface IRegistry
     IRandom Generator { get; }
     bool IsPlayerNext { get; }
     Entity GetNextActor();
-    void Update(GameTime gameTime, ActionStack actionStack)
+    ActionStack ActionStack { get; }
+    void Update(GameTime gameTime)
     {
         Location playerLoc = Player.GetComponent<Location>();
         while (!IsPlayerNext)
@@ -39,7 +40,7 @@ internal interface IRegistry
 
                 if (visibleTiles.Exists(test => test.X == playerLoc.X && test.Y == playerLoc.Y))
                 {
-                    Debug.WriteLine("I see the player");
+                    Pathfinders.Dijkstra(entPos, (playerLoc.X, playerLoc.Y), CurrentMap);
                 }
                 else
                 {
@@ -55,7 +56,7 @@ internal interface IRegistry
                         break;
                 }
             }
-            actionStack.AddAction(turn);
+            ActionStack.AddAction(turn);
         }
     }
 }
