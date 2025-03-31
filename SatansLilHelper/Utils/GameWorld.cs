@@ -16,9 +16,10 @@ internal class GameWorld : IRegistry
 
     public GameWorld(IRandom rng, Point mapSize)
     {
-        this._rng = rng;
-        this._mapSize = mapSize;
-        _maps = [new ForestMap(this._mapSize, this._rng, new Point(1280, 720), true)];
+        _rng = rng;
+        _mapSize = mapSize;
+        _maps = [new ForestMap(_mapSize, _rng, new Point(1280, 720), true)];
+        _actionStack = new();
     }
 
     public Entity Player
@@ -39,6 +40,11 @@ internal class GameWorld : IRegistry
     public IRandom Generator
     {
         get { return _rng; }
+    }
+
+    public ActionStack ActionStack
+    {
+        get { return _actionStack; }
     }
 
     /// <summary>
