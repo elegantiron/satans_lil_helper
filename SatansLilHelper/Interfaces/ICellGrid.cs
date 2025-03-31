@@ -1,4 +1,5 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Types;
 
@@ -30,6 +31,8 @@ public interface ICellGrid
     {
         get { return Tiles.GetLength(1); }
     }
+    IEnumerable<(int, int)> GetNeighbors((int, int) tile);
+    int GetMovementCost((int, int) tile);
     Entity Player { get; }
     EntityStore Registry { get; }
     Tile[,] Tiles { get; }
