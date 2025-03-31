@@ -12,6 +12,7 @@ internal class GameWorld : IRegistry
     private int _currentMap = 0;
     private IRandom _rng;
     private Point _mapSize;
+    private ActionStack _actionStack;
 
     public GameWorld(IRandom rng, Point mapSize)
     {
