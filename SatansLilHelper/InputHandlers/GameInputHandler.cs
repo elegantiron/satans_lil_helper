@@ -19,12 +19,12 @@ namespace SatansLilHelper.InputHandlers;
 
 internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 {
-    protected IRandom _rng;
-    protected Point _mapSize;
-    protected GameWorld _gameWorld;
-    protected ActionStack _actionStack;
-    protected MessageLog _messageLog;
-    protected Rectangle _statusShadeShape;
+    private IRandom _rng;
+    private Point _mapSize;
+    private GameWorld _gameWorld;
+    private ActionStack _actionStack;
+    private MessageLog _messageLog;
+    private Rectangle _statusShadeShape;
     private VecPair _statusVecs,
         _messageLogVecs,
         _locationVecs,
@@ -257,6 +257,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public void Update(GameTime gameTime)
     {
-        (_gameWorld as IRegistry).Update(gameTime);
+        (_gameWorld as IRegistry).Update(gameTime, _actionStack);
     }
 }
