@@ -22,7 +22,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     private IRandom _rng;
     private Point _mapSize;
     private GameWorld _gameWorld;
-    private ActionStack _actionStack;
     private MessageLog _messageLog;
     private Rectangle _statusShadeShape;
     private VecPair _statusVecs,
@@ -42,7 +41,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         _mapSize = new Point(100, 100);
         _gameWorld = new(_rng, _mapSize);
         _gameWorld.CurrentMap.UpdatePlayerVision();
-        _actionStack = new();
         _messageLog = new();
         _statusShadeShape = Rectangle.Empty;
         _statusVecs = new();
@@ -70,15 +68,15 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
                 return new InventoryInputHandler(this);
 #if DEBUG
             case Keys.X:
-                _actionStack.AddAction(new SmiteAction(_gameWorld.CurrentMap.Player));
+                _gameWorld.ActionStack.AddAction(new SmiteAction(_gameWorld.CurrentMap.Player));
                 break;
             case Keys.D:
                 return new DebugMenuInputHandler(this);
             case Keys.Z:
-                _actionStack.Rewind();
+                _gameWorld.ActionStack.Rewind();
                 break;
             case Keys.Y:
-                _actionStack.Replay();
+                _gameWorld.ActionStack.Replay();
                 break;
 #endif
         }
@@ -217,7 +215,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     {
         if (!_gameWorld.CurrentMap.IsPlayerNext)
             return;
-        _actionStack.AddAction(
+        _gameWorld.ActionStack.AddAction(
             new BumpAction(
                 _gameWorld.CurrentMap.Player,
                 Dicts.MovementKeys[key],
@@ -233,13 +231,13 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 #if DEBUG
     public void HealPlayer()
     {
-        _actionStack.AddAction(new FullHealAction(_gameWorld.CurrentMap.Player));
+        _gameWorld.ActionStack.AddAction(new FullHealAction(_gameWorld.CurrentMap.Player));
     }
 
     public void SpawnNear()
     {
         Location playerPos = _gameWorld.CurrentMap.Player.GetComponent<Location>();
-        _actionStack.AddAction(
+        _gameWorld.ActionStack.AddAction(
             new SpawnAction(
                 Entities.Enemies.Wolf,
                 _gameWorld.CurrentMap,
@@ -257,6 +255,6 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public void Update(GameTime gameTime)
     {
-        (_gameWorld as IRegistry).Update(gameTime, _actionStack);
+        (_gameWorld as IRegistry).Update(gameTime);
     }
 }
