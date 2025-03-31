@@ -12,12 +12,12 @@ namespace SatansLilHelper.Utils;
 
 internal static class LineAlgorithms
 {
-    public static List<Point> Bresenham(Point start, Point end, ICellGrid gameMap)
+    public static List<Point> Bresenham(Point start, Point end)
     {
-        return Bresenham(start.X, start.Y, end.X, end.Y, gameMap);
+        return Bresenham(start.X, start.Y, end.X, end.Y);
     }
 
-    public static List<Point> Bresenham(int x1, int y1, int x2, int y2, ICellGrid gameMap)
+    public static List<Point> Bresenham(int x1, int y1, int x2, int y2)
     {
         List<Point> points = new();
         int w = x2 - x1;
