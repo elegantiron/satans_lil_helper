@@ -157,13 +157,13 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             {
                 if (j < 0 || j >= mapSize.Y)
                     continue;
-                if (!tiles[i, j].Explored) { }
-                //continue;
+                if (!tiles[i, j].Explored)
+                    continue;
                 spriteTarget.Y = (j - offset.Y) * 32;
                 spriteBatch.Draw(
                     textureMap[tiles[i, j].Texture],
                     spriteTarget,
-                    tiles[i, j].Visible ? Color.White : Constants.Colors.HiddenTile
+                    tiles[i, j].Visible ? Colors.White : Colors.HiddenTile
                 );
             }
         }
