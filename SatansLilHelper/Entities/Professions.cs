@@ -62,8 +62,7 @@ internal static class Professions
 
         #region Starting gear
         Items.Torch(entity.Store.CreateEntity(), entity);
-        for (int i = 0; i < 50; i++)
-            Items.HealthPotion(entity.Store.CreateEntity(), entity, rng);
+        Items.HealthPotion(entity.Store.CreateEntity(), entity, rng);
         #endregion starting gear
 
         #region Starting skills
