@@ -16,6 +16,7 @@ internal struct EntityTurn : IAction
     private int _attacks;
     private int _attacksMax;
     private bool _swift = true;
+    private bool _finished = false;
     public readonly Entity? Entity => _entity;
 
     public EntityTurn(Entity entity)
@@ -88,9 +89,14 @@ internal struct EntityTurn : IAction
         _actions.RemoveAt(_actions.Count - 1);
     }
 
+    public void Finish()
+    {
+        _finished = true;
+    }
+
     public readonly bool HasActions
     {
-        get { return HasMoves && HasAttacks && HasSwift; }
+        get { return (HasMoves || HasAttacks || HasSwift) && !_finished; }
     }
 
     public readonly bool HasMoves
