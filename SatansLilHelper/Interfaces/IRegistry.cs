@@ -42,6 +42,7 @@ internal interface IRegistry
                 if (visibleTiles.Exists(test => test.X == playerLoc.X && test.Y == playerLoc.Y))
                 {
                     path = Pathfinders.Dijkstra(entPos, (playerLoc.X, playerLoc.Y), CurrentMap);
+                    Debug.WriteLine($"{path[0].X} {path[0].Y}; {entPos.X} {entPos.Y}");
                     if (turn.HasSwift && false)
                     {
                         // Do swift action
@@ -51,7 +52,7 @@ internal interface IRegistry
                         turn.AddAction(
                             new MoveAction(
                                 entity,
-                                new(entPos.X - path[0].X, entPos.Y - path[0].Y),
+                                new(path[0].X - entPos.X, path[0].Y - entPos.Y),
                                 CurrentMap,
                                 false
                             )
@@ -62,7 +63,7 @@ internal interface IRegistry
                         turn.AddAction(
                             new MoveAction(
                                 entity,
-                                new(entPos.X - path[0].X, entPos.Y - path[0].Y),
+                                new(path[0].X - entPos.X, path[0].Y - entPos.Y),
                                 CurrentMap,
                                 false
                             )
