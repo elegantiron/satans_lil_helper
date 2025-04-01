@@ -12,7 +12,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.AI;
 
-internal static partial class AI
+internal static partial class Processor
 {
     private static EntityTurn Melee(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {
