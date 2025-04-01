@@ -10,7 +10,7 @@ namespace SatansLilHelper.Types;
 internal struct EntityTurn : IAction
 {
     private Entity _entity;
-    private List<IAction> _actions;
+    private Stack<IAction> _actions;
     private int _moves;
     private int _movesMax;
     private int _attacks;
@@ -53,25 +53,25 @@ internal struct EntityTurn : IAction
         if (action is IMoveAction && _moves < _movesMax)
         {
             action.Perform();
-            _actions.Add(action);
+            _actions.Push(action);
             _moves++;
         }
         else if (action is IAttackAction && _attacks < _attacksMax)
         {
             action.Perform();
-            _actions.Add(action);
+            _actions.Push(action);
             _attacks++;
         }
         else if (action is ISwiftAction && !_swift)
         {
             action.Perform();
-            _actions.Add(action);
+            _actions.Push(action);
             _swift = false;
         }
         else if (action is IFreeAction)
         {
             action.Perform();
-            _actions.Add(action);
+            _actions.Push(action);
         }
     }
 
@@ -79,14 +79,13 @@ internal struct EntityTurn : IAction
     {
         if (_actions.Count < 1)
             return;
-        if (_actions[^1] is IMoveAction)
+        if (_actions.Peek() is IMoveAction)
             _moves--;
-        else if (_actions[^1] is IAttackAction)
+        else if (_actions.Peek() is IAttackAction)
             _attacks--;
-        else if (_actions[^1] is ISwiftAction)
+        else if (_actions.Peek() is ISwiftAction)
             _swift = true;
-        _actions[^1].Rewind();
-        _actions.RemoveAt(_actions.Count - 1);
+        _actions.Pop().Rewind();
     }
 
     public void Finish()
