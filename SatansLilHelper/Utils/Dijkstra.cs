@@ -84,6 +84,7 @@ internal static partial class Pathfinders
             path.Add(prev[temp]);
             temp = prev[temp];
         }
+        path.Reverse();
         return path;
     }
 }
