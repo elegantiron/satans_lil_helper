@@ -60,6 +60,8 @@ internal class PauseInputHandler : IInputHandler, ISaveable
             case Keys.Escape:
             case Keys.I:
                 return Parent;
+            case Keys.NumPad7:
+            case Keys.NumPad2:
             case Keys.Up:
             case Keys.Down:
                 Menu.HandleKey(key);
