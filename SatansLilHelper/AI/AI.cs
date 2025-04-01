@@ -7,7 +7,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.AI;
 
-internal static partial class AI
+internal static partial class Processor
 {
     public static EntityTurn Process(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {
