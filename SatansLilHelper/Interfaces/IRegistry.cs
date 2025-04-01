@@ -52,7 +52,7 @@ internal interface IRegistry
                         turn.AddAction(
                             new MoveAction(
                                 entity,
-                                new(path[0].X - entPos.X, path[0].Y - entPos.Y),
+                                new Point(path[0].X - entPos.X, path[0].Y - entPos.Y),
                                 CurrentMap,
                                 false
                             )
@@ -60,14 +60,15 @@ internal interface IRegistry
                     }
                     else if (path.Count == 1 && turn.HasAttacks)
                     {
-                        turn.AddAction(
-                            new MoveAction(
-                                entity,
-                                new(path[0].X - entPos.X, path[0].Y - entPos.Y),
-                                CurrentMap,
-                                false
-                            )
-                        );
+                        //turn.AddAction(
+                        //    new MoveAction(
+                        //        entity,
+                        //        new Point(path[0].X - entPos.X, path[0].Y - entPos.Y),
+                        //        CurrentMap,
+                        //        false
+                        //    )
+                        //);
+                        turn.Finish();
                     }
                     else
                     {
