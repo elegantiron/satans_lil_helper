@@ -79,7 +79,7 @@ internal static partial class Pathfinders
         }
         List<(int, int)> path = [end];
         (int, int) temp = end;
-        while (temp != start)
+        while (prev[temp] != start)
         {
             path.Add(prev[temp]);
             temp = prev[temp];
