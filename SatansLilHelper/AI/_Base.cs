@@ -1,4 +1,5 @@
-﻿using Friflo.Engine.ECS;
+﻿using System.Diagnostics;
+using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
