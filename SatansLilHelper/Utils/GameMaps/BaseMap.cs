@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Xml;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -232,7 +234,20 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
     public IEnumerable<(int, int)> GetNeighbors((int, int) tile)
     {
-        throw new NotImplementedException();
+        List<(int, int)> neighbors = [];
+        foreach ((int X, int Y) in Dicts.NeighborDirections)
+        {
+            int nX = tile.Item1 + X;
+            int nY = tile.Item2 + Y;
+            if (
+                nX >= 0
+                && nX < (this as ICellGrid).XDim
+                && nY >= 0
+                && nY < (this as ICellGrid).YDim
+            )
+                neighbors.Add((nX, nY));
+        }
+        return neighbors;
     }
 
     public int GetMovementCost((int X, int Y) tile)
