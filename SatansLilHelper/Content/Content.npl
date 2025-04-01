@@ -93,6 +93,13 @@
       "processorParam": {
         "Quality": "Best"
       }
+    },
+    "fonts": {
+      "path": "Fonts/*.spritefont",
+      "recursive": "True",
+      "action": "build",
+      "importer": "FontDescriptionImporter",
+      "processor": "FontDescriptionProcessor"
     }
   }
 }
