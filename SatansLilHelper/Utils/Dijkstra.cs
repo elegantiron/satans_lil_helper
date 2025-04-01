@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
 using SatansLilHelper.Interfaces;
@@ -81,7 +77,7 @@ internal static partial class Pathfinders
                 }
             }
         }
-        List<(int, int)> path = [];
+        List<(int, int)> path = [end];
         (int, int) temp = end;
         while (temp != start)
         {
