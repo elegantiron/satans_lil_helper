@@ -1,4 +1,4 @@
-﻿namespace SatansLilHelper.Types;
+﻿namespace SatansLilHelper.Constants;
 
 internal enum EnemyType
 {
