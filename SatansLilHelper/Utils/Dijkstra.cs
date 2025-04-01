@@ -33,6 +33,11 @@ internal static partial class Pathfinders
         return Dijkstra((start.X, start.Y), (end.X, end.Y), gameMap);
     }
 
+    public static List<(int, int)> Dijkstra(Point start, Location end, ICellGrid gameMap)
+    {
+        return Dijkstra((start.X, start.Y), (end.X, end.Y), gameMap);
+    }
+
     public static List<(int, int)> Dijkstra(
         (int X, int Y) start,
         (int X, int Y) end,
