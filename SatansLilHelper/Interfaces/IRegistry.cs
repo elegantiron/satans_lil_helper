@@ -42,7 +42,7 @@ internal interface IRegistry
                 if (visibleTiles.Exists(test => test.X == playerLoc.X && test.Y == playerLoc.Y))
                 {
                     path = Pathfinders.Dijkstra(entPos, (playerLoc.X, playerLoc.Y), CurrentMap);
-                    if (turn.HasSwift)
+                    if (turn.HasSwift && false)
                     {
                         // Do swift action
                     }
