@@ -37,10 +37,41 @@ internal interface IRegistry
                 );
 
                 List<Point> visibleTiles = ShadowCast.GetVisibleTiles(CurrentMap, entPos, radius);
+                List<(int X, int Y)> path;
 
                 if (visibleTiles.Exists(test => test.X == playerLoc.X && test.Y == playerLoc.Y))
                 {
-                    Pathfinders.Dijkstra(entPos, (playerLoc.X, playerLoc.Y), CurrentMap);
+                    path = Pathfinders.Dijkstra(entPos, (playerLoc.X, playerLoc.Y), CurrentMap);
+                    if (turn.HasSwift)
+                    {
+                        // Do swift action
+                    }
+                    else if (path.Count > 1 && turn.HasMoves)
+                    {
+                        turn.AddAction(
+                            new MoveAction(
+                                entity,
+                                new(entPos.X - path[0].X, entPos.Y - path[0].Y),
+                                CurrentMap,
+                                false
+                            )
+                        );
+                    }
+                    else if (path.Count == 1 && turn.HasAttacks)
+                    {
+                        turn.AddAction(
+                            new MoveAction(
+                                entity,
+                                new(entPos.X - path[0].X, entPos.Y - path[0].Y),
+                                CurrentMap,
+                                false
+                            )
+                        );
+                    }
+                    else
+                    {
+                        turn.Finish();
+                    }
                 }
                 else
                 {
