@@ -95,10 +95,12 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
             return;
         switch (key)
         {
+            case Keys.NumPad7:
             case Keys.Up:
                 if (--_index < 0)
                     _index = _items.Count - 1;
                 break;
+            case Keys.NumPad2:
             case Keys.Down:
                 _index = ++_index % _items.Count;
                 break;
