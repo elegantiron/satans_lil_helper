@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Interfaces;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Types;
 
@@ -27,6 +28,8 @@ internal class PlayerTurn : IAction
         _entity = entity;
         _history = new Stack<IAction>();
         _future = new Stack<IAction>();
+        _attacksMax = 1;
+        _movesMax = EntityCalcs.GetStat(_entity, Constants.AbilityID.Speed);
         _moves = _attacks = 0;
         _finished = false;
         _swift = true;
@@ -111,5 +114,10 @@ internal class PlayerTurn : IAction
         action.Perform();
         _history.Push(action);
         return true;
+    }
+
+    public bool IsFinished
+    {
+        get { return _finished; }
     }
 }
