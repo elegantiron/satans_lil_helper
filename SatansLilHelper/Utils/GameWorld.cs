@@ -55,4 +55,9 @@ internal class GameWorld : IRegistry
     {
         return _maps[_currentMap].GetNextActor();
     }
+
+    public void RewindInitiative()
+    {
+        _maps[_currentMap].RewindInitiative();
+    }
 }
