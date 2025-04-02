@@ -7,7 +7,7 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Types;
 
-internal struct EntityTurn : IAction
+internal class EntityTurn : IAction
 {
     private Entity _entity;
     private Stack<IAction> _actions;
@@ -17,7 +17,7 @@ internal struct EntityTurn : IAction
     private int _attacksMax;
     private bool _swift = true;
     private bool _finished = false;
-    public readonly Entity? Entity => _entity;
+    public Entity? Entity => _entity;
 
     public EntityTurn(Entity entity)
     {
@@ -28,7 +28,7 @@ internal struct EntityTurn : IAction
         _attacksMax = 1;
     }
 
-    public readonly void Perform()
+    public void Perform()
     {
         if (_actions.Count < 1)
             return;
@@ -36,7 +36,7 @@ internal struct EntityTurn : IAction
             action.Perform();
     }
 
-    public readonly void Rewind()
+    public void Rewind()
     {
         if (_actions.Count < 1)
             return;
@@ -93,22 +93,22 @@ internal struct EntityTurn : IAction
         _finished = true;
     }
 
-    public readonly bool HasActions
+    public bool HasActions
     {
         get { return (HasMoves || HasAttacks || HasSwift) && !_finished; }
     }
 
-    public readonly bool HasMoves
+    public bool HasMoves
     {
         get { return _moves < _movesMax; }
     }
 
-    public readonly bool HasAttacks
+    public bool HasAttacks
     {
         get { return _attacks < _attacksMax; }
     }
 
-    public readonly bool HasSwift
+    public bool HasSwift
     {
         get { return _swift; }
     }
