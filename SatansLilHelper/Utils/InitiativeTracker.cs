@@ -10,6 +10,7 @@ namespace SatansLilHelper.Utils;
 internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
 {
     private Stack<Entity> _initiativeStack = new();
+    private Stack<Entity> _history = new();
     private ArchetypeQuery _query = query;
     private IRandom _rng = rng;
 
@@ -31,12 +32,9 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
     {
         if (_initiativeStack.Count == 0)
             CalculateInitiative();
-        while (true)
-        {
-            if (!_initiativeStack.Peek().IsNull)
-                return _initiativeStack.Pop();
-            _initiativeStack.Pop();
-        }
+        Entity actor = _initiativeStack.Pop();
+        _history.Push(actor);
+        return actor;
     }
 
     public bool IsPlayerNext
@@ -47,5 +45,13 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
                 CalculateInitiative();
             return _initiativeStack.Peek().Tags.Has<Player>();
         }
+    }
+
+    public bool Rewind()
+    {
+        if (!_history.TryPop(out Entity entity))
+            return false;
+        _initiativeStack.Push(entity);
+        return true;
     }
 }
