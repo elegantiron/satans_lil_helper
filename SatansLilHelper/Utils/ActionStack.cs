@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Friflo.Engine.ECS;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
@@ -38,5 +39,27 @@ internal class ActionStack
         IAction action = future.Pop();
         action.Perform();
         history.Push(action);
+    }
+
+    public bool IsPlayerTurn
+    {
+        get { return history.TryPeek(out IAction action) && action is PlayerTurn; }
+    }
+
+    public bool HasActions
+    {
+        get { return history.Count > 0; }
+    }
+
+    public bool GetPlayerTurn(Entity player, out PlayerTurn playerTurn)
+    {
+        playerTurn = new(player);
+        if (history.Peek() is PlayerTurn turn)
+        {
+            playerTurn = turn;
+            history.Pop();
+            return true;
+        }
+        return false;
     }
 }
