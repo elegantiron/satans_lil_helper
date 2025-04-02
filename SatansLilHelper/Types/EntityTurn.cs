@@ -75,19 +75,6 @@ internal class EntityTurn : IAction
         }
     }
 
-    public void RemoveLastAction()
-    {
-        if (_actions.Count < 1)
-            return;
-        if (_actions.Peek() is IMoveAction)
-            _moves--;
-        else if (_actions.Peek() is IAttackAction)
-            _attacks--;
-        else if (_actions.Peek() is ISwiftAction)
-            _swift = true;
-        _actions.Pop().Rewind();
-    }
-
     public void Finish()
     {
         _finished = true;
