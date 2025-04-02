@@ -24,6 +24,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     private GameWorld _gameWorld;
     private MessageLog _messageLog;
     private Rectangle _statusShadeShape;
+    private PlayerTurn _playerTurn;
     private VecPair _statusVecs,
         _messageLogVecs,
         _locationVecs,
@@ -48,6 +49,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         _healthVecs = new();
         _manaVecs = new();
         _messageLogVecs = new();
+        _playerTurn = new(_gameWorld.CurrentMap.Player);
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -73,7 +75,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             case Keys.D:
                 return new DebugMenuInputHandler(this);
             case Keys.Z:
-                _gameWorld.ActionStack.Rewind();
+                Undo();
                 break;
             case Keys.Y:
                 _gameWorld.ActionStack.Replay();
@@ -85,7 +87,21 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         return this;
     }
 
+#if DEBUG
+    private void Undo()
+    {
+        if (_playerTurn.Undo())
+            return;
+        while (_gameWorld.ActionStack.HasActions && !_gameWorld.ActionStack.IsPlayerTurn)
+            _gameWorld.ActionStack.Rewind();
+        if (_gameWorld.ActionStack.GetPlayerTurn(_gameWorld.Player, out _playerTurn))
+            return;
+        _playerTurn = new(_gameWorld.Player);
+    }
+#endif
+
     #region Draw methods
+
     public void Draw(
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
