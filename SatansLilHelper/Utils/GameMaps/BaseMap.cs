@@ -107,6 +107,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         PlaceEntity(entity, position.X, position.Y);
     }
 
+    public void RewindInitiative()
+    {
+        _initiativeTracker.Rewind();
+    }
+
     public Camera Camera
     {
         get { return camera; }
