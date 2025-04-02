@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using FontStashSharp;
+using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.EntityTags;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -29,6 +32,7 @@ public class Engine : Game
 
     public Engine()
     {
+        InitializeECS();
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -53,21 +57,6 @@ public class Engine : Game
             "Satans Lil Helper"
         );
         Directory.CreateDirectory(_gamePath);
-        /*
-        MersenneTwister rng = new();
-        EntityStore store = new();
-        for (int i = 0; i < 10; i++)
-            Entities.Enemies.Wolf(store.CreateEntity(), rng);
-        string gamePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SmuB Games",
-            "Satans Lil Helper"
-        );
-        string bestiaryPath = Path.Combine(gamePath, "bestiary.dat");
-        EntitySerializer serializer = new();
-        using FileStream fs = new(bestiaryPath, FileMode.Create, FileAccess.Write);
-        serializer.WriteStore(store, fs);
-        */
     }
 
     protected override void Initialize()
@@ -169,5 +158,34 @@ public class Engine : Game
             inputHandler.DumpData(_gamePath);
         }
         Exit();
+    }
+
+    private void InitializeECS()
+    {
+        var aot = new NativeAOT();
+
+        aot.RegisterRelation<AbilityStat, AbilityID>();
+        aot.RegisterComponent<ActionDelay>();
+        aot.RegisterComponent<Attack>();
+        aot.RegisterComponent<EffectPower>();
+        aot.RegisterComponent<Equipper>();
+        aot.RegisterComponent<Holder>();
+        aot.RegisterComponent<ItemSlots>();
+        aot.RegisterComponent<KnownBy>();
+        aot.RegisterComponent<Level>();
+        aot.RegisterIndexedComponentStruct<Location, (int, int)>();
+        aot.RegisterComponent<TextureIndex>();
+
+        aot.RegisterTag<Actor>();
+        aot.RegisterTag<Alive>();
+        aot.RegisterTag<Blocking>();
+        aot.RegisterTag<Hostile>();
+        aot.RegisterTag<Invisible>();
+        aot.RegisterTag<Item>();
+        aot.RegisterTag<Player>();
+        aot.RegisterTag<Skill>();
+        aot.RegisterTag<Visible>();
+
+        var schema = aot.CreateSchema();
     }
 }
