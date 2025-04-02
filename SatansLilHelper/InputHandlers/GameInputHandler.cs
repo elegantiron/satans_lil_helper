@@ -232,6 +232,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     }
 
     #endregion draw methods
+
     public void HandleMovement(Keys key)
     {
         if (!_gameWorld.CurrentMap.IsPlayerNext)
