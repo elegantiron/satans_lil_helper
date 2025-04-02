@@ -93,10 +93,15 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         if (_playerTurn.Undo())
             return;
         while (_gameWorld.ActionStack.HasActions && !_gameWorld.ActionStack.IsPlayerTurn)
+        {
             _gameWorld.ActionStack.Rewind();
+            _gameWorld.RewindInitiative();
+        }
         if (_gameWorld.ActionStack.GetPlayerTurn(_gameWorld.Player, out _playerTurn))
+        {
+            _playerTurn.Undo();
             return;
-        _playerTurn = new(_gameWorld.Player);
+        }
     }
 #endif
 
