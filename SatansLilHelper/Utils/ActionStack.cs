@@ -54,7 +54,11 @@ internal class ActionStack
     public bool GetPlayerTurn(Entity player, out PlayerTurn playerTurn)
     {
         playerTurn = new(player);
-        if (history.Peek() is PlayerTurn turn)
+        if (!history.TryPeek(out IAction result))
+        {
+            return false;
+        }
+        if (result is PlayerTurn turn)
         {
             playerTurn = turn;
             history.Pop();
