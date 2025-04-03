@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Friflo.Engine.ECS;
+using SatansLilHelper.Actions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
@@ -51,7 +52,12 @@ internal class PlayerTurn : IAction
             action.Rewind();
     }
 
-    public void AddAction(IAction action)
+    public bool AddAction(BumpAction action)
+    {
+        return AddAction(action.Action);
+    }
+
+    public bool AddAction(IAction action)
     {
         if (action.Entity != Entity)
             throw new ArgumentException(
@@ -63,6 +69,7 @@ internal class PlayerTurn : IAction
             _future.Clear();
             _history.Push(action);
             _moves++;
+            return true;
         }
         else if (action is IAttackAction && _attacks < _attacksMax)
         {
@@ -70,6 +77,7 @@ internal class PlayerTurn : IAction
             _future.Clear();
             _history.Push(action);
             _attacks++;
+            return true;
         }
         else if (action is ISwiftAction && !_swift)
         {
@@ -77,13 +85,16 @@ internal class PlayerTurn : IAction
             _future.Clear();
             _history.Push(action);
             _swift = false;
+            return true;
         }
         else if (action is IFreeAction)
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
+            return true;
         }
+        return false;
     }
 
     public bool Undo()
