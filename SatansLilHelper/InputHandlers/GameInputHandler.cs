@@ -88,21 +88,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     }
 
 #if DEBUG
-    private void Undo()
-    {
-        if (_playerTurn.Undo())
-            return;
-        while (_gameWorld.ActionStack.HasActions && !_gameWorld.ActionStack.IsPlayerTurn)
-        {
-            _gameWorld.ActionStack.Rewind();
-            _gameWorld.RewindInitiative();
-        }
-        if (_gameWorld.ActionStack.GetPlayerTurn(_gameWorld.Player, out _playerTurn))
-        {
-            _playerTurn.Undo();
-            return;
-        }
-    }
+
 #endif
 
     #region Draw methods
@@ -237,7 +223,7 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     {
         if (!_gameWorld.CurrentMap.IsPlayerNext)
             return;
-        _gameWorld.ActionStack.AddAction(
+        _playerTurn.AddAction(
             new BumpAction(
                 _gameWorld.CurrentMap.Player,
                 Dicts.MovementKeys[key],
@@ -272,6 +258,22 @@ internal class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     public void ResetSeed()
     {
         _rng.Seed(Environment.TickCount);
+    }
+
+    private void Undo()
+    {
+        if (_playerTurn.Undo())
+            return;
+        while (_gameWorld.ActionStack.HasActions && !_gameWorld.ActionStack.IsPlayerTurn)
+        {
+            _gameWorld.ActionStack.Rewind();
+            _gameWorld.RewindInitiative();
+        }
+        if (_gameWorld.ActionStack.GetPlayerTurn(_gameWorld.Player, out _playerTurn))
+        {
+            _playerTurn.Undo();
+            return;
+        }
     }
 #endif
 
