@@ -8,24 +8,29 @@ namespace SatansLilHelper.Actions;
 
 internal class BumpAction : ActionWithDirection
 {
-    private ActionWithDirection Action;
+    private ActionWithDirection _action;
 
     public BumpAction(Entity entity, Point direction, BaseMap gameMap, IRandom rng, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)
     {
         if (_target == null)
-            Action = new MoveAction(_entity, direction, gameMap, isPlayer);
+            _action = new MoveAction(_entity, direction, gameMap, isPlayer);
         else
-            Action = new MeleeAction(_entity, direction, gameMap, rng, isPlayer);
+            _action = new MeleeAction(_entity, direction, gameMap, rng, isPlayer);
     }
 
     public override void Perform()
     {
-        Action.Perform();
+        _action.Perform();
     }
 
     public override void Rewind()
     {
-        Action.Rewind();
+        _action.Rewind();
+    }
+
+    public IAction Action
+    {
+        get { return _action; }
     }
 }
