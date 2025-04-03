@@ -76,6 +76,9 @@
     <Folder Include="Content\Effects\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\Fonts\CrayonLibre.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Content\Fonts\FairyDustB.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
