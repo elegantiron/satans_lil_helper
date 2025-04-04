@@ -40,8 +40,6 @@ internal partial class GameInputHandler
             DrawStatus(spriteBatch, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
         }
-        if (_confirmPopup is ConfirmPopup popup)
-            popup.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
     }
 
     private void DrawStatus(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
