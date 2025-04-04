@@ -23,6 +23,12 @@ internal class ActionStack
         history.Push(action);
     }
 
+    public void AddAction(PlayerTurn action)
+    {
+        future.Clear();
+        history.Push(action);
+    }
+
     public void Rewind()
     {
         if (history.Count == 0)
