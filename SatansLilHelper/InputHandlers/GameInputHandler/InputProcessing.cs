@@ -15,14 +15,6 @@ internal partial class GameInputHandler
 {
     public IInputHandler HandleKey(Keys key)
     {
-        if (_confirmPopup is not null)
-            return ConfirmationMode(key);
-        else
-            return StandardMode(key);
-    }
-
-    private IInputHandler StandardMode(Keys key)
-    {
         switch (key)
         {
             case Keys.Escape:
@@ -31,6 +23,8 @@ internal partial class GameInputHandler
                 HandleMovement(key);
                 break;
             case Keys.H:
+                return new HelpInputHandler(this);
+            case Keys.T:
                 Properties.Settings.Default.ShowStatus = !Properties.Settings.Default.ShowStatus;
                 break;
             case Keys.S:
@@ -38,8 +32,12 @@ internal partial class GameInputHandler
             case Keys.I:
                 return new InventoryInputHandler(this);
             case Keys.F:
-                _confirmPopup = new ConfirmPopup(Properties.GameStrings.ConfirmTurnEnd);
-                break;
+                return new ConfirmInputHandler(
+                    this,
+                    Properties.GameStrings.ConfirmTurnEnd,
+                    FontID.Messages,
+                    ConfirmEndTurn
+                );
 #if DEBUG
             case Keys.X:
                 _gameWorld.ActionStack.AddAction(new SmiteAction(_gameWorld.CurrentMap.Player));
@@ -73,17 +71,11 @@ internal partial class GameInputHandler
             )
         );
         _gameWorld.CurrentMap.UpdatePlayerVision();
-        _gameWorld.GetNextActor();
-    }
-
-    private GameInputHandler ConfirmationMode(Keys key)
-    {
-        switch (key)
+        if (_playerTurn.IsFinished)
         {
-            case Keys.Escape:
-                _confirmPopup = null;
-                break;
+            _gameWorld.ActionStack.AddAction(_playerTurn);
+            _playerTurn = new(_gameWorld.Player);
+            _gameWorld.GetNextActor();
         }
-        return this;
     }
 }
