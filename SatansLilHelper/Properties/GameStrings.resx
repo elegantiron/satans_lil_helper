@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmTurnEnd" xml:space="preserve">
+    <value>End your turn?</value>
+  </data>
   <data name="DebugHeal" xml:space="preserve">
     <value>Heal to Full</value>
   </data>
@@ -177,6 +180,9 @@
   <data name="SpellBook" xml:space="preserve">
     <value>Your Grimoire is not yet implemented!</value>
   </data>
+  <data name="StatusAttacks" xml:space="preserve">
+    <value>Attacks: {0}/{1}</value>
+  </data>
   <data name="StatusHealth" xml:space="preserve">
     <value>Health: {0:D} / {1:D}</value>
   </data>
@@ -186,8 +192,14 @@
   <data name="StatusMana" xml:space="preserve">
     <value>Mana: {0:D} / {1:D}</value>
   </data>
+  <data name="StatusMoves" xml:space="preserve">
+    <value>Moves: {0}/{1}</value>
+  </data>
   <data name="StatusTitle" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="StatusTurn" xml:space="preserve">
+    <value>Done this turn:</value>
   </data>
   <data name="Stranger" xml:space="preserve">
     <value>a mysterious stranger</value>
