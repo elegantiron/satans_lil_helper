@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -34,7 +35,6 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     private Vector2 _turnHeaderLocation,
         _movesLeftLocation,
         _attacksLeftLocation;
-    private ConfirmPopup? _confirmPopup;
 
     public BaseMap CurrentMap
     {
@@ -86,5 +86,16 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
     public void Update(GameTime gameTime)
     {
         (_gameWorld as IRegistry).Update(gameTime);
+    }
+
+    public void ConfirmEndTurn(bool answer)
+    {
+        if (answer)
+        {
+            _playerTurn.Finish();
+            _gameWorld.ActionStack.AddAction(_playerTurn);
+            _playerTurn = new(_gameWorld.Player);
+            _gameWorld.GetNextActor();
+        }
     }
 }
