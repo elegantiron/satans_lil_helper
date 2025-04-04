@@ -61,6 +61,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End your turn?.
+        /// </summary>
+        internal static string ConfirmTurnEnd {
+            get {
+                return ResourceManager.GetString("ConfirmTurnEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Heal to Full.
         /// </summary>
         internal static string DebugHeal {
@@ -241,6 +250,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attacks: {0}/{1}.
+        /// </summary>
+        internal static string StatusAttacks {
+            get {
+                return ResourceManager.GetString("StatusAttacks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Health: {0:D} / {1:D}.
         /// </summary>
         internal static string StatusHealth {
@@ -268,11 +286,29 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moves: {0}/{1}.
+        /// </summary>
+        internal static string StatusMoves {
+            get {
+                return ResourceManager.GetString("StatusMoves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string StatusTitle {
             get {
                 return ResourceManager.GetString("StatusTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done this turn:.
+        /// </summary>
+        internal static string StatusTurn {
+            get {
+                return ResourceManager.GetString("StatusTurn", resourceCulture);
             }
         }
         
