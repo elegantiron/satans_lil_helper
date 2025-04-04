@@ -127,8 +127,15 @@ internal class PlayerTurn : IAction
         return true;
     }
 
-    public bool IsFinished
-    {
-        get { return _finished; }
-    }
+    public bool IsFinished => _finished;
+
+    public int MovesLeft => _movesMax - _moves;
+
+    public int MovesUsed => _moves;
+
+    public int MovesMax => _movesMax;
+
+    public int AttacksUsed => _attacks;
+
+    public int AttacksMax => _attacksMax;
 }
