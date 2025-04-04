@@ -126,6 +126,33 @@
   <data name="HideAndSeek" xml:space="preserve">
     <value>Music/hide_and_seek</value>
   </data>
+  <data name="KeyboardDelete" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_delete_outline</value>
+  </data>
+  <data name="KeyboardDown" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_arrow_down_outline</value>
+  </data>
+  <data name="KeyboardInsert" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_insert_outline</value>
+  </data>
+  <data name="KeyboardLeft" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_arrow_left_outline</value>
+  </data>
+  <data name="KeyboardPageDown" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_page_down_outline</value>
+  </data>
+  <data name="KeyboardPageUp" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_page_up_outline</value>
+  </data>
+  <data name="KeyboardRight" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_arrow_right_outline</value>
+  </data>
+  <data name="KeyboardRightOutline" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_arrow_right_outline</value>
+  </data>
+  <data name="KeyboardUp" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_arrow_up_outline</value>
+  </data>
   <data name="MenuFont" xml:space="preserve">
     <value>Fonts/MenuFont</value>
   </data>
