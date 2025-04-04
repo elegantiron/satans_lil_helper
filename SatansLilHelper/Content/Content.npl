@@ -100,6 +100,22 @@
       "action": "build",
       "importer": "FontDescriptionImporter",
       "processor": "FontDescriptionProcessor"
+    },
+    "icons": {
+      "path": "Images/UI/*.png",
+      "recursive": "True",
+      "action": "build",
+      "importer": "TextureImporter",
+      "processor": "TextureProcessor",
+      "processorParam": {
+        "ColorKeyColor": "255,0,255,255",
+        "ColorKeyEnabled": "False",
+        "GenerateMipmaps": "False",
+        "PremultiplyAlpha": "True",
+        "ResizeToPowerOfTwo": "False",
+        "MakeSquare": "False",
+        "TextureFormat": "Compressed"
+      }
     }
   }
 }
