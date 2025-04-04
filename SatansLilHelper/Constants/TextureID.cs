@@ -20,4 +20,13 @@ public enum TextureID
     WhitePixel,
     Orc,
     Wolf,
+    KeyboardRight,
+    KeyboardRightOutline,
+    KeyboardUp,
+    KeyboardLeft,
+    KeyboardDown,
+    KeyboardPageUp,
+    KeyboardPageDown,
+    KeyboardInsert,
+    KeyboardDelete,
 }
