@@ -88,12 +88,27 @@ public class Engine : Game
         _fontMap.Add(FontID.Messages, _fontMap[FontID.Status]);
 
         // Load textures
+        LoadTextures();
+
+        // Load music
+        _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
+        _songMap.Add(SongID.Scavenge1, Content.Load<Song>(FilePaths.Scavenge1));
+        _songMap.Add(SongID.Scavenge2, Content.Load<Song>(FilePaths.Scavenge2));
+    }
+
+    private void LoadTextures()
+    {
         _textureMap.Add(TextureID.ForestFloor, Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textureMap.Add(TextureID.ForestWall, Content.Load<Texture2D>(FilePaths.ForestWall));
         _textureMap.Add(TextureID.Player, Content.Load<Texture2D>(FilePaths.Player));
         _textureMap.Add(TextureID.Orc, Content.Load<Texture2D>(FilePaths.Orc));
         _textureMap.Add(TextureID.Wolf, Content.Load<Texture2D>(FilePaths.Wolf));
         _textureMap.Add(TextureID.SatanMain, Content.Load<Texture2D>(FilePaths.SatanMain));
+        _textureMap.Add(TextureID.KeyboardRight, Content.Load<Texture2D>(FilePaths.KeyboardRight));
+        _textureMap.Add(
+            TextureID.KeyboardRightOutline,
+            Content.Load<Texture2D>(FilePaths.KeyboardRightOutline)
+        );
         _textureMap.Add(
             TextureID.SatanEyesClosed,
             Content.Load<Texture2D>(FilePaths.SatanEyesClosed)
@@ -109,11 +124,25 @@ public class Engine : Game
         );
         _textureMap.Add(TextureID.WhitePixel, new Texture2D(GraphicsDevice, 1, 1));
         _textureMap[TextureID.WhitePixel].SetData([Color.White]);
-
-        // Load music
-        _songMap.Add(SongID.HideAndSeek, Content.Load<Song>(FilePaths.HideAndSeek));
-        _songMap.Add(SongID.Scavenge1, Content.Load<Song>(FilePaths.Scavenge1));
-        _songMap.Add(SongID.Scavenge2, Content.Load<Song>(FilePaths.Scavenge2));
+        _textureMap.Add(TextureID.KeyboardUp, Content.Load<Texture2D>(FilePaths.KeyboardUp));
+        _textureMap.Add(TextureID.KeyboardDown, Content.Load<Texture2D>(FilePaths.KeyboardDown));
+        _textureMap.Add(TextureID.KeyboardLeft, Content.Load<Texture2D>(FilePaths.KeyboardLeft));
+        _textureMap.Add(
+            TextureID.KeyboardDelete,
+            Content.Load<Texture2D>(FilePaths.KeyboardDelete)
+        );
+        _textureMap.Add(
+            TextureID.KeyboardInsert,
+            Content.Load<Texture2D>(FilePaths.KeyboardInsert)
+        );
+        _textureMap.Add(
+            TextureID.KeyboardPageUp,
+            Content.Load<Texture2D>(FilePaths.KeyboardPageUp)
+        );
+        _textureMap.Add(
+            TextureID.KeyboardPageDown,
+            Content.Load<Texture2D>(FilePaths.KeyboardPageDown)
+        );
     }
 
     protected override void Update(GameTime gameTime)
