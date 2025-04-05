@@ -88,6 +88,78 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_1_outline.
+        /// </summary>
+        internal static string Keyboard1 {
+            get {
+                return ResourceManager.GetString("Keyboard1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_2_outline.
+        /// </summary>
+        internal static string Keyboard2 {
+            get {
+                return ResourceManager.GetString("Keyboard2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_3_outline.
+        /// </summary>
+        internal static string Keyboard3 {
+            get {
+                return ResourceManager.GetString("Keyboard3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_4_outline.
+        /// </summary>
+        internal static string Keyboard4 {
+            get {
+                return ResourceManager.GetString("Keyboard4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_6_outline.
+        /// </summary>
+        internal static string Keyboard6 {
+            get {
+                return ResourceManager.GetString("Keyboard6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_7_outline.
+        /// </summary>
+        internal static string Keyboard7 {
+            get {
+                return ResourceManager.GetString("Keyboard7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_8_outline.
+        /// </summary>
+        internal static string Keyboard8 {
+            get {
+                return ResourceManager.GetString("Keyboard8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_9_outline.
+        /// </summary>
+        internal static string Keyboard9 {
+            get {
+                return ResourceManager.GetString("Keyboard9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/UI/Icons/keyboard_delete_outline.
         /// </summary>
         internal static string KeyboardDelete {
@@ -102,6 +174,33 @@ namespace SatansLilHelper {
         internal static string KeyboardDown {
             get {
                 return ResourceManager.GetString("KeyboardDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_f_outline.
+        /// </summary>
+        internal static string KeyboardF {
+            get {
+                return ResourceManager.GetString("KeyboardF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_h_outline.
+        /// </summary>
+        internal static string KeyboardH {
+            get {
+                return ResourceManager.GetString("KeyboardH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_i_outline.
+        /// </summary>
+        internal static string KeyboardI {
+            get {
+                return ResourceManager.GetString("KeyboardI", resourceCulture);
             }
         }
         
@@ -156,6 +255,15 @@ namespace SatansLilHelper {
         internal static string KeyboardRightOutline {
             get {
                 return ResourceManager.GetString("KeyboardRightOutline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_s_outline.
+        /// </summary>
+        internal static string KeyboardS {
+            get {
+                return ResourceManager.GetString("KeyboardS", resourceCulture);
             }
         }
         
