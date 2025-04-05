@@ -160,6 +160,60 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finish your turn.
+        /// </summary>
+        internal static string HelpF {
+            get {
+                return ResourceManager.GetString("HelpF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the help screen (you&apos;re already here!).
+        /// </summary>
+        internal static string HelpH {
+            get {
+                return ResourceManager.GetString("HelpH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View your Inventory.
+        /// </summary>
+        internal static string HelpI {
+            get {
+                return ResourceManager.GetString("HelpI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement.
+        /// </summary>
+        internal static string HelpMovement {
+            get {
+                return ResourceManager.GetString("HelpMovement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or (numpad).
+        /// </summary>
+        internal static string HelpOr {
+            get {
+                return ResourceManager.GetString("HelpOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View your Skills and Spells.
+        /// </summary>
+        internal static string HelpS {
+            get {
+                return ResourceManager.GetString("HelpS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory.
         /// </summary>
         internal static string Inventory_Title {
