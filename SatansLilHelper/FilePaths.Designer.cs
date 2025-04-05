@@ -178,6 +178,15 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_escape_outline.
+        /// </summary>
+        internal static string KeyboardEscape {
+            get {
+                return ResourceManager.GetString("KeyboardEscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/UI/Icons/keyboard_f_outline.
         /// </summary>
         internal static string KeyboardF {
@@ -237,6 +246,15 @@ namespace SatansLilHelper {
         internal static string KeyboardPageUp {
             get {
                 return ResourceManager.GetString("KeyboardPageUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_return_outline.
+        /// </summary>
+        internal static string KeyboardReturn {
+            get {
+                return ResourceManager.GetString("KeyboardReturn", resourceCulture);
             }
         }
         
