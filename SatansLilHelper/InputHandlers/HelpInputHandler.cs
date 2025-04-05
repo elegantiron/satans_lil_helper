@@ -89,55 +89,67 @@ internal class HelpInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        int KEY_SPACING = 55;
         if (_shadeShape == Rectangle.Empty)
             SetVecs(spriteBatch, fontMap);
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
         spriteBatch.Draw(textureMap[TextureID.WhitePixel], _shadeShape, Colors.TranslucentBlack);
+        Vector2 insertLocation = new(
+            spriteBatch.GraphicsDevice.Viewport.Width * 5 / 30,
+            _movementHeaderLocation.Y + fontMap[FontID.Messages].LineSpacing * 1.5f
+        );
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardInsert],
-            _insertLocation,
+            insertLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 leftArrowLocation = new(insertLocation.X, insertLocation.Y + KEY_SPACING);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardLeft],
-            _leftArrowLocation,
+            leftArrowLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 deleteLocation = new(insertLocation.X, leftArrowLocation.Y + KEY_SPACING);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardDelete],
-            _deleteLocation,
+            deleteLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 upArrowLocation = new(insertLocation.X + KEY_SPACING, insertLocation.Y);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardUp],
-            _upArrowLocation,
+            upArrowLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 downArrowLocation = new(upArrowLocation.X, deleteLocation.Y);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardDown],
-            _downArrowLocation,
+            downArrowLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 pageUpLocation = new(upArrowLocation.X + KEY_SPACING, insertLocation.Y);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardPageUp],
-            _pageUpLocation,
+            pageUpLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 rightArrowLocation = new(pageUpLocation.X, leftArrowLocation.Y);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardRight],
-            _rightArrowLocation,
+            rightArrowLocation,
             Colors.White,
             _textureOrigin
         );
+        Vector2 pageDownLocation = new(pageUpLocation.X, deleteLocation.Y);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardPageDown],
-            _pageDownLocation,
+            pageDownLocation,
             Colors.White,
             _textureOrigin
         );
@@ -150,19 +162,26 @@ internal class HelpInputHandler : IInputHandler
         spriteBatch.Draw(textureMap[TextureID.Keyboard8], _8location, Colors.White, _textureOrigin);
         spriteBatch.Draw(textureMap[TextureID.Keyboard9], _9location, Colors.White, _textureOrigin);
 
+        Vector2 size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpMovement);
+
         spriteBatch.DrawString(
             fontMap[FontID.Messages],
-            Properties.GameStrings.HelpMovement,
-            _movementHeaderLocation,
+            GameStrings.HelpMovement,
+            new(upArrowLocation.X, _shadeShape.Y + 45),
             Colors.White,
-            _movementHeaderOrigin
+            new(size.X / 2, size.Y / 2)
         );
+
+        size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpOr);
         spriteBatch.DrawString(
             fontMap[FontID.Messages],
-            Properties.GameStrings.HelpOr,
-            _movementOrLocation,
+            GameStrings.HelpOr,
+            new(
+                upArrowLocation.X,
+                deleteLocation.Y + fontMap[FontID.Messages].LineSpacing * 0.75f + 28
+            ),
             Colors.White,
-            _movementOrOrigin
+            new(size.X / 2, size.Y / 2)
         );
         Vector2 miscLocation = new(_9location.X + 96, _pageUpLocation.Y);
         foreach ((string text, TextureID texture) in _miscList)
