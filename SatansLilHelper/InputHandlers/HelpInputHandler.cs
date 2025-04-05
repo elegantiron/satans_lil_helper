@@ -42,6 +42,8 @@ internal class HelpInputHandler : IInputHandler
         _textureOrigin,
         _miscTextOrigin;
     private List<(string, TextureID)> _miscList;
+    private List<(TextureID, int, int)> _arrowList,
+        _numberList;
 
     public HelpInputHandler(IInputHandler parent)
     {
@@ -79,6 +81,28 @@ internal class HelpInputHandler : IInputHandler
             (GameStrings.HelpT, TextureID.KeyboardT),
             (GameStrings.HelpH, TextureID.KeyboardH),
         ];
+        _arrowList =
+        [
+            (TextureID.KeyboardInsert, 0, 0),
+            (TextureID.KeyboardUp, 1, 0),
+            (TextureID.KeyboardPageUp, 2, 0),
+            (TextureID.KeyboardLeft, 0, 1),
+            (TextureID.KeyboardRight, 2, 1),
+            (TextureID.KeyboardDelete, 0, 2),
+            (TextureID.KeyboardDown, 1, 2),
+            (TextureID.KeyboardPageDown, 2, 2),
+        ];
+        _numberList =
+        [
+            (TextureID.Keyboard7, 0, 0),
+            (TextureID.Keyboard8, 1, 0),
+            (TextureID.Keyboard9, 2, 0),
+            (TextureID.Keyboard4, 0, 1),
+            (TextureID.Keyboard6, 2, 1),
+            (TextureID.Keyboard1, 0, 2),
+            (TextureID.Keyboard2, 1, 2),
+            (TextureID.Keyboard3, 2, 2),
+        ];
     }
 
     public void Draw(
@@ -90,112 +114,64 @@ internal class HelpInputHandler : IInputHandler
     )
     {
         int KEY_SPACING = 55;
-        if (_shadeShape == Rectangle.Empty)
-            SetVecs(spriteBatch, fontMap);
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
-        spriteBatch.Draw(textureMap[TextureID.WhitePixel], _shadeShape, Colors.TranslucentBlack);
-        Vector2 insertLocation = new(
-            spriteBatch.GraphicsDevice.Viewport.Width * 5 / 30,
-            _movementHeaderLocation.Y + fontMap[FontID.Messages].LineSpacing * 1.5f
-        );
         spriteBatch.Draw(
-            textureMap[TextureID.KeyboardInsert],
-            insertLocation,
-            Colors.White,
-            _textureOrigin
+            textureMap[TextureID.WhitePixel],
+            new Rectangle(
+                spriteBatch.GraphicsDevice.Viewport.Width / 10,
+                spriteBatch.GraphicsDevice.Viewport.Height / 10,
+                spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
+                spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
+            ),
+            Colors.AmericanRose
         );
-        Vector2 leftArrowLocation = new(insertLocation.X, insertLocation.Y + KEY_SPACING);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardLeft],
-            leftArrowLocation,
-            Colors.White,
-            _textureOrigin
+        Vector2 keyTarget = new(
+            spriteBatch.GraphicsDevice.Viewport.Width / 10 + 1.5f * KEY_SPACING,
+            spriteBatch.GraphicsDevice.Viewport.Height / 10
+                + fontMap[FontID.Messages].LineSpacing
+                + KEY_SPACING
         );
-        Vector2 deleteLocation = new(insertLocation.X, leftArrowLocation.Y + KEY_SPACING);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardDelete],
-            deleteLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        Vector2 upArrowLocation = new(insertLocation.X + KEY_SPACING, insertLocation.Y);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardUp],
-            upArrowLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        Vector2 downArrowLocation = new(upArrowLocation.X, deleteLocation.Y);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardDown],
-            downArrowLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        Vector2 pageUpLocation = new(upArrowLocation.X + KEY_SPACING, insertLocation.Y);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardPageUp],
-            pageUpLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        Vector2 rightArrowLocation = new(pageUpLocation.X, leftArrowLocation.Y);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardRight],
-            rightArrowLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        Vector2 pageDownLocation = new(pageUpLocation.X, deleteLocation.Y);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardPageDown],
-            pageDownLocation,
-            Colors.White,
-            _textureOrigin
-        );
-        spriteBatch.Draw(textureMap[TextureID.Keyboard1], _1location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard2], _2location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard3], _3location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard4], _4location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard6], _6location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard7], _7location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard8], _8location, Colors.White, _textureOrigin);
-        spriteBatch.Draw(textureMap[TextureID.Keyboard9], _9location, Colors.White, _textureOrigin);
-
         Vector2 size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpMovement);
-
         spriteBatch.DrawString(
             fontMap[FontID.Messages],
             GameStrings.HelpMovement,
-            new(upArrowLocation.X, _shadeShape.Y + 45),
+            new(
+                keyTarget.X + KEY_SPACING,
+                spriteBatch.GraphicsDevice.Viewport.Height / 10
+                    + fontMap[FontID.Messages].LineSpacing
+            ),
             Colors.White,
-            new(size.X / 2, size.Y / 2)
+            new(size.X / 2, size.Y / 3)
         );
-
         size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpOr);
         spriteBatch.DrawString(
             fontMap[FontID.Messages],
             GameStrings.HelpOr,
-            new(
-                upArrowLocation.X,
-                deleteLocation.Y + fontMap[FontID.Messages].LineSpacing * 0.75f + 28
-            ),
+            new(keyTarget.X + KEY_SPACING, keyTarget.Y + 3 * KEY_SPACING),
             Colors.White,
-            new(size.X / 2, size.Y / 2)
+            size / 2
         );
-        Vector2 miscLocation = new(_9location.X + 96, _pageUpLocation.Y);
-        foreach ((string text, TextureID texture) in _miscList)
-        {
-            spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, _textureOrigin);
-            spriteBatch.DrawString(
-                fontMap[FontID.Messages],
-                text,
-                new(miscLocation.X + 40, miscLocation.Y),
-                Color.White,
-                _miscTextOrigin
-            );
-            miscLocation.Y += 55;
-        }
+
+        Vector2 keyOffset = new(KEY_SPACING);
+
+        DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
+        keyTarget.Y += 3 * KEY_SPACING + fontMap[FontID.Messages].LineSpacing * 2;
+
+        DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
+
+        //Vector2 miscLocation = new(_9location.X + 96, _pageUpLocation.Y);
+        //foreach ((string text, TextureID texture) in _miscList)
+        //{
+        //    spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, _textureOrigin);
+        //    spriteBatch.DrawString(
+        //        fontMap[FontID.Messages],
+        //        text,
+        //        new(miscLocation.X + 40, miscLocation.Y),
+        //        Color.White,
+        //        _miscTextOrigin
+        //    );
+        //    miscLocation.Y += 55;
+        //}
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -212,52 +188,22 @@ internal class HelpInputHandler : IInputHandler
         };
     }
 
-    private void SetVecs(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
+    private void DrawKeySquare(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        List<(TextureID, int, int)> itemList,
+        Vector2 target,
+        Vector2 offset
+    )
     {
-        Vector2 size = fontMap[FontID.Messages].MeasureString(Properties.GameStrings.HelpMovement);
-        _movementHeaderOrigin.X = size.X / 2;
-        _miscTextOrigin.Y = fontMap[FontID.Messages].LineSpacing / 2;
-        size = fontMap[FontID.Messages].MeasureString(Properties.GameStrings.HelpOr);
-        _movementOrOrigin.X = size.X / 2;
-        _shadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 10;
-        _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10;
-        _shadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 10;
-        _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10;
-        _movementHeaderLocation.Y = _shadeShape.Y + 45;
-        _movementHeaderOrigin.Y = _movementOrOrigin.Y = fontMap[FontID.Messages].LineSpacing * 0.5f;
-        _insertLocation.X =
-            _leftArrowLocation.X =
-            _deleteLocation.X =
-            _1location.X =
-            _4location.X =
-            _7location.X =
-                spriteBatch.GraphicsDevice.Viewport.Width * 5 / 30;
-        _insertLocation.Y =
-            _upArrowLocation.Y =
-            _pageUpLocation.Y =
-                _movementHeaderLocation.Y + fontMap[FontID.Messages].LineSpacing * 1.5f;
-        _leftArrowLocation.Y = _rightArrowLocation.Y = _insertLocation.Y + 55;
-        _deleteLocation.Y = _downArrowLocation.Y = _pageDownLocation.Y = _leftArrowLocation.Y + 55;
-        _movementOrLocation.Y =
-            _deleteLocation.Y + fontMap[FontID.Messages].LineSpacing * 0.75f + 28;
-        _upArrowLocation.X =
-            _downArrowLocation.X =
-            _2location.X =
-            _8location.X =
-                _insertLocation.X + 55;
-        _movementHeaderLocation.X = _movementOrLocation.X = _upArrowLocation.X;
-        _pageUpLocation.X =
-            _rightArrowLocation.X =
-            _pageDownLocation.X =
-            _3location.X =
-            _6location.X =
-            _9location.X =
-                _downArrowLocation.X + 55;
-        _7location.Y =
-            _8location.Y =
-            _9location.Y =
-                _movementOrLocation.Y + fontMap[FontID.Messages].LineSpacing * 1.75f;
-        _4location.Y = _6location.Y = _7location.Y + 55;
-        _1location.Y = _2location.Y = _3location.Y = _4location.Y + 55;
+        foreach ((TextureID texture, int x, int y) in itemList)
+        {
+            spriteBatch.Draw(
+                textureMap[texture],
+                new Vector2(target.X + x * offset.X, target.Y + y * offset.Y),
+                Colors.White,
+                new(32, 32)
+            );
+        }
     }
 }
