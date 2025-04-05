@@ -20,6 +20,8 @@ internal class ConfirmInputHandler : IInputHandler
     private FontID _fontID;
     private Action<bool> _callback;
     private IInputHandler _parent;
+    private Vector2 _inputGraphicsOrigin,
+        _enterGraphicLocation;
 
     public ConfirmInputHandler(
         IInputHandler parent,
@@ -32,6 +34,7 @@ internal class ConfirmInputHandler : IInputHandler
         _fontID = fontID;
         _callback = callback;
         _parent = parent;
+        _inputGraphicsOrigin = new(0, 64);
     }
 
     public void Draw(
@@ -69,6 +72,12 @@ internal class ConfirmInputHandler : IInputHandler
             );
             _messageLocation.Y += fontMap[_fontID].LineSpacing;
         }
+        spriteBatch.Draw(
+            textureMap[TextureID.KeyboardReturn],
+            _enterGraphicLocation,
+            Colors.White,
+            _inputGraphicsOrigin
+        );
     }
 
     private void SetVecs(SpriteBatch spriteBatch, float messageHeight)
@@ -76,6 +85,7 @@ internal class ConfirmInputHandler : IInputHandler
         _shadeShape.X = _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 3;
         _shadeShape.Y = _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height / 3;
         _messageLocation.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
+        _enterGraphicLocation = new(_shadeShape.X + 25, _shadeShape.Y + _shadeShape.Height - 20);
     }
 
     public IInputHandler HandleKey(Keys key)
