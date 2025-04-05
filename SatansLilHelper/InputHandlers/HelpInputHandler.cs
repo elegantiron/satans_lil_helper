@@ -77,7 +77,7 @@ internal class HelpInputHandler : IInputHandler
             (GameStrings.HelpH, TextureID.KeyboardH),
             (GameStrings.HelpI, TextureID.KeyboardI),
             (GameStrings.HelpS, TextureID.KeyboardS),
-            //(GameStrings.HelpT, TextureID.KeyboardT),
+            (GameStrings.HelpT, TextureID.KeyboardT),
         ];
     }
 
