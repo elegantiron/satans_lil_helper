@@ -186,6 +186,9 @@
   <data name="KeyboardS" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_s_outline</value>
   </data>
+  <data name="KeyboardT" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_t_outline</value>
+  </data>
   <data name="KeyboardUp" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_arrow_up_outline</value>
   </data>
