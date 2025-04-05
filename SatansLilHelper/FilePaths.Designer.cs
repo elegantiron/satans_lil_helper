@@ -268,6 +268,15 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_t_outline.
+        /// </summary>
+        internal static string KeyboardT {
+            get {
+                return ResourceManager.GetString("KeyboardT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/UI/Icons/keyboard_arrow_up_outline.
         /// </summary>
         internal static string KeyboardUp {
