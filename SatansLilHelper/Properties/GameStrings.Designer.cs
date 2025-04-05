@@ -214,6 +214,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show or hide the status window.
+        /// </summary>
+        internal static string HelpT {
+            get {
+                return ResourceManager.GetString("HelpT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory.
         /// </summary>
         internal static string Inventory_Title {
