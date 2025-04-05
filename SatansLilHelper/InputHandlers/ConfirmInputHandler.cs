@@ -21,7 +21,8 @@ internal class ConfirmInputHandler : IInputHandler
     private Action<bool> _callback;
     private IInputHandler _parent;
     private Vector2 _inputGraphicsOrigin,
-        _enterGraphicLocation;
+        _enterGraphicLocation,
+        _escapeGraphicLocation;
 
     public ConfirmInputHandler(
         IInputHandler parent,
@@ -52,24 +53,14 @@ internal class ConfirmInputHandler : IInputHandler
         );
         float messageHeight = messageWrapped.Count * fontMap[_fontID].LineSpacing;
         if (_messageLocation == Vector2.Zero)
-            SetVecs(spriteBatch, messageHeight);
+            SetVecs(spriteBatch, fontMap, messageHeight);
         _messageLocation.Y = (spriteBatch.GraphicsDevice.Viewport.Height - messageHeight) / 2;
         spriteBatch.Draw(textureMap[TextureID.WhitePixel], _shadeShape, Colors.TranslucentBlack);
         foreach (string text in messageWrapped)
         {
             Vector2 size = fontMap[_fontID].MeasureString(text);
             Vector2 origin = new(size.X / 2.0f, 0);
-            spriteBatch.DrawString(
-                fontMap[_fontID],
-                text,
-                _messageLocation,
-                Colors.White,
-                0f,
-                origin,
-                1f,
-                SpriteEffects.None,
-                1f
-            );
+            spriteBatch.DrawString(fontMap[_fontID], text, _messageLocation, Colors.White, origin);
             _messageLocation.Y += fontMap[_fontID].LineSpacing;
         }
         spriteBatch.Draw(
@@ -78,14 +69,41 @@ internal class ConfirmInputHandler : IInputHandler
             Colors.White,
             _inputGraphicsOrigin
         );
+        spriteBatch.DrawString(
+            fontMap[FontID.Messages],
+            Properties.GameStrings.Yes,
+            new(_enterGraphicLocation.X + 64, _enterGraphicLocation.Y - 32),
+            Colors.White,
+            new(0, fontMap[FontID.Messages].LineSpacing / 2)
+        );
+        spriteBatch.Draw(
+            textureMap[TextureID.KeyboardEscape],
+            _escapeGraphicLocation,
+            Colors.White,
+            _inputGraphicsOrigin
+        );
+        spriteBatch.DrawString(
+            fontMap[FontID.Messages],
+            Properties.GameStrings.No,
+            new(_escapeGraphicLocation.X + 64, _escapeGraphicLocation.Y - 32),
+            Colors.White,
+            new(0, fontMap[FontID.Messages].LineSpacing / 2)
+        );
     }
 
-    private void SetVecs(SpriteBatch spriteBatch, float messageHeight)
+    private void SetVecs(
+        SpriteBatch spriteBatch,
+        Dictionary<FontID, SpriteFont> fontMap,
+        float messageHeight
+    )
     {
         _shadeShape.X = _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width / 3;
         _shadeShape.Y = _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height / 3;
         _messageLocation.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
         _enterGraphicLocation = new(_shadeShape.X + 25, _shadeShape.Y + _shadeShape.Height - 20);
+        float offset = fontMap[FontID.Messages].MeasureString(Properties.GameStrings.No).X + 64;
+        float x = _shadeShape.X + _shadeShape.Width - offset;
+        _escapeGraphicLocation = new(x - 25, _shadeShape.Y + _shadeShape.Height - 20);
     }
 
     public IInputHandler HandleKey(Keys key)
