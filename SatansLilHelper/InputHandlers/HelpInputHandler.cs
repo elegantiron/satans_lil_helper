@@ -19,28 +19,7 @@ internal class HelpInputHandler : IInputHandler
 {
     private IInputHandler _parent;
     private Rectangle _shadeShape;
-    private Vector2 _upArrowLocation,
-        _downArrowLocation,
-        _leftArrowLocation,
-        _rightArrowLocation,
-        _insertLocation,
-        _deleteLocation,
-        _pageUpLocation,
-        _pageDownLocation,
-        _1location,
-        _2location,
-        _3location,
-        _4location,
-        _6location,
-        _7location,
-        _8location,
-        _9location,
-        _movementHeaderLocation,
-        _movementHeaderOrigin,
-        _movementOrLocation,
-        _movementOrOrigin,
-        _textureOrigin,
-        _miscTextOrigin;
+
     private List<(string, TextureID)> _miscList;
     private List<(TextureID, int, int)> _arrowList,
         _numberList;
@@ -49,29 +28,6 @@ internal class HelpInputHandler : IInputHandler
     {
         _shadeShape = Rectangle.Empty;
         _parent = parent;
-        _upArrowLocation =
-            _downArrowLocation =
-            _leftArrowLocation =
-            _rightArrowLocation =
-            _insertLocation =
-            _deleteLocation =
-            _pageUpLocation =
-            _pageDownLocation =
-            _1location =
-            _2location =
-            _3location =
-            _4location =
-            _6location =
-            _7location =
-            _8location =
-            _9location =
-            _movementHeaderLocation =
-            _movementHeaderOrigin =
-            _movementOrLocation =
-            _movementOrOrigin =
-            _miscTextOrigin =
-                Vector2.Zero;
-        _textureOrigin = new(32f, 32f);
 
         _miscList =
         [
@@ -123,7 +79,7 @@ internal class HelpInputHandler : IInputHandler
                 spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
                 spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
             ),
-            Colors.AmericanRose
+            Colors.TranslucentBlack
         );
         Vector2 keyTarget = new(
             spriteBatch.GraphicsDevice.Viewport.Width / 10 + 1.5f * KEY_SPACING,
@@ -155,23 +111,24 @@ internal class HelpInputHandler : IInputHandler
         Vector2 keyOffset = new(KEY_SPACING);
 
         DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
+
+        Vector2 miscLocation = new(keyTarget.X + 4 * KEY_SPACING, keyTarget.Y + KEY_SPACING);
+        foreach ((string text, TextureID texture) in _miscList)
+        {
+            spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, new(32));
+            spriteBatch.DrawString(
+                fontMap[FontID.Messages],
+                text,
+                new(miscLocation.X + 40, miscLocation.Y),
+                Color.White,
+                new(0, fontMap[FontID.Messages].LineSpacing / 2)
+            );
+            miscLocation.Y += 55;
+        }
+
         keyTarget.Y += 3 * KEY_SPACING + fontMap[FontID.Messages].LineSpacing * 2;
 
         DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
-
-        //Vector2 miscLocation = new(_9location.X + 96, _pageUpLocation.Y);
-        //foreach ((string text, TextureID texture) in _miscList)
-        //{
-        //    spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, _textureOrigin);
-        //    spriteBatch.DrawString(
-        //        fontMap[FontID.Messages],
-        //        text,
-        //        new(miscLocation.X + 40, miscLocation.Y),
-        //        Color.White,
-        //        _miscTextOrigin
-        //    );
-        //    miscLocation.Y += 55;
-        //}
     }
 
     public IInputHandler HandleKey(Keys key)
