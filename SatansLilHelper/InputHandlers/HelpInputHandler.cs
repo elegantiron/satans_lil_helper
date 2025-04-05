@@ -73,11 +73,11 @@ internal class HelpInputHandler : IInputHandler
 
         _miscList =
         [
-            (GameStrings.HelpF, TextureID.KeyboardF),
-            (GameStrings.HelpH, TextureID.KeyboardH),
             (GameStrings.HelpI, TextureID.KeyboardI),
             (GameStrings.HelpS, TextureID.KeyboardS),
+            (GameStrings.HelpF, TextureID.KeyboardF),
             (GameStrings.HelpT, TextureID.KeyboardT),
+            (GameStrings.HelpH, TextureID.KeyboardH),
         ];
     }
 
