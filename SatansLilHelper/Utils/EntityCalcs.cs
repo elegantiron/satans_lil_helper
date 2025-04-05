@@ -21,7 +21,7 @@ internal static class EntityCalcs
             // Try to get the entity's level
             if (entity.TryGetComponent<Level>(out Level level))
                 // Add the amount gained from levels
-                total += (int)(stat.Growth * (level.Value - 1));
+                total += GetTotal(stat.Growth, level.Value);
         }
 
         // Recursively process any incoming "Equipper" links to
@@ -82,11 +82,11 @@ internal static class EntityCalcs
 
     private static int GetTotal(decimal growth, int level)
     {
-        return (int)(growth * level);
+        return (int)(growth * (level - 1));
     }
 
     private static int GetTotal(decimal growth, uint level)
     {
-        return (int)(growth * level);
+        return (int)(growth * (level - 1));
     }
 }
