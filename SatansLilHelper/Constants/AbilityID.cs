@@ -18,5 +18,6 @@ public enum AbilityID
     Vision,
     LightRadius,
     Health,
+    Initiative,
     Mana,
 }
