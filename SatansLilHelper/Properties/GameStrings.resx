@@ -180,6 +180,9 @@
   <data name="NewGame" xml:space="preserve">
     <value>Start a new game</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="PathBlocked" xml:space="preserve">
     <value>That way is blocked.</value>
   </data>
@@ -236,5 +239,8 @@
   </data>
   <data name="ViewSettings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>
