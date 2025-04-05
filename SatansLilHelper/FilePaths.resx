@@ -126,11 +126,44 @@
   <data name="HideAndSeek" xml:space="preserve">
     <value>Music/hide_and_seek</value>
   </data>
+  <data name="Keyboard1" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_1_outline</value>
+  </data>
+  <data name="Keyboard2" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_2_outline</value>
+  </data>
+  <data name="Keyboard3" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_3_outline</value>
+  </data>
+  <data name="Keyboard4" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_4_outline</value>
+  </data>
+  <data name="Keyboard6" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_6_outline</value>
+  </data>
+  <data name="Keyboard7" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_7_outline</value>
+  </data>
+  <data name="Keyboard8" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_8_outline</value>
+  </data>
+  <data name="Keyboard9" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_9_outline</value>
+  </data>
   <data name="KeyboardDelete" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_delete_outline</value>
   </data>
   <data name="KeyboardDown" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_arrow_down_outline</value>
+  </data>
+  <data name="KeyboardF" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_f_outline</value>
+  </data>
+  <data name="KeyboardH" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_h_outline</value>
+  </data>
+  <data name="KeyboardI" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_i_outline</value>
   </data>
   <data name="KeyboardInsert" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_insert_outline</value>
@@ -149,6 +182,9 @@
   </data>
   <data name="KeyboardRightOutline" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_arrow_right_outline</value>
+  </data>
+  <data name="KeyboardS" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_s_outline</value>
   </data>
   <data name="KeyboardUp" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_arrow_up_outline</value>
