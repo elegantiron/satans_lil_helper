@@ -42,4 +42,6 @@ public enum TextureID
     KeyboardS,
     KeyboardI,
     KeyboardT,
+    KeyboardReturn,
+    KeyboardEscape,
 }
