@@ -81,12 +81,6 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
                 1f
             );
         }
-        spriteBatch.Draw(textureMap[TextureID.KeyboardRight], new Vector2(200, 550), Colors.White);
-        spriteBatch.Draw(
-            textureMap[TextureID.KeyboardRightOutline],
-            new Vector2(300, 550),
-            Colors.White
-        );
     }
 
     private void CalculateVectors(
