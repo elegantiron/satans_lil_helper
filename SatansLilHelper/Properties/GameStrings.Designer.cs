@@ -223,6 +223,24 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Redo your previous action.
+        /// </summary>
+        internal static string HelpY {
+            get {
+                return ResourceManager.GetString("HelpY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo your last action.
+        /// </summary>
+        internal static string HelpZ {
+            get {
+                return ResourceManager.GetString("HelpZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory.
         /// </summary>
         internal static string Inventory_Title {
