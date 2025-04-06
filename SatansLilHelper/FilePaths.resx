@@ -198,6 +198,12 @@
   <data name="KeyboardUp" xml:space="preserve">
     <value>Images/UI/Icons/keyboard_arrow_up_outline</value>
   </data>
+  <data name="KeyboardY" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_y_outline</value>
+  </data>
+  <data name="KeyboardZ" xml:space="preserve">
+    <value>Images/UI/Icons/keyboard_z_outline</value>
+  </data>
   <data name="MenuFont" xml:space="preserve">
     <value>Fonts/MenuFont</value>
   </data>
