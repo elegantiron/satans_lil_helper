@@ -164,6 +164,8 @@ public class Engine : Game
             TextureID.KeyboardEscape,
             Content.Load<Texture2D>(FilePaths.KeyboardEscape)
         );
+        _textureMap.Add(TextureID.KeyboardY, Content.Load<Texture2D>(FilePaths.KeyboardY));
+        _textureMap.Add(TextureID.KeyboardZ, Content.Load<Texture2D>(FilePaths.KeyboardZ));
     }
 
     protected override void Update(GameTime gameTime)
