@@ -36,6 +36,10 @@ internal class HelpInputHandler : IInputHandler
             (GameStrings.HelpF, TextureID.KeyboardF),
             (GameStrings.HelpT, TextureID.KeyboardT),
             (GameStrings.HelpH, TextureID.KeyboardH),
+#if DEBUG
+            (GameStrings.HelpZ, TextureID.KeyboardZ),
+            (GameStrings.HelpY, TextureID.KeyboardY),
+#endif
         ];
         _arrowList =
         [
@@ -112,7 +116,7 @@ internal class HelpInputHandler : IInputHandler
 
         DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
 
-        Vector2 miscLocation = new(keyTarget.X + 4 * KEY_SPACING, keyTarget.Y + KEY_SPACING);
+        Vector2 miscLocation = new(keyTarget.X + 4 * KEY_SPACING, keyTarget.Y);
         foreach ((string text, TextureID texture) in _miscList)
         {
             spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, new(32));
