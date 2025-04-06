@@ -19,9 +19,6 @@
   <ItemGroup>
     <TrimmerRootAssembly Include="MonoGame.Framework" />
 	  <TrimmerRootAssembly Include="mscorlib" />
-	  <TrimmerRootAssembly Include="Friflo.Engine.ECS" />
-	  <TrimmerRootAssembly Include="MessagePack" />
-	  <TrimmerRootAssembly Include="FontStashSharp.MonoGame" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />
