@@ -29,6 +29,7 @@ public class Engine : Game
     private Dictionary<FontID, SpriteFont> _fontMap;
     private List<Keys> _keyList;
     private string _gamePath;
+    private EntitySchema _schema;
 
     public Engine()
     {
@@ -220,10 +221,10 @@ public class Engine : Game
         aot.RegisterComponent<ActionDelay>();
         aot.RegisterComponent<Attack>();
         aot.RegisterComponent<EffectPower>();
-        aot.RegisterComponent<Equipper>();
-        aot.RegisterComponent<Holder>();
+        aot.RegisterIndexedComponentEntity<Equipper>();
+        aot.RegisterIndexedComponentEntity<Holder>();
         aot.RegisterComponent<ItemSlots>();
-        aot.RegisterComponent<KnownBy>();
+        aot.RegisterIndexedComponentEntity<KnownBy>();
         aot.RegisterComponent<Level>();
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
         aot.RegisterComponent<TextureIndex>();
@@ -238,6 +239,6 @@ public class Engine : Game
         aot.RegisterTag<Skill>();
         aot.RegisterTag<Visible>();
 
-        var schema = aot.CreateSchema();
+        _schema = aot.CreateSchema();
     }
 }
