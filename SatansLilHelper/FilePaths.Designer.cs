@@ -304,6 +304,24 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_y_outline.
+        /// </summary>
+        internal static string KeyboardY {
+            get {
+                return ResourceManager.GetString("KeyboardY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/keyboard_z_outline.
+        /// </summary>
+        internal static string KeyboardZ {
+            get {
+                return ResourceManager.GetString("KeyboardZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fonts/MenuFont.
         /// </summary>
         internal static string MenuFont {
