@@ -28,9 +28,15 @@ internal partial class GameInputHandler
                 Properties.Settings.Default.ShowStatus = !Properties.Settings.Default.ShowStatus;
                 break;
             case Keys.S:
-                return new SpellBookInputHandler(this);
+                return new IncomingLinkInputHandler<Grimoire>(
+                    this,
+                    Properties.GameStrings.SpellBookTitle
+                );
             case Keys.I:
-                return new InventoryInputHandler(this);
+                return new IncomingLinkInputHandler<Inventory>(
+                    this,
+                    Properties.GameStrings.Inventory_Title
+                );
             case Keys.F:
                 return new ConfirmInputHandler(
                     this,
