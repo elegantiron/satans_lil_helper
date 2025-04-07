@@ -167,6 +167,8 @@ public class Engine : Game
         );
         _textureMap.Add(TextureID.KeyboardY, Content.Load<Texture2D>(FilePaths.KeyboardY));
         _textureMap.Add(TextureID.KeyboardZ, Content.Load<Texture2D>(FilePaths.KeyboardZ));
+        _textureMap.Add(TextureID.ArrowSilver, Content.Load<Texture2D>(FilePaths.ArrowSilver));
+        _textureMap.Add(TextureID.ArrowBlue, Content.Load<Texture2D>(FilePaths.ArrowBlue));
     }
 
     protected override void Update(GameTime gameTime)
@@ -222,9 +224,9 @@ public class Engine : Game
         aot.RegisterComponent<Attack>();
         aot.RegisterComponent<EffectPower>();
         aot.RegisterIndexedComponentEntity<Equipper>();
-        aot.RegisterIndexedComponentEntity<Holder>();
+        aot.RegisterIndexedComponentEntity<Inventory>();
         aot.RegisterComponent<ItemSlots>();
-        aot.RegisterIndexedComponentEntity<KnownBy>();
+        aot.RegisterIndexedComponentEntity<Grimoire>();
         aot.RegisterComponent<Level>();
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
         aot.RegisterComponent<TextureIndex>();
