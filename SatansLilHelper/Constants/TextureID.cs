@@ -46,4 +46,6 @@ public enum TextureID
     KeyboardEscape,
     KeyboardY,
     KeyboardZ,
+    ArrowBlue,
+    ArrowSilver,
 }
