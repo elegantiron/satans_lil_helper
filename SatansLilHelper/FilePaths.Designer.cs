@@ -61,6 +61,24 @@ namespace SatansLilHelper {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/arrowBlue_right.
+        /// </summary>
+        internal static string ArrowBlue {
+            get {
+                return ResourceManager.GetString("ArrowBlue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images/UI/Icons/arrowSilver_right.
+        /// </summary>
+        internal static string ArrowSilver {
+            get {
+                return ResourceManager.GetString("ArrowSilver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images/Tiles/Forest/Floor/000.
         /// </summary>
         internal static string ForestFloor {
