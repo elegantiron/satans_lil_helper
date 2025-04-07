@@ -16,7 +16,7 @@ internal static class Items
 
     private static void Base(Entity entity, Entity parent)
     {
-        entity.AddComponent(new Holder(parent));
+        entity.AddComponent(new Inventory(parent));
     }
 
     public static void HealthPotion(Entity entity, IRandom rng)
