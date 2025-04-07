@@ -10,7 +10,7 @@ try
 catch (Exception exception)
 {
     string FILE_PATH = AppContext.BaseDirectory + "error.txt";
-    using (StreamWriter writer = new StreamWriter(FILE_PATH, false))
+    using (StreamWriter writer = new(FILE_PATH, false))
     {
         writer.WriteLine("Date : " + DateTime.Now.ToString());
         writer.WriteLine();
