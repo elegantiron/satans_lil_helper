@@ -207,8 +207,8 @@
   <data name="SettingsTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="SpellBook" xml:space="preserve">
-    <value>Your Grimoire is not yet implemented!</value>
+  <data name="SpellBookTitle" xml:space="preserve">
+    <value>Grimoire</value>
   </data>
   <data name="StatusAttacks" xml:space="preserve">
     <value>Attacks: {0}/{1}</value>
