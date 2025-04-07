@@ -4,7 +4,7 @@ using Friflo.Json.Fliox;
 namespace SatansLilHelper.Components;
 
 [ComponentKey("known-by")]
-internal struct KnownBy(Entity target) : ILinkComponent
+internal struct Grimoire(Entity target) : ILinkComponent
 {
     [Serialize]
     public Entity Target = target;
