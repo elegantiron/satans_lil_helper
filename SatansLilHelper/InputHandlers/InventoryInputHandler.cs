@@ -48,7 +48,7 @@ internal class InventoryInputHandler(GameInputHandler parent) : IInputHandler
         _listVecs.Location.Y = _titleVecs.Location.Y + fontMap[FontID.Menu].LineSpacing * 1.5f;
         //_listVecs.Location.Y = _shadeShape.Y;
         _listVecs.Location.X = _shadeShape.X + 25;
-        foreach (Entity ent in _parent.CurrentMap.Player.GetIncomingLinks<Holder>().Entities)
+        foreach (Entity ent in _parent.CurrentMap.Player.GetIncomingLinks<Inventory>().Entities)
         {
             if (_listVecs.Location.Y > _shadeShape.Height)
             {
