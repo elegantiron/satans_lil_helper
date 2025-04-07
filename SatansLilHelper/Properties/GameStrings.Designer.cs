@@ -331,11 +331,11 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Grimoire is not yet implemented!.
+        ///   Looks up a localized string similar to Grimoire.
         /// </summary>
-        internal static string SpellBook {
+        internal static string SpellBookTitle {
             get {
-                return ResourceManager.GetString("SpellBook", resourceCulture);
+                return ResourceManager.GetString("SpellBookTitle", resourceCulture);
             }
         }
         
