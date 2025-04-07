@@ -13,7 +13,7 @@ internal static class Skills
 
     private static void Base(Entity entity, Entity parent)
     {
-        entity.AddComponent(new KnownBy(parent));
+        entity.AddComponent(new Grimoire(parent));
     }
 
     public static void ShieldUp(Entity entity)
