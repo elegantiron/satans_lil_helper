@@ -4,7 +4,7 @@ using Friflo.Json.Fliox;
 namespace SatansLilHelper.Components;
 
 [ComponentKey("holder")]
-internal struct Holder(Entity target) : ILinkComponent
+internal struct Inventory(Entity target) : ILinkComponent
 {
     [Serialize]
     public Entity Target = target;
