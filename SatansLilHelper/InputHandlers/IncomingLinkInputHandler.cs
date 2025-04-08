@@ -106,12 +106,12 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                 _index++;
                 break;
             case Keys.Enter:
-                return Activate();
+                return UseItem();
         }
         return this;
     }
 
-    private IInputHandler Activate()
+    private IInputHandler UseItem()
     {
         Entity ent = _parent.CurrentMap.Player.GetIncomingLinks<TComponent>().Entities[_index];
         if (ent.Tags.Has<Equippable>())
@@ -128,20 +128,25 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                 // activate a targetting input handler
                 return _parent;
             }
-            Components.Effect effect = ent.GetComponent<Components.Effect>();
-            switch (effect.Type)
-            {
-                case ItemEffect.None:
-                    break;
-                case ItemEffect.Heal:
-                    break;
-                case ItemEffect.Harm:
-                    break;
-                case ItemEffect.Cloud:
-                    break;
-            }
+            Activate(ent);
             return this;
         }
         return this;
+    }
+
+    private void Activate(Entity ent)
+    {
+        Components.Effect effect = ent.GetComponent<Components.Effect>();
+        switch (effect.Type)
+        {
+            case ItemEffect.None:
+                break;
+            case ItemEffect.Heal:
+                break;
+            case ItemEffect.Harm:
+                break;
+            case ItemEffect.Cloud:
+                break;
+        }
     }
 }
