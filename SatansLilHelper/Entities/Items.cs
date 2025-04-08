@@ -21,7 +21,7 @@ internal static class Items
     {
         Base(entity);
         entity.AddComponent(new EntityName("Healing Potion"));
-        entity.AddComponent(new EffectPower((int)rng.Next(1, 8) + 2));
+        entity.AddComponent(new Effect(ItemEffect.Heal, (int)rng.Next(1, 8) + 2));
     }
 
     public static void HealthPotion(Entity entity, Entity parent, IRandom rng)
