@@ -19,8 +19,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
     //public fields
     public ArchetypeQuery GetActionDelay,
         GetBlockingEntities,
-        GetDrawableEntities,
         GetActors;
+
+    public ArchetypeQuery<Location, TextureIndex> GetDrawableEntities;
 
     // protected fields
     protected Entity player;
@@ -65,8 +66,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         GetActionDelay = registry.Query<ActionDelay>();
         GetBlockingEntities = registry.Query<Location>().AllTags(Tags.Get<Blocking>());
         GetDrawableEntities = registry
-            .Query()
-            .AllComponents(ComponentTypes.Get<Location, TextureIndex>())
+            .Query<Location, TextureIndex>()
             .WithoutAnyTags(Tags.Get<Invisible, Player>());
         GetActors = registry.Query<Location>().AllTags(Tags.Get<Actor>());
         #endregion Queries
@@ -169,6 +169,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                     spriteTarget,
                     tiles[i, j].Visible ? Colors.White : Colors.HiddenTile
                 );
+                if (!tiles[i, j].Visible)
+                    spriteBatch.Draw(
+                        textureMap[TextureID.WhitePixel],
+                        new Rectangle((int)spriteTarget.X, (int)spriteTarget.Y, 32, 32),
+                        Colors.TranslucentBlack
+                    );
             }
         }
     }
