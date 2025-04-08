@@ -229,14 +229,17 @@ public class Engine : Game
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
         aot.RegisterComponent<TextureIndex>();
 
+        aot.RegisterTag<Activatable>();
         aot.RegisterTag<Actor>();
         aot.RegisterTag<Alive>();
         aot.RegisterTag<Blocking>();
+        aot.RegisterTag<Equippable>();
         aot.RegisterTag<Hostile>();
         aot.RegisterTag<Invisible>();
         aot.RegisterTag<Item>();
         aot.RegisterTag<Player>();
         aot.RegisterTag<Skill>();
+        aot.RegisterTag<Targetable>();
         aot.RegisterTag<Visible>();
 
         _schema = aot.CreateSchema();
