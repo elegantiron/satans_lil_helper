@@ -61,6 +61,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are unable to equip that item..
+        /// </summary>
+        internal static string CantUseItem {
+            get {
+                return ResourceManager.GetString("CantUseItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End your turn?.
         /// </summary>
         internal static string ConfirmTurnEnd {
