@@ -27,6 +27,7 @@ internal partial class GameInputHandler
         {
             SetVecs(spriteBatch, fontMap);
         }
+        _gameWorld.CurrentMap.UpdatePlayerVision();
 
         _gameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
 
