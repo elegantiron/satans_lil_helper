@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Friflo.Engine.ECS;
-using SatansLilHelper.EntityTags;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;

@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
-using SatansLilHelper.EntityTags;
+using SatansLilHelper.Constants;
 
 namespace SatansLilHelper.Entities;
 

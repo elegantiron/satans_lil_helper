@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using FontStashSharp;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -10,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
-using SatansLilHelper.EntityTags;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;

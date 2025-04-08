@@ -2,7 +2,7 @@
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
 using SatansLilHelper.Components;
-using SatansLilHelper.EntityTags;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils.GameMaps;
