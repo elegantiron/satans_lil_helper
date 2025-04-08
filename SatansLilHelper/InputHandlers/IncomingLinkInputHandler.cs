@@ -128,7 +128,18 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                 // activate a targetting input handler
                 return _parent;
             }
-            // Activate the item
+            Components.Effect effect = ent.GetComponent<Components.Effect>();
+            switch (effect.Type)
+            {
+                case ItemEffect.None:
+                    break;
+                case ItemEffect.Heal:
+                    break;
+                case ItemEffect.Harm:
+                    break;
+                case ItemEffect.Cloud:
+                    break;
+            }
             return this;
         }
         return this;
