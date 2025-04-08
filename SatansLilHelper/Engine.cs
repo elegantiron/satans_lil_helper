@@ -220,7 +220,7 @@ public class Engine : Game
         aot.RegisterRelation<AbilityStat, AbilityID>();
         aot.RegisterComponent<ActionDelay>();
         aot.RegisterComponent<Attack>();
-        aot.RegisterComponent<EffectPower>();
+        aot.RegisterComponent<Components.Effect>();
         aot.RegisterIndexedComponentEntity<Equipper>();
         aot.RegisterIndexedComponentEntity<Inventory>();
         aot.RegisterComponent<ItemSlots>();
