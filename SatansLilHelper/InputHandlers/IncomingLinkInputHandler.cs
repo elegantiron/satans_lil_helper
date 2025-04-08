@@ -7,11 +7,13 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
+using SatansLilHelper.Types;
 
 namespace SatansLilHelper.InputHandlers;
 
@@ -111,6 +113,24 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
 
     private IInputHandler Activate()
     {
-        throw new NotImplementedException();
+        Entity ent = _parent.CurrentMap.Player.GetIncomingLinks<TComponent>().Entities[_index];
+        if (ent.Tags.Has<Equippable>())
+        {
+            EquipAction action = new(_parent.CurrentMap.Player, ent);
+            action.Perform();
+            _parent.PlayerTurn.AddAction(action);
+            return this;
+        }
+        else if (ent.Tags.Has<Activatable>())
+        {
+            if (ent.Tags.Has<Targetable>())
+            {
+                // activate a targetting input handler
+                return _parent;
+            }
+            // Activate the item
+            return this;
+        }
+        return this;
     }
 }
