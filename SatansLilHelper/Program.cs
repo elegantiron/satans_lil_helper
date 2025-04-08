@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-
+#if RELEASE
 try
 {
+#endif
     using var game = new SatansLilHelper.Engine();
     game.Run();
+#if RELEASE
 }
 catch (Exception exception)
 {
@@ -25,3 +27,4 @@ catch (Exception exception)
         }
     }
 }
+#endif
