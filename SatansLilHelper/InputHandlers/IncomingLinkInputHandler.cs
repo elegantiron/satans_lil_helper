@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
@@ -75,7 +76,7 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                     spriteBatch.Draw(
                         textureMap[TextureID.ArrowSilver],
                         new Vector2(textDest.X - 30, textDest.Y + 3),
-                        Colors.White
+                        Colors.CornflowerBlue
                     );
                 }
                 textDest.Y += fontMap[FontID.Status].LineSpacing * 1.15f;
@@ -97,7 +98,14 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
             case Keys.Down:
                 _index++;
                 break;
+            case Keys.Enter:
+                return Activate();
         }
         return this;
+    }
+
+    private IInputHandler Activate()
+    {
+        throw new NotImplementedException();
     }
 }
