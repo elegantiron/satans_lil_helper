@@ -35,6 +35,8 @@ internal static class Items
         Base(entity);
         entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 6m));
         entity.AddComponent(new EntityName("Torch"));
+        entity.AddTag<Equippable>();
+        entity.AddComponent(new ItemSlots(ItemType.Torch));
     }
 
     public static void Torch(Entity entity, Entity parent)
