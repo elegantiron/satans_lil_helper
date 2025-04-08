@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
@@ -69,14 +70,18 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                 }
 
                 string entName = entities.Entities[idx].Name.value;
+                if (entities.Entities[idx].TryGetComponent(out Equipper _))
+                {
+                    entName += " (e)";
+                }
 
                 spriteBatch.DrawString(fontMap[FontID.Status], entName, textDest, Colors.White);
                 if (idx == _index)
                 {
                     spriteBatch.Draw(
-                        textureMap[TextureID.ArrowSilver],
+                        textureMap[TextureID.ArrowBlue],
                         new Vector2(textDest.X - 30, textDest.Y + 3),
-                        Colors.CornflowerBlue
+                        Colors.White
                     );
                 }
                 textDest.Y += fontMap[FontID.Status].LineSpacing * 1.15f;
