@@ -58,6 +58,8 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         _playerTurn = new(_gameWorld.CurrentMap.Player);
     }
 
+    public PlayerTurn PlayerTurn => _playerTurn;
+
     private void SetVecs(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
     {
         _statusShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width * 4 / 5;
@@ -98,4 +100,6 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             _gameWorld.GetNextActor();
         }
     }
+
+    public GameWorld GameWorld => _gameWorld;
 }
