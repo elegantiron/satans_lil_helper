@@ -25,4 +25,5 @@ public static class Colors
     public static readonly Color PlayerHeal = Color.PeachPuff;
     public static readonly Color Red = Color.Red;
     public static readonly Color Green = Color.Green;
+    public static readonly Color CornflowerBlue = Color.CornflowerBlue;
 }
