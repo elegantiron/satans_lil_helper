@@ -189,6 +189,9 @@
   <data name="NewGame" xml:space="preserve">
     <value>Start a new game</value>
   </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>View next page</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
@@ -203,6 +206,9 @@
   </data>
   <data name="PowerfulStrike" xml:space="preserve">
     <value>You land a powerful strike!</value>
+  </data>
+  <data name="PrevPage" xml:space="preserve">
+    <value>View previous page</value>
   </data>
   <data name="Resume" xml:space="preserve">
     <value>Resume</value>
