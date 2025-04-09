@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Friflo.Engine.ECS;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Newtonsoft.Json;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.InputHandlers;
@@ -63,6 +63,10 @@ public class Engine : Game
             .AddJsonFile("appsettings.json")
             .Build();
         config.Bind(Settings.Default);
+
+        Settings.Default.ShowStatus = !Settings.Default.ShowStatus;
+        string json = JsonConvert.SerializeObject(Settings.Default);
+        File.WriteAllText("appsettings.json", json);
 
         // TODO: Add your initialization logic here
         _graphics.IsFullScreen = false;
