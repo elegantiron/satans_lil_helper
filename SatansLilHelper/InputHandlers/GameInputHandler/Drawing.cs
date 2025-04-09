@@ -31,7 +31,7 @@ internal partial class GameInputHandler
 
         _gameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
 
-        if (Properties.Settings.Default.ShowStatus)
+        if (true)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(

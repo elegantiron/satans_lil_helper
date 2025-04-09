@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Friflo.Engine.ECS;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,10 +18,11 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper;
 
+#nullable enable
 public class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    private SpriteBatch? _spriteBatch;
     private IInputHandler _inputHandler;
     private Dictionary<TextureID, Texture2D> _textureMap;
     private Dictionary<EffectID, SoundEffect> _effectMap;
@@ -39,15 +42,12 @@ public class Engine : Game
         _songMap = [];
         _fontMap = [];
         _keyList = [];
-        Properties.Settings.Default.Upgrade();
-        Properties.Settings.Default.Save();
-        Properties.Settings.Default.Reload();
+
 #if RELEASE
-        InputHandler = new TitleInputHandler();
+        _inputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
         _inputHandler = new GameInputHandler();
-        Properties.Settings.Default.Reset();
 #endif
         _gamePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -59,6 +59,16 @@ public class Engine : Game
 
     protected override void Initialize()
     {
+        IConfigurationRoot config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+        config.Bind(Settings.Default);
+
+        Debug.WriteLine($"ShowStatus: {Settings.Default.ShowStatus}");
+        Debug.WriteLine($"ShowHealthBars: {Settings.Default.ShowHealthBars}");
+        Settings.Default.ShowHealthBars = !Settings.Default.ShowHealthBars;
+        Debug.WriteLine($"ShowHealthBars: {Settings.Default.ShowHealthBars}");
+
         // TODO: Add your initialization logic here
         _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = 1280;
@@ -202,7 +212,6 @@ public class Engine : Game
 
     public void QuitGame(EventMessage _)
     {
-        Properties.Settings.Default.Save();
         if (_inputHandler is ISaveable inputHandler)
         {
             inputHandler.DumpData(_gamePath);

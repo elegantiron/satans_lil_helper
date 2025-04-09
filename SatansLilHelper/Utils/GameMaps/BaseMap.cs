@@ -196,9 +196,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             spriteBatch.Draw(
                 textureMap[index.Index],
                 drawLocation,
-                entity.Tags.Has<Alive>() ? Constants.Colors.LiveActor : Constants.Colors.DeadActor
+                entity.Tags.Has<Alive>() ? Colors.LiveActor : Colors.DeadActor
             );
-            if (Settings.Default.ShowHealthBars)
+            if (false)
                 if (entity.TryGetRelation(AbilityID.Health, out AbilityStat entHealth))
                 {
                     int totalHealth = EntityCalcs.GetStat(entity, AbilityID.Health);
@@ -210,16 +210,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                     );
                     if (entHealth.Cur < totalHealth)
                     {
-                        spriteBatch.Draw(
-                            textureMap[TextureID.WhitePixel],
-                            healthRect,
-                            Constants.Colors.Red
-                        );
+                        spriteBatch.Draw(textureMap[TextureID.WhitePixel], healthRect, Colors.Red);
                         healthRect.Width = (int)(24.0m * ((decimal)entHealth.Cur / totalHealth));
                         spriteBatch.Draw(
                             textureMap[TextureID.WhitePixel],
                             healthRect,
-                            Constants.Colors.Green
+                            Colors.Green
                         );
                     }
                 }

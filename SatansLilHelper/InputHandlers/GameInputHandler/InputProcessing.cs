@@ -25,7 +25,6 @@ internal partial class GameInputHandler
             case Keys.H:
                 return new HelpInputHandler(this);
             case Keys.T:
-                Properties.Settings.Default.ShowStatus = !Properties.Settings.Default.ShowStatus;
                 break;
             case Keys.S:
                 return new IncomingLinkInputHandler<Grimoire>(
