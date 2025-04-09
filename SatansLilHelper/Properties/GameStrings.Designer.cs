@@ -277,6 +277,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View next page.
+        /// </summary>
+        internal static string NextPage {
+            get {
+                return ResourceManager.GetString("NextPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
@@ -318,6 +327,15 @@ namespace SatansLilHelper.Properties {
         internal static string PowerfulStrike {
             get {
                 return ResourceManager.GetString("PowerfulStrike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View previous page.
+        /// </summary>
+        internal static string PrevPage {
+            get {
+                return ResourceManager.GetString("PrevPage", resourceCulture);
             }
         }
         
