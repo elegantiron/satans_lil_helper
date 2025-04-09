@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +19,11 @@ internal class HelpInputHandler : IInputHandler
     private List<(string, TextureID)> _miscList;
     private List<(TextureID, int, int)> _arrowList,
         _numberList;
+    private List<
+        Action<SpriteBatch, Dictionary<TextureID, Texture2D>, Dictionary<FontID, SpriteFont>>
+    > _pageList;
     private int _page = 0;
+    private const int KEY_SPACING = 55;
 
     public HelpInputHandler(IInputHandler parent)
     {
@@ -62,6 +63,7 @@ internal class HelpInputHandler : IInputHandler
             (TextureID.Keyboard2, 1, 2),
             (TextureID.Keyboard3, 2, 2),
         ];
+        _pageList = [DrawMovementPage, DrawPage1, DrawPage2, DrawPage3];
     }
 
     public void Draw(
@@ -75,84 +77,62 @@ internal class HelpInputHandler : IInputHandler
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
         spriteBatch.Begin();
 
+        Rectangle shadeRectangle = new(
+            spriteBatch.GraphicsDevice.Viewport.Width / 10,
+            spriteBatch.GraphicsDevice.Viewport.Height / 10,
+            spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
+            spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
+        );
+        spriteBatch.Draw(textureMap[TextureID.WhitePixel], shadeRectangle, Colors.AmericanRose);
+        _pageList[_page](spriteBatch, textureMap, fontMap);
+        Vector2 arrowPosition = new(shadeRectangle.Left + 64, shadeRectangle.Bottom - 64);
         spriteBatch.Draw(
-            textureMap[TextureID.WhitePixel],
-            new Rectangle(
-                spriteBatch.GraphicsDevice.Viewport.Width / 10,
-                spriteBatch.GraphicsDevice.Viewport.Height / 10,
-                spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
-                spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
-            ),
-            Colors.AmericanRose
+            textureMap[TextureID.KeyboardLeft],
+            arrowPosition,
+            Color.White,
+            new Vector2(32)
         );
-        switch (_page)
-        {
-            case 0:
-                DrawPage0(spriteBatch, textureMap, fontMap);
-                break;
-        }
+        Vector2 size = fontMap[FontID.Messages].MeasureString(GameStrings.PrevPage);
+        spriteBatch.DrawString(
+            fontMap[FontID.Messages],
+            Properties.GameStrings.PrevPage,
+            new Vector2(arrowPosition.X + KEY_SPACING, arrowPosition.Y),
+            Colors.White,
+            new Vector2(0, size.Y / 2)
+        );
+        arrowPosition.X = shadeRectangle.Right - 64;
+        spriteBatch.Draw(
+            textureMap[TextureID.KeyboardRight],
+            arrowPosition,
+            Colors.White,
+            new Vector2(32)
+        );
+        size = fontMap[FontID.Messages].MeasureString(GameStrings.NextPage);
+        spriteBatch.DrawString(
+            fontMap[FontID.Messages],
+            GameStrings.NextPage,
+            new Vector2(arrowPosition.X - KEY_SPACING, arrowPosition.Y),
+            Colors.White,
+            new Vector2(size.X, size.Y / 2)
+        );
         spriteBatch.End();
-    }
-
-    private void DrawPage0(
-        SpriteBatch spriteBatch,
-        Dictionary<TextureID, Texture2D> textureMap,
-        Dictionary<FontID, SpriteFont> fontMap
-    )
-    {
-        int KEY_SPACING = 55;
-        Vector2 keyTarget = new(
-            spriteBatch.GraphicsDevice.Viewport.Width / 10 + 1.5f * KEY_SPACING,
-            spriteBatch.GraphicsDevice.Viewport.Height / 10
-                + fontMap[FontID.Messages].LineSpacing
-                + KEY_SPACING
-        );
-        Vector2 size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpMovement);
-        spriteBatch.DrawString(
-            fontMap[FontID.Messages],
-            GameStrings.HelpMovement,
-            new(
-                keyTarget.X + KEY_SPACING,
-                spriteBatch.GraphicsDevice.Viewport.Height / 10
-                    + fontMap[FontID.Messages].LineSpacing
-            ),
-            Colors.White,
-            new(size.X / 2, size.Y / 3)
-        );
-        size = fontMap[FontID.Messages].MeasureString(GameStrings.HelpOr);
-        spriteBatch.DrawString(
-            fontMap[FontID.Messages],
-            GameStrings.HelpOr,
-            new(keyTarget.X + KEY_SPACING, keyTarget.Y + 3 * KEY_SPACING),
-            Colors.White,
-            size / 2
-        );
-
-        Vector2 keyOffset = new(KEY_SPACING);
-
-        DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
-
-        Vector2 miscLocation = new(keyTarget.X + 4 * KEY_SPACING, keyTarget.Y);
-        foreach ((string text, TextureID texture) in _miscList)
-        {
-            spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, new(32));
-            spriteBatch.DrawString(
-                fontMap[FontID.Messages],
-                text,
-                new(miscLocation.X + 40, miscLocation.Y),
-                Color.White,
-                new(0, fontMap[FontID.Messages].LineSpacing / 2)
-            );
-            miscLocation.Y += 55;
-        }
-
-        keyTarget.Y += 3 * KEY_SPACING + fontMap[FontID.Messages].LineSpacing * 2;
-
-        DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
     }
 
     public IInputHandler HandleKey(Keys key)
     {
+        switch (key)
+        {
+            case Keys.H:
+            case Keys.Escape:
+                return _parent;
+            case Keys.Left:
+                if (--_page < 0)
+                    _page = _pageList.Count - 1;
+                break;
+            case Keys.Right:
+                _page = ++_page % _pageList.Count;
+                break;
+        }
         return key switch
         {
             Keys.Escape => _parent,
@@ -179,4 +159,74 @@ internal class HelpInputHandler : IInputHandler
             );
         }
     }
+
+    private void DrawMovementPage(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    )
+    {
+        Vector2 keyTarget = new(
+            spriteBatch.GraphicsDevice.Viewport.Width / 3,
+            spriteBatch.GraphicsDevice.Viewport.Height / 2 - 1.5f * KEY_SPACING
+        );
+        Vector2 size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpMovement);
+        spriteBatch.DrawString(
+            fontMap[FontID.Menu],
+            GameStrings.HelpMovement,
+            new(
+                spriteBatch.GraphicsDevice.Viewport.Width / 2,
+                spriteBatch.GraphicsDevice.Viewport.Height / 10 + 2 * size.Y
+            ),
+            Colors.White,
+            new(size.X / 2, size.Y / 3)
+        );
+
+        Vector2 keyOffset = new(KEY_SPACING);
+
+        DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
+
+        keyTarget.X *= 2;
+        keyTarget.X -= 2 * KEY_SPACING;
+
+        DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
+    }
+
+    private void DrawPage1(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    )
+    {
+        Vector2 miscLocation = new(
+            spriteBatch.GraphicsDevice.Viewport.Width / 10 + 5.5f * KEY_SPACING,
+            spriteBatch.GraphicsDevice.Viewport.Height / 10
+                + fontMap[FontID.Messages].LineSpacing
+                + KEY_SPACING
+        );
+        foreach ((string text, TextureID texture) in _miscList)
+        {
+            spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, new(32));
+            spriteBatch.DrawString(
+                fontMap[FontID.Messages],
+                text,
+                new(miscLocation.X + 40, miscLocation.Y),
+                Color.White,
+                new(0, fontMap[FontID.Messages].LineSpacing / 2)
+            );
+            miscLocation.Y += 55;
+        }
+    }
+
+    private void DrawPage2(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    ) { }
+
+    private void DrawPage3(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    ) { }
 }
