@@ -64,11 +64,6 @@ public class Engine : Game
             .Build();
         config.Bind(Settings.Default);
 
-        Debug.WriteLine($"ShowStatus: {Settings.Default.ShowStatus}");
-        Debug.WriteLine($"ShowHealthBars: {Settings.Default.ShowHealthBars}");
-        Settings.Default.ShowHealthBars = !Settings.Default.ShowHealthBars;
-        Debug.WriteLine($"ShowHealthBars: {Settings.Default.ShowHealthBars}");
-
         // TODO: Add your initialization logic here
         _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = 1280;
