@@ -57,4 +57,5 @@ internal class HealAction : IAction, IMessageSender, IFreeAction
 
     public Entity? Entity => _actor;
     public List<LogMessage> Messages => _messages;
+    public bool Successful => _successful;
 }

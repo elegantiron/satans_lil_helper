@@ -39,6 +39,7 @@ internal class SpawnAction : IAction
     {
         get { return _entity; }
     }
+    public bool Successful => true;
 
     public void Perform()
     {

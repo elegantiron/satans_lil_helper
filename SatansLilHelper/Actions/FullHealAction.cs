@@ -25,14 +25,9 @@ internal class FullHealAction : IAction, IMessageSender
         _messages.Add(new LogMessage(GameStrings.FullHeal, Constants.Colors.PlayerHeal));
     }
 
-    public List<LogMessage> Messages
-    {
-        get { return _messages; }
-    }
-    public Entity? Entity
-    {
-        get { return _target; }
-    }
+    public List<LogMessage> Messages => _messages;
+    public bool Successful => true;
+    public Entity? Entity => _target;
 
     public void Perform()
     {

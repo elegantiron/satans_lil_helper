@@ -37,4 +37,6 @@ internal class SmiteAction(Entity entity) : IAction, IMessageSender
         (this as IMessageSender).RetractMessages();
         _entity.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur++;
     }
+
+    public bool Successful => true;
 }

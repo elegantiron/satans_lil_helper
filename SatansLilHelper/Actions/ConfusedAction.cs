@@ -13,6 +13,7 @@ internal class ConfusedAction : IAction
     private Entity _entity;
     private bool _isPlayer;
     private BaseMap _gameMap;
+    private bool _successful = true;
 
     public ConfusedAction(
         Entity entity,
@@ -28,10 +29,8 @@ internal class ConfusedAction : IAction
         _action = new(entity, new Microsoft.Xna.Framework.Point(0, 0), gameMap, rng, isPlayer);
     }
 
-    public Entity? Entity
-    {
-        get { return _entity; }
-    }
+    public Entity? Entity => _entity;
+    public bool Successful => _successful;
 
     public void Perform()
     {

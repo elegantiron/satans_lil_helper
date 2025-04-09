@@ -18,6 +18,7 @@ internal class EntityTurn : IAction
     private bool _swift = true;
     private bool _finished = false;
     public Entity? Entity => _entity;
+    public bool Successful => true;
 
     public EntityTurn(Entity entity)
     {

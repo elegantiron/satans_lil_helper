@@ -138,6 +138,7 @@ internal class PlayerTurn : IAction
     public int AttacksUsed => _attacks;
 
     public int AttacksMax => _attacksMax;
+    public bool Successful => true;
 
     public void Finish()
     {

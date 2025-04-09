@@ -19,6 +19,7 @@ internal abstract class ActionWithDirection : IAction
     protected Entity? _target = null;
     protected Entity _entity;
     protected List<LogMessage> _messages = [];
+    protected bool _successful = false;
 
     public ActionWithDirection(Entity entity, Point direction, BaseMap gameMap, bool isPlayer)
     {
@@ -53,10 +54,8 @@ internal abstract class ActionWithDirection : IAction
             _isBlocked = true;
     }
 
-    public Entity? Entity
-    {
-        get { return _entity; }
-    }
+    public bool Successful => _successful;
+    public Entity? Entity => _entity;
 
     public virtual void Perform()
     {

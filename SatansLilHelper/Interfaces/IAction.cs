@@ -6,6 +6,6 @@ internal interface IAction
 {
     void Perform();
     void Rewind();
-
+    bool Successful { get; }
     Entity? Entity { get; }
 }

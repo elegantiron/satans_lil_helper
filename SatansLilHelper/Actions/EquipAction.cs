@@ -49,6 +49,7 @@ internal class EquipAction : IAction, IFreeAction, IMessageSender
     }
 
     public Entity? Entity => _actor;
+    public bool Successful => _successful;
 
     public List<LogMessage> Messages => _messages;
 
