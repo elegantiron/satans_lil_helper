@@ -18,7 +18,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
     protected byte[] _preState,
         _postState;
     protected IRandom _twister;
-    protected uint _damage;
+    protected int _damage;
     protected bool _isKill;
     protected string _targetName;
     public List<LogMessage> Messages

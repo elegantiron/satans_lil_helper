@@ -63,7 +63,7 @@ internal class HelpInputHandler : IInputHandler
             (TextureID.Keyboard2, 1, 2),
             (TextureID.Keyboard3, 2, 2),
         ];
-        _pageList = [DrawMovementPage, DrawPage1, DrawPage2, DrawPage3];
+        _pageList = [DrawMovementPage, DrawPage1];
     }
 
     public void Draw(
@@ -83,7 +83,7 @@ internal class HelpInputHandler : IInputHandler
             spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
             spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
         );
-        spriteBatch.Draw(textureMap[TextureID.WhitePixel], shadeRectangle, Colors.AmericanRose);
+        spriteBatch.Draw(textureMap[TextureID.WhitePixel], shadeRectangle, Colors.TranslucentBlack);
         _pageList[_page](spriteBatch, textureMap, fontMap);
         Vector2 arrowPosition = new(shadeRectangle.Left + 64, shadeRectangle.Bottom - 64);
         spriteBatch.Draw(
@@ -168,7 +168,7 @@ internal class HelpInputHandler : IInputHandler
     {
         Vector2 keyTarget = new(
             spriteBatch.GraphicsDevice.Viewport.Width / 3,
-            spriteBatch.GraphicsDevice.Viewport.Height / 2 - 1.5f * KEY_SPACING
+            spriteBatch.GraphicsDevice.Viewport.Height / 2 - KEY_SPACING
         );
         Vector2 size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpMovement);
         spriteBatch.DrawString(
@@ -190,6 +190,17 @@ internal class HelpInputHandler : IInputHandler
         keyTarget.X -= 2 * KEY_SPACING;
 
         DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
+        size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpOr);
+        spriteBatch.DrawString(
+            fontMap[FontID.Menu],
+            GameStrings.HelpOr,
+            new Vector2(
+                spriteBatch.GraphicsDevice.Viewport.Width / 2,
+                spriteBatch.GraphicsDevice.Viewport.Height / 2
+            ),
+            Colors.White,
+            size / 2
+        );
     }
 
     private void DrawPage1(

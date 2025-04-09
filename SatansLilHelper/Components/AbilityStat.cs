@@ -12,7 +12,7 @@ public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRela
 
     public decimal Growth = growth;
 
-    public uint Cur = (uint)basis;
+    public int Cur = (int)basis;
 
     public AbilityStat(AbilityID type, decimal basis)
         : this(type, basis, 0m) { }

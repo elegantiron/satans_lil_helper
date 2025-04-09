@@ -55,15 +55,15 @@ internal static class EntityCalcs
         return factor;
     }
 
-    public static uint GetDamage(IRandom rng, Entity attacker, Entity target)
+    public static int GetDamage(IRandom rng, Entity attacker, Entity target)
     {
         decimal factor = GetDamageFactor(rng, attacker, target);
         if (!attacker.TryGetComponent<Attack>(out Attack attack))
             throw new Exceptions.MissingComponentException();
-        uint damage = 0;
+        int damage = 0;
         for (int i = 0; i < attack.Dice; i++)
-            damage += rng.Next(1, attack.Sides);
-        damage = (uint)(damage * factor);
+            damage += (int)rng.Next(1, attack.Sides);
+        damage = (int)(damage * factor);
         return damage;
     }
 

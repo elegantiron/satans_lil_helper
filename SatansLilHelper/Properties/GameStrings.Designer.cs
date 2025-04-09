@@ -205,7 +205,7 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Or (numpad).
+        ///   Looks up a localized string similar to Or.
         /// </summary>
         internal static string HelpOr {
             get {

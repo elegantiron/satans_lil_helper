@@ -40,7 +40,7 @@ internal class HealAction : IAction, IMessageSender, IFreeAction
         (this as IMessageSender).SendMessages();
         if (_successful)
         {
-            _actor.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur += (uint)_healAmount;
+            _actor.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur += (int)_healAmount;
             _item.Enabled = false;
         }
     }
@@ -50,7 +50,7 @@ internal class HealAction : IAction, IMessageSender, IFreeAction
         (this as IMessageSender).RetractMessages();
         if (_successful)
         {
-            _actor.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur -= (uint)_healAmount;
+            _actor.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur -= (int)_healAmount;
             _item.Enabled = true;
         }
     }

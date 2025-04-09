@@ -13,14 +13,14 @@ namespace SatansLilHelper.Actions;
 internal class FullHealAction : IAction, IMessageSender
 {
     private Entity _target;
-    private uint _healAmount;
+    private int _healAmount;
     private List<LogMessage> _messages = [];
 
     public FullHealAction(Entity target)
     {
         _target = target;
         _healAmount =
-            (uint)EntityCalcs.GetStat(_target, AbilityID.Health)
+            EntityCalcs.GetStat(_target, AbilityID.Health)
             - _target.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur;
         _messages.Add(new LogMessage(GameStrings.FullHeal, Constants.Colors.PlayerHeal));
     }
