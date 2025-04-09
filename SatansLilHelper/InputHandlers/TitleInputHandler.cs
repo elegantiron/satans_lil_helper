@@ -55,6 +55,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        spriteBatch.Begin();
         if (titlePosition == Vector2.Zero)
         {
             CalculateVectors(spriteBatch, textureMap);
@@ -81,6 +82,7 @@ internal class TitleInputHandler : IInputHandler, Interfaces.IUpdateable
                 1f
             );
         }
+        spriteBatch.End();
     }
 
     private void CalculateVectors(

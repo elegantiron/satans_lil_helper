@@ -13,7 +13,6 @@ internal class PopupInputHandler(IInputHandler parent, string message) : IInputH
 {
     IInputHandler _parent = parent;
     string _message = message;
-    VecPair messageVecs = new();
 
     public void Draw(
         SpriteBatch spriteBatch,

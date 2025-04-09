@@ -36,6 +36,7 @@ internal class MainMenuInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        spriteBatch.Begin();
         if (titlePosition == Vector2.Zero)
         {
             titlePosition.X = spriteBatch.GraphicsDevice.Viewport.Width / 2;
@@ -55,6 +56,7 @@ internal class MainMenuInputHandler : IInputHandler
             1f
         );
         Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.End();
     }
 
     public IInputHandler HandleKey(Keys key)

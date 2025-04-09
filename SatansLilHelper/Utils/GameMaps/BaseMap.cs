@@ -140,9 +140,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        spriteBatch.Begin();
         DrawTiles(spriteBatch, textureMap);
-        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
         DrawEntities(spriteBatch, textureMap);
+        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
+        spriteBatch.End();
     }
 
     public abstract void GenerateMap(Point size);

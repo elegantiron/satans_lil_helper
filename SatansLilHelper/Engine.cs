@@ -19,15 +19,14 @@ namespace SatansLilHelper;
 public class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch SpriteBatch;
-    private IInputHandler InputHandler;
+    private SpriteBatch _spriteBatch;
+    private IInputHandler _inputHandler;
     private Dictionary<TextureID, Texture2D> _textureMap;
     private Dictionary<EffectID, SoundEffect> _effectMap;
     private Dictionary<SongID, Song> _songMap;
     private Dictionary<FontID, SpriteFont> _fontMap;
     private List<Keys> _keyList;
     private string _gamePath;
-    private EntitySchema _schema;
 
     public Engine()
     {
@@ -47,7 +46,7 @@ public class Engine : Game
         InputHandler = new TitleInputHandler();
 #endif
 #if DEBUG
-        InputHandler = new GameInputHandler();
+        _inputHandler = new GameInputHandler();
         Properties.Settings.Default.Reset();
 #endif
         _gamePath = Path.Combine(
@@ -78,7 +77,7 @@ public class Engine : Game
 
     protected override void LoadContent()
     {
-        SpriteBatch = new SpriteBatch(GraphicsDevice);
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // Load fonts
         _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
@@ -172,7 +171,7 @@ public class Engine : Game
     protected override void Update(GameTime gameTime)
     {
         // TODO: Add your update logic here
-        if (InputHandler is Interfaces.IUpdateable inputHandler)
+        if (_inputHandler is Interfaces.IUpdateable inputHandler)
             inputHandler.Update(gameTime);
         base.Update(gameTime);
     }
@@ -180,9 +179,7 @@ public class Engine : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        SpriteBatch.Begin();
-        InputHandler.Draw(SpriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
-        SpriteBatch.End();
+        _inputHandler.Draw(_spriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
 
         // TODO: Add your drawing code here
 
@@ -195,7 +192,7 @@ public class Engine : Game
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
-        InputHandler = InputHandler.HandleKey(eventArgs.Key);
+        _inputHandler = _inputHandler.HandleKey(eventArgs.Key);
     }
 
     public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
@@ -206,7 +203,7 @@ public class Engine : Game
     public void QuitGame(EventMessage _)
     {
         Properties.Settings.Default.Save();
-        if (InputHandler is ISaveable inputHandler)
+        if (_inputHandler is ISaveable inputHandler)
         {
             inputHandler.DumpData(_gamePath);
         }
@@ -242,6 +239,6 @@ public class Engine : Game
         aot.RegisterTag<Targetable>();
         aot.RegisterTag<Visible>();
 
-        _schema = aot.CreateSchema();
+        aot.CreateSchema();
     }
 }

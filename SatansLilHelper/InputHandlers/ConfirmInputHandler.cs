@@ -47,6 +47,8 @@ internal class ConfirmInputHandler : IInputHandler
     )
     {
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+
+        spriteBatch.Begin();
         List<string> messageWrapped = _message.Wrap(
             fontMap[_fontID],
             spriteBatch.GraphicsDevice.Viewport.Width / 4
@@ -89,6 +91,7 @@ internal class ConfirmInputHandler : IInputHandler
             Colors.White,
             new(0, fontMap[FontID.Messages].LineSpacing / 2)
         );
+        spriteBatch.End();
     }
 
     private void SetVecs(

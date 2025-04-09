@@ -33,6 +33,7 @@ internal partial class GameInputHandler
 
         if (Properties.Settings.Default.ShowStatus)
         {
+            spriteBatch.Begin();
             spriteBatch.Draw(
                 textureMap[TextureID.WhitePixel],
                 _statusShadeShape,
@@ -40,6 +41,7 @@ internal partial class GameInputHandler
             );
             DrawStatus(spriteBatch, fontMap);
             DrawMessageLog(spriteBatch, fontMap);
+            spriteBatch.End();
         }
     }
 

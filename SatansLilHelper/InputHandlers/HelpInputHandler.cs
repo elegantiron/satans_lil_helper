@@ -18,15 +18,14 @@ namespace SatansLilHelper.InputHandlers;
 internal class HelpInputHandler : IInputHandler
 {
     private IInputHandler _parent;
-    private Rectangle _shadeShape;
 
     private List<(string, TextureID)> _miscList;
     private List<(TextureID, int, int)> _arrowList,
         _numberList;
+    private int _page = 0;
 
     public HelpInputHandler(IInputHandler parent)
     {
-        _shadeShape = Rectangle.Empty;
         _parent = parent;
 
         _miscList =
@@ -73,8 +72,9 @@ internal class HelpInputHandler : IInputHandler
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        int KEY_SPACING = 55;
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.Begin();
+
         spriteBatch.Draw(
             textureMap[TextureID.WhitePixel],
             new Rectangle(
@@ -83,8 +83,24 @@ internal class HelpInputHandler : IInputHandler
                 spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
                 spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
             ),
-            Colors.TranslucentBlack
+            Colors.AmericanRose
         );
+        switch (_page)
+        {
+            case 0:
+                DrawPage0(spriteBatch, textureMap, fontMap);
+                break;
+        }
+        spriteBatch.End();
+    }
+
+    private void DrawPage0(
+        SpriteBatch spriteBatch,
+        Dictionary<TextureID, Texture2D> textureMap,
+        Dictionary<FontID, SpriteFont> fontMap
+    )
+    {
+        int KEY_SPACING = 55;
         Vector2 keyTarget = new(
             spriteBatch.GraphicsDevice.Viewport.Width / 10 + 1.5f * KEY_SPACING,
             spriteBatch.GraphicsDevice.Viewport.Height / 10
@@ -137,10 +153,6 @@ internal class HelpInputHandler : IInputHandler
 
     public IInputHandler HandleKey(Keys key)
     {
-#if DEBUG
-        if (key == Keys.H)
-            _shadeShape = Rectangle.Empty;
-#endif
         return key switch
         {
             Keys.Escape => _parent,

@@ -41,6 +41,7 @@ internal class SettingsInputHandler : IInputHandler
             Vector2 width = fontMap[FontID.Title].MeasureString(GameStrings.SettingsTitle);
             TextVecs.Origin.X = width.X / 2;
         }
+        spriteBatch.Begin();
         spriteBatch.DrawString(
             fontMap[FontID.Title],
             GameStrings.SettingsTitle,
@@ -53,6 +54,7 @@ internal class SettingsInputHandler : IInputHandler
             1f
         );
         Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.End();
     }
 
     public IInputHandler HandleKey(Keys key)

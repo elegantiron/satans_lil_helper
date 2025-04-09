@@ -14,19 +14,19 @@ namespace SatansLilHelper.InputHandlers;
 
 internal class PauseInputHandler : IInputHandler, ISaveable
 {
-    private IInputHandler Parent;
-    private Rectangle ShadeShape;
-    private readonly Menu Menu;
+    private IInputHandler _parent;
+    private Rectangle _shadeShape;
+    private readonly Menu _menu;
 
     public PauseInputHandler(IInputHandler parent)
     {
-        Parent = parent;
-        ShadeShape = Rectangle.Empty;
-        Menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
-        Menu.AddItem(GameStrings.Resume);
-        Menu.AddItem(GameStrings.ViewBestiary);
-        Menu.AddItem(GameStrings.ToMenu);
-        Menu.AddItem(GameStrings.ToDesktop);
+        _parent = parent;
+        _shadeShape = Rectangle.Empty;
+        _menu = new(Color.CornflowerBlue, Color.White, FontID.Menu);
+        _menu.AddItem(GameStrings.Resume);
+        _menu.AddItem(GameStrings.ViewBestiary);
+        _menu.AddItem(GameStrings.ToMenu);
+        _menu.AddItem(GameStrings.ToDesktop);
     }
 
     public void Draw(
@@ -37,20 +37,23 @@ internal class PauseInputHandler : IInputHandler, ISaveable
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        if (ShadeShape == Rectangle.Empty)
+        if (_shadeShape == Rectangle.Empty)
         {
-            ShadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 8;
-            ShadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 8;
-            ShadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
-            ShadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
+            _shadeShape.X = spriteBatch.GraphicsDevice.Viewport.Width / 8;
+            _shadeShape.Y = spriteBatch.GraphicsDevice.Viewport.Height / 8;
+            _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
+            _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
         }
-        Parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+
+        spriteBatch.Begin();
         spriteBatch.Draw(
             textureMap[TextureID.WhitePixel],
-            ShadeShape,
+            _shadeShape,
             Constants.Colors.TranslucentBlack
         );
-        Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.End();
     }
 
     public IInputHandler HandleKey(Keys key)
@@ -59,12 +62,12 @@ internal class PauseInputHandler : IInputHandler, ISaveable
         {
             case Keys.Escape:
             case Keys.I:
-                return Parent;
+                return _parent;
             case Keys.NumPad7:
             case Keys.NumPad2:
             case Keys.Up:
             case Keys.Down:
-                Menu.HandleKey(key);
+                _menu.HandleKey(key);
                 break;
             case Keys.Enter:
                 return OnExit();
@@ -74,21 +77,21 @@ internal class PauseInputHandler : IInputHandler, ISaveable
 
     private IInputHandler OnExit()
     {
-        IInputHandler value = Parent;
-        if (Menu.Selection.Key == GameStrings.ViewBestiary)
+        IInputHandler value = _parent;
+        if (_menu.Selection.Key == GameStrings.ViewBestiary)
         {
             // Return a bestiary handler here
         }
-        else if (Menu.Selection.Key == GameStrings.ToMenu)
+        else if (_menu.Selection.Key == GameStrings.ToMenu)
             value = new TitleInputHandler();
-        else if (Menu.Selection.Key == GameStrings.ToDesktop)
+        else if (_menu.Selection.Key == GameStrings.ToDesktop)
             EventBus.Send(Events.QuitGame, new EventMessage());
         return value;
     }
 
     public void DumpData(string path)
     {
-        if (Parent is ISaveable saveable)
+        if (_parent is ISaveable saveable)
             saveable.DumpData(path);
     }
 }

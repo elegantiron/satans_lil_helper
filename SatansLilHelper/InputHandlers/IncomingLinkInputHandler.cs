@@ -34,6 +34,8 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
     )
     {
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+
+        spriteBatch.Begin();
         Viewport viewport = spriteBatch.GraphicsDevice.Viewport;
         Rectangle shadeShape = new(
             viewport.Width / 10,
@@ -89,6 +91,7 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
                 textDest.Y += fontMap[FontID.Status].LineSpacing * 1.15f;
             }
         }
+        spriteBatch.End();
     }
 
     public IInputHandler HandleKey(Keys key)

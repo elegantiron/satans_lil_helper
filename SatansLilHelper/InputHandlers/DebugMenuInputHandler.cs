@@ -45,12 +45,11 @@ internal class DebugMenuInputHandler : IInputHandler
             _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
         }
         _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
-        spriteBatch.Draw(
-            textureMap[TextureID.WhitePixel],
-            _shadeShape,
-            Constants.Colors.TranslucentBlack
-        );
+
+        spriteBatch.Begin();
+        spriteBatch.Draw(textureMap[TextureID.WhitePixel], _shadeShape, Colors.TranslucentBlack);
         _menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        spriteBatch.End();
     }
 
     public IInputHandler HandleKey(Keys key)
