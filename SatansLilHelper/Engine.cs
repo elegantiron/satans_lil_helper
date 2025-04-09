@@ -61,12 +61,13 @@ public class Engine : Game
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
+            .AddJsonFile(_gamePath + "settings.json", true)
             .Build();
         config.Bind(Settings.Default);
 
         Settings.Default.ShowStatus = !Settings.Default.ShowStatus;
         string json = JsonConvert.SerializeObject(Settings.Default);
-        File.WriteAllText("appsettings.json", json);
+        File.WriteAllText(_gamePath + "settings.json", json);
 
         // TODO: Add your initialization logic here
         _graphics.IsFullScreen = false;

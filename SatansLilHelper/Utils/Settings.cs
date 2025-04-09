@@ -13,8 +13,6 @@ internal sealed class Settings
     private static readonly Lock padlock = new();
     public bool ShowStatus { get; set; }
     public bool ShowHealthBars { get; set; }
-    public bool TestSetting { get; set; }
-    public bool AnotherTest { get; set; }
 
     Settings() { }
 
