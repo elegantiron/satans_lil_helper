@@ -286,6 +286,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is nothing here for you to pick up..
+        /// </summary>
+        internal static string NoItemToGrab {
+            get {
+                return ResourceManager.GetString("NoItemToGrab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to That way is blocked..
         /// </summary>
         internal static string PathBlocked {

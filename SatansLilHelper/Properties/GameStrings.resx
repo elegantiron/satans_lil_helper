@@ -192,6 +192,9 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NoItemToGrab" xml:space="preserve">
+    <value>There is nothing here for you to pick up.</value>
+  </data>
   <data name="PathBlocked" xml:space="preserve">
     <value>That way is blocked.</value>
   </data>
