@@ -97,8 +97,6 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
         {
             case Keys.Escape:
                 return _parent;
-            case Keys.S:
-                return _parent;
             case Keys.Up:
                 _index--;
                 break;
@@ -126,10 +124,13 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
             if (ent.Tags.Has<Targetable>())
             {
                 // activate a targetting input handler
-                return _parent;
+                throw new NotImplementedException();
             }
-            Activate(ent);
-            return this;
+            else
+            {
+                Activate(ent);
+                return this;
+            }
         }
         return this;
     }
@@ -142,6 +143,9 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
             case ItemEffect.None:
                 break;
             case ItemEffect.Heal:
+                HealAction action = new(_parent.CurrentMap.Player, ent);
+                action.Perform();
+                _parent.PlayerTurn.AddAction(action);
                 break;
             case ItemEffect.Harm:
                 break;
