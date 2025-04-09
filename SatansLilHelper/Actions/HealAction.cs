@@ -9,7 +9,7 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Actions;
 
-internal class HealAction : IAction, IMessageSender
+internal class HealAction : IAction, IMessageSender, IFreeAction
 {
     private Entity _actor,
         _item;
