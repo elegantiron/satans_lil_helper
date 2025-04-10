@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,9 +18,6 @@ internal class HelpInputHandler : IInputHandler
 {
     private IInputHandler _parent;
 
-    private List<(string, TextureID)> _miscList;
-    private List<(TextureID, int, int)> _arrowList,
-        _numberList;
     private LinkedList<
         Action<SpriteBatch, Dictionary<TextureID, Texture2D>, Dictionary<FontID, SpriteFont>>
     > _pageList;
@@ -31,57 +30,23 @@ internal class HelpInputHandler : IInputHandler
     {
         _parent = parent;
 
-        _miscList =
-        [
-            (GameStrings.HelpI, TextureID.KeyboardI),
-            (GameStrings.HelpS, TextureID.KeyboardS),
-            (GameStrings.HelpF, TextureID.KeyboardF),
-            //(GameStrings.HelpT, TextureID.KeyboardT),
-#if DEBUG
-            (GameStrings.HelpZ, TextureID.KeyboardZ),
-            (GameStrings.HelpY, TextureID.KeyboardY),
-#endif
-            (GameStrings.HelpH, TextureID.KeyboardH),
-        ];
-        _arrowList =
-        [
-            (TextureID.KeyboardInsert, 0, 0),
-            (TextureID.KeyboardUp, 1, 0),
-            (TextureID.KeyboardPageUp, 2, 0),
-            (TextureID.KeyboardLeft, 0, 1),
-            (TextureID.KeyboardRight, 2, 1),
-            (TextureID.KeyboardDelete, 0, 2),
-            (TextureID.KeyboardDown, 1, 2),
-            (TextureID.KeyboardPageDown, 2, 2),
-        ];
-        _numberList =
-        [
-            (TextureID.Keyboard7, 0, 0),
-            (TextureID.Keyboard8, 1, 0),
-            (TextureID.Keyboard9, 2, 0),
-            (TextureID.Keyboard4, 0, 1),
-            (TextureID.Keyboard6, 2, 1),
-            (TextureID.Keyboard1, 0, 2),
-            (TextureID.Keyboard2, 1, 2),
-            (TextureID.Keyboard3, 2, 2),
-        ];
         _pageList = new();
         _pageList.AddLast(DrawMovementPage);
         _pageList.AddLast(DrawMapPage);
         _currentPage =
-            _pageList.First
-            ?? throw new ArgumentException("I don't know how you managed to throw this.");
+            _pageList.First ?? throw new Exception("I don't know how you managed to throw this.");
     }
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
         spriteBatch.Begin();
 
         Rectangle shadeRectangle = new(
@@ -143,9 +108,7 @@ internal class HelpInputHandler : IInputHandler
                     > prevNode
                     ? prevNode
                     : _currentPage.List?.Last
-                        ?? throw new ArgumentException(
-                            "I don't know how you managed to throw this"
-                        );
+                        ?? throw new Exception("I don't know how you managed to throw this");
                 break;
             case Keys.Right:
                 _currentPage = _currentPage.Next
@@ -158,9 +121,7 @@ internal class HelpInputHandler : IInputHandler
                     > nextNode
                     ? nextNode
                     : _currentPage.List?.First
-                        ?? throw new ArgumentException(
-                            "I don't know how you managed to throw this"
-                        );
+                        ?? throw new Exception("I don't know how you managed to throw this");
                 break;
         }
         return this;
@@ -208,13 +169,33 @@ internal class HelpInputHandler : IInputHandler
         );
 
         Vector2 keyOffset = new(KEY_SPACING);
-
-        DrawKeySquare(spriteBatch, textureMap, _arrowList, keyTarget, keyOffset);
+        List<(TextureID, int, int)> itemList =
+        [
+            (TextureID.KeyboardInsert, 0, 0),
+            (TextureID.KeyboardUp, 1, 0),
+            (TextureID.KeyboardPageUp, 2, 0),
+            (TextureID.KeyboardLeft, 0, 1),
+            (TextureID.KeyboardRight, 2, 1),
+            (TextureID.KeyboardDelete, 0, 2),
+            (TextureID.KeyboardDown, 1, 2),
+            (TextureID.KeyboardPageDown, 2, 2),
+        ];
+        DrawKeySquare(spriteBatch, textureMap, itemList, keyTarget, keyOffset);
 
         keyTarget.X *= 2;
         keyTarget.X -= 2 * KEY_SPACING;
-
-        DrawKeySquare(spriteBatch, textureMap, _numberList, keyTarget, keyOffset);
+        itemList =
+        [
+            (TextureID.Keyboard7, 0, 0),
+            (TextureID.Keyboard8, 1, 0),
+            (TextureID.Keyboard9, 2, 0),
+            (TextureID.Keyboard4, 0, 1),
+            (TextureID.Keyboard6, 2, 1),
+            (TextureID.Keyboard1, 0, 2),
+            (TextureID.Keyboard2, 1, 2),
+            (TextureID.Keyboard3, 2, 2),
+        ];
+        DrawKeySquare(spriteBatch, textureMap, itemList, keyTarget, keyOffset);
         size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpOr);
         spriteBatch.DrawString(
             fontMap[FontID.Menu],
@@ -252,7 +233,19 @@ internal class HelpInputHandler : IInputHandler
                 + (size.Y * 3.5f)
         );
         float SCALE = 0.75f;
-        foreach ((string text, TextureID texture) in _miscList)
+        List<(string, TextureID)> items =
+        [
+            (GameStrings.HelpI, TextureID.KeyboardI),
+            (GameStrings.HelpS, TextureID.KeyboardS),
+            (GameStrings.HelpF, TextureID.KeyboardF),
+#if DEBUG
+            (GameStrings.HelpZ, TextureID.KeyboardZ),
+            (GameStrings.HelpY, TextureID.KeyboardY),
+#endif
+            (GameStrings.HelpH, TextureID.KeyboardH),
+        ];
+
+        foreach ((string text, TextureID texture) in items)
         {
             spriteBatch.Draw(
                 textureMap[texture],
