@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
-using SatansLilHelper.Types;
 
 namespace SatansLilHelper.InputHandlers;
 
 internal class PopupInputHandler(IInputHandler parent, string message) : IInputHandler
 {
-    IInputHandler _parent = parent;
-    string _message = message;
+    private IInputHandler _parent = parent;
+    private string _message = message;
 
     public void Draw(
         SpriteBatch spriteBatch,

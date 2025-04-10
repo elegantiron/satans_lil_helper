@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -27,11 +28,8 @@ internal class HealAction : IAction, IMessageSender, IFreeAction
         if (missingHealth == 0)
             _successful = false;
 
-        if (missingHealth > itemEffect.Value)
-            _healAmount = itemEffect.Value;
-        else
-            _healAmount = missingHealth;
-        string text = String.Format(Properties.GameStrings.HealPotionMessage, _healAmount);
+        _healAmount = missingHealth > itemEffect.Value ? itemEffect.Value : missingHealth;
+        string text = string.Format(Properties.GameStrings.HealPotionMessage, _healAmount);
         _messages = [new LogMessage(text, Colors.PlayerHeal)];
     }
 

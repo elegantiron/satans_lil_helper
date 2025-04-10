@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using Newtonsoft.Json;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
-
 namespace SatansLilHelper;
 
 #nullable enable
@@ -64,9 +67,7 @@ public class Engine : Game
             .AddJsonFile(_gamePath + "settings.json", true)
             .Build();
         config.Bind(Settings.Default);
-
-        string json = JsonConvert.SerializeObject(Settings.Default);
-        File.WriteAllText(_gamePath + "settings.json", json);
+        SaveSettings();
 
         // TODO: Add your initialization logic here
         _graphics.IsFullScreen = false;
@@ -82,6 +83,12 @@ public class Engine : Game
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
 
         base.Initialize();
+    }
+
+    private void SaveSettings()
+    {
+        string json = JsonConvert.SerializeObject(Settings.Default);
+        File.WriteAllText(_gamePath + "settings.json", json);
     }
 
     protected override void LoadContent()
@@ -215,12 +222,13 @@ public class Engine : Game
         {
             inputHandler.DumpData(_gamePath);
         }
+        SaveSettings();
         Exit();
     }
 
     private void InitializeECS()
     {
-        var aot = new NativeAOT();
+        NativeAOT aot = new();
 
         aot.RegisterRelation<AbilityStat, AbilityID>();
         aot.RegisterComponent<ActionDelay>();

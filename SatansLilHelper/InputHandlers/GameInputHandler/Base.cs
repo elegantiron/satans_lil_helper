@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Friflo.Engine.ECS;
+﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Actions;
-using SatansLilHelper.Components;
+
 using SatansLilHelper.Constants;
-using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
@@ -36,10 +29,7 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
         _movesLeftLocation,
         _attacksLeftLocation;
 
-    public BaseMap CurrentMap
-    {
-        get { return _gameWorld.CurrentMap; }
-    }
+    public BaseMap CurrentMap => _gameWorld.CurrentMap;
 
     public GameInputHandler()
     {
@@ -68,11 +58,11 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
         Vector2 textSize = fontMap[FontID.Status].MeasureString(Properties.GameStrings.StatusTitle);
         _statusVecs.Origin.X = textSize.X / 2;
-        _statusVecs.Location.X = _statusShadeShape.X + _statusShadeShape.Width / 2;
-        _locationVecs.Location.Y = _statusVecs.Location.Y + textSize.Y * 1.5f;
+        _statusVecs.Location.X = _statusShadeShape.X + (_statusShadeShape.Width / 2);
+        _locationVecs.Location.Y = _statusVecs.Location.Y + (textSize.Y * 1.5f);
         _locationVecs.Location.X = _statusShadeShape.X + 10;
         _healthVecs.Location.X = _locationVecs.Location.X;
-        _healthVecs.Location.Y = _locationVecs.Location.Y + 2 * textSize.Y;
+        _healthVecs.Location.Y = _locationVecs.Location.Y + (2 * textSize.Y);
         _manaVecs.Location.Y = _healthVecs.Location.Y + textSize.Y;
         _manaVecs.Location.X = _locationVecs.Location.X;
         _messageLogVecs.Location = _locationVecs.Location;
@@ -80,7 +70,7 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
             _attacksLeftLocation.X =
             _turnHeaderLocation.X =
                 _locationVecs.Location.X;
-        _turnHeaderLocation.Y = _manaVecs.Location.Y + 2 * textSize.Y;
+        _turnHeaderLocation.Y = _manaVecs.Location.Y + (2 * textSize.Y);
         _movesLeftLocation.Y = _turnHeaderLocation.Y + textSize.Y;
         _attacksLeftLocation.Y = _movesLeftLocation.Y + textSize.Y;
     }

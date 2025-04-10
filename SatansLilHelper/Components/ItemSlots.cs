@@ -1,4 +1,5 @@
 ﻿using Friflo.Engine.ECS;
+
 using SatansLilHelper.Constants;
 
 namespace SatansLilHelper.Components;

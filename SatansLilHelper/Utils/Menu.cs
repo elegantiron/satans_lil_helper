@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Types;
 
@@ -68,7 +70,7 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
         }
         _size = fontMap[_font].MeasureString("String"); // only care about the height here
         _textVecs.Location.Y =
-            spriteBatch.GraphicsDevice.Viewport.Height / 2 - (_size.Y * _items.Count / 2);
+            (spriteBatch.GraphicsDevice.Viewport.Height / 2) - (_size.Y * _items.Count / 2);
         foreach (MenuItem item in _items)
         {
             string formatted = string.Format(item.Key, item.Args ?? []);
@@ -116,22 +118,12 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
         _items[index] = item;
     }
 
-    public MenuItem Selection
-    {
-        get { return _items[_index]; }
-    }
+    public MenuItem Selection => _items[_index];
 
-    public int Index
-    {
-        get { return _index; }
-    }
+    public int Index => _index;
 
     private Color GetColor(MenuItem item)
     {
-        if (!item.Enabled)
-            return Color.Gray;
-        if (_items.IndexOf(item) == _index)
-            return _selectedColor;
-        return _unselectedColor;
+        return !item.Enabled ? Color.Gray : _items.IndexOf(item) == _index ? _selectedColor : _unselectedColor;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -39,11 +40,7 @@ internal class ForestMap(Point mapSize, IRandom rng, Point screenSize, bool make
         {
             for (int j = 0; j < mapSize.Y; j++)
             {
-                Tile tile;
-                if (tempMap[i, j] == 1)
-                    tile = new Tile(TextureID.ForestWall, false, false);
-                else
-                    tile = new Tile(TextureID.ForestFloor, true, true);
+                Tile tile = tempMap[i, j] == 1 ? new Tile(TextureID.ForestWall, false, false) : new Tile(TextureID.ForestFloor, true, true);
                 tiles[i, j] = tile;
             }
         }

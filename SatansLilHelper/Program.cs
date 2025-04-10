@@ -1,12 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-#if RELEASE
+﻿#if RELEASE
 try
 {
 #endif
-    using var game = new SatansLilHelper.Engine();
-    game.Run();
+using SatansLilHelper.Engine game = new();
+game.Run();
 #if RELEASE
 }
 catch (Exception exception)

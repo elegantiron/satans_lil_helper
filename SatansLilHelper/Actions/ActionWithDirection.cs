@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;

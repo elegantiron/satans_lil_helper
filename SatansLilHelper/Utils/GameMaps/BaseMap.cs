@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Entities;
 using SatansLilHelper.Interfaces;
-using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
@@ -58,7 +60,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         camera = new(screenSize, 32);
         Location playerLoc = player.GetComponent<Location>();
         camera.SetCenter(playerLoc.X, playerLoc.Y);
-        playerPos = new((camera.TileWidth / 2) * 32, (camera.TileHeight / 2) * 32);
+        playerPos = new(camera.TileWidth / 2 * 32, camera.TileHeight / 2 * 32);
 
         drawLocation = Vector2.Zero;
 
@@ -109,15 +111,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         _initiativeTracker.Rewind();
     }
 
-    public Camera Camera
-    {
-        get { return camera; }
-    }
+    public Camera Camera => camera;
 
-    public bool IsPlayerNext
-    {
-        get { return _initiativeTracker.IsPlayerNext; }
-    }
+    public bool IsPlayerNext => _initiativeTracker.IsPlayerNext;
 
     public Entity GetNextActor()
     {
@@ -171,12 +167,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                     spriteTarget,
                     tiles[i, j].Visible ? Colors.White : Colors.HiddenTile
                 );
-                if (!tiles[i, j].Visible)
-                    spriteBatch.Draw(
-                        textureMap[TextureID.WhitePixel],
-                        new Rectangle((int)spriteTarget.X, (int)spriteTarget.Y, 32, 32),
-                        Colors.TranslucentBlack
-                    );
             }
         }
     }
@@ -233,7 +223,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         }
         int viewRadius = EntityCalcs.GetStat(Player, AbilityID.Vision);
         int lightRadius = EntityCalcs.GetStat(Player, AbilityID.LightRadius);
-        float playerView = (float)Math.Min(viewRadius, lightRadius);
+        float playerView = Math.Min(viewRadius, lightRadius);
         Location playerLoc = Player.GetComponent<Location>();
         ShadowCast.ComputeVisibility(this, new Point(playerLoc.X, playerLoc.Y), playerView);
     }

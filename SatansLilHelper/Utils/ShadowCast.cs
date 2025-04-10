@@ -16,7 +16,9 @@
 
 using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
@@ -181,8 +183,8 @@ public static class ShadowCast
             {
                 // Translate local coordinates to grid coordinates.  For the various octants
                 // we need to invert one or both values, or swap X for Y.
-                int gridX = gridPosn.X + xc * txfrm.xx + yc * txfrm.xy;
-                int gridY = gridPosn.Y + xc * txfrm.yx + yc * txfrm.yy;
+                int gridX = gridPosn.X + (xc * txfrm.xx) + (yc * txfrm.xy);
+                int gridY = gridPosn.Y + (xc * txfrm.yx) + (yc * txfrm.yy);
 
                 // Range-check the values.  This lets us avoid the slope division for blocks
                 // that are outside the grid.
@@ -230,7 +232,7 @@ public static class ShadowCast
                 //  the bottom-left corner, we could say definitively that no part of the
                 //  cell is visible, and reduce the view area as if it were a wall.  This
                 //  could reduce iteration at the corners.
-                float distanceSquared = xc * xc + yc * yc;
+                float distanceSquared = (xc * xc) + (yc * yc);
                 if (distanceSquared <= viewRadiusSq)
                 {
                     grid.SetLight(new Point(gridX, gridY), distanceSquared);
@@ -339,8 +341,8 @@ public static class ShadowCast
             {
                 // Translate local coordinates to grid coordinates.  For the various octants
                 // we need to invert one or both values, or swap X for Y.
-                int gridX = gridPosn.X + xc * txfrm.xx + yc * txfrm.xy;
-                int gridY = gridPosn.Y + xc * txfrm.yx + yc * txfrm.yy;
+                int gridX = gridPosn.X + (xc * txfrm.xx) + (yc * txfrm.xy);
+                int gridY = gridPosn.Y + (xc * txfrm.yx) + (yc * txfrm.yy);
 
                 // Range-check the values.  This lets us avoid the slope division for blocks
                 // that are outside the grid.
@@ -388,7 +390,7 @@ public static class ShadowCast
                 //  the bottom-left corner, we could say definitively that no part of the
                 //  cell is visible, and reduce the view area as if it were a wall.  This
                 //  could reduce iteration at the corners.
-                float distanceSquared = xc * xc + yc * yc;
+                float distanceSquared = (xc * xc) + (yc * yc);
                 if (distanceSquared <= viewRadiusSq)
                 {
                     points.Add(new Point(gridX, gridY));

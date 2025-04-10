@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
-using SatansLilHelper.Properties;
-using SatansLilHelper.Types;
 
 namespace SatansLilHelper.InputHandlers;
 
@@ -48,12 +49,12 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
         spriteBatch.DrawString(
             fontMap[FontID.Menu],
             _title,
-            new Vector2(viewport.Width / 2.0f, (float)shadeShape.Y + size.Y),
+            new Vector2(viewport.Width / 2.0f, shadeShape.Y + size.Y),
             Colors.White,
             size / 2
         );
 
-        Vector2 textDest = new(shadeShape.X + 25, shadeShape.Y + 2.5f * size.Y);
+        Vector2 textDest = new(shadeShape.X + 25, shadeShape.Y + (2.5f * size.Y));
         EntityLinks<TComponent> entities = _parent.CurrentMap.Player.GetIncomingLinks<TComponent>();
 
         if (_index < 0)
@@ -67,7 +68,7 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
             {
                 if (textDest.Y > shadeShape.Height)
                 {
-                    textDest.Y = shadeShape.Y + 2.5f * size.Y;
+                    textDest.Y = shadeShape.Y + (2.5f * size.Y);
                     textDest.X += (shadeShape.Width - 50) / 3;
                     if (textDest.X > shadeShape.Width)
                         break;

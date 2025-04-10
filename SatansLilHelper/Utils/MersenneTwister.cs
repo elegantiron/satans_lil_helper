@@ -1,5 +1,7 @@
 ﻿using System;
+
 using MessagePack;
+
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;
@@ -56,7 +58,7 @@ public class MersenneTwister : IRandom
         for (_index = 1; _index < N; _index++)
         {
             _state[_index] = (uint)(
-                SpectralTestMultiplier * (_state[_index - 1] ^ (_state[_index - 1] >> 30)) + _index
+                (SpectralTestMultiplier * (_state[_index - 1] ^ (_state[_index - 1] >> 30))) + _index
             );
         }
     }
@@ -123,10 +125,10 @@ public class MersenneTwister : IRandom
 
     private static uint Temper(uint next)
     {
-        next ^= (next >> 11);
+        next ^= next >> 11;
         next ^= (next << 7) & B;
         next ^= (next << 15) & C;
-        next ^= (next >> 18);
+        next ^= next >> 18;
 
         return next;
     }

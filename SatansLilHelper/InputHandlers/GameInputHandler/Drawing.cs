@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
-using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.InputHandlers;
@@ -61,7 +62,7 @@ internal partial class GameInputHandler
         Location playerLoc = _gameWorld.CurrentMap.Player.GetComponent<Location>();
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(Properties.GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
+            string.Format(Properties.GameStrings.StatusLocation, playerLoc.X, playerLoc.Y),
             _locationVecs.Location,
             Colors.White
         );
@@ -71,7 +72,7 @@ internal partial class GameInputHandler
         >(AbilityID.Health);
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(
+            string.Format(
                 Properties.GameStrings.StatusHealth,
                 playerResource.Cur,
                 EntityCalcs.GetStat(_gameWorld.CurrentMap.Player, AbilityID.Health)
@@ -84,7 +85,7 @@ internal partial class GameInputHandler
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(
+            string.Format(
                 Properties.GameStrings.StatusMana,
                 playerResource.Cur,
                 EntityCalcs.GetStat(_gameWorld.CurrentMap.Player, AbilityID.Mana)
@@ -100,7 +101,7 @@ internal partial class GameInputHandler
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(
+            string.Format(
                 Properties.GameStrings.StatusMoves,
                 _playerTurn.MovesUsed,
                 _playerTurn.MovesMax
@@ -110,7 +111,7 @@ internal partial class GameInputHandler
         );
         spriteBatch.DrawString(
             fontMap[FontID.Status],
-            String.Format(
+            string.Format(
                 Properties.GameStrings.StatusAttacks,
                 _playerTurn.AttacksUsed,
                 _playerTurn.AttacksMax
@@ -122,7 +123,7 @@ internal partial class GameInputHandler
 
     private void DrawMessageLog(SpriteBatch spriteBatch, Dictionary<FontID, SpriteFont> fontMap)
     {
-        _messageLogVecs.Location.Y = spriteBatch.GraphicsDevice.Viewport.Height / 2 + 5;
+        _messageLogVecs.Location.Y = (spriteBatch.GraphicsDevice.Viewport.Height / 2) + 5;
         List<(string, Color)> messages = _messageLog.Messages;
         messages.Reverse();
         Vector2 textSize = Vector2.Zero;

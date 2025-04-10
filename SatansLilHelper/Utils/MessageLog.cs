@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Types;
 
@@ -16,7 +18,7 @@ public class MessageLog
             List<(string, Color)> messageList = [];
             if (_messages.Count > 0)
             {
-                foreach (var message in _messages)
+                foreach (Message message in _messages)
                 {
                     messageList.Add(message.FullText);
                 }
@@ -38,14 +40,8 @@ public class MessageLog
         private Color _color = color;
         private int _count = 1;
 
-        public int Count
-        {
-            get { return _count; }
-        }
-        public string PlainText
-        {
-            get { return _text; }
-        }
+        public int Count => _count;
+        public string PlainText => _text;
 
         public void Stack()
         {
@@ -57,10 +53,7 @@ public class MessageLog
             _count--;
         }
 
-        public (string, Color) FullText
-        {
-            get { return ($"{_text}{(Count > 1 ? string.Format(" (x{0})", Count) : "")}", _color); }
-        }
+        public (string, Color) FullText => ($"{_text}{(Count > 1 ? string.Format(" (x{0})", Count) : "")}", _color);
     }
 
     public void AddMessage(string text, Color color, bool stack = true)

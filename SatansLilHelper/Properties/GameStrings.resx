@@ -156,8 +156,11 @@
   <data name="HelpF" xml:space="preserve">
     <value>Finish your turn</value>
   </data>
+  <data name="HelpGameplay" xml:space="preserve">
+    <value>Gameplay</value>
+  </data>
   <data name="HelpH" xml:space="preserve">
-    <value>Show the help screen (you're already here!)</value>
+    <value>Show the help screen</value>
   </data>
   <data name="HelpI" xml:space="preserve">
     <value>View your Inventory</value>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
@@ -81,23 +83,11 @@ internal class EntityTurn : IAction
         _finished = true;
     }
 
-    public bool HasActions
-    {
-        get { return (HasMoves || HasAttacks || HasSwift) && !_finished; }
-    }
+    public bool HasActions => (HasMoves || HasAttacks || HasSwift) && !_finished;
 
-    public bool HasMoves
-    {
-        get { return _moves < _movesMax; }
-    }
+    public bool HasMoves => _moves < _movesMax;
 
-    public bool HasAttacks
-    {
-        get { return _attacks < _attacksMax; }
-    }
+    public bool HasAttacks => _attacks < _attacksMax;
 
-    public bool HasSwift
-    {
-        get { return _swift; }
-    }
+    public bool HasSwift => _swift;
 }

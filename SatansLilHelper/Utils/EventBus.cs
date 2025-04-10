@@ -10,23 +10,23 @@ public static class EventBus
 
     public static void Send<T>(object key, T arguments)
     {
-        var fullKey = new ChannelKey(key, typeof(T));
+        ChannelKey fullKey = new(key, typeof(T));
         if (!Listeners.TryGetValue(fullKey, out object value))
             return;
 
-        var actionList = (List<EventReaction<T>>)value;
+        List<EventReaction<T>> actionList = (List<EventReaction<T>>)value;
 
-        foreach (var listener in actionList)
+        foreach (EventReaction<T> listener in actionList)
             listener.Reaction(arguments);
     }
 
     public static void Subscribe<T>(this object subscriber, object key, Action<T> listenerAction)
     {
-        var fullKey = new ChannelKey(key, typeof(T));
+        ChannelKey fullKey = new(key, typeof(T));
         if (!Listeners.ContainsKey(fullKey))
             Listeners[fullKey] = new List<EventReaction<T>>();
 
-        var list = (List<EventReaction<T>>)Listeners[fullKey];
+        List<EventReaction<T>> list = (List<EventReaction<T>>)Listeners[fullKey];
         if (list.Any(reaction => reaction.Subscriber.Equals(subscriber)))
             return;
         list.Add(new EventReaction<T>(subscriber, listenerAction));
@@ -34,7 +34,7 @@ public static class EventBus
 
     public static void UnSubscribe<T>(this object subscriber, object key)
     {
-        var fullKey = new ChannelKey(key, typeof(T));
+        ChannelKey fullKey = new(key, typeof(T));
         if (!Listeners.TryGetValue(fullKey, out object value))
             return;
         ((List<EventReaction<T>>)value).RemoveAll(listener =>

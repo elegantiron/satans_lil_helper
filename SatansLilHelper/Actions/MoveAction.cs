@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
-using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.Actions;
@@ -13,10 +15,7 @@ namespace SatansLilHelper.Actions;
 #nullable enable
 internal class MoveAction : ActionWithDirection, IMessageSender, IMoveAction
 {
-    public List<LogMessage> Messages
-    {
-        get { return _messages; }
-    }
+    public List<LogMessage> Messages => _messages;
 
     public MoveAction(Entity entity, Point direction, BaseMap gameMap, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)

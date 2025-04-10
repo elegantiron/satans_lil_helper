@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace SatansLilHelper.Constants;
 
@@ -20,7 +15,7 @@ public static class Colors
     public static readonly Color White = new(0xFF, 0xFF, 0xFF, 0xFF);
 
     // Color aliases
-    public static readonly Color HiddenTile = White;
+    public static readonly Color HiddenTile = DeadActor;
     public static readonly Color LiveActor = White;
     public static readonly Color PlayerHeal = Color.PeachPuff;
     public static readonly Color Red = Color.Red;

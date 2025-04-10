@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
@@ -19,10 +21,12 @@ internal class HelpInputHandler : IInputHandler
     private List<(string, TextureID)> _miscList;
     private List<(TextureID, int, int)> _arrowList,
         _numberList;
-    private List<
+    private LinkedList<
         Action<SpriteBatch, Dictionary<TextureID, Texture2D>, Dictionary<FontID, SpriteFont>>
     > _pageList;
-    private int _page = 0;
+    private LinkedListNode<
+        Action<SpriteBatch, Dictionary<TextureID, Texture2D>, Dictionary<FontID, SpriteFont>>
+    > _currentPage;
     private const int KEY_SPACING = 55;
 
     public HelpInputHandler(IInputHandler parent)
@@ -34,12 +38,12 @@ internal class HelpInputHandler : IInputHandler
             (GameStrings.HelpI, TextureID.KeyboardI),
             (GameStrings.HelpS, TextureID.KeyboardS),
             (GameStrings.HelpF, TextureID.KeyboardF),
-            (GameStrings.HelpT, TextureID.KeyboardT),
-            (GameStrings.HelpH, TextureID.KeyboardH),
+            //(GameStrings.HelpT, TextureID.KeyboardT),
 #if DEBUG
             (GameStrings.HelpZ, TextureID.KeyboardZ),
             (GameStrings.HelpY, TextureID.KeyboardY),
 #endif
+            (GameStrings.HelpH, TextureID.KeyboardH),
         ];
         _arrowList =
         [
@@ -63,7 +67,10 @@ internal class HelpInputHandler : IInputHandler
             (TextureID.Keyboard2, 1, 2),
             (TextureID.Keyboard3, 2, 2),
         ];
-        _pageList = [DrawMovementPage, DrawPage1];
+        _pageList = new();
+        _pageList.AddLast(DrawMovementPage);
+        _pageList.AddLast(DrawMapPage);
+        _currentPage = _pageList.First;
     }
 
     public void Draw(
@@ -83,8 +90,8 @@ internal class HelpInputHandler : IInputHandler
             spriteBatch.GraphicsDevice.Viewport.Width * 8 / 10,
             spriteBatch.GraphicsDevice.Viewport.Height * 8 / 10
         );
-        spriteBatch.Draw(textureMap[TextureID.WhitePixel], shadeRectangle, Colors.TranslucentBlack);
-        _pageList[_page](spriteBatch, textureMap, fontMap);
+        spriteBatch.Draw(textureMap[TextureID.WhitePixel], shadeRectangle, Colors.AmericanRose);
+        _currentPage.Value(spriteBatch, textureMap, fontMap);
         Vector2 arrowPosition = new(shadeRectangle.Left + 64, shadeRectangle.Bottom - 64);
         spriteBatch.Draw(
             textureMap[TextureID.KeyboardLeft],
@@ -126,19 +133,31 @@ internal class HelpInputHandler : IInputHandler
             case Keys.Escape:
                 return _parent;
             case Keys.Left:
-                if (--_page < 0)
-                    _page = _pageList.Count - 1;
+                _currentPage = _currentPage.Previous
+                    is LinkedListNode<
+                        Action<
+                            SpriteBatch,
+                            Dictionary<TextureID, Texture2D>,
+                            Dictionary<FontID, SpriteFont>
+                        >
+                    > prevNode
+                    ? prevNode
+                    : _currentPage.List.Last;
                 break;
             case Keys.Right:
-                _page = ++_page % _pageList.Count;
+                _currentPage = _currentPage.Next
+                    is LinkedListNode<
+                        Action<
+                            SpriteBatch,
+                            Dictionary<TextureID, Texture2D>,
+                            Dictionary<FontID, SpriteFont>
+                        >
+                    > nextNode
+                    ? nextNode
+                    : _currentPage.List.First;
                 break;
         }
-        return key switch
-        {
-            Keys.Escape => _parent,
-            Keys.H => _parent,
-            _ => this,
-        };
+        return this;
     }
 
     private void DrawKeySquare(
@@ -153,7 +172,7 @@ internal class HelpInputHandler : IInputHandler
         {
             spriteBatch.Draw(
                 textureMap[texture],
-                new Vector2(target.X + x * offset.X, target.Y + y * offset.Y),
+                new Vector2(target.X + (x * offset.X), target.Y + (y * offset.Y)),
                 Colors.White,
                 new(32, 32)
             );
@@ -168,7 +187,7 @@ internal class HelpInputHandler : IInputHandler
     {
         Vector2 keyTarget = new(
             spriteBatch.GraphicsDevice.Viewport.Width / 3,
-            spriteBatch.GraphicsDevice.Viewport.Height / 2 - KEY_SPACING
+            (spriteBatch.GraphicsDevice.Viewport.Height / 2) - KEY_SPACING
         );
         Vector2 size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpMovement);
         spriteBatch.DrawString(
@@ -176,7 +195,7 @@ internal class HelpInputHandler : IInputHandler
             GameStrings.HelpMovement,
             new(
                 spriteBatch.GraphicsDevice.Viewport.Width / 2,
-                spriteBatch.GraphicsDevice.Viewport.Height / 10 + 2 * size.Y
+                (spriteBatch.GraphicsDevice.Viewport.Height / 10) + (2 * size.Y)
             ),
             Colors.White,
             new(size.X / 2, size.Y / 3)
@@ -203,17 +222,28 @@ internal class HelpInputHandler : IInputHandler
         );
     }
 
-    private void DrawPage1(
+    private void DrawMapPage(
         SpriteBatch spriteBatch,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        Vector2 size = fontMap[FontID.Menu].MeasureString(GameStrings.HelpGameplay);
+        spriteBatch.DrawString(
+            fontMap[FontID.Menu],
+            GameStrings.HelpGameplay,
+            new(
+                spriteBatch.GraphicsDevice.Viewport.Width / 2,
+                (spriteBatch.GraphicsDevice.Viewport.Height / 10) + (2 * size.Y)
+            ),
+            Colors.White,
+            new(size.X / 2, size.Y / 3)
+        );
         Vector2 miscLocation = new(
-            spriteBatch.GraphicsDevice.Viewport.Width / 10 + 5.5f * KEY_SPACING,
-            spriteBatch.GraphicsDevice.Viewport.Height / 10
+            (spriteBatch.GraphicsDevice.Viewport.Width / 10) + KEY_SPACING,
+            (spriteBatch.GraphicsDevice.Viewport.Height / 10)
                 + fontMap[FontID.Messages].LineSpacing
-                + KEY_SPACING
+                + (size.Y * 3.5f)
         );
         float SCALE = 0.75f;
         foreach ((string text, TextureID texture) in _miscList)
@@ -239,16 +269,4 @@ internal class HelpInputHandler : IInputHandler
             miscLocation.Y += KEY_SPACING * SCALE;
         }
     }
-
-    private void DrawPage2(
-        SpriteBatch spriteBatch,
-        Dictionary<TextureID, Texture2D> textureMap,
-        Dictionary<FontID, SpriteFont> fontMap
-    ) { }
-
-    private void DrawPage3(
-        SpriteBatch spriteBatch,
-        Dictionary<TextureID, Texture2D> textureMap,
-        Dictionary<FontID, SpriteFont> fontMap
-    ) { }
 }

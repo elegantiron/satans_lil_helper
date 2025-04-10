@@ -1,4 +1,5 @@
 ﻿using Friflo.Engine.ECS;
+
 using SatansLilHelper.Constants;
 
 namespace SatansLilHelper.Components;
@@ -17,5 +18,8 @@ public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRela
     public AbilityStat(AbilityID type, decimal basis)
         : this(type, basis, 0m) { }
 
-    public readonly AbilityID GetRelationKey() => Type;
+    public readonly AbilityID GetRelationKey()
+    {
+        return Type;
+    }
 }

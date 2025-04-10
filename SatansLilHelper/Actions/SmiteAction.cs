@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
-using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.Actions;
 
@@ -17,14 +18,8 @@ internal class SmiteAction(Entity entity) : IAction, IMessageSender
     ];
     private Entity _entity = entity;
 
-    public List<LogMessage> Messages
-    {
-        get { return _messages; }
-    }
-    public Entity? Entity
-    {
-        get { return _entity; }
-    }
+    public List<LogMessage> Messages => _messages;
+    public Entity? Entity => _entity;
 
     public void Perform()
     {

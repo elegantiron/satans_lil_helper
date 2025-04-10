@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils.GameMaps;
@@ -35,10 +37,7 @@ internal class SpawnAction : IAction
         _location = location;
     }
 
-    public Entity? Entity
-    {
-        get { return _entity; }
-    }
+    public Entity? Entity => _entity;
     public bool Successful => true;
 
     public void Perform()

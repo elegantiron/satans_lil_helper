@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Exceptions;
@@ -21,10 +24,7 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
     protected int _damage;
     protected bool _isKill;
     protected string _targetName;
-    public List<LogMessage> Messages
-    {
-        get { return _messages; }
-    }
+    public List<LogMessage> Messages => _messages;
 
     public MeleeAction(Entity entity, Point direction, BaseMap gameMap, IRandom rng, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)

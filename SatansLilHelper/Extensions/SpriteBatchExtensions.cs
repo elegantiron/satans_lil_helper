@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SatansLilHelper.Extensions;
@@ -13,7 +8,7 @@ public static class SpriteBatchExtensions
     public static void DrawString(
         this SpriteBatch spriteBatch,
         SpriteFont font,
-        String text,
+        string text,
         Vector2 location,
         Color color,
         Vector2 origin

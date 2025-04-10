@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Interfaces;
@@ -23,14 +26,8 @@ public interface ICellGrid
     }
     void GenerateMap(Point size);
 
-    int XDim
-    {
-        get { return Tiles.GetLength(0); }
-    }
-    int YDim
-    {
-        get { return Tiles.GetLength(1); }
-    }
+    int XDim => Tiles.GetLength(0);
+    int YDim => Tiles.GetLength(1);
     IEnumerable<(int, int)> GetNeighbors((int, int) tile);
     int GetMovementCost((int X, int Y) tile);
     Entity Player { get; }

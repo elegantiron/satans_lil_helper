@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Actions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
@@ -19,10 +20,7 @@ internal class PlayerTurn : IAction
         _attacksMax;
     private bool _swift,
         _finished;
-    public Entity? Entity
-    {
-        get { return _entity; }
-    }
+    public Entity? Entity => _entity;
 
     public PlayerTurn(Entity entity)
     {

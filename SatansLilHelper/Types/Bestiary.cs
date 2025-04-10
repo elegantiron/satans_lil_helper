@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
@@ -34,14 +35,8 @@ internal class Bestiary
     {
         private int _alpha,
             _normal;
-        public int Alpha
-        {
-            get { return _alpha; }
-        }
-        public int Normal
-        {
-            get { return _normal; }
-        }
+        public int Alpha => _alpha;
+        public int Normal => _normal;
 
         public void AddKill(bool isAlpha = false)
         {

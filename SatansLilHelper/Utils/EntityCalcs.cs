@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Friflo.Engine.ECS;
+
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -71,7 +73,7 @@ internal static class EntityCalcs
     {
         int speed = GetStat(entity, AbilityID.Speed);
         int evasion = GetStat(entity, AbilityID.Evasion);
-        return speed * (decimal)rng.NextDouble() + evasion * (decimal)rng.NextDouble();
+        return (speed * (decimal)rng.NextDouble()) + (evasion * (decimal)rng.NextDouble());
     }
 
     public static EntityActions GetActions(Entity entity)

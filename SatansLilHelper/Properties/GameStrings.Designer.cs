@@ -178,7 +178,16 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show the help screen (you&apos;re already here!).
+        ///   Looks up a localized string similar to Gameplay.
+        /// </summary>
+        internal static string HelpGameplay {
+            get {
+                return ResourceManager.GetString("HelpGameplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the help screen.
         /// </summary>
         internal static string HelpH {
             get {

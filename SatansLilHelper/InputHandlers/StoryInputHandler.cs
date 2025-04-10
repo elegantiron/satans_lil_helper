@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
@@ -31,9 +32,7 @@ internal class StoryInputHandler(IInputHandler parent, FontID font, JournalID en
 
     public IInputHandler HandleKey(Keys key)
     {
-        if (key == Keys.Enter)
-            return _parent;
-        return this;
+        return key == Keys.Enter ? _parent : this;
     }
 
     public void Update(Microsoft.Xna.Framework.GameTime gameTime) { }

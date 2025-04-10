@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using Friflo.Engine.ECS;
+
 using Microsoft.Xna.Framework;
+
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -22,30 +25,15 @@ internal class GameWorld : IRegistry
         _actionStack = new();
     }
 
-    public Entity Player
-    {
-        get { return _maps[_currentMap].Player; }
-    }
+    public Entity Player => _maps[_currentMap].Player;
 
-    public BaseMap CurrentMap
-    {
-        get { return _maps[_currentMap]; }
-    }
+    public BaseMap CurrentMap => _maps[_currentMap];
 
-    public bool IsPlayerNext
-    {
-        get { return _maps[_currentMap].IsPlayerNext; }
-    }
+    public bool IsPlayerNext => _maps[_currentMap].IsPlayerNext;
 
-    public IRandom Generator
-    {
-        get { return _rng; }
-    }
+    public IRandom Generator => _rng;
 
-    public ActionStack ActionStack
-    {
-        get { return _actionStack; }
-    }
+    public ActionStack ActionStack => _actionStack;
 
     /// <summary>
     /// Used to get the next actor in the initiative order.
