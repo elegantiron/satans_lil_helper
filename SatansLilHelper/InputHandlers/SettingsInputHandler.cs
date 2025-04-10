@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
@@ -79,12 +77,12 @@ internal class SettingsInputHandler : IInputHandler
 
     private void ChangeSetting()
     {
-        if (Menu.Selection.Args.Length < 1)
+        if (Menu.Selection.Args?.Length < 1)
             return;
-        Type argType = Menu.Selection.Args[0].GetType();
+        Type argType =
+            Menu.Selection.Args?[0].GetType()
+            ?? throw new Exception("I don't know how you managed to throw this");
         if (argType == typeof(bool))
-        {
             Menu.Selection.Args[0] = !(bool)Menu.Selection.Args[0];
-        }
     }
 }
