@@ -215,9 +215,20 @@ internal class HelpInputHandler : IInputHandler
                 + fontMap[FontID.Messages].LineSpacing
                 + KEY_SPACING
         );
+        float SCALE = 0.75f;
         foreach ((string text, TextureID texture) in _miscList)
         {
-            spriteBatch.Draw(textureMap[texture], miscLocation, Colors.White, new(32));
+            spriteBatch.Draw(
+                textureMap[texture],
+                miscLocation,
+                null,
+                Colors.White,
+                0f,
+                new Vector2(32),
+                SCALE,
+                SpriteEffects.None,
+                0f
+            );
             spriteBatch.DrawString(
                 fontMap[FontID.Messages],
                 text,
@@ -225,7 +236,7 @@ internal class HelpInputHandler : IInputHandler
                 Color.White,
                 new(0, fontMap[FontID.Messages].LineSpacing / 2)
             );
-            miscLocation.Y += 55;
+            miscLocation.Y += KEY_SPACING * SCALE;
         }
     }
 
