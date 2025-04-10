@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Apos.Camera;
 using Friflo.Engine.ECS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
@@ -29,6 +30,7 @@ public class Engine : Game
     private Dictionary<FontID, SpriteFont> _fontMap;
     private List<Keys> _keyList;
     private string _gamePath;
+    private Camera? _camera;
 
     public Engine()
     {
@@ -90,6 +92,8 @@ public class Engine : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        IVirtualViewport defaultViewport = new DefaultViewport(GraphicsDevice, Window);
+        _camera = new(defaultViewport);
 
         // Load fonts
         _fontMap.Add(FontID.Status, Content.Load<SpriteFont>(FilePaths.StatusFont));
@@ -191,8 +195,8 @@ public class Engine : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        if (_spriteBatch != null)
-            _inputHandler.Draw(_spriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
+        if (_spriteBatch != null && _camera != null)
+            _inputHandler.Draw(_spriteBatch, _camera, _textureMap, _effectMap, _songMap, _fontMap);
 
         // TODO: Add your drawing code here
 
