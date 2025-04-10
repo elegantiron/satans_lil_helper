@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,7 @@ internal class SettingsInputHandler : IInputHandler
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
@@ -53,7 +55,7 @@ internal class SettingsInputHandler : IInputHandler
             SpriteEffects.None,
             1f
         );
-        Menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        Menu.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
         spriteBatch.End();
     }
 
