@@ -11,7 +11,7 @@ public static class EventBus
     public static void Send<T>(object key, T arguments)
     {
         ChannelKey fullKey = new(key, typeof(T));
-        if (!Listeners.TryGetValue(fullKey, out object value))
+        if (!Listeners.TryGetValue(fullKey, out object? value))
             return;
 
         List<EventReaction<T>> actionList = (List<EventReaction<T>>)value;
@@ -35,19 +35,19 @@ public static class EventBus
     public static void UnSubscribe<T>(this object subscriber, object key)
     {
         ChannelKey fullKey = new(key, typeof(T));
-        if (!Listeners.TryGetValue(fullKey, out object value))
+        if (!Listeners.TryGetValue(fullKey, out object? value))
             return;
         ((List<EventReaction<T>>)value).RemoveAll(listener =>
             listener.Subscriber.Equals(subscriber)
         );
     }
 
-    private class ChannelKey(object key, Type argumentType = null)
+    private class ChannelKey(object key, Type? argumentType = null)
     {
-        private Type ArgumentType { get; } = argumentType;
+        private Type? ArgumentType { get; } = argumentType;
         private object Key { get; } = key;
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
             return @object is ChannelKey anotherKey
                 && anotherKey.Key.Equals(Key)
