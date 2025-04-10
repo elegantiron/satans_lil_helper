@@ -1,12 +1,11 @@
 ﻿#if DEBUG
 using System.Collections.Generic;
-
+using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
@@ -33,6 +32,7 @@ internal class DebugMenuInputHandler : IInputHandler
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
@@ -46,11 +46,11 @@ internal class DebugMenuInputHandler : IInputHandler
             _shadeShape.Width = spriteBatch.GraphicsDevice.Viewport.Width * 6 / 8;
             _shadeShape.Height = spriteBatch.GraphicsDevice.Viewport.Height * 6 / 8;
         }
-        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
 
         spriteBatch.Begin();
         spriteBatch.Draw(textureMap[TextureID.WhitePixel], _shadeShape, Colors.TranslucentBlack);
-        _menu.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _menu.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
         spriteBatch.End();
     }
 
