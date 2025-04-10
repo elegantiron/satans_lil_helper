@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Apos.Camera;
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Entities;
@@ -31,7 +29,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
     protected Tile[,] tiles;
     protected Point mapSize;
     protected IRandom rng;
-    protected Camera camera;
     protected InitiativeTracker _initiativeTracker;
 
     // private fields
@@ -57,10 +54,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         {
             PlaceEntity(player);
         }
-        camera = new(screenSize, 32);
-        Location playerLoc = player.GetComponent<Location>();
-        camera.SetCenter(playerLoc.X, playerLoc.Y);
-        playerPos = new(camera.TileWidth / 2 * 32, camera.TileHeight / 2 * 32);
 
         drawLocation = Vector2.Zero;
 
@@ -111,8 +104,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         _initiativeTracker.Rewind();
     }
 
-    public Camera Camera => camera;
-
     public bool IsPlayerNext => _initiativeTracker.IsPlayerNext;
 
     public Entity GetNextActor()
@@ -130,38 +121,41 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
 
     public virtual void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        spriteBatch.Begin();
+        camera.SetViewport();
+        spriteBatch.Begin(transformMatrix: camera.View);
         DrawTiles(spriteBatch, textureMap);
         DrawEntities(spriteBatch, textureMap);
-        spriteBatch.Draw(textureMap[TextureID.Player], playerPos, Color.White);
+        Location playerLoc = player.GetComponent<Location>();
+        spriteBatch.Draw(
+            textureMap[TextureID.Player],
+            new Vector2(playerLoc.X * 32, playerLoc.Y * 32),
+            Color.White
+        );
         spriteBatch.End();
+        camera.ResetViewport();
     }
 
     public abstract void GenerateMap(Point size);
 
     protected void DrawTiles(SpriteBatch spriteBatch, Dictionary<TextureID, Texture2D> textureMap)
     {
-        Point offset = camera.GetOffset();
         Vector2 spriteTarget = Vector2.Zero;
 
-        for (int i = offset.X; i < offset.X + camera.TileWidth + 1; i++)
+        for (int i = 0; i < tiles.GetLength(0); i++)
         {
-            if (i < 0 || i >= mapSize.X)
-                continue;
-            spriteTarget.X = (i - offset.X) * 32;
-            for (int j = offset.Y; j < offset.Y + camera.TileHeight + 1; j++)
+            spriteTarget.X = i * 32;
+            for (int j = 0; j < tiles.GetLength(1); j++)
             {
-                if (j < 0 || j >= mapSize.Y)
-                    continue;
                 if (!tiles[i, j].Explored)
                     continue;
-                spriteTarget.Y = (j - offset.Y) * 32;
+                spriteTarget.Y = j * 32;
                 spriteBatch.Draw(
                     textureMap[tiles[i, j].Texture],
                     spriteTarget,
@@ -176,13 +170,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         Dictionary<TextureID, Texture2D> textureMap
     )
     {
-        Point offset = camera.GetOffset();
         foreach (Entity entity in GetDrawableEntities.Entities)
         {
             index = entity.GetComponent<TextureIndex>();
             entityLocation = entity.GetComponent<Location>();
-            drawLocation.X = (entityLocation.X - offset.X) * 32;
-            drawLocation.Y = (entityLocation.Y - offset.Y) * 32;
+            drawLocation.X = entityLocation.X * 32;
+            drawLocation.Y = entityLocation.Y * 32;
             spriteBatch.Draw(
                 textureMap[index.Index],
                 drawLocation,
