@@ -13,6 +13,7 @@ public static class Colors
     public static readonly Color TranslucentBlack = new(0x00, 0x00, 0x00, 0xB0);
     public static readonly Color DeadActor = new(0x80, 0x80, 0x80, 0x80);
     public static readonly Color White = new(0xFF, 0xFF, 0xFF, 0xFF);
+    public static readonly Color Targeting = new(0xFF, 0xF0, 0xFF, 0x80);
 
     // Color aliases
     public static readonly Color HiddenTile = DeadActor;
