@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using SatansLilHelper.Actions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
@@ -97,7 +95,7 @@ internal class PlayerTurn : IAction
 
     public bool Undo()
     {
-        if (!_history.TryPop(out IAction action))
+        if (!_history.TryPop(out IAction? action))
             return false;
         if (action is IMoveAction)
             _moves--;
@@ -112,7 +110,7 @@ internal class PlayerTurn : IAction
 
     public bool Redo()
     {
-        if (!_future.TryPop(out IAction action))
+        if (!_future.TryPop(out IAction? action))
             return false;
         if (action is IMoveAction)
             _moves++;
