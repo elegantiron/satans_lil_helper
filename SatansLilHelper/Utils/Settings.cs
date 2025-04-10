@@ -7,6 +7,7 @@ internal sealed class Settings
     private static readonly Lazy<Settings> _instance = new(() => new Settings());
     public bool ShowStatus { get; set; }
     public bool ShowHealthBars { get; set; }
+    public bool AutoFinishTurn { get; set; }
 
     private Settings() { }
 
