@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
@@ -70,7 +68,9 @@ internal class HelpInputHandler : IInputHandler
         _pageList = new();
         _pageList.AddLast(DrawMovementPage);
         _pageList.AddLast(DrawMapPage);
-        _currentPage = _pageList.First;
+        _currentPage =
+            _pageList.First
+            ?? throw new ArgumentException("I don't know how you managed to throw this.");
     }
 
     public void Draw(
@@ -142,7 +142,10 @@ internal class HelpInputHandler : IInputHandler
                         >
                     > prevNode
                     ? prevNode
-                    : _currentPage.List.Last;
+                    : _currentPage.List?.Last
+                        ?? throw new ArgumentException(
+                            "I don't know how you managed to throw this"
+                        );
                 break;
             case Keys.Right:
                 _currentPage = _currentPage.Next
@@ -154,7 +157,10 @@ internal class HelpInputHandler : IInputHandler
                         >
                     > nextNode
                     ? nextNode
-                    : _currentPage.List.First;
+                    : _currentPage.List?.First
+                        ?? throw new ArgumentException(
+                            "I don't know how you managed to throw this"
+                        );
                 break;
         }
         return this;
