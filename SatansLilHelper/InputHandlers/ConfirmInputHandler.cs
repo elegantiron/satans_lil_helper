@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
@@ -42,13 +41,14 @@ internal class ConfirmInputHandler : IInputHandler
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
 
         spriteBatch.Begin();
         List<string> messageWrapped = _message.Wrap(
