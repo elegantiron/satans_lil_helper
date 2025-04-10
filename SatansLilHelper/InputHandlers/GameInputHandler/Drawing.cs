@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-
+using Apos.Camera;
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Extensions;
@@ -18,19 +16,22 @@ internal partial class GameInputHandler
 {
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
+        Location playerLoc = CurrentMap.Player.GetComponent<Location>();
+        camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
         if (_statusShadeShape == Rectangle.Empty)
         {
             SetVecs(spriteBatch, fontMap);
         }
         _gameWorld.CurrentMap.UpdatePlayerVision();
 
-        _gameWorld.CurrentMap.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _gameWorld.CurrentMap.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
 
         if (Settings.Default.ShowStatus)
         {
