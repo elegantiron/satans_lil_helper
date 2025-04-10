@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -62,11 +59,11 @@ internal abstract class ActionWithDirection : IAction
 
     public virtual void Perform()
     {
-        (this as IMessageSender).SendMessages();
+        ((IMessageSender)this).SendMessages();
     }
 
     public virtual void Rewind()
     {
-        (this as IMessageSender).RetractMessages();
+        ((IMessageSender)this).RetractMessages();
     }
 }
