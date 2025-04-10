@@ -65,7 +65,6 @@ public class Engine : Game
             .Build();
         config.Bind(Settings.Default);
 
-        Settings.Default.ShowStatus = !Settings.Default.ShowStatus;
         string json = JsonConvert.SerializeObject(Settings.Default);
         File.WriteAllText(_gamePath + "settings.json", json);
 
