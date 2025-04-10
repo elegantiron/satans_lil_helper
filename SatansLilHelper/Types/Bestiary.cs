@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-
+using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json.Serialization;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
@@ -16,17 +17,17 @@ internal class Bestiary
 
     public void AddKill(EnemyType enemyType, bool isAlpha = false)
     {
-        if (_kills.TryGetValue(enemyType, out IKill kill))
+        if (_kills.TryGetValue(enemyType, out IKill? kill))
             kill.AddKill(isAlpha);
     }
 
     public void RemoveKill(EnemyType enemyType, bool isAlpha = false)
     {
-        if (_kills.TryGetValue(enemyType, out IKill kill))
+        if (_kills.TryGetValue(enemyType, out IKill? kill))
             kill.RemoveKill(isAlpha);
     }
 
-    public bool GetStats(EnemyType enemyType, out IKill kill)
+    public bool GetStats(EnemyType enemyType, [MaybeNullWhen(false)] out IKill kill)
     {
         return _kills.TryGetValue(enemyType, out kill);
     }
