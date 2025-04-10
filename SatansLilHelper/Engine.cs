@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using Newtonsoft.Json;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
+
 namespace SatansLilHelper;
 
-#nullable enable
 public class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
@@ -195,7 +191,8 @@ public class Engine : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _inputHandler.Draw(_spriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
+        if (_spriteBatch != null)
+            _inputHandler.Draw(_spriteBatch, _textureMap, _effectMap, _songMap, _fontMap);
 
         // TODO: Add your drawing code here
 
