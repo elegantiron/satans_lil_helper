@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-
+using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Types;
 
@@ -56,6 +55,7 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
@@ -124,6 +124,8 @@ internal class Menu(Color selected, Color unselected, FontID font) : Interfaces.
 
     private Color GetColor(MenuItem item)
     {
-        return !item.Enabled ? Color.Gray : _items.IndexOf(item) == _index ? _selectedColor : _unselectedColor;
+        return !item.Enabled ? Color.Gray
+            : _items.IndexOf(item) == _index ? _selectedColor
+            : _unselectedColor;
     }
 }
