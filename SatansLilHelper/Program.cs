@@ -1,12 +1,15 @@
 ﻿#if RELEASE
+using System;
+using System.IO;
+
 try
 {
 #endif
-using SatansLilHelper.Engine game = new();
-game.Run();
+    using SatansLilHelper.Engine game = new();
+    game.Run();
 #if RELEASE
 }
-catch (Exception exception)
+catch (Exception? exception)
 {
     string FILE_PATH = AppContext.BaseDirectory + "error.txt";
     using (StreamWriter writer = new(FILE_PATH, false))
