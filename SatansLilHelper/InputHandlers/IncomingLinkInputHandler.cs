@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Apos.Camera;
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
@@ -28,13 +26,14 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
 
     public void Draw(
         SpriteBatch spriteBatch,
+        Camera camera,
         Dictionary<TextureID, Texture2D> textureMap,
         Dictionary<EffectID, SoundEffect> effectMap,
         Dictionary<SongID, Song> songMap,
         Dictionary<FontID, SpriteFont> fontMap
     )
     {
-        _parent.Draw(spriteBatch, textureMap, effectMap, songMap, fontMap);
+        _parent.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
 
         spriteBatch.Begin();
         Viewport viewport = spriteBatch.GraphicsDevice.Viewport;
