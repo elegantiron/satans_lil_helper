@@ -198,7 +198,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 drawLocation,
                 entity.Tags.Has<Alive>() ? Colors.LiveActor : Colors.DeadActor
             );
-            if (false)
+            if (Settings.Default.ShowHealthBars)
                 if (entity.TryGetRelation(AbilityID.Health, out AbilityStat entHealth))
                 {
                     int totalHealth = EntityCalcs.GetStat(entity, AbilityID.Health);
