@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
@@ -21,7 +20,7 @@ internal partial class GameInputHandler
             case Keys.H:
                 return new HelpInputHandler(this);
             case Keys.T:
-                break;
+                return new TargetingInputHandler(this, 5, 5);
             case Keys.S:
                 return new IncomingLinkInputHandler<Grimoire>(
                     this,
@@ -54,7 +53,6 @@ internal partial class GameInputHandler
 #endif
         }
         Location playerPos = _gameWorld.CurrentMap.Player.GetComponent<Location>();
-        _gameWorld.CurrentMap.Camera.SetCenter(playerPos.X, playerPos.Y);
         return this;
     }
 
