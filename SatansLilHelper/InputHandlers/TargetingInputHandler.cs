@@ -47,15 +47,34 @@ internal class TargetingInputHandler : IInputHandler, Interfaces.IUpdateable
         _parent.Draw(spriteBatch, camera, textureMap, effectMap, songMap, fontMap);
         camera.SetViewport();
         spriteBatch.Begin(transformMatrix: camera.View);
+        Color outline = new Color(0xFF, 0x00, 0x00, 0x50);
         _visibleTiles = ShadowCast.GetVisibleTiles(_parent.CurrentMap, _center + _offset, _radius);
         foreach (Point cell in _visibleTiles.ToHashSet())
         {
-            foreach ((int x, int y) in _parent.CurrentMap.GetNeighbors((cell.X, cell.Y))) { }
-            spriteBatch.Draw(
-                textureMap[TextureID.WhitePixel],
-                new Rectangle(cell.X * 32, cell.Y * 32, 32, 32),
-                new Color(0xFF, 0x00, 0x00, 0x1F)
-            );
+            if (!_visibleTiles.Exists((Point point) => point.X == cell.X - 1 && point.Y == cell.Y))
+                spriteBatch.Draw(
+                    textureMap[TextureID.WhitePixel],
+                    new Rectangle(cell.X * 32 - 1, cell.Y * 32 - 1, 3, 32),
+                    outline
+                );
+            if (!_visibleTiles.Exists((Point point) => point.X == cell.X + 1 && point.Y == cell.Y))
+                spriteBatch.Draw(
+                    textureMap[TextureID.WhitePixel],
+                    new Rectangle((cell.X + 1) * 32 + 1, cell.Y * 32, 3, 32),
+                    outline
+                );
+            if (!_visibleTiles.Exists((Point point) => point.X == cell.X && point.Y == cell.Y - 1))
+                spriteBatch.Draw(
+                    textureMap[TextureID.WhitePixel],
+                    new Rectangle(cell.X * 32, cell.Y * 32, 32, 3),
+                    outline
+                );
+            if (!_visibleTiles.Exists((Point point) => point.X == cell.X && point.Y == cell.Y + 1))
+                spriteBatch.Draw(
+                    textureMap[TextureID.WhitePixel],
+                    new Rectangle(cell.X * 32, (cell.Y + 1) * 32 - 1, 32, 3),
+                    outline
+                );
         }
         spriteBatch.End();
         camera.ResetViewport();
