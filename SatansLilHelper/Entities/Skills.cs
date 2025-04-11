@@ -1,5 +1,4 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 
@@ -33,6 +32,9 @@ internal static class Skills
     {
         Base(entity);
         entity.AddComponent(new EntityName("Charge"));
+        entity.AddComponent(new Targetable(3, 0));
+
+        entity.AddTag<Activatable>();
     }
 
     public static void Charge(Entity entity, Entity parent)

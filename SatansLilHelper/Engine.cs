@@ -241,6 +241,7 @@ public class Engine : Game
         aot.RegisterIndexedComponentEntity<Grimoire>();
         aot.RegisterComponent<Level>();
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
+        aot.RegisterComponent<Targetable>();
         aot.RegisterComponent<TextureIndex>();
 
         aot.RegisterTag<Activatable>();
@@ -253,7 +254,6 @@ public class Engine : Game
         aot.RegisterTag<Item>();
         aot.RegisterTag<Player>();
         aot.RegisterTag<Skill>();
-        aot.RegisterTag<Targetable>();
         aot.RegisterTag<Visible>();
 
         aot.CreateSchema();

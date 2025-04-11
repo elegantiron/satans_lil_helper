@@ -23,5 +23,3 @@ internal struct Visible : ITag { }
 internal struct Equippable : ITag { }
 
 internal struct Activatable : ITag { }
-
-internal struct Targetable : ITag { }
