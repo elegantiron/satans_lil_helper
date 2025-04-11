@@ -20,7 +20,7 @@ internal partial class GameInputHandler
             case Keys.H:
                 return new HelpInputHandler(this);
             case Keys.T:
-                return new TargetingInputHandler(this, 5, 5);
+                return new TargetingInputHandler(this, 5, 2);
             case Keys.S:
                 return new IncomingLinkInputHandler<Grimoire>(
                     this,
