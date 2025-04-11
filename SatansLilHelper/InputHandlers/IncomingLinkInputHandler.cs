@@ -124,9 +124,9 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
         }
         else if (ent.Tags.Has<Activatable>())
         {
-            if (ent.TryGetComponent(out Targetable targetable))
+            if (ent.HasComponent<Targetable>())
             {
-                return new TargetingInputHandler(_parent, targetable.Range, targetable.Radius);
+                return new TargetingInputHandler(_parent, ent);
             }
             else
             {

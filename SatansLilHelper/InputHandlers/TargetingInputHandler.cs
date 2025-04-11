@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Apos.Camera;
+using Friflo.Engine.ECS;
+using Friflo.Engine.ECS.Index;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,14 +22,17 @@ internal class TargetingInputHandler : IInputHandler
     private GameInputHandler _parent;
     private int _range;
     private int _radius;
+    private Entity _entity;
     private Point _center,
         _offset;
 
-    public TargetingInputHandler(GameInputHandler parent, int range, int radius)
+    public TargetingInputHandler(GameInputHandler parent, Entity targetable)
     {
+        _entity = targetable;
+        Targetable tComp = _entity.GetComponent<Targetable>();
         _parent = parent;
-        _range = range;
-        _radius = radius;
+        _range = tComp.Range;
+        _radius = tComp.Radius;
         Location center = _parent.CurrentMap.Player.GetComponent<Location>();
         _center = new(center.X, center.Y);
         _offset = Point.Zero;
