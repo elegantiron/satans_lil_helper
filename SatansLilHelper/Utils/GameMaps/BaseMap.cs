@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Entities;
+using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
@@ -176,10 +177,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             entityLocation = entity.GetComponent<Location>();
             drawLocation.X = entityLocation.X * 32;
             drawLocation.Y = entityLocation.Y * 32;
+            Vector2 center = new(16);
             spriteBatch.Draw(
                 textureMap[index.Index],
                 drawLocation,
-                entity.Tags.Has<Alive>() ? Colors.LiveActor : Colors.DeadActor
+                entity.Tags.Has<Alive>() ? Colors.LiveActor : Colors.DeadActor,
+                center
             );
             if (Settings.Default.ShowHealthBars)
                 if (entity.TryGetRelation(AbilityID.Health, out AbilityStat entHealth))
@@ -198,7 +201,12 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                         spriteBatch.Draw(
                             textureMap[TextureID.WhitePixel],
                             healthRect,
-                            Colors.Green
+                            null,
+                            Colors.Green,
+                            0f,
+                            center,
+                            SpriteEffects.None,
+                            1f
                         );
                     }
                 }
