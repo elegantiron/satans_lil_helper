@@ -248,10 +248,14 @@ public class Engine : Game
         aot.RegisterTag<Actor>();
         aot.RegisterTag<Alive>();
         aot.RegisterTag<Blocking>();
+        aot.RegisterTag<DamagesInterruptor>();
         aot.RegisterTag<Equippable>();
         aot.RegisterTag<Hostile>();
+        aot.RegisterTag<Interruptible>();
         aot.RegisterTag<Invisible>();
         aot.RegisterTag<Item>();
+        aot.RegisterTag<MovesActor>();
+        aot.RegisterTag<MovesTarget>();
         aot.RegisterTag<Player>();
         aot.RegisterTag<Skill>();
         aot.RegisterTag<Visible>();
