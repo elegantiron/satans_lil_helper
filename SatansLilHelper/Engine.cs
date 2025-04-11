@@ -62,7 +62,7 @@ public class Engine : Game
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
-            .AddJsonFile(_gamePath + "settings.json", true)
+            //.AddJsonFile(_gamePath + "settings.json", true)
             .Build();
         config.Bind(Settings.Default);
         SaveSettings();
