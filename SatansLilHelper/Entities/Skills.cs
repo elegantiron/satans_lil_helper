@@ -22,12 +22,6 @@ internal static class Skills
         entity.AddComponent(new EntityName("Shield Up"));
     }
 
-    public static void ShieldUp(Entity entity, Entity parent)
-    {
-        Base(entity, parent);
-        ShieldUp(entity);
-    }
-
     public static void Charge(Entity entity)
     {
         Base(entity);
@@ -35,11 +29,5 @@ internal static class Skills
         entity.AddComponent(new Targetable(3, 0));
 
         entity.AddTag<Activatable>();
-    }
-
-    public static void Charge(Entity entity, Entity parent)
-    {
-        Base(entity, parent);
-        Charge(entity);
     }
 }

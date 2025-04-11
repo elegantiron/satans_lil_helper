@@ -1,7 +1,7 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.EntityFactories;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Entities;
@@ -59,14 +59,17 @@ internal static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 6, 0));
         #endregion Ability Stats
 
+        Entity newEnt;
+
         #region Starting gear
         Items.Torch(entity.Store.CreateEntity(), entity);
         Items.HealthPotion(entity.Store.CreateEntity(), entity, rng);
         #endregion starting gear
 
         #region Starting skills
-        Skills.ShieldUp(entity.Store.CreateEntity(), entity);
-        Skills.Charge(entity.Store.CreateEntity(), entity);
+        newEnt = entity.Store.CreateEntity();
+        SkillFactory.Instance.Charge.CopyEntity(newEnt);
+        newEnt.AddComponent(new Grimoire(entity));
         #endregion starting skills
     }
 }
