@@ -6,11 +6,6 @@ namespace SatansLilHelper.Entities;
 
 internal static class Skills
 {
-    private static void Base(Entity entity)
-    {
-        entity.AddTag<Skill>();
-    }
-
     private static void Base(Entity entity, Entity parent)
     {
         entity.AddComponent(new Grimoire(parent));
@@ -18,16 +13,15 @@ internal static class Skills
 
     public static void ShieldUp(Entity entity)
     {
-        Base(entity);
-        entity.AddComponent(new EntityName("Shield Up"));
+        entity.Add(new EntityName("Shield Up"), Tags.Get<Activatable, Skill>());
     }
 
     public static void Charge(Entity entity)
     {
-        Base(entity);
-        entity.AddComponent(new EntityName("Charge"));
-        entity.AddComponent(new Targetable(3, 0));
-
-        entity.AddTag<Activatable>();
+        entity.Add(
+            new EntityName("Charge"),
+            new Targetable(3, 0),
+            Tags.Get<Activatable, DamagesInterruptor, Interruptible, MovesActor, Skill>()
+        );
     }
 }

@@ -15,21 +15,27 @@ internal sealed class SkillFactory
     public static SkillFactory Instance => _instance.Value;
     public EntityStore Store => store;
     public Entity Charge => charge;
+    public Entity Howl => howl;
     public Entity ShieldUp => shieldUp;
 
     private EntityStore store;
     private Entity charge,
-        shieldUp;
+        shieldUp,
+        howl;
 
     private SkillFactory()
     {
         store = new();
+
         charge = store.CreateEntity();
         charge.Add(
             new EntityName("Charge"),
             new Targetable(3, 0),
             Tags.Get<Activatable, DamagesInterruptor, Interruptible, MovesActor, Skill>()
         );
+
+        howl = store.CreateEntity();
+        howl.Add(new EntityName("Howl"), Tags.Get<Activatable, Skill>());
 
         shieldUp = store.CreateEntity();
         shieldUp.Add(new EntityName("Shield Up"), Tags.Get<Activatable, Skill>());

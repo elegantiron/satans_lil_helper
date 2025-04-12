@@ -1,5 +1,4 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -37,10 +36,14 @@ internal static class Enemies
 
     public static void Wolf(Entity entity, IRandom rng)
     {
-        Base(entity);
-        entity.AddComponent(new EntityName("wolf"));
-        entity.AddComponent(new ActionDelay(rng.Next(1, 15)));
-        entity.AddComponent(new TextureIndex(TextureID.Wolf));
+        entity.Add(
+            new EntityName("wolf"),
+            new TextureIndex(TextureID.Wolf),
+            new Level(0),
+            new Attack(1, 6),
+            new ItemSlots(ItemType.None),
+            Tags.Get<Actor, Alive, Blocking, Visible>()
+        );
 
         entity.AddRelation(new AbilityStat(AbilityID.Health, rng.Next(1, 8) + 16));
 

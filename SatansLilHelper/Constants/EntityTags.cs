@@ -26,6 +26,8 @@ internal struct MovesActor : ITag { }
 
 internal struct MovesTarget : ITag { }
 
+internal struct Nocturnal : ITag { }
+
 internal struct Passive : ITag { }
 
 internal struct Player : ITag { }
