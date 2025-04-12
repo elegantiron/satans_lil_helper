@@ -7,16 +7,17 @@ namespace SatansLilHelper.Entities;
 
 internal static class Items
 {
-    public static void HealthPotion(Entity entity, IRandom rng)
+    public static Entity HealthPotion(Entity entity)
     {
         entity.Add(
             new EntityName("Healing Potion"),
             new RandomEffect(ItemEffect.Heal, 1, 8, 2),
             Tags.Get<Item, Activatable>()
         );
+        return entity;
     }
 
-    public static void Torch(Entity entity)
+    public static Entity Torch(Entity entity)
     {
         entity.Add(
             new EntityName("Torch"),
@@ -25,5 +26,7 @@ internal static class Items
         );
 
         entity.AddRelation(new AbilityStat(AbilityID.LightRadius, 6m));
+
+        return entity;
     }
 }

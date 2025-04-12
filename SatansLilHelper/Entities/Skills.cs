@@ -11,17 +11,19 @@ internal static class Skills
         entity.AddComponent(new Grimoire(parent));
     }
 
-    public static void ShieldUp(Entity entity)
+    public static Entity ShieldUp(Entity entity)
     {
         entity.Add(new EntityName("Shield Up"), Tags.Get<Activatable, Skill>());
+        return entity;
     }
 
-    public static void Charge(Entity entity)
+    public static Entity Charge(Entity entity)
     {
         entity.Add(
             new EntityName("Charge"),
             new Targetable(3, 0),
             Tags.Get<Activatable, DamagesInterruptor, Interruptible, MovesActor, Skill>()
         );
+        return entity;
     }
 }

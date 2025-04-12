@@ -1,7 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
-using SatansLilHelper.EntityFactories;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Entities;
@@ -62,13 +61,19 @@ internal static class Professions
         Entity newEnt;
 
         #region Starting gear
-        Items.Torch(entity.Store.CreateEntity(), entity);
-        Items.HealthPotion(entity.Store.CreateEntity(), entity, rng);
+        newEnt = Items.Torch(entity.Store.CreateEntity());
+        newEnt.AddComponent(new Equipper(entity));
+        newEnt.AddComponent(new Inventory(entity));
+
+        newEnt = Items.HealthPotion(entity.Store.CreateEntity());
+        newEnt.AddComponent(new Inventory(entity));
         #endregion starting gear
 
         #region Starting skills
-        newEnt = entity.Store.CreateEntity();
-        SkillFactory.Instance.Charge.CopyEntity(newEnt);
+        newEnt = Skills.ShieldUp(entity.Store.CreateEntity());
+        newEnt.AddComponent(new Grimoire(entity));
+
+        newEnt = Skills.Charge(entity.Store.CreateEntity());
         newEnt.AddComponent(new Grimoire(entity));
         #endregion starting skills
     }
