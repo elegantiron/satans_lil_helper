@@ -7,7 +7,7 @@ using Friflo.Engine.ECS;
 
 namespace SatansLilHelper.Components;
 
-internal struct Targetable(int range, int radius) : IComponent
+internal struct OldTargetable(int range, int radius) : IComponent
 {
     public int Range = range,
         Radius = radius;

@@ -34,4 +34,6 @@ internal struct Player : ITag { }
 
 internal struct Skill : ITag { }
 
+internal struct Targetable : ITag { }
+
 internal struct Visible : ITag { }

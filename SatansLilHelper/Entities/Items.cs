@@ -17,6 +17,13 @@ internal static class Items
         return entity;
     }
 
+    public static Entity HealthPotion(Entity entity, Entity holder)
+    {
+        HealthPotion(entity);
+        entity.Add(new Inventory(holder));
+        return entity;
+    }
+
     public static Entity Torch(Entity entity)
     {
         entity.Add(

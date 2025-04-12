@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 
 namespace SatansLilHelper.Utils.GameMaps;
 
-internal class ForestMap(Point mapSize, IRandom rng, Point screenSize, bool makePlayer = false)
-    : BaseMap(mapSize, rng, screenSize, makePlayer)
+internal class ForestMap(Point mapSize, IRandom rng, bool makePlayer = false)
+    : BaseMap(mapSize, rng, makePlayer)
 {
     public override void GenerateMap(Point size)
     {
@@ -40,7 +39,10 @@ internal class ForestMap(Point mapSize, IRandom rng, Point screenSize, bool make
         {
             for (int j = 0; j < mapSize.Y; j++)
             {
-                Tile tile = tempMap[i, j] == 1 ? new Tile(TextureID.ForestWall, false, false) : new Tile(TextureID.ForestFloor, true, true);
+                Tile tile =
+                    tempMap[i, j] == 1
+                        ? new Tile(TextureID.ForestWall, false, false)
+                        : new Tile(TextureID.ForestFloor, true, true);
                 tiles[i, j] = tile;
             }
         }

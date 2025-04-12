@@ -35,7 +35,7 @@ internal static class Professions
         entity.AddTag<Player>();
     }
 
-    public static void Warrior(Entity entity, IRandom rng)
+    public static void Warrior(Entity entity)
     {
         Base(entity);
         entity.AddComponent(new ActionDelay(0));
@@ -58,23 +58,13 @@ internal static class Professions
         entity.AddRelation(new AbilityStat(AbilityID.Vision, 6, 0));
         #endregion Ability Stats
 
-        Entity newEnt;
-
         #region Starting gear
-        newEnt = Items.Torch(entity.Store.CreateEntity());
-        newEnt.AddComponent(new Equipper(entity));
-        newEnt.AddComponent(new Inventory(entity));
-
-        newEnt = Items.HealthPotion(entity.Store.CreateEntity());
-        newEnt.AddComponent(new Inventory(entity));
+        Items.HealthPotion(entity.Store.CreateEntity(), entity);
         #endregion starting gear
 
         #region Starting skills
-        newEnt = Skills.ShieldUp(entity.Store.CreateEntity());
-        newEnt.AddComponent(new Grimoire(entity));
-
-        newEnt = Skills.Charge(entity.Store.CreateEntity());
-        newEnt.AddComponent(new Grimoire(entity));
+        Skills.Charge(entity.Store.CreateEntity(), entity);
+        Skills.ShieldUp(entity.Store.CreateEntity(), entity);
         #endregion starting skills
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils.GameMaps;
 
@@ -21,7 +18,7 @@ internal class GameWorld : IRegistry
     {
         _rng = rng;
         _mapSize = mapSize;
-        _maps = [new ForestMap(_mapSize, _rng, new Point(1280, 720), true)];
+        _maps = [new ForestMap(_mapSize, _rng, true)];
         _actionStack = new();
     }
 

@@ -242,7 +242,6 @@ public class Engine : Game
         aot.RegisterComponent<Level>();
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
         aot.RegisterComponent<RandomEffect>();
-        aot.RegisterComponent<Targetable>();
         aot.RegisterComponent<TextureIndex>();
 
         aot.RegisterTag<Activatable>();
@@ -259,6 +258,7 @@ public class Engine : Game
         aot.RegisterTag<MovesTarget>();
         aot.RegisterTag<Player>();
         aot.RegisterTag<Skill>();
+        aot.RegisterTag<Targetable>();
         aot.RegisterTag<Visible>();
 
         aot.CreateSchema();

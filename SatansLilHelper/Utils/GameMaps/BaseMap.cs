@@ -33,12 +33,10 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
     protected InitiativeTracker _initiativeTracker;
 
     // private fields
-    private Vector2 playerPos,
-        drawLocation;
     private TextureIndex index;
     private Location entityLocation;
 
-    public BaseMap(Point mapSize, IRandom rng, Point screenSize, bool makePlayer = false)
+    public BaseMap(Point mapSize, IRandom rng, bool makePlayer = false)
     {
         this.mapSize = mapSize;
         this.rng = rng;
@@ -47,7 +45,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         {
             player = registry.CreateEntity();
             player.AddComponent(new EntityName("Player"));
-            Professions.Warrior(player, rng);
+            Professions.Warrior(player);
         }
         tiles = new Tile[this.mapSize.X, this.mapSize.Y];
         GenerateMap(this.mapSize);
@@ -55,8 +53,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         {
             PlaceEntity(player);
         }
-
-        drawLocation = Vector2.Zero;
 
         #region Queries
         GetActionDelay = registry.Query<ActionDelay>();
@@ -175,12 +171,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         {
             index = entity.GetComponent<TextureIndex>();
             entityLocation = entity.GetComponent<Location>();
-            drawLocation.X = entityLocation.X * 32;
-            drawLocation.Y = entityLocation.Y * 32;
+
             Vector2 center = new(16);
             spriteBatch.Draw(
                 textureMap[index.Index],
-                drawLocation,
+                new Vector2(entityLocation.X * 32, entityLocation.Y * 32),
                 entity.Tags.Has<Alive>() ? Colors.LiveActor : Colors.DeadActor,
                 center
             );
@@ -189,8 +184,8 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
                 {
                     int totalHealth = EntityCalcs.GetStat(entity, AbilityID.Health);
                     Rectangle healthRect = new(
-                        (int)drawLocation.X + 4,
-                        (int)drawLocation.Y + 4,
+                        entityLocation.X * 32 + 4,
+                        entityLocation.Y * 32 + 4,
                         24,
                         4
                     );
