@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.Swift;
 using Apos.Camera;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
@@ -23,6 +24,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         GetActors;
 
     public ArchetypeQuery<Location, TextureIndex> GetDrawableEntities;
+    public bool Dark = true;
 
     // protected fields
     protected Entity player;
@@ -218,7 +220,11 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             }
         }
         int viewRadius = EntityCalcs.GetStat(Player, AbilityID.Vision);
-        int lightRadius = EntityCalcs.GetStat(Player, AbilityID.LightRadius);
+        int lightRadius;
+        if (Dark)
+            lightRadius = EntityCalcs.GetStat(Player, AbilityID.LightRadius);
+        else
+            lightRadius = 100000000;
         float playerView = Math.Min(viewRadius, lightRadius);
         Location playerLoc = Player.GetComponent<Location>();
         ShadowCast.ComputeVisibility(this, new Point(playerLoc.X, playerLoc.Y), playerView);

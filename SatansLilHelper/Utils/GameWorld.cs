@@ -19,6 +19,7 @@ internal class GameWorld : IRegistry
         _rng = rng;
         _mapSize = mapSize;
         _maps = [new ForestMap(_mapSize, _rng, true)];
+        CurrentMap.Dark = false;
         _actionStack = new();
     }
 
