@@ -241,7 +241,9 @@ public class Engine : Game
         aot.RegisterIndexedComponentEntity<Grimoire>();
         aot.RegisterComponent<Level>();
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
+        aot.RegisterComponent<Radius>();
         aot.RegisterComponent<RandomEffect>();
+        aot.RegisterComponent<Components.Range>();
         aot.RegisterComponent<TextureIndex>();
 
         aot.RegisterTag<Activatable>();

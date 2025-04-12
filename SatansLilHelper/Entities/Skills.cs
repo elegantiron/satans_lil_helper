@@ -26,7 +26,7 @@ internal static class Skills
             new EntityName("Charge"),
             Tags.Get<Activatable, DamagesInterruptor, Interruptible, MovesActor, Skill>()
         );
-        entity.AddTags(Tags.Get<Targetable>());
+        entity.Add(new Radius(0), Tags.Get<Targetable>());
         return entity;
     }
 

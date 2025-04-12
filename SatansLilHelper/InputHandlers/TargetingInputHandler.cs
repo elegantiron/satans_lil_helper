@@ -38,6 +38,8 @@ internal class TargetingInputHandler : IInputHandler
         Location center = _parent.CurrentMap.Player.GetComponent<Location>();
         _center = new(center.X, center.Y);
         _offset = Point.Zero;
+        _range = targetable.GetComponent<Components.Range>().Value;
+        _radius = targetable.GetComponent<Radius>().Value;
         _rangeSquared = _range * _range;
     }
 
@@ -156,26 +158,38 @@ internal class TargetingInputHandler : IInputHandler
 
     public IInputHandler HandleKey(Keys key)
     {
+        List<Point> points = ShadowCast.GetArea(_parent.CurrentMap, _center, _range);
+        int dx = 0,
+            dy = 0;
         switch (key)
         {
             case Keys.Right:
-                if (Math.Pow(_offset.X, 2) + Math.Pow(_offset.Y, 2) < _rangeSquared)
-                    _offset.X++;
+                dx = 1;
                 break;
             case Keys.Left:
-                if (Math.Pow(_offset.X, 2) + Math.Pow(_offset.Y, 2) < _rangeSquared)
-                    _offset.X--;
+                dx = -1;
                 break;
             case Keys.Up:
-                if (_offset.Y > -_range)
-                    _offset.Y--;
+                dy = -1;
                 break;
             case Keys.Down:
-                if (_offset.Y < _range)
-                    _offset.Y++;
+                dy = 1;
                 break;
             case Keys.Escape:
                 return _parent;
+        }
+        if (
+            points.Exists(
+                (Point point) =>
+                {
+                    return point.X == _center.X + _offset.X + dx
+                        && point.Y == _center.Y + _offset.Y + dy;
+                }
+            )
+        )
+        {
+            _offset.X += dx;
+            _offset.Y += dy;
         }
         return this;
     }
