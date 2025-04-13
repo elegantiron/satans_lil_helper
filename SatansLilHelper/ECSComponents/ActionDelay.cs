@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 [ComponentKey("action-delay")]
 public struct ActionDelay(uint value) : IComponent

@@ -1,9 +1,9 @@
 ﻿using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
-[ComponentKey("known-by")]
-internal struct Grimoire(Entity target) : ILinkComponent
+[ComponentKey("equipper")]
+internal struct Equipper(Entity target) : ILinkComponent
 {
     public Entity Target = target;
 

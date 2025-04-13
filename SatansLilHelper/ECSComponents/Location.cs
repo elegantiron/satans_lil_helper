@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 [ComponentKey("location")]
 public struct Location(int x, int y) : IIndexedComponent<(int, int)>

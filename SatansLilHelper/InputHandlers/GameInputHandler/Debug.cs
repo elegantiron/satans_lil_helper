@@ -1,7 +1,6 @@
 ﻿using System;
-
 using SatansLilHelper.Actions;
-using SatansLilHelper.Components;
+using SatansLilHelper.ECSComponents;
 
 namespace SatansLilHelper.InputHandlers;
 

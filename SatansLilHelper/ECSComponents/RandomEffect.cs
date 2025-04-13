@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Friflo.Engine.ECS;
 using SatansLilHelper.Constants;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 internal struct RandomEffect : IComponent
 {

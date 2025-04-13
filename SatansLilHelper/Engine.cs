@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Newtonsoft.Json;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.InputHandlers;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -234,7 +234,7 @@ public class Engine : Game
         aot.RegisterRelation<AbilityStat, AbilityID>();
         aot.RegisterComponent<ActionDelay>();
         aot.RegisterComponent<Attack>();
-        aot.RegisterComponent<Components.Effect>();
+        aot.RegisterComponent<ECSComponents.Effect>();
         aot.RegisterIndexedComponentEntity<Equipper>();
         aot.RegisterIndexedComponentEntity<Inventory>();
         aot.RegisterComponent<ItemSlots>();
@@ -243,7 +243,7 @@ public class Engine : Game
         aot.RegisterIndexedComponentStruct<Location, (int, int)>();
         aot.RegisterComponent<Radius>();
         aot.RegisterComponent<RandomEffect>();
-        aot.RegisterComponent<Components.Range>();
+        aot.RegisterComponent<ECSComponents.Range>();
         aot.RegisterComponent<TextureIndex>();
 
         aot.RegisterTag<Activatable>();

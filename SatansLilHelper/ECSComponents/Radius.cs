@@ -1,7 +1,7 @@
 ﻿using System;
 using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 internal struct Radius : IComponent
 {

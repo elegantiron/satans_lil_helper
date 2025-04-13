@@ -1,8 +1,7 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Constants;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 [ComponentKey("effect-power")]
 internal struct Effect(ItemEffect effect, int value) : IComponent

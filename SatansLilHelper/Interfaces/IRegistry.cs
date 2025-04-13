@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
-using SatansLilHelper.Components;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Processors;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;

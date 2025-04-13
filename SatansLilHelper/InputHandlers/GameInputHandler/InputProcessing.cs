@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Actions;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.InputHandlers;

@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
@@ -37,7 +37,7 @@ internal class TargetingInputHandler : IInputHandler
         Location center = _parent.CurrentMap.Player.GetComponent<Location>();
         _center = new(center.X, center.Y);
         _offset = Point.Zero;
-        _range = _entity.GetComponent<Components.Range>().Value;
+        _range = _entity.GetComponent<ECSComponents.Range>().Value;
         _radius = _entity.GetComponent<Radius>().Value;
     }
 

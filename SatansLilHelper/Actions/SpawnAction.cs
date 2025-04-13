@@ -1,8 +1,6 @@
 ﻿using System;
-
 using Friflo.Engine.ECS;
-
-using SatansLilHelper.Components;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils.GameMaps;
 

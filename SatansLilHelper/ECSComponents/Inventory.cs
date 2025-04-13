@@ -1,9 +1,9 @@
 ﻿using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
-[ComponentKey("equipper")]
-internal struct Equipper(Entity target) : ILinkComponent
+[ComponentKey("holder")]
+internal struct Inventory(Entity target) : ILinkComponent
 {
     public Entity Target = target;
 
