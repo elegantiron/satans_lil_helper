@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MLEM.Font;
 using MLEM.Ui;
 using MLEM.Ui.Elements;
@@ -14,9 +16,15 @@ internal class MainMenu : DrawableGameComponent
 {
     private UiSystem? _system;
     private SpriteBatch? _spriteBatch;
+    private Button? _newGame,
+        _bestiary;
+    private List<Keys> _keyList;
 
     public MainMenu(Game game)
-        : base(game) { }
+        : base(game)
+    {
+        _keyList = [];
+    }
 
     protected override void LoadContent()
     {
@@ -28,15 +36,29 @@ internal class MainMenu : DrawableGameComponent
         style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
 
         _system = new(Game, style);
-        var panel = new Panel(Anchor.Center, new Vector2(350, 100), new Vector2(0));
+        var panel = new Panel(Anchor.Center, new Vector2(550, 100), new Vector2(0));
+        panel.SetHeightBasedOnChildren = true;
         _system.Add("panel", panel);
-        var newGame = new Button(
+        _newGame = new(
             Anchor.AutoCenter,
-            new Vector2(0.85f),
-            text: "Start a new Game",
-            tooltipText: "This is some help text"
+            new Vector2(0.65f, 45),
+            text: Properties.GameStrings.NewGame
         );
-        panel.AddChild(newGame);
+        _newGame.OnPressed = HandleButtonPress;
+        _bestiary = new(
+            Anchor.AutoCenter,
+            new Vector2(0.65f, 45),
+            Properties.GameStrings.ViewBestiary
+        )
+        {
+            OnPressed = HandleButtonPress,
+        };
+        panel.AddChild(new Paragraph(Anchor.AutoCenter, 0.75f, "Main Menu"));
+        panel.AddChild(new VerticalSpace(25));
+        panel.AddChild(_newGame);
+        panel.AddChild(new VerticalSpace(5));
+        panel.AddChild(_bestiary);
+        panel.AddChild(new VerticalSpace(5));
         base.LoadContent();
     }
 
@@ -56,7 +78,41 @@ internal class MainMenu : DrawableGameComponent
 
     protected override void OnEnabledChanged(object sender, EventArgs args)
     {
-        Debug.WriteLine("main menu activated");
         base.OnEnabledChanged(sender, args);
+    }
+
+    private void HandleButtonPress(Element element)
+    {
+        if (_newGame is not null && element == _newGame)
+            Debug.WriteLine("you pressed new game!");
+        else if (_bestiary is not null && element == _bestiary)
+            Debug.WriteLine("you pressed bestiary!");
+    }
+
+    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
+    {
+        if (_keyList.Contains(eventArgs.Key))
+            return;
+        _keyList.Add(eventArgs.Key);
+        switch (eventArgs.Key)
+        {
+            case Keys.Enter:
+                Enabled = false;
+                Visible = false;
+                if (Game is Engine engine)
+                {
+                    engine.MainMenuScreen.Enabled = true;
+                    engine.MainMenuScreen.Visible = true;
+                }
+                break;
+            case Keys.Escape:
+                Game.Exit();
+                break;
+        }
+    }
+
+    public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
+    {
+        _keyList.Remove(eventArgs.Key);
     }
 }
