@@ -28,7 +28,7 @@ internal class MainMenu : DrawableGameComponent
         style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
 
         _system = new(Game, style);
-        var panel = new Panel(Anchor.Center, new Vector2(500, 100), new Vector2(0));
+        var panel = new Panel(Anchor.Center, new Vector2(350, 100), new Vector2(0));
         _system.Add("panel", panel);
         var newGame = new Button(
             Anchor.AutoCenter,
