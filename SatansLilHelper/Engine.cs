@@ -27,9 +27,12 @@ public class Engine : Game
     private SpriteBatch? _spriteBatch;
     private string _gamePath;
     private List<Keys> _keyList;
-    private readonly DrawableGameComponent titleScreen;
+    private readonly DrawableGameComponent titleScreen,
+        mainMenuScreen,
+        satanScreen;
 
     public DrawableGameComponent TitleScreen => titleScreen;
+    public DrawableGameComponent MainMenuScreen => mainMenuScreen;
 
     public Engine()
     {
@@ -45,8 +48,12 @@ public class Engine : Game
         );
         Directory.CreateDirectory(_gamePath);
         Debug.WriteLine("engine constructor");
-        titleScreen = new TitleScreen(this);
+        titleScreen = new TitleScreen(this) { Visible = false, Enabled = false };
         Components.Add(TitleScreen);
+        mainMenuScreen = new MainMenu(this) { Visible = false, Enabled = false };
+        Components.Add(mainMenuScreen);
+        satanScreen = new SatanFace(this) { Visible = false, Enabled = false };
+        Components.Add(satanScreen);
     }
 
     protected override void Initialize()
@@ -71,7 +78,10 @@ public class Engine : Game
         //Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
-        TitleScreen.Enabled = false;
+        TitleScreen.Visible = true;
+        TitleScreen.Enabled = true;
+        satanScreen.Enabled = true;
+        satanScreen.Visible = true;
     }
 
     private void SaveSettings()
@@ -93,10 +103,6 @@ public class Engine : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
-
-        // TODO: Add your drawing code here
-
         base.Draw(gameTime);
     }
 
