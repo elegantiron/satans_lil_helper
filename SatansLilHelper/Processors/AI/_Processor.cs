@@ -5,16 +5,16 @@ using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils.GameMaps;
 
-namespace SatansLilHelper.AI;
+namespace SatansLilHelper.Processors;
 
-internal static partial class TurnProcessor
+internal static partial class AI
 {
     public static EntityTurn Process(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {
-        EnemyType type = EnemyType.Wolf;
+        ActorID type = ActorID.Wolf;
         return type switch
         {
-            EnemyType.Wolf => Melee(entity, playerLoc, map, rng),
+            ActorID.Wolf => Melee(entity, playerLoc, map, rng),
             _ => Default(entity),
         };
     }

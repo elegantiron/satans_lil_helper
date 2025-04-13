@@ -8,26 +8,26 @@ namespace SatansLilHelper.Types;
 
 internal class Bestiary
 {
-    private readonly Dictionary<EnemyType, IKill> _kills;
+    private readonly Dictionary<ActorID, IKill> _kills;
 
     public Bestiary()
     {
         _kills = [];
     }
 
-    public void AddKill(EnemyType enemyType, bool isAlpha = false)
+    public void AddKill(ActorID enemyType, bool isAlpha = false)
     {
         if (_kills.TryGetValue(enemyType, out IKill? kill))
             kill.AddKill(isAlpha);
     }
 
-    public void RemoveKill(EnemyType enemyType, bool isAlpha = false)
+    public void RemoveKill(ActorID enemyType, bool isAlpha = false)
     {
         if (_kills.TryGetValue(enemyType, out IKill? kill))
             kill.RemoveKill(isAlpha);
     }
 
-    public bool GetStats(EnemyType enemyType, [MaybeNullWhen(false)] out IKill kill)
+    public bool GetStats(ActorID enemyType, [MaybeNullWhen(false)] out IKill kill)
     {
         return _kills.TryGetValue(enemyType, out kill);
     }

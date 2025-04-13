@@ -1,6 +1,6 @@
 ﻿namespace SatansLilHelper.Constants;
 
-internal enum EnemyType
+internal enum ActorID
 {
     None,
     Wolf,

@@ -10,9 +10,9 @@ using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
 
-namespace SatansLilHelper.AI;
+namespace SatansLilHelper.Processors;
 
-internal static partial class TurnProcessor
+internal static partial class AI
 {
     private static EntityTurn Melee(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {
