@@ -53,7 +53,7 @@ internal class TitleScreen : DrawableGameComponent
             _font,
             Properties.GameStrings.GameTitle,
             new Vector2((Game.GraphicsDevice.Viewport.Width - originVec.X) / 2, 25),
-            Color.White
+            Colors.AmericanRose
         );
         _spriteBatch?.End();
     }
