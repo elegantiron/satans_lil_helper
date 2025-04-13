@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using FontStashSharp;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Types;
@@ -14,71 +14,57 @@ namespace SatansLilHelper.GameComponents;
 
 internal class TitleScreen : DrawableGameComponent
 {
-    private List<Keys> _keyList;
-    public EventHandler<InputKeyEventArgs> _keyDown,
-        _keyUp;
+    private FontSystem _fontSystem;
+    private SpriteFontBase _font;
+    private SpriteBatch? _spriteBatch;
 
     public TitleScreen(Game game)
         : base(game)
     {
-        _keyList = [];
-        _keyDown = new(HandleKeyDown);
-        _keyUp = new(HandleKeyUp);
+        FontSystemSettings fontSettings = new()
+        {
+            FontResolutionFactor = 4.0f,
+            KernelHeight = 4,
+            KernelWidth = 4,
+        };
+        _fontSystem = new(fontSettings);
+        _fontSystem.AddFont(File.ReadAllBytes(@"Content/Fonts/FairyDustB.ttf"));
+        _font = _fontSystem.GetFont(125);
     }
 
     protected override void LoadContent()
     {
         base.LoadContent();
+        _spriteBatch = new(Game.GraphicsDevice);
     }
 
     public override void Initialize()
     {
         base.Initialize();
-        Game.Window.KeyDown += _keyDown;
-        Game.Window.KeyUp += _keyUp;
     }
 
     public override void Draw(GameTime gameTime)
     {
+        Game.GraphicsDevice.Clear(Color.Black);
         base.Draw(gameTime);
+        Vector2 originVec = _font.MeasureString(Properties.GameStrings.GameTitle);
+        _spriteBatch?.Begin();
+        _spriteBatch?.DrawString(
+            _font,
+            Properties.GameStrings.GameTitle,
+            new Vector2((Game.GraphicsDevice.Viewport.Width - originVec.X) / 2, 25),
+            Color.White
+        );
+        _spriteBatch?.End();
     }
 
     public override void Update(GameTime gameTime)
     {
-        Debug.WriteLine("title update");
         base.Update(gameTime);
     }
 
-    protected override void OnEnabledChanged(object sender, EventArgs args)
+    protected override void UnloadContent()
     {
-        base.OnEnabledChanged(sender, args);
-        if (Enabled)
-        {
-            Game.Window.KeyDown += _keyDown;
-            Game.Window.KeyUp += _keyUp;
-        }
-        else
-        {
-            Game.Window.KeyDown -= _keyDown;
-            Game.Window.KeyUp -= _keyUp;
-        }
-    }
-
-    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
-    {
-        if (_keyList.Contains(eventArgs.Key))
-            return;
-        _keyList.Add(eventArgs.Key);
-        switch (eventArgs.Key)
-        {
-            case Keys.Escape:
-                EventBus.Send(Events.QuitGame, new EventMessage());
-                break;
-        }
-    }
-
-    public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
-    {
-        _keyList.Remove(eventArgs.Key);
+        base.UnloadContent();
     }
 }
