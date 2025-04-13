@@ -6,6 +6,7 @@ using MLEM.Font;
 using MLEM.Ui;
 using MLEM.Ui.Elements;
 using MLEM.Ui.Style;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -20,21 +21,22 @@ internal class MainMenu : DrawableGameComponent
     protected override void LoadContent()
     {
         _spriteBatch = new(Game.GraphicsDevice);
-        var style = new UiStyle()
-        {
-            Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont)),
-        };
-        _system = new(
-            Game,
-            new UntexturedStyle(_spriteBatch)
-            {
-                Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont)),
-            }
-        );
-        var panel = new Panel(Anchor.Center, new Vector2(1280, 100), true, false, true);
+        var style = new UntexturedStyle(_spriteBatch);
+        style.Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont));
+        style.TooltipTextWidth = 250;
+        style.TextAlignment = MLEM.Formatting.TextAlignment.Center;
+        style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
+
+        _system = new(Game, style);
+        var panel = new Panel(Anchor.Center, new Vector2(500, 100), new Vector2(0));
         _system.Add("panel", panel);
-        var checkbox = new Checkbox(Anchor.AutoCenter, new Vector2(100, 100), "A checkbox");
-        panel.AddChild(checkbox);
+        var newGame = new Button(
+            Anchor.AutoCenter,
+            new Vector2(0.85f),
+            text: "Start a new Game",
+            tooltipText: "This is some help text"
+        );
+        panel.AddChild(newGame);
         base.LoadContent();
     }
 

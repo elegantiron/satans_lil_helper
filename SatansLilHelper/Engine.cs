@@ -27,7 +27,7 @@ public class Engine : Game
     private SpriteBatch? _spriteBatch;
     private string _gamePath;
     private List<Keys> _keyList;
-    private readonly DrawableGameComponent titleScreen,
+    private DrawableGameComponent titleScreen,
         mainMenuScreen,
         satanScreen;
 
@@ -49,16 +49,16 @@ public class Engine : Game
         Directory.CreateDirectory(_gamePath);
         Debug.WriteLine("engine constructor");
         titleScreen = new TitleScreen(this) { Visible = false, Enabled = false };
-        Components.Add(TitleScreen);
         mainMenuScreen = new MainMenu(this) { Visible = false, Enabled = false };
-        Components.Add(mainMenuScreen);
         satanScreen = new SatanFace(this) { Visible = false, Enabled = false };
+
+        Components.Add(titleScreen);
+        Components.Add(mainMenuScreen);
         Components.Add(satanScreen);
     }
 
     protected override void Initialize()
     {
-        base.Initialize();
         IConfigurationRoot config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             //.AddJsonFile(_gamePath + "settings.json", true)
@@ -78,10 +78,12 @@ public class Engine : Game
         //Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
+
         TitleScreen.Visible = true;
         TitleScreen.Enabled = true;
         satanScreen.Enabled = true;
         satanScreen.Visible = true;
+        base.Initialize();
     }
 
     private void SaveSettings()
@@ -93,6 +95,7 @@ public class Engine : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        base.LoadContent();
     }
 
     protected override void Update(GameTime gameTime)
