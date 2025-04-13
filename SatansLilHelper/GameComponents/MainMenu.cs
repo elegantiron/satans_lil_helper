@@ -5,9 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MLEM.Font;
+using MLEM.Textures;
 using MLEM.Ui;
 using MLEM.Ui.Elements;
 using MLEM.Ui.Style;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
@@ -28,12 +30,27 @@ internal class MainMenu : DrawableGameComponent
 
     protected override void LoadContent()
     {
+        float BUTTON_HEIGHT = 55;
+        float BUTTON_WIDTH = 0.73f;
         _spriteBatch = new(Game.GraphicsDevice);
         var style = new UntexturedStyle(_spriteBatch);
         style.Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont));
+        style.TextColor = Colors.Black;
         style.TooltipTextWidth = 250;
         style.TextAlignment = MLEM.Formatting.TextAlignment.Center;
+        style.PanelTexture = new NinePatch(
+            new TextureRegion(
+                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
+            ),
+            0f
+        );
         style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
+        style.ButtonTexture = new NinePatch(
+            new TextureRegion(
+                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+            ),
+            0f
+        );
 
         _system = new(Game, style);
         var panel = new Panel(Anchor.Center, new Vector2(550, 100), new Vector2(0));
@@ -41,13 +58,19 @@ internal class MainMenu : DrawableGameComponent
         _system.Add("panel", panel);
         _newGame = new(
             Anchor.AutoCenter,
-            new Vector2(0.65f, 45),
+            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
             text: Properties.GameStrings.NewGame
+        );
+        _newGame.Texture = new NinePatch(
+            new TextureRegion(
+                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+            ),
+            0f
         );
         _newGame.OnPressed = HandleButtonPress;
         _bestiary = new(
             Anchor.AutoCenter,
-            new Vector2(0.65f, 45),
+            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
             Properties.GameStrings.ViewBestiary
         )
         {

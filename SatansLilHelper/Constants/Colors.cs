@@ -6,6 +6,7 @@ public static class Colors
 {
     // Our colors
     public static readonly Color Impossible = new(0x80, 0x80, 0x80);
+    public static readonly Color Black = new(0x00, 0x00, 0x00, 0xFF);
     public static readonly Color PlayerAttack = new(0xFF, 0x90, 0xFF, 0xFF);
     public static readonly Color EnemyAttack = new(0xFF, 0x70, 0x70, 0xFF);
     public static readonly Color AmericanRose = new(0xFF, 0x03, 0x3E, 0xFF);
