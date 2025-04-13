@@ -1,7 +1,5 @@
 ﻿using System;
-
 using Friflo.Engine.ECS;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -38,10 +36,9 @@ internal static class EntityCalcs
 
     public static decimal GetDamageFactor(IRandom rng, Entity attacker, Entity target)
     {
-        //throw new NotImplementedException();
-        if (!attacker.TryGetComponent<Level>(out Level attackerLevel))
+        if (!attacker.TryGetComponent(out Level attackerLevel))
             throw new Exceptions.MissingComponentException();
-        if (!target.TryGetComponent<Level>(out Level targetLevel))
+        if (!target.TryGetComponent(out Level targetLevel))
             throw new Exceptions.MissingComponentException();
         int crit = GetStat(attacker, AbilityID.Crit);
         uint roll = rng.Next(1, 100);
@@ -60,8 +57,8 @@ internal static class EntityCalcs
     public static int GetDamage(IRandom rng, Entity attacker, Entity target)
     {
         decimal factor = GetDamageFactor(rng, attacker, target);
-        if (!attacker.TryGetComponent<Attack>(out Attack attack))
-            throw new Exceptions.MissingComponentException();
+
+        Attack attack = GetAttack(attacker);
         int damage = 0;
         for (int i = 0; i < attack.Dice; i++)
             damage += (int)rng.Next(1, attack.Sides);
@@ -90,5 +87,21 @@ internal static class EntityCalcs
     private static int GetTotal(decimal growth, uint level)
     {
         return (int)(growth * (level - 1));
+    }
+
+    private static Attack GetAttack(Entity attacker)
+    {
+        Attack atkComp = new(0, 0);
+        Attack fromItem = default;
+
+        EntityLinks<Equipper> entities = attacker.GetIncomingLinks<Equipper>();
+        foreach (Entity ent in entities.Entities)
+            if (ent.TryGetComponent(out fromItem))
+                break;
+        if (fromItem.Dice != 0 && fromItem.Sides != 0)
+            atkComp = fromItem;
+        else if (attacker.TryGetComponent(out Attack result))
+            atkComp = result;
+        return atkComp;
     }
 }

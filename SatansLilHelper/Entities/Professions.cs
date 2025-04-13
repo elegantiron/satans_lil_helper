@@ -59,6 +59,7 @@ internal static class Professions
         #endregion Ability Stats
 
         #region Starting gear
+        Items.RustySword(entity.Store.CreateEntity(), entity, true);
         Items.HealthPotion(entity.Store.CreateEntity(), entity);
         #endregion starting gear
 

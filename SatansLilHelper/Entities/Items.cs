@@ -36,4 +36,24 @@ internal static class Items
 
         return entity;
     }
+
+    public static Entity RustySword(Entity entity)
+    {
+        entity.Add(
+            new EntityName("Rusty Sword"),
+            new ItemSlots(ItemType.Weapon1H),
+            new Attack(1, 6),
+            Tags.Get<Item, Equippable>()
+        );
+        return entity;
+    }
+
+    public static Entity RustySword(Entity entity, Entity holder, bool equipped = false)
+    {
+        RustySword(entity);
+        entity.Add(new Inventory(holder));
+        if (equipped)
+            entity.Add(new Equipper(holder));
+        return entity;
+    }
 }

@@ -53,7 +53,7 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
             size / 2
         );
 
-        Vector2 textDest = new(shadeShape.X + 25, shadeShape.Y + (2.5f * size.Y));
+        Vector2 textDest = new(shadeShape.X + 50, shadeShape.Y + (2.5f * size.Y));
         EntityLinks<TComponent> entities = _parent.CurrentMap.Player.GetIncomingLinks<TComponent>();
 
         if (_index < 0)

@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Exceptions;
@@ -36,24 +33,31 @@ internal class MeleeAction : ActionWithDirection, IMessageSender, IAttackAction
             _preState = _twister.GetState();
 
             _damage = EntityCalcs.GetDamage(_twister, _entity, targetEnt);
-            _messages.Add(
-                new(
-                    string.Format(GameStrings.PlayerAttack, _targetName, _damage),
-                    Constants.Colors.PlayerAttack
-                )
-            );
-            if (_damage >= targetEnt.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur)
-            {
-                _isKill = true;
+            if (isPlayer)
                 _messages.Add(
                     new(
-                        string.Format(GameStrings.EnemyDeath, _targetName),
+                        string.Format(GameStrings.PlayerAttack, _targetName, _damage),
                         Constants.Colors.PlayerAttack
                     )
                 );
-                _messages.Add(
-                    new(string.Format(GameStrings.GainExperience, 5), Constants.Colors.AmericanRose)
-                );
+            if (_damage >= targetEnt.GetRelation<AbilityStat, AbilityID>(AbilityID.Health).Cur)
+            {
+                _isKill = true;
+                if (isPlayer)
+                {
+                    _messages.Add(
+                        new(
+                            string.Format(GameStrings.EnemyDeath, _targetName),
+                            Constants.Colors.PlayerAttack
+                        )
+                    );
+                    _messages.Add(
+                        new(
+                            string.Format(GameStrings.GainExperience, 5),
+                            Constants.Colors.AmericanRose
+                        )
+                    );
+                }
             }
             _postState = _twister.GetState();
         }

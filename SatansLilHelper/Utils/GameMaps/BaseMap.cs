@@ -46,8 +46,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         if (makePlayer)
         {
             player = registry.CreateEntity();
-            player.AddComponent(new EntityName("Player"));
             Professions.Warrior(player);
+            player.AddComponent(new EntityName("Player"));
+            player.AddComponent(new TextureIndex(TextureID.Player));
         }
         tiles = new Tile[this.mapSize.X, this.mapSize.Y];
         GenerateMap(this.mapSize);
@@ -61,7 +62,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         GetBlockingEntities = registry.Query<Location>().AllTags(Tags.Get<Blocking>());
         GetDrawableEntities = registry
             .Query<Location, TextureIndex>()
-            .WithoutAnyTags(Tags.Get<Invisible, Player>());
+            .WithoutAnyTags(Tags.Get<Invisible>());
         GetActors = registry.Query<Location>().AllTags(Tags.Get<Actor>());
         #endregion Queries
 
@@ -131,12 +132,6 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
         spriteBatch.Begin(transformMatrix: camera.View);
         DrawTiles(spriteBatch, textureMap);
         DrawEntities(spriteBatch, textureMap);
-        Location playerLoc = player.GetComponent<Location>();
-        spriteBatch.Draw(
-            textureMap[TextureID.Player],
-            new Vector2(playerLoc.X * 32, playerLoc.Y * 32),
-            Color.White
-        );
         spriteBatch.End();
         camera.ResetViewport();
     }
@@ -153,7 +148,9 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             for (int j = 0; j < tiles.GetLength(1); j++)
             {
                 if (!tiles[i, j].Explored)
-                    continue;
+                {
+                    //continue;
+                }
                 spriteTarget.Y = j * 32;
                 spriteBatch.Draw(
                     textureMap[tiles[i, j].Texture],
@@ -174,7 +171,7 @@ internal abstract class BaseMap : ICellGrid, Interfaces.IDrawable
             index = entity.GetComponent<TextureIndex>();
             entityLocation = entity.GetComponent<Location>();
 
-            Vector2 center = new(16);
+            Vector2 center = new(0);
             spriteBatch.Draw(
                 textureMap[index.Index],
                 new Vector2(entityLocation.X * 32, entityLocation.Y * 32),

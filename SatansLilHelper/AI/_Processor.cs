@@ -1,5 +1,4 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
@@ -8,7 +7,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.AI;
 
-internal static partial class Processor
+internal static partial class TurnProcessor
 {
     public static EntityTurn Process(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {

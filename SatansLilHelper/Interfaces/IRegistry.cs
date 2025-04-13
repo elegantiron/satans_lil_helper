@@ -1,7 +1,5 @@
 ﻿using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
 using SatansLilHelper.AI;
 using SatansLilHelper.Components;
 using SatansLilHelper.Utils;
@@ -23,7 +21,7 @@ internal interface IRegistry
         while (!IsPlayerNext)
         {
             Entity entity = GetNextActor();
-            ActionStack.AddAction(Processor.Process(entity, playerLoc, CurrentMap, Generator));
+            ActionStack.AddAction(TurnProcessor.Process(entity, playerLoc, CurrentMap, Generator));
         }
     }
 }

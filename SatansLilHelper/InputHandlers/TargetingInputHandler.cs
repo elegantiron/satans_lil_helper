@@ -22,7 +22,6 @@ internal class TargetingInputHandler : IInputHandler
     private GameInputHandler _parent;
     private int _range;
     private int _radius;
-    private int _rangeSquared;
     private Entity _entity;
     private Point _center,
         _offset;
@@ -38,9 +37,8 @@ internal class TargetingInputHandler : IInputHandler
         Location center = _parent.CurrentMap.Player.GetComponent<Location>();
         _center = new(center.X, center.Y);
         _offset = Point.Zero;
-        _range = targetable.GetComponent<Components.Range>().Value;
-        _radius = targetable.GetComponent<Radius>().Value;
-        _rangeSquared = _range * _range;
+        _range = _entity.GetComponent<Components.Range>().Value;
+        _radius = _entity.GetComponent<Radius>().Value;
     }
 
     public void Draw(
@@ -177,6 +175,8 @@ internal class TargetingInputHandler : IInputHandler
                 break;
             case Keys.Escape:
                 return _parent;
+            case Keys.Enter:
+                break;
         }
         if (
             points.Exists(

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
 using SatansLilHelper.Actions;
 using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
@@ -15,7 +12,7 @@ using SatansLilHelper.Utils.GameMaps;
 
 namespace SatansLilHelper.AI;
 
-internal static partial class Processor
+internal static partial class TurnProcessor
 {
     private static EntityTurn Melee(Entity entity, Location playerLoc, BaseMap map, IRandom rng)
     {
