@@ -19,13 +19,18 @@ internal class MainMenu : DrawableGameComponent
     private UiSystem? _system;
     private SpriteBatch? _spriteBatch;
     private Button? _newGame,
-        _bestiary;
+        _bestiary,
+        _quit;
     private List<Keys> _keyList;
+    private EventHandler<InputKeyEventArgs> _keyDown,
+        _keyUp;
 
     public MainMenu(Game game)
         : base(game)
     {
         _keyList = [];
+        _keyDown = new(HandleKeyDown);
+        _keyUp = new(HandleKeyUp);
     }
 
     protected override void LoadContent()
@@ -72,12 +77,22 @@ internal class MainMenu : DrawableGameComponent
         {
             OnPressed = HandleButtonPress,
         };
+        _quit = new(
+            Anchor.AutoCenter,
+            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
+            Properties.GameStrings.ToDesktop
+        )
+        {
+            OnPressed = HandleButtonPress,
+        };
         panel.AddChild(new Paragraph(Anchor.AutoCenter, 0.75f, "Main Menu"));
-        panel.AddChild(new VerticalSpace(25));
+        panel.AddChild(new VerticalSpace(15));
         panel.AddChild(_newGame);
         panel.AddChild(new VerticalSpace(5));
         panel.AddChild(_bestiary);
         panel.AddChild(new VerticalSpace(5));
+        panel.AddChild(_quit);
+        panel.AddChild(new VerticalSpace(35));
         base.LoadContent();
     }
 
@@ -98,6 +113,16 @@ internal class MainMenu : DrawableGameComponent
     protected override void OnEnabledChanged(object sender, EventArgs args)
     {
         base.OnEnabledChanged(sender, args);
+        if (Enabled)
+        {
+            Game.Window.KeyDown += _keyDown;
+            Game.Window.KeyUp += _keyUp;
+        }
+        else
+        {
+            Game.Window.KeyDown -= _keyDown;
+            Game.Window.KeyUp -= _keyUp;
+        }
     }
 
     private void HandleButtonPress(Element element)
@@ -115,17 +140,14 @@ internal class MainMenu : DrawableGameComponent
         _keyList.Add(eventArgs.Key);
         switch (eventArgs.Key)
         {
-            case Keys.Enter:
-                Enabled = false;
-                Visible = false;
+            case Keys.Escape:
                 if (Game is Engine engine)
                 {
-                    engine.MainMenuScreen.Enabled = true;
-                    engine.MainMenuScreen.Visible = true;
+                    engine.SatanScreen.Enabled = true;
+                    engine.SatanScreen.Visible = true;
+                    Enabled = false;
+                    Visible = false;
                 }
-                break;
-            case Keys.Escape:
-                Game.Exit();
                 break;
         }
     }
