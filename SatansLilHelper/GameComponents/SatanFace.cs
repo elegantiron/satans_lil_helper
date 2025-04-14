@@ -29,17 +29,20 @@ internal class SatanFace : DrawableGameComponent
         _keyUp = new(HandleKeyUp);
     }
 
-    protected override void OnEnabledChanged(object sender, EventArgs args)
+    protected override void OnEnabledChanged(object sender, EventArgs args) { }
+
+    public override void Update(GameTime gameTime)
     {
-        if (Enabled)
+        if (Game is Engine engine)
         {
-            Game.Window.KeyDown += _keyDown;
-            Game.Window.KeyUp += _keyUp;
-        }
-        else
-        {
-            Game.Window.KeyDown -= _keyDown;
-            Game.Window.KeyUp -= _keyUp;
+            engine.Handler.Update(gameTime);
+            if (engine.Handler.TryConsumePressed(Keys.Enter))
+            {
+                Enabled = false;
+                Visible = false;
+                engine.MainMenuScreen.Visible = true;
+                engine.MainMenuScreen.Enabled = true;
+            }
         }
     }
 
