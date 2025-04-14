@@ -33,6 +33,7 @@ public class Engine : Game
 
     public DrawableGameComponent TitleScreen => titleScreen;
     public DrawableGameComponent MainMenuScreen => mainMenuScreen;
+    public DrawableGameComponent SatanScreen => satanScreen;
 
     public Engine()
     {
