@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,7 +22,8 @@ internal class MainMenu : DrawableGameComponent
     private SpriteBatch? _spriteBatch;
     private Button? _newGame,
         _bestiary,
-        _quit;
+        _quit,
+        _continue;
     private List<Keys> _keyList;
     private EventHandler<InputKeyEventArgs> _keyDown,
         _keyUp;
@@ -38,37 +41,56 @@ internal class MainMenu : DrawableGameComponent
         float BUTTON_HEIGHT = 55;
         float BUTTON_WIDTH = 0.73f;
         _spriteBatch = new(Game.GraphicsDevice);
-        var style = new UntexturedStyle(_spriteBatch);
-        style.Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont));
-        style.TextColor = Colors.Black;
-        style.TooltipTextWidth = 250;
-        style.TextAlignment = MLEM.Formatting.TextAlignment.Center;
-        style.PanelTexture = new NinePatch(
-            new TextureRegion(
-                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
+        var style = new UntexturedStyle(_spriteBatch)
+        {
+            Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont)),
+            TextColor = Colors.Black,
+            TooltipTextWidth = 250,
+            TextAlignment = MLEM.Formatting.TextAlignment.Center,
+            PanelTexture = new NinePatch(
+                new TextureRegion(
+                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
+                ),
+                8f,
+                NinePatchMode.Tile
             ),
-            8f,
-            NinePatchMode.Tile
-        );
-        style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
-        style.ButtonTexture = new NinePatch(
-            new TextureRegion(
-                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+            TooltipDelay = new TimeSpan(0, 0, 0, 0, 350),
+            ButtonTexture = new NinePatch(
+                new TextureRegion(
+                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+                ),
+                8f,
+                NinePatchMode.Tile
             ),
-            8f,
-            NinePatchMode.Tile
-        );
+            SelectionIndicator = new NinePatch(
+                new TextureRegion(
+                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_border_grey_detail")
+                ),
+                19f,
+                NinePatchMode.Tile
+            ),
+        };
 
-        _system = new(Game, style);
-        var panel = new Panel(Anchor.Center, new Vector2(550, 100), new Vector2(0));
-        panel.SetHeightBasedOnChildren = true;
+        // Set up the UI System
+        _system = new(Game, style, Game is Engine engine ? engine.Handler : null);
+        _system.Controls.DownButtons.Add(Keys.Down);
+        _system.Controls.UpButtons.Add(Keys.Up);
+        _system.Controls.KeyboardButtons.Add(Keys.Enter);
+
+        // Set up the components of the UI System
+        Panel panel = new(Anchor.Center, new Vector2(550, 100), new Vector2(0))
+        {
+            SetHeightBasedOnChildren = true,
+        };
         _system.Add("panel", panel);
         _newGame = new(
             Anchor.AutoCenter,
             new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
             text: Properties.GameStrings.NewGame
-        );
-        _newGame.OnPressed = HandleButtonPress;
+        )
+        {
+            OnPressed = HandleButtonPress,
+        };
         _bestiary = new(
             Anchor.AutoCenter,
             new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
@@ -98,8 +120,13 @@ internal class MainMenu : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        _system?.Update(gameTime);
-        base.Update(gameTime);
+        if (Game is Engine engine)
+        {
+            engine.Handler.Update(gameTime);
+            _system?.Update(gameTime);
+            if (engine.Handler.TryConsumePressed(Keys.Escape))
+                Game.Exit();
+        }
     }
 
     public override void Draw(GameTime gameTime)
@@ -113,24 +140,27 @@ internal class MainMenu : DrawableGameComponent
     protected override void OnEnabledChanged(object sender, EventArgs args)
     {
         base.OnEnabledChanged(sender, args);
-        if (Enabled)
-        {
-            Game.Window.KeyDown += _keyDown;
-            Game.Window.KeyUp += _keyUp;
-        }
-        else
-        {
-            Game.Window.KeyDown -= _keyDown;
-            Game.Window.KeyUp -= _keyUp;
-        }
     }
 
     private void HandleButtonPress(Element element)
     {
         if (_newGame is not null && element == _newGame)
-            Debug.WriteLine("you pressed new game!");
-        else if (_bestiary is not null && element == _bestiary)
-            Debug.WriteLine("you pressed bestiary!");
+        {
+            if (Game is Engine engine)
+            {
+                engine.GameScreen.NewGame();
+                engine.GameScreen.Enabled = true;
+                engine.GameScreen.Visible = true;
+                engine.TitleScreen.Visible = false;
+                engine.TitleScreen.Enabled = false;
+                Enabled = false;
+                Visible = false;
+            }
+        }
+        else if (_continue is not null && element == _continue) { }
+        else if (_bestiary is not null && element == _bestiary) { }
+        else if (_quit is not null && element == _quit)
+            Game.Exit();
     }
 
     public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
@@ -138,18 +168,6 @@ internal class MainMenu : DrawableGameComponent
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
-        switch (eventArgs.Key)
-        {
-            case Keys.Escape:
-                if (Game is Engine engine)
-                {
-                    engine.SatanScreen.Enabled = true;
-                    engine.SatanScreen.Visible = true;
-                    Enabled = false;
-                    Visible = false;
-                }
-                break;
-        }
     }
 
     public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
