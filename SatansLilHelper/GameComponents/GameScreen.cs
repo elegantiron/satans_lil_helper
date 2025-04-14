@@ -10,6 +10,7 @@ using Friflo.Json.Fliox.Transform;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
@@ -52,10 +53,10 @@ internal class GameScreen : DrawableGameComponent
                 Debug.WriteLine("sprite batch");
             if (_camera is null)
                 Debug.WriteLine("camera");
-            Game.GraphicsDevice.Clear(Color.Black);
+            Game.GraphicsDevice.Clear(Colors.CornflowerBlue);
             return;
         }
-        Game.GraphicsDevice.Clear(Colors.CornflowerBlue);
+        Game.GraphicsDevice.Clear(Colors.Black);
         _spriteBatch.Begin(transformMatrix: _camera.View);
         for (int i = 0; i < _gameWorld.CurrentMap.Tiles.GetLength(0); i++)
         {
@@ -81,7 +82,9 @@ internal class GameScreen : DrawableGameComponent
     protected override void LoadContent()
     {
         _spriteBatch = new(Game.GraphicsDevice);
+
         _textures.Add(TextureID.ForestFloor, Game.Content.Load<Texture2D>(FilePaths.ForestFloor));
+        _textures.Add(TextureID.ForestWall, Game.Content.Load<Texture2D>(FilePaths.ForestWall));
         IVirtualViewport defaultViewport = new DefaultViewport(Game.GraphicsDevice, Game.Window);
         _camera = new(defaultViewport);
         base.LoadContent();
@@ -91,5 +94,10 @@ internal class GameScreen : DrawableGameComponent
     {
         _gameWorld = new(new MersenneTwister(), new Point(100, 100));
         _playerTurn = new(_gameWorld.CurrentMap.Player);
+        Location playerLoc = _gameWorld.CurrentMap.Player.GetComponent<Location>();
+        if (_camera != null)
+        {
+            _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
+        }
     }
 }
