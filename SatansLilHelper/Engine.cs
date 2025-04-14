@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using MLEM.Input;
 using Newtonsoft.Json;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
@@ -21,19 +22,24 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper;
 
-public class Engine : Game
+internal class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch? _spriteBatch;
     private string _gamePath;
     private List<Keys> _keyList;
-    private DrawableGameComponent titleScreen,
-        mainMenuScreen,
-        satanScreen;
+    private GameScreen _gameScreen;
+    private TitleScreen _titleScreen;
+    private MainMenu _mainMenuScreen;
+    private SatanFace _satanScreen;
 
-    public DrawableGameComponent TitleScreen => titleScreen;
-    public DrawableGameComponent MainMenuScreen => mainMenuScreen;
-    public DrawableGameComponent SatanScreen => satanScreen;
+    private InputHandler _handler;
+
+    public InputHandler Handler => _handler;
+    public GameScreen GameScreen => _gameScreen;
+    public TitleScreen TitleScreen => _titleScreen;
+    public MainMenu MainMenuScreen => _mainMenuScreen;
+    public SatanFace SatanScreen => _satanScreen;
 
     public Engine()
     {
@@ -49,13 +55,16 @@ public class Engine : Game
         );
         Directory.CreateDirectory(_gamePath);
         Debug.WriteLine("engine constructor");
-        titleScreen = new TitleScreen(this) { Visible = false, Enabled = false };
-        mainMenuScreen = new MainMenu(this) { Visible = false, Enabled = false };
-        satanScreen = new SatanFace(this) { Visible = false, Enabled = false };
+        _titleScreen = new TitleScreen(this) { Visible = false, Enabled = false };
+        _mainMenuScreen = new MainMenu(this) { Visible = false, Enabled = false };
+        _satanScreen = new SatanFace(this) { Visible = false, Enabled = false };
+        _gameScreen = new GameScreen(this) { Visible = false, Enabled = false };
 
-        Components.Add(titleScreen);
-        Components.Add(mainMenuScreen);
-        Components.Add(satanScreen);
+        Components.Add(_titleScreen);
+        Components.Add(_mainMenuScreen);
+        Components.Add(_satanScreen);
+        Components.Add(_gameScreen);
+        _handler = new(this);
     }
 
     protected override void Initialize()
@@ -75,15 +84,13 @@ public class Engine : Game
         _graphics.ApplyChanges();
 
         Window.Title = Properties.GameStrings.GameTitle;
-        //Window.KeyDown += new EventHandler<InputKeyEventArgs>(HandleKeyDown);
-        //Window.KeyUp += new EventHandler<InputKeyEventArgs>(HandleKeyUp);
 
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
 
         TitleScreen.Visible = true;
         TitleScreen.Enabled = true;
-        satanScreen.Enabled = true;
-        satanScreen.Visible = true;
+        _satanScreen.Enabled = true;
+        _satanScreen.Visible = true;
         base.Initialize();
     }
 
@@ -110,14 +117,14 @@ public class Engine : Game
         base.Draw(gameTime);
     }
 
-    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
+    public void HandleKeyDown(object? _, InputKeyEventArgs eventArgs)
     {
         if (_keyList.Contains(eventArgs.Key))
             return;
         _keyList.Add(eventArgs.Key);
     }
 
-    public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
+    public void HandleKeyUp(object? _, InputKeyEventArgs eventArgs)
     {
         _keyList.Remove(eventArgs.Key);
     }
