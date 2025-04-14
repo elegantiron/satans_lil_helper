@@ -42,14 +42,16 @@ internal class MainMenu : DrawableGameComponent
             new TextureRegion(
                 Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
             ),
-            0f
+            8f,
+            NinePatchMode.Tile
         );
         style.TooltipDelay = new TimeSpan(0, 0, 0, 0, 350);
         style.ButtonTexture = new NinePatch(
             new TextureRegion(
                 Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
             ),
-            0f
+            8f,
+            NinePatchMode.Tile
         );
 
         _system = new(Game, style);
@@ -60,12 +62,6 @@ internal class MainMenu : DrawableGameComponent
             Anchor.AutoCenter,
             new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
             text: Properties.GameStrings.NewGame
-        );
-        _newGame.Texture = new NinePatch(
-            new TextureRegion(
-                Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
-            ),
-            0f
         );
         _newGame.OnPressed = HandleButtonPress;
         _bestiary = new(
