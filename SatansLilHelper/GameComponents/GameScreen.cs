@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Apos.Camera;
+using FontStashSharp.RichText;
+using Friflo.Engine.ECS;
 using Friflo.Json.Fliox.Transform;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -69,7 +71,18 @@ internal class GameScreen : DrawableGameComponent
                 );
             }
         }
-
+        var query = _gameWorld.CurrentMap.Registry.Query<Location, TextureIndex>();
+        //.AllTags(Tags.Get<Visible>());
+        foreach (Entity ent in query.Entities)
+        {
+            Location entLoc = ent.GetComponent<Location>();
+            TextureIndex entIndex = ent.GetComponent<TextureIndex>();
+            _spriteBatch.Draw(
+                _textures[entIndex.Index],
+                new Vector2(entLoc.X * 32, entLoc.Y * 32),
+                Colors.White
+            );
+        }
         _spriteBatch.End();
     }
 
@@ -85,6 +98,7 @@ internal class GameScreen : DrawableGameComponent
 
         _textures.Add(TextureID.ForestFloor, Game.Content.Load<Texture2D>(FilePaths.ForestFloor));
         _textures.Add(TextureID.ForestWall, Game.Content.Load<Texture2D>(FilePaths.ForestWall));
+        _textures.Add(TextureID.Player, Game.Content.Load<Texture2D>(FilePaths.Player));
         IVirtualViewport defaultViewport = new DefaultViewport(Game.GraphicsDevice, Game.Window);
         _camera = new(defaultViewport);
         base.LoadContent();
