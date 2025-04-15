@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Apos.Camera;
-using FontStashSharp.RichText;
 using Friflo.Engine.ECS;
-using Friflo.Json.Fliox.Transform;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
-using SatansLilHelper.Interfaces;
-using SatansLilHelper.Types;
-using SatansLilHelper.Utils;
+using SatansLilHelper.Extensions;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -33,15 +24,24 @@ internal class GameScreen : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        if (_camera is null)
+        if (_camera is null || Game is not Engine engine)
             return;
-        if (Game is Engine engine)
+
+        engine.Handler.Update(gameTime);
+        Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
+        _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
+        engine.World.CurrentMap.UpdatePlayerVision();
+        if (engine.Handler.TryConsumePressed(Keys.Escape))
         {
-            engine.Handler.Update(gameTime);
-            Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
-            _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
+            Enabled = false;
+            engine.PauseMenu.Enabled = true;
+            engine.PauseMenu.Visible = true;
         }
-        //Debug.WriteLine(DrawOrder);
+
+        if (engine.World.CurrentMap.IsPlayerNext)
+            ProcessPlayerTurn();
+        else
+            ProcessNPCTurns();
     }
 
     public override void Draw(GameTime gameTime)
@@ -70,11 +70,14 @@ internal class GameScreen : DrawableGameComponent
         foreach (Entity ent in query.Entities)
         {
             Location entLoc = ent.GetComponent<Location>();
+            if (!engine.World.CurrentMap.Tiles[entLoc.X, entLoc.Y].Visible)
+                continue;
             TextureIndex entIndex = ent.GetComponent<TextureIndex>();
             _spriteBatch.Draw(
                 _textures[entIndex.Index],
                 new Vector2(entLoc.X * 32, entLoc.Y * 32),
-                Colors.White
+                Colors.White,
+                new Vector2(16)
             );
         }
     }
@@ -87,10 +90,15 @@ internal class GameScreen : DrawableGameComponent
         {
             for (int j = 0; j < engine.World.CurrentMap.Tiles.GetLength(1); j++)
             {
+                if (!engine.World.CurrentMap.Tiles[i, j].Explored)
+                {
+                    //continue;
+                }
                 _spriteBatch.Draw(
                     _textures[engine.World.CurrentMap.Tiles[i, j].Texture],
                     new Vector2(i * 32, j * 32),
-                    Colors.White
+                    engine.World.CurrentMap.Tiles[i, j].Visible ? Colors.White : Colors.DeadActor,
+                    new Vector2(16)
                 );
             }
         }
@@ -112,4 +120,8 @@ internal class GameScreen : DrawableGameComponent
         _camera = new(defaultViewport);
         base.LoadContent();
     }
+
+    private void ProcessPlayerTurn() { }
+
+    private void ProcessNPCTurns() { }
 }
