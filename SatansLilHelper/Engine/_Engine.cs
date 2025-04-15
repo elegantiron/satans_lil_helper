@@ -34,6 +34,7 @@ internal partial class Engine : Game
     private SatanFace _satanScreen;
     private StatusWindow _statusScreen;
     private PlayerTurn _playerTurn;
+    private PauseMenu _pauseMenu;
 
     private InputHandler _handler;
 
@@ -44,6 +45,7 @@ internal partial class Engine : Game
     public SatanFace SatanScreen => _satanScreen;
     public StatusWindow StatusScreen => _statusScreen;
     public PlayerTurn PlayerTurn => _playerTurn;
+    public PauseMenu PauseMenu => _pauseMenu;
 
     public Engine()
     {
@@ -64,12 +66,14 @@ internal partial class Engine : Game
         _satanScreen = new(this) { Visible = false, Enabled = false };
         _gameScreen = new(this) { Visible = false, Enabled = false };
         _statusScreen = new(this) { Visible = false, Enabled = false };
+        _pauseMenu = new(this) { Visible = false, Enabled = false };
 
         Components.Add(_titleScreen);
         Components.Add(_mainMenuScreen);
         Components.Add(_satanScreen);
         Components.Add(_gameScreen);
         Components.Add(_statusScreen);
+        Components.Add(_pauseMenu);
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
         _playerTurn = new(_gameWorld.Player);
@@ -91,6 +95,7 @@ internal partial class Engine : Game
         _graphics.SynchronizeWithVerticalRetrace = true;
         _graphics.ApplyChanges();
 
+        Window.Position = new Point(4000, 1080 - 720 / 2);
         Window.Title = Properties.GameStrings.GameTitle;
 
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
