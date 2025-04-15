@@ -21,9 +21,6 @@ namespace SatansLilHelper.GameComponents;
 
 internal class GameScreen : DrawableGameComponent
 {
-    private GameWorld? _gameWorld;
-    private MessageLog _messageLog;
-    private PlayerTurn? _playerTurn;
     private SpriteBatch? _spriteBatch;
     private Camera? _camera;
     private Dictionary<TextureID, Texture2D> _textures;
@@ -32,47 +29,44 @@ internal class GameScreen : DrawableGameComponent
         : base(game)
     {
         _textures = [];
-        _messageLog = new();
     }
 
     public override void Update(GameTime gameTime)
     {
+        if (_camera is null)
+            return;
         if (Game is Engine engine)
         {
             engine.Handler.Update(gameTime);
+            Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
+            _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
         }
+        //Debug.WriteLine(DrawOrder);
     }
 
     public override void Draw(GameTime gameTime)
     {
-        if (_gameWorld is null || _playerTurn is null || _spriteBatch is null || _camera is null)
-        {
-            if (_gameWorld is null)
-                Debug.WriteLine("gameworld");
-            if (_playerTurn is null)
-                Debug.WriteLine("player turn");
-            if (_spriteBatch is null)
-                Debug.WriteLine("sprite batch");
-            if (_camera is null)
-                Debug.WriteLine("camera");
-            Game.GraphicsDevice.Clear(Colors.CornflowerBlue);
+        if (_spriteBatch is null || _camera is null)
             return;
-        }
-        Game.GraphicsDevice.Clear(Colors.Black);
+        _camera.SetViewport();
         _spriteBatch.Begin(transformMatrix: _camera.View);
-        for (int i = 0; i < _gameWorld.CurrentMap.Tiles.GetLength(0); i++)
+        if (Game is Engine engine)
         {
-            for (int j = 0; j < _gameWorld.CurrentMap.Tiles.GetLength(1); j++)
-            {
-                _spriteBatch.Draw(
-                    _textures[_gameWorld.CurrentMap.Tiles[i, j].Texture],
-                    new Vector2(i * 32, j * 32),
-                    Colors.White
-                );
-            }
+            DrawTiles(engine);
+            DrawEntities(engine);
         }
-        var query = _gameWorld.CurrentMap.Registry.Query<Location, TextureIndex>();
-        //.AllTags(Tags.Get<Visible>());
+        _spriteBatch.End();
+        _camera.ResetViewport();
+    }
+
+    private void DrawEntities(Engine engine)
+    {
+        if (_spriteBatch is null)
+            return;
+
+        var query = engine
+            .World.CurrentMap.Registry.Query<Location, TextureIndex>()
+            .AllTags(Tags.Get<Visible>());
         foreach (Entity ent in query.Entities)
         {
             Location entLoc = ent.GetComponent<Location>();
@@ -83,12 +77,27 @@ internal class GameScreen : DrawableGameComponent
                 Colors.White
             );
         }
-        _spriteBatch.End();
+    }
+
+    private void DrawTiles(Engine engine)
+    {
+        if (_spriteBatch is null)
+            return;
+        for (int i = 0; i < engine.World.CurrentMap.Tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < engine.World.CurrentMap.Tiles.GetLength(1); j++)
+            {
+                _spriteBatch.Draw(
+                    _textures[engine.World.CurrentMap.Tiles[i, j].Texture],
+                    new Vector2(i * 32, j * 32),
+                    Colors.White
+                );
+            }
+        }
     }
 
     public override void Initialize()
     {
-        _messageLog = new();
         base.Initialize();
     }
 
@@ -102,16 +111,5 @@ internal class GameScreen : DrawableGameComponent
         IVirtualViewport defaultViewport = new DefaultViewport(Game.GraphicsDevice, Game.Window);
         _camera = new(defaultViewport);
         base.LoadContent();
-    }
-
-    public void NewGame()
-    {
-        _gameWorld = new(new MersenneTwister(), new Point(100, 100));
-        _playerTurn = new(_gameWorld.CurrentMap.Player);
-        Location playerLoc = _gameWorld.CurrentMap.Player.GetComponent<Location>();
-        if (_camera != null)
-        {
-            _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
-        }
     }
 }

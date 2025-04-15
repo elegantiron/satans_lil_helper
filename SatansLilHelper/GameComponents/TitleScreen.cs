@@ -45,7 +45,6 @@ internal class TitleScreen : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        Game.GraphicsDevice.Clear(Color.Black);
         base.Draw(gameTime);
         Vector2 originVec = _font.MeasureString(Properties.GameStrings.GameTitle);
         _spriteBatch?.Begin();

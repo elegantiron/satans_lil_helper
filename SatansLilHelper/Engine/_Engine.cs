@@ -22,7 +22,7 @@ using SatansLilHelper.Utils;
 
 namespace SatansLilHelper;
 
-internal class Engine : Game
+internal partial class Engine : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch? _spriteBatch;
@@ -32,6 +32,8 @@ internal class Engine : Game
     private TitleScreen _titleScreen;
     private MainMenu _mainMenuScreen;
     private SatanFace _satanScreen;
+    private StatusWindow _statusScreen;
+    private PlayerTurn _playerTurn;
 
     private InputHandler _handler;
 
@@ -40,6 +42,8 @@ internal class Engine : Game
     public TitleScreen TitleScreen => _titleScreen;
     public MainMenu MainMenuScreen => _mainMenuScreen;
     public SatanFace SatanScreen => _satanScreen;
+    public StatusWindow StatusScreen => _statusScreen;
+    public PlayerTurn PlayerTurn => _playerTurn;
 
     public Engine()
     {
@@ -55,16 +59,20 @@ internal class Engine : Game
         );
         Directory.CreateDirectory(_gamePath);
         Debug.WriteLine("engine constructor");
-        _titleScreen = new TitleScreen(this) { Visible = false, Enabled = false };
-        _mainMenuScreen = new MainMenu(this) { Visible = false, Enabled = false };
-        _satanScreen = new SatanFace(this) { Visible = false, Enabled = false };
-        _gameScreen = new GameScreen(this) { Visible = false, Enabled = false };
+        _titleScreen = new(this) { Visible = false, Enabled = false };
+        _mainMenuScreen = new(this) { Visible = false, Enabled = false };
+        _satanScreen = new(this) { Visible = false, Enabled = false };
+        _gameScreen = new(this) { Visible = false, Enabled = false };
+        _statusScreen = new(this) { Visible = false, Enabled = false };
 
         Components.Add(_titleScreen);
         Components.Add(_mainMenuScreen);
         Components.Add(_satanScreen);
         Components.Add(_gameScreen);
+        Components.Add(_statusScreen);
         _handler = new(this);
+        _gameWorld = new(new MersenneTwister(), new Point(100));
+        _playerTurn = new(_gameWorld.Player);
     }
 
     protected override void Initialize()
@@ -89,8 +97,8 @@ internal class Engine : Game
 
         TitleScreen.Visible = true;
         TitleScreen.Enabled = true;
-        _satanScreen.Enabled = true;
-        _satanScreen.Visible = true;
+        SatanScreen.Enabled = true;
+        SatanScreen.Visible = true;
         base.Initialize();
     }
 
@@ -114,6 +122,7 @@ internal class Engine : Game
 
     protected override void Draw(GameTime gameTime)
     {
+        GraphicsDevice.Clear(Colors.Black);
         base.Draw(gameTime);
     }
 

@@ -33,6 +33,7 @@ internal static class Professions
         entity.AddTag<Blocking>();
         entity.AddTag<Alive>();
         entity.AddTag<Player>();
+        entity.AddTag<Visible>();
     }
 
     public static void Warrior(Entity entity)

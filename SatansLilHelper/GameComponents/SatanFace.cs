@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MLEM.Input;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -36,7 +34,10 @@ internal class SatanFace : DrawableGameComponent
         if (Game is Engine engine)
         {
             engine.Handler.Update(gameTime);
-            if (engine.Handler.TryConsumePressed(Keys.Enter))
+            if (
+                engine.Handler.TryConsumePressed(Keys.Enter)
+                || engine.Handler.TryConsumePressed(MouseButton.Left)
+            )
             {
                 Enabled = false;
                 Visible = false;

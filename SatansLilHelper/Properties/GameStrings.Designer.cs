@@ -79,6 +79,15 @@ namespace SatansLilHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Heal to Full.
         /// </summary>
         internal static string DebugHeal {

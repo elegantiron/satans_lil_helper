@@ -38,84 +38,102 @@ internal class MainMenu : DrawableGameComponent
 
     protected override void LoadContent()
     {
-        float BUTTON_HEIGHT = 55;
-        float BUTTON_WIDTH = 0.73f;
-        _spriteBatch = new(Game.GraphicsDevice);
-        var style = new UntexturedStyle(_spriteBatch)
+        if (Game is Engine engine)
         {
-            Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont)),
-            TextColor = Colors.Black,
-            TooltipTextWidth = 250,
-            TextAlignment = MLEM.Formatting.TextAlignment.Center,
-            PanelTexture = new NinePatch(
-                new TextureRegion(
-                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
+            float BUTTON_HEIGHT = 55;
+            float BUTTON_WIDTH = 0.73f;
+            _spriteBatch = new(Game.GraphicsDevice);
+            var style = new UntexturedStyle(_spriteBatch)
+            {
+                Font = new GenericSpriteFont(Game.Content.Load<SpriteFont>(FilePaths.MenuFont)),
+                TextColor = Colors.Black,
+                TooltipTextWidth = 250,
+                TextAlignment = MLEM.Formatting.TextAlignment.Center,
+                PanelTexture = new NinePatch(
+                    new TextureRegion(
+                        Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged_dark")
+                    ),
+                    8f,
+                    NinePatchMode.Tile
                 ),
-                8f,
-                NinePatchMode.Tile
-            ),
-            TooltipDelay = new TimeSpan(0, 0, 0, 0, 350),
-            ButtonTexture = new NinePatch(
-                new TextureRegion(
-                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+                TooltipDelay = new TimeSpan(0, 0, 0, 0, 350),
+                ButtonTexture = new NinePatch(
+                    new TextureRegion(
+                        Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
+                    ),
+                    8f,
+                    NinePatchMode.Tile
                 ),
-                8f,
-                NinePatchMode.Tile
-            ),
-            SelectionIndicator = new NinePatch(
-                new TextureRegion(
-                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_border_grey_detail")
+                SelectionIndicator = new NinePatch(
+                    new TextureRegion(
+                        Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_border_grey_detail")
+                    ),
+                    19f,
+                    NinePatchMode.Tile
                 ),
-                19f,
-                NinePatchMode.Tile
-            ),
-        };
+            };
 
-        // Set up the UI System
-        _system = new(Game, style, Game is Engine engine ? engine.Handler : null);
-        _system.Controls.DownButtons.Add(Keys.Down);
-        _system.Controls.UpButtons.Add(Keys.Up);
-        _system.Controls.KeyboardButtons.Add(Keys.Enter);
+            // Set up the UI System
+            _system = new(Game, style, engine.Handler);
+            _system.Controls.DownButtons.Add(Keys.Down);
+            _system.Controls.UpButtons.Add(Keys.Up);
+            _system.Controls.KeyboardButtons.Add(Keys.Enter);
 
-        // Set up the components of the UI System
-        Panel panel = new(Anchor.Center, new Vector2(550, 100), new Vector2(0))
-        {
-            SetHeightBasedOnChildren = true,
-        };
-        _system.Add("panel", panel);
-        _newGame = new(
-            Anchor.AutoCenter,
-            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
-            text: Properties.GameStrings.NewGame
-        )
-        {
-            OnPressed = HandleButtonPress,
-        };
-        _bestiary = new(
-            Anchor.AutoCenter,
-            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
-            Properties.GameStrings.ViewBestiary
-        )
-        {
-            OnPressed = HandleButtonPress,
-        };
-        _quit = new(
-            Anchor.AutoCenter,
-            new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
-            Properties.GameStrings.ToDesktop
-        )
-        {
-            OnPressed = HandleButtonPress,
-        };
-        panel.AddChild(new Paragraph(Anchor.AutoCenter, 0.75f, "Main Menu"));
-        panel.AddChild(new VerticalSpace(15));
-        panel.AddChild(_newGame);
-        panel.AddChild(new VerticalSpace(5));
-        panel.AddChild(_bestiary);
-        panel.AddChild(new VerticalSpace(5));
-        panel.AddChild(_quit);
-        panel.AddChild(new VerticalSpace(35));
-        base.LoadContent();
+            // Set up the components of the UI System
+            Panel panel = new(Anchor.Center, new Vector2(550, 100), new Vector2(0))
+            {
+                SetHeightBasedOnChildren = true,
+            };
+            _system.Add("panel", panel);
+            _newGame = new(
+                Anchor.AutoCenter,
+                new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
+                text: Properties.GameStrings.NewGame
+            )
+            {
+                OnPressed = HandleButtonPress,
+            };
+            _bestiary = new(
+                Anchor.AutoCenter,
+                new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
+                Properties.GameStrings.ViewBestiary
+            )
+            {
+                OnPressed = HandleButtonPress,
+            };
+            _quit = new(
+                Anchor.AutoCenter,
+                new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
+                Properties.GameStrings.ToDesktop
+            )
+            {
+                OnPressed = HandleButtonPress,
+            };
+            _continue = new(
+                Anchor.AutoCenter,
+                new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
+                text: Properties.GameStrings.Continue
+            )
+            {
+                OnPressed = HandleButtonPress,
+            };
+            panel.AddChild(new Paragraph(Anchor.AutoCenter, 0.75f, "Main Menu"));
+            panel.AddChild(new VerticalSpace(15));
+            panel.AddChild(_newGame);
+            panel.AddChild(new VerticalSpace(5));
+
+            if (engine.LoadGame())
+            {
+                panel.AddChild(_continue);
+                panel.AddChild(new VerticalSpace(5));
+            }
+
+            panel.AddChild(_bestiary);
+            panel.AddChild(new VerticalSpace(5));
+            panel.AddChild(_quit);
+            panel.AddChild(new VerticalSpace(35));
+            base.LoadContent();
+        }
     }
 
     public override void Update(GameTime gameTime)
@@ -148,9 +166,11 @@ internal class MainMenu : DrawableGameComponent
         {
             if (Game is Engine engine)
             {
-                engine.GameScreen.NewGame();
+                engine.NewGame();
                 engine.GameScreen.Enabled = true;
                 engine.GameScreen.Visible = true;
+                engine.StatusScreen.Enabled = true;
+                engine.StatusScreen.Visible = true;
                 engine.TitleScreen.Visible = false;
                 engine.TitleScreen.Enabled = false;
                 Enabled = false;
