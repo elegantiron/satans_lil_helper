@@ -51,15 +51,12 @@ internal class GameScreen : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        if (_spriteBatch is null || _camera is null)
+        if (_spriteBatch is null || _camera is null || Game is not Engine engine)
             return;
         _camera.SetViewport();
         _spriteBatch.Begin(transformMatrix: _camera.View);
-        if (Game is Engine engine)
-        {
-            DrawTiles(engine);
-            DrawEntities(engine);
-        }
+        DrawTiles(engine);
+        DrawEntities(engine);
         _spriteBatch.End();
         _camera.ResetViewport();
     }
