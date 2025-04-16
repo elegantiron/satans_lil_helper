@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using Apos.Camera;
 using Friflo.Engine.ECS;
+using MessagePack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -124,7 +125,8 @@ internal partial class Engine : Game
     private void SaveSettings()
     {
         string json = JsonConvert.SerializeObject(Settings.Default);
-        File.WriteAllText(_gamePath + "settings.json", json);
+        File.WriteAllText(_gamePath + "/settings.json", json);
+        Debug.WriteLine(MessagePackSerializer.Serialize(Settings.Default));
     }
 
     protected override void LoadContent()
