@@ -42,6 +42,14 @@ internal class GameScreen : DrawableGameComponent
         {
             Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
         }
+        else if (engine.Handler.TryConsumePressed(Keys.S))
+        {
+            // Make the skill selector show
+        }
+        else if (engine.Handler.TryConsumePressed(Keys.I))
+        {
+            // Make the inventory screen show
+        }
 
         if (engine.World.CurrentMap.IsPlayerNext)
             ProcessPlayerTurn();
