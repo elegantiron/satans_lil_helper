@@ -52,7 +52,7 @@ internal class StatusWindow : DrawableGameComponent
                 Game.GraphicsDevice.Viewport.Width * 4 / 5,
                 0,
                 Game.GraphicsDevice.Viewport.Width / 5,
-                Game.GraphicsDevice.Viewport.Height
+                Game.GraphicsDevice.Viewport.Height / 2
             ),
             Colors.TranslucentBlack
         );
@@ -65,12 +65,12 @@ internal class StatusWindow : DrawableGameComponent
         _spriteBatch.DrawString(
             _font,
             Properties.GameStrings.StatusTitle,
-            new Vector2(Game.GraphicsDevice.Viewport.Width * 9 / 10, 15),
+            new Vector2(Game.GraphicsDevice.Viewport.Width * 9 / 10, 5),
             Colors.White,
             new Vector2(size.X / 2, 0)
         );
 
-        textLoc = new(Game.GraphicsDevice.Viewport.Width * 4 / 5 + 10, 2 * _font.LineSpacing);
+        textLoc = new(Game.GraphicsDevice.Viewport.Width * 4 / 5 + 10, 1.5f * _font.LineSpacing);
         Location playerLoc = engine.World.Player.GetComponent<Location>();
         _spriteBatch.DrawString(
             _font,
@@ -79,7 +79,7 @@ internal class StatusWindow : DrawableGameComponent
             Colors.White
         );
 
-        textLoc.Y += 2 * _font.LineSpacing;
+        textLoc.Y += 1.5f * _font.LineSpacing;
         playerResource = engine.World.CurrentMap.Player.GetRelation<AbilityStat, AbilityID>(
             AbilityID.Health
         );
@@ -109,7 +109,7 @@ internal class StatusWindow : DrawableGameComponent
             Colors.White
         );
 
-        textLoc.Y += 2 * _font.LineSpacing;
+        textLoc.Y += 1.5f * _font.LineSpacing;
         _spriteBatch.DrawString(_font, Properties.GameStrings.StatusTurn, textLoc, Colors.White);
 
         textLoc.Y += _font.LineSpacing;
