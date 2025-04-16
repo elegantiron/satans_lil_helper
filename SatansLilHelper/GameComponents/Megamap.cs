@@ -16,11 +16,13 @@ internal class Megamap : DrawableGameComponent
     private SpriteBatch? batch;
     private Camera? camera;
     private Dictionary<TextureID, Texture2D> textures;
+    private Vector2 zoom;
 
     public Megamap(Game game)
         : base(game)
     {
         textures = [];
+        zoom = Vector2.One;
     }
 
     public override void Initialize()
@@ -36,6 +38,9 @@ internal class Megamap : DrawableGameComponent
         {
             Location playerLoc = engine.World.Player.GetComponent<Location>();
             camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
+            zoom.X = 0.9f;
+            zoom.Y = 0.9f;
+            camera.Scale = zoom;
         }
     }
 
@@ -44,7 +49,10 @@ internal class Megamap : DrawableGameComponent
         batch = new(Game.GraphicsDevice);
 
         IVirtualViewport viewport = new DefaultViewport(Game.GraphicsDevice, Game.Window);
-        camera = new(viewport);
+        camera = new(viewport) { Scale = zoom };
+
+        textures.Add(TextureID.ForestFloor, Game.Content.Load<Texture2D>(FilePaths.ForestFloor));
+        textures.Add(TextureID.ForestWall, Game.Content.Load<Texture2D>(FilePaths.ForestWall));
     }
 
     public override void Draw(GameTime gameTime)
@@ -55,6 +63,8 @@ internal class Megamap : DrawableGameComponent
         camera.SetViewport();
         batch.Begin(transformMatrix: camera.View);
         DrawTiles(engine);
+        batch.End();
+        camera.ResetViewport();
     }
 
     private void DrawTiles(Engine engine)
@@ -91,7 +101,10 @@ internal class Megamap : DrawableGameComponent
             camera.X += 32;
         else if (engine.Handler.TryConsumePressed(Keys.Left))
             camera.X -= 32;
-        if (engine.Handler.TryConsumePressed(Keys.M))
+        if (
+            engine.Handler.TryConsumePressed(Keys.M)
+            || engine.Handler.TryConsumePressed(Keys.Escape)
+        )
         {
             Enabled = Visible = false;
             engine.GameScreen.Enabled =
@@ -100,5 +113,19 @@ internal class Megamap : DrawableGameComponent
                 engine.StatusScreen.Visible =
                     true;
         }
+        if (engine.Handler.TryConsumePressed(Keys.Add))
+        {
+            zoom.X += 0.1f;
+            zoom.Y += 0.1f;
+            camera.Scale = zoom;
+        }
+        else if (engine.Handler.TryConsumePressed(Keys.Subtract))
+        {
+            zoom.X -= 0.1f;
+            zoom.Y -= 0.1f;
+            camera.Scale = zoom;
+        }
+        if (engine.Handler.TryConsumePressed(Keys.Space))
+            OnEnabledChanged(new object(), new EventArgs());
     }
 }
