@@ -35,6 +35,7 @@ internal partial class Engine : Game
     private StatusWindow _statusScreen;
     private PlayerTurn _playerTurn;
     private PauseMenu _pauseMenu;
+    private Minimap _miniMap;
 
     private InputHandler _handler;
 
@@ -46,6 +47,7 @@ internal partial class Engine : Game
     public StatusWindow StatusScreen => _statusScreen;
     public PlayerTurn PlayerTurn => _playerTurn;
     public PauseMenu PauseMenu => _pauseMenu;
+    public Minimap MiniMap => _miniMap;
 
     public Engine()
     {
@@ -67,6 +69,7 @@ internal partial class Engine : Game
         _gameScreen = new(this) { Visible = false, Enabled = false };
         _statusScreen = new(this) { Visible = false, Enabled = false };
         _pauseMenu = new(this) { Visible = false, Enabled = false };
+        _miniMap = new(this) { Visible = false, Enabled = false };
 
         Components.Add(_titleScreen);
         Components.Add(_mainMenuScreen);
@@ -74,6 +77,7 @@ internal partial class Engine : Game
         Components.Add(_gameScreen);
         Components.Add(_statusScreen);
         Components.Add(_pauseMenu);
+        Components.Add(_miniMap);
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
         _playerTurn = new(_gameWorld.Player);
@@ -95,15 +99,21 @@ internal partial class Engine : Game
         _graphics.SynchronizeWithVerticalRetrace = true;
         _graphics.ApplyChanges();
 
-        Window.Position = new Point(4000, 1080 - 720 / 2);
+        //Window.Position = new Point(4000, 1080 - 720 / 2);
         Window.Title = Properties.GameStrings.GameTitle;
 
         EventBus.Subscribe<EventMessage>(this, Events.QuitGame, QuitGame);
-
+#if RELEASE
         TitleScreen.Visible = true;
         TitleScreen.Enabled = true;
         SatanScreen.Enabled = true;
         SatanScreen.Visible = true;
+#elif DEBUG
+        GameScreen.Enabled = true;
+        GameScreen.Visible = true;
+        StatusScreen.Enabled = true;
+        StatusScreen.Visible = true;
+#endif
         base.Initialize();
     }
 
@@ -122,6 +132,7 @@ internal partial class Engine : Game
     protected override void Update(GameTime gameTime)
     {
         // TODO: Add your update logic here
+        Handler.Update(gameTime);
         base.Update(gameTime);
     }
 
