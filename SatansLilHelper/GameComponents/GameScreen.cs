@@ -27,7 +27,6 @@ internal class GameScreen : DrawableGameComponent
         if (_camera is null || Game is not Engine engine)
             return;
 
-        engine.Handler.Update(gameTime);
         Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
         _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
         engine.World.CurrentMap.UpdatePlayerVision();
@@ -36,6 +35,12 @@ internal class GameScreen : DrawableGameComponent
             Enabled = false;
             engine.PauseMenu.Enabled = true;
             engine.PauseMenu.Visible = true;
+        }
+        else if (engine.Handler.TryConsumePressed(Keys.Tab))
+            engine.MiniMap.Visible = engine.MiniMap.Enabled = !engine.MiniMap.Visible;
+        else if (engine.Handler.TryConsumePressed(Keys.M))
+        {
+            Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
         }
 
         if (engine.World.CurrentMap.IsPlayerNext)
