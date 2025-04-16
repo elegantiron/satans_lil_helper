@@ -16,6 +16,7 @@ public static class Colors
     public static readonly Color White = new(0xFF, 0xFF, 0xFF, 0xFF);
     public static readonly Color Targeting = new(0xFF, 0x00, 0x00, 0x50);
     public static readonly Color TargetingRange = new(0x80, 0xFF, 0x00, 0x50);
+    public static readonly Color Gray = new(0x80, 0x80, 0x80, 0xFF);
 
     // Color aliases
     public static readonly Color HiddenTile = DeadActor;
@@ -24,4 +25,5 @@ public static class Colors
     public static readonly Color Red = Color.Red;
     public static readonly Color Green = Color.Green;
     public static readonly Color CornflowerBlue = Color.CornflowerBlue;
+    public static readonly Color Grey = Gray;
 }
