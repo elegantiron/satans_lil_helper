@@ -162,25 +162,27 @@ internal class MainMenu : DrawableGameComponent
 
     private void HandleButtonPress(Element element)
     {
+        if (Game is not Engine engine)
+            return;
         if (_newGame is not null && element == _newGame)
         {
-            if (Game is Engine engine)
-            {
-                engine.NewGame();
-                engine.GameScreen.Enabled = true;
-                engine.GameScreen.Visible = true;
-                engine.StatusScreen.Enabled = true;
-                engine.StatusScreen.Visible = true;
-                engine.TitleScreen.Visible = false;
-                engine.TitleScreen.Enabled = false;
-                Enabled = false;
-                Visible = false;
-            }
+            engine.NewGame();
+            engine.GameScreen.Enabled = true;
+            engine.GameScreen.Visible = true;
+            engine.StatusScreen.Enabled = true;
+            engine.StatusScreen.Visible = true;
+            engine.TitleScreen.Visible = false;
+            engine.TitleScreen.Enabled = false;
+            Enabled = false;
+            Visible = false;
         }
         else if (_continue is not null && element == _continue) { }
         else if (_bestiary is not null && element == _bestiary) { }
         else if (_quit is not null && element == _quit)
+        {
+            engine.QuitGame(new Types.EventMessage());
             Game.Exit();
+        }
     }
 
     public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
