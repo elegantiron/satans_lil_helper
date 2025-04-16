@@ -8,6 +8,7 @@ using MLEM.Input;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Extensions;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -16,35 +17,11 @@ internal class GameScreen : DrawableGameComponent
     private SpriteBatch? _spriteBatch;
     private Camera? _camera;
     private Dictionary<TextureID, Texture2D> _textures;
-    private Keybind movement,
-        up,
-        upRight,
-        right,
-        downRight,
-        down,
-        downLeft,
-        left,
-        upLeft;
 
     public GameScreen(Game game)
         : base(game)
     {
         _textures = [];
-
-        up = new Keybind().Add(Keys.Up).Add(Keys.NumPad8);
-        upRight = new Keybind().Add(Keys.NumPad9);
-        right = new Keybind().Add(Keys.Right).Add(Keys.NumPad6);
-        downRight = new Keybind().Add(Keys.NumPad3);
-        down = new Keybind().Add(Keys.Down).Add(Keys.NumPad2);
-        downLeft = new Keybind().Add(Keys.NumPad1);
-        left = new Keybind().Add(Keys.Left).Add(Keys.NumPad4);
-        upLeft = new Keybind().Add(Keys.NumPad7);
-
-        List<Keybind> keybinds = [up, upRight, right, downRight, down, downLeft, left, upLeft];
-        movement = new();
-        foreach (var bind in keybinds)
-        foreach (var combo in bind.Combinations)
-            movement.Add(combo);
     }
 
     public override void Update(GameTime gameTime)
@@ -55,8 +32,7 @@ internal class GameScreen : DrawableGameComponent
         Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
         _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
         engine.World.CurrentMap.UpdatePlayerVision();
-        if (movement.IsPressedAvailable(engine.Handler)) { }
-        else if (engine.Handler.TryConsumePressed(Keys.Escape))
+        if (engine.Handler.TryConsumePressed(Keys.Escape))
         {
             Enabled = false;
             engine.PauseMenu.Enabled = true;
@@ -158,7 +134,22 @@ internal class GameScreen : DrawableGameComponent
         base.LoadContent();
     }
 
-    private void ProcessPlayerTurn() { }
+    private void ProcessPlayerTurn()
+    {
+        if (Game is not Engine engine)
+            return;
+        if (Settings.Default.Movement.IsPressedAvailable(engine.Handler))
+            HandleMovement();
+        else if (Settings.Default.MiniMap.TryConsumePressed(engine.Handler))
+            engine.MiniMap.Visible = engine.MiniMap.Enabled = !engine.MiniMap.Enabled;
+        else if (Settings.Default.Map.TryConsumePressed(engine.Handler))
+        {
+            Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
+            engine.MegaMap.Enabled = engine.MegaMap.Visible = true;
+        }
+    }
 
     private void ProcessNPCTurns() { }
+
+    private void HandleMovement() { }
 }
