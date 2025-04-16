@@ -148,6 +148,9 @@ internal class PauseMenu : DrawableGameComponent
             engine.MainMenuScreen.Enabled = true;
         }
         else if (element == _toDesktop)
+        {
+            engine.SaveGame();
             Game.Exit();
+        }
     }
 }
