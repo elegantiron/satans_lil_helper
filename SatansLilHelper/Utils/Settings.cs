@@ -28,6 +28,9 @@ internal sealed class Settings
     public Keybind Skills { get; set; }
     public Keybind Increase { get; set; }
     public Keybind Decrease { get; set; }
+    public Keybind Undo { get; set; }
+    public Keybind Redo { get; set; }
+    public Keybind EndTurn { get; set; }
 
     private Settings()
     {
@@ -40,7 +43,6 @@ internal sealed class Settings
         MoveDownLeft = new Keybind().Add(Keys.Delete).Add(Keys.NumPad1);
         MoveLeft = new Keybind().Add(Keys.Left).Add(Keys.NumPad4);
         MoveUpLeft = new Keybind().Add(Keys.Insert).Add(Keys.NumPad7);
-
         Movement = new Keybind();
         List<Keybind> keybinds =
         [
@@ -65,6 +67,9 @@ internal sealed class Settings
         Skills = new Keybind().Add(Keys.S).Add(Buttons.Y);
         Increase = new Keybind().Add(Keys.Add).Add(Keys.OemPlus, ModifierKey.Shift);
         Decrease = new Keybind().Add(Keys.Subtract).Add(Keys.OemMinus);
+        Undo = new Keybind().Add(Keys.Z, ModifierKey.Control);
+        Redo = new Keybind().Add(Keys.Y, ModifierKey.Control);
+        EndTurn = new Keybind().Add(Keys.F).Add(Buttons.LeftShoulder);
     }
 
     public static Settings Default => _instance.Value;
