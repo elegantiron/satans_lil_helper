@@ -65,7 +65,8 @@ internal partial class Engine : Game
             "Satans Lil Helper"
         );
         Directory.CreateDirectory(_gamePath);
-        Debug.WriteLine("engine constructor");
+
+        // Make screen components
         _titleScreen = new(this) { Visible = false, Enabled = false };
         _mainMenuScreen = new(this) { Visible = false, Enabled = false };
         _satanScreen = new(this) { Visible = false, Enabled = false };
