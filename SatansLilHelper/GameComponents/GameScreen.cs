@@ -38,21 +38,6 @@ internal class GameScreen : DrawableGameComponent
             engine.PauseMenu.Enabled = true;
             engine.PauseMenu.Visible = true;
         }
-        else if (Settings.Default.MiniMap.TryConsumePressed(engine.Handler))
-            engine.MiniMap.Visible = engine.MiniMap.Enabled = !engine.MiniMap.Visible;
-        else if (Settings.Default.Map.TryConsumePressed(engine.Handler))
-        {
-            Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
-            engine.MegaMap.Enabled = engine.MegaMap.Visible = true;
-        }
-        else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
-        {
-            // Make the skill selector show
-        }
-        else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
-        {
-            // Make the inventory screen show
-        }
 
         if (engine.World.CurrentMap.IsPlayerNext)
             ProcessPlayerTurn();
@@ -147,9 +132,57 @@ internal class GameScreen : DrawableGameComponent
             Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
             engine.MegaMap.Enabled = engine.MegaMap.Visible = true;
         }
+        else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
+        {
+            // Show skills selector here
+        }
+        else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
+        {
+            // Show inventory selector here
+        }
     }
 
     private void ProcessNPCTurns() { }
 
-    private void HandleMovement() { }
+    private void HandleMovement()
+    {
+        if (Game is not Engine engine)
+            return;
+        int dx = 0,
+            dy = 0;
+        if (
+            Settings.Default.MoveUp.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveUpLeft.IsPressedAvailable(engine.Handler)
+            || Settings.Default.MoveUpRight.IsPressedAvailable(engine.Handler)
+        )
+            dy = -1;
+        if (
+            Settings.Default.MoveUpRight.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveRight.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownRight.IsPressedAvailable(engine.Handler)
+        )
+            dx = 1;
+        if (
+            Settings.Default.MoveDown.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownRight.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownLeft.IsPressedAvailable(engine.Handler)
+        )
+            dy = 1;
+        if (
+            Settings.Default.MoveLeft.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveUpLeft.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownLeft.TryConsumePressed(engine.Handler)
+        )
+            dx = -1;
+
+        engine.PlayerTurn.AddAction(
+            new Actions.BumpAction(
+                engine.World.Player,
+                new Point(dx, dy),
+                engine.World.CurrentMap,
+                engine.World.Generator,
+                true
+            )
+        );
+    }
 }
