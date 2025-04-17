@@ -13,6 +13,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>Satan's Lil Helper</Title>
+	  <Version>0.0.1</Version>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <Nullable>enable</Nullable>
   </PropertyGroup>
