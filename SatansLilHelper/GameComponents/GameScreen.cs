@@ -135,6 +135,7 @@ internal class GameScreen : DrawableGameComponent
         else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
         {
             // Show skills selector here
+            Enabled = false;
         }
         else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
         {
