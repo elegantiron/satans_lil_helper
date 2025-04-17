@@ -26,6 +26,8 @@ internal sealed class Settings
     public Keybind MiniMap { get; set; }
     public Keybind Inventory { get; set; }
     public Keybind Skills { get; set; }
+    public Keybind Increase { get; set; }
+    public Keybind Decrease { get; set; }
 
     private Settings()
     {
@@ -61,6 +63,8 @@ internal sealed class Settings
         MiniMap = new Keybind().Add(Keys.Tab);
         Inventory = new Keybind().Add(Keys.I).Add(Buttons.X);
         Skills = new Keybind().Add(Keys.S).Add(Buttons.Y);
+        Increase = new Keybind().Add(Keys.Add).Add(Keys.OemPlus, ModifierKey.Shift);
+        Decrease = new Keybind().Add(Keys.Subtract).Add(Keys.OemMinus);
     }
 
     public static Settings Default => _instance.Value;
