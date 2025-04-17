@@ -126,7 +126,7 @@ internal partial class Engine : Game
     {
         string json = JsonConvert.SerializeObject(Settings.Default);
         File.WriteAllText(_gamePath + "/settings.json", json);
-        Debug.WriteLine(MessagePackSerializer.Serialize(Settings.Default));
+        //Debug.WriteLine(MessagePackSerializer.Serialize(Settings.Default));
     }
 
     protected override void LoadContent()
