@@ -32,24 +32,24 @@ internal class GameScreen : DrawableGameComponent
         Location playerLoc = engine.World.CurrentMap.Player.GetComponent<Location>();
         _camera.XY = new Vector2(playerLoc.X * 32, playerLoc.Y * 32);
         engine.World.CurrentMap.UpdatePlayerVision();
-        if (engine.Handler.TryConsumePressed(Keys.Escape))
+        if (Settings.Default.Cancel.TryConsumePressed(engine.Handler))
         {
             Enabled = false;
             engine.PauseMenu.Enabled = true;
             engine.PauseMenu.Visible = true;
         }
-        else if (engine.Handler.TryConsumePressed(Keys.Tab))
+        else if (Settings.Default.MiniMap.TryConsumePressed(engine.Handler))
             engine.MiniMap.Visible = engine.MiniMap.Enabled = !engine.MiniMap.Visible;
-        else if (engine.Handler.TryConsumePressed(Keys.M))
+        else if (Settings.Default.Map.TryConsumePressed(engine.Handler))
         {
             Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
             engine.MegaMap.Enabled = engine.MegaMap.Visible = true;
         }
-        else if (engine.Handler.TryConsumePressed(Keys.S))
+        else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
         {
             // Make the skill selector show
         }
-        else if (engine.Handler.TryConsumePressed(Keys.I))
+        else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
         {
             // Make the inventory screen show
         }
