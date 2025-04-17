@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Apos.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Extensions;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -93,17 +93,14 @@ internal class Megamap : DrawableGameComponent
     {
         if (Game is not Engine engine || camera is null)
             return;
-        if (engine.Handler.TryConsumePressed(Keys.Up))
-            camera.Y -= 32;
-        else if (engine.Handler.TryConsumePressed(Keys.Down))
-            camera.Y += 32;
-        if (engine.Handler.TryConsumePressed(Keys.Right))
-            camera.X += 32;
-        else if (engine.Handler.TryConsumePressed(Keys.Left))
-            camera.X -= 32;
+        if (Settings.Default.Movement.IsPressedAvailable(engine.Handler))
+        {
+            HandleMovement();
+            return;
+        }
         if (
-            engine.Handler.TryConsumePressed(Keys.M)
-            || engine.Handler.TryConsumePressed(Keys.Escape)
+            Settings.Default.Map.TryConsumePressed(engine.Handler)
+            || Settings.Default.Cancel.TryConsumePressed(engine.Handler)
         )
         {
             Enabled = Visible = false;
@@ -113,19 +110,44 @@ internal class Megamap : DrawableGameComponent
                 engine.StatusScreen.Visible =
                     true;
         }
-        if (engine.Handler.TryConsumePressed(Keys.Add))
-        {
-            zoom.X += 0.1f;
-            zoom.Y += 0.1f;
-            camera.Scale = zoom;
-        }
-        else if (engine.Handler.TryConsumePressed(Keys.Subtract))
-        {
-            zoom.X -= 0.1f;
-            zoom.Y -= 0.1f;
-            camera.Scale = zoom;
-        }
-        if (engine.Handler.TryConsumePressed(Keys.Space))
+        if (
+            engine.Handler.TryConsumePressed(Keys.Space)
+            || Settings.Default.MiniMap.TryConsumePressed(engine.Handler)
+        )
             OnEnabledChanged(new object(), new EventArgs());
+        if (Settings.Default.Increase.TryConsumePressed(engine.Handler))
+            camera.Scale += new Vector2(0.1f);
+        if (Settings.Default.Decrease.TryConsumePressed(engine.Handler))
+            camera.Scale -= new Vector2(0.1f);
+    }
+
+    private void HandleMovement()
+    {
+        if (Game is not Engine engine || camera is null)
+            return;
+        if (
+            Settings.Default.MoveUp.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveUpRight.IsPressedAvailable(engine.Handler)
+            || Settings.Default.MoveUpLeft.IsPressedAvailable(engine.Handler)
+        )
+            camera.Y -= 32 / camera.Scale.X;
+        if (
+            Settings.Default.MoveUpLeft.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveLeft.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownLeft.IsPressedAvailable(engine.Handler)
+        )
+            camera.X -= 32 / camera.Scale.X;
+        if (
+            Settings.Default.MoveUpRight.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveRight.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownRight.IsPressedAvailable(engine.Handler)
+        )
+            camera.X += 32 / camera.Scale.X;
+        if (
+            Settings.Default.MoveDown.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownLeft.TryConsumePressed(engine.Handler)
+            || Settings.Default.MoveDownRight.TryConsumePressed(engine.Handler)
+        )
+            camera.Y += 32 / camera.Scale.X;
     }
 }
