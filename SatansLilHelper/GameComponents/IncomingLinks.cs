@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -28,11 +29,13 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
     private Panel? mainPanel,
         subPanel;
     private Vector2 buttonSize;
+    private Dictionary<Element, Entity> entities;
 
     public IncomingLinks(Game game)
         : base(game)
     {
-        buttonSize = new(0.73f, 55);
+        buttonSize = new(0.8f, 55);
+        entities = [];
     }
 
     public override void Initialize()
@@ -47,15 +50,23 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
             return;
         if (Enabled)
         {
-            subPanel?.RemoveChildren((Element element) => true);
+            UpdateList(engine);
+        }
+    }
 
-            subPanel?.AddChild(new VerticalSpace(10));
-            EntityLinks<TComponent> links = engine.World.Player.GetIncomingLinks<TComponent>();
-            foreach (Entity entity in links.Entities)
-            {
-                subPanel?.AddChild(MakeButton(entity));
-                subPanel?.AddChild(new VerticalSpace(5));
-            }
+    private void UpdateList(Engine engine)
+    {
+        entities.Clear();
+        subPanel?.RemoveChildren((Element element) => true);
+
+        subPanel?.AddChild(new VerticalSpace(10));
+        EntityLinks<TComponent> links = engine.World.Player.GetIncomingLinks<TComponent>();
+        foreach (Entity entity in links.Entities)
+        {
+            var element = MakeButton(entity);
+            entities.Add(element, entity);
+            subPanel?.AddChild(element);
+            subPanel?.AddChild(new VerticalSpace(5));
         }
     }
 
@@ -113,7 +124,8 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
             PanelScrollerSize = new Vector2(16, 24),
         };
         system = new(Game, style);
-        mainPanel = new(Anchor.Center, new Vector2(550, 300), new Vector2(0));
+        mainPanel = new(Anchor.Center, new Vector2(550, 450), new Vector2(0));
+
         mainPanel.AddChild(
             new Paragraph(
                 Anchor.AutoCenter,
@@ -121,12 +133,14 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
                 text: Properties.GameStrings.Inventory_Title
             )
         );
-        subPanel = new(Anchor.AutoCenter, Vector2.One, scrollOverflow: true)
+        subPanel = new(Anchor.AutoCenter, new Vector2(0.9f, 330), scrollOverflow: true)
         {
             Texture = null,
             PreventParentSpill = true,
         };
         mainPanel.AddChild(subPanel);
+        mainPanel.AddChild(new VerticalSpace(15));
+        mainPanel.AddChild(new Button(Anchor.AutoCenter, new Vector2(0.25f, 55), text: "Close"));
         system.Add("base panel", mainPanel);
     }
 
@@ -141,7 +155,7 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
             return;
         base.Update(gameTime);
         if (engine.Handler.TryConsumePressed(Keys.Space))
-            OnEnabledChanged(new object(), new EventArgs());
+            UpdateList(engine);
         system.Update(gameTime);
         if (Settings.Default.Cancel.TryConsumePressed(engine.Handler))
         {
@@ -156,6 +170,11 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
         string text = entity.Name.value;
         if (entity.HasComponent<Equipper>())
             text += " (equipped)";
-        return new Button(Anchor.AutoCenter, buttonSize, text: text);
+        return new Button(Anchor.AutoCenter, buttonSize, text: text) { OnPressed = Process };
+    }
+
+    private void Process(Element element)
+    {
+        Debug.WriteLine(entities[element]);
     }
 }
