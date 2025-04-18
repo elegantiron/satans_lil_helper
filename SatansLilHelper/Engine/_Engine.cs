@@ -38,6 +38,7 @@ internal partial class Engine : Game
     private PauseMenu _pauseMenu;
     private Minimap _miniMap;
     private Megamap _megaMap;
+    private IncomingLinks<Inventory> _inventory;
 
     private InputHandler _handler;
 
@@ -51,6 +52,7 @@ internal partial class Engine : Game
     public PauseMenu PauseMenu => _pauseMenu;
     public Minimap MiniMap => _miniMap;
     public Megamap MegaMap => _megaMap;
+    public IncomingLinks<Inventory> Inventory => _inventory;
 
     public Engine()
     {
@@ -75,6 +77,7 @@ internal partial class Engine : Game
         _pauseMenu = new(this) { Visible = false, Enabled = false };
         _miniMap = new(this) { Visible = false, Enabled = false };
         _megaMap = new(this) { Visible = false, Enabled = false };
+        _inventory = new(this) { Visible = false, Enabled = false };
 
         Components.Add(_titleScreen);
         Components.Add(_mainMenuScreen);
@@ -84,6 +87,7 @@ internal partial class Engine : Game
         Components.Add(_pauseMenu);
         Components.Add(_miniMap);
         Components.Add(_megaMap);
+        Components.Add(_inventory);
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
         _playerTurn = new(_gameWorld.Player);
