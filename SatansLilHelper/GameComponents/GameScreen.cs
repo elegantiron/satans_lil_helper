@@ -132,16 +132,17 @@ internal class GameScreen : DrawableGameComponent
             Enabled = Visible = engine.StatusScreen.Enabled = engine.StatusScreen.Visible = false;
             engine.MegaMap.Enabled = engine.MegaMap.Visible = true;
         }
-        else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
-        {
-            // Show skills selector here
-            Enabled = false;
-        }
         else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
         {
             Enabled = false;
             engine.Inventory.Enabled = true;
             engine.Inventory.Visible = true;
+        }
+        else if (Settings.Default.Skills.TryConsumePressed(engine.Handler))
+        {
+            Enabled = false;
+            engine.Grimoire.Enabled = true;
+            engine.Grimoire.Visible = true;
         }
     }
 
