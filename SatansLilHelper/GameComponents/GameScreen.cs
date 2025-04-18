@@ -139,7 +139,9 @@ internal class GameScreen : DrawableGameComponent
         }
         else if (Settings.Default.Inventory.TryConsumePressed(engine.Handler))
         {
-            // Show inventory selector here
+            Enabled = false;
+            engine.Inventory.Enabled = true;
+            engine.Inventory.Visible = true;
         }
     }
 
