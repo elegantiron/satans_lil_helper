@@ -14,6 +14,8 @@ using MLEM.Ui;
 using MLEM.Ui.Elements;
 using MLEM.Ui.Style;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
+using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
 
@@ -23,10 +25,15 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
     private SpriteBatch? batch;
     private UiSystem? system;
     private UiStyle? style;
-    private Panel? panel;
+    private Panel? mainPanel,
+        subPanel;
+    private Vector2 buttonSize;
 
     public IncomingLinks(Game game)
-        : base(game) { }
+        : base(game)
+    {
+        buttonSize = new(0.73f, 55);
+    }
 
     public override void Initialize()
     {
@@ -40,9 +47,15 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
             return;
         if (Enabled)
         {
-            panel?.RemoveChildren((Element _) => true);
-            EntityLinks<TComponent> entityLinks =
-                engine.World.Player.GetIncomingLinks<TComponent>();
+            subPanel?.RemoveChildren((Element element) => true);
+
+            subPanel?.AddChild(new VerticalSpace(10));
+            EntityLinks<TComponent> links = engine.World.Player.GetIncomingLinks<TComponent>();
+            foreach (Entity entity in links.Entities)
+            {
+                subPanel?.AddChild(MakeButton(entity));
+                subPanel?.AddChild(new VerticalSpace(5));
+            }
         }
     }
 
@@ -77,12 +90,50 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
                 19f,
                 NinePatchMode.Tile
             ),
+            ScrollBarScrollerTexture = new NinePatch(
+                new TextureRegion(
+                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/scrollbar_future_red_small")
+                ),
+                4,
+                4,
+                6,
+                6,
+                NinePatchMode.Tile
+            ),
+            ScrollBarBackground = new NinePatch(
+                new TextureRegion(
+                    Game.Content.Load<Texture2D>(@"Images/UI/Panels/scrollbar_future_grey")
+                ),
+                4,
+                4,
+                6,
+                6,
+                NinePatchMode.Tile
+            ),
+            PanelScrollerSize = new Vector2(16, 24),
         };
         system = new(Game, style);
-        panel = new(Anchor.Center, new Vector2(0.5f));
+        mainPanel = new(Anchor.Center, new Vector2(550, 300), new Vector2(0));
+        mainPanel.AddChild(
+            new Paragraph(
+                Anchor.AutoCenter,
+                buttonSize.X,
+                text: Properties.GameStrings.Inventory_Title
+            )
+        );
+        subPanel = new(Anchor.AutoCenter, Vector2.One, scrollOverflow: true)
+        {
+            Texture = null,
+            PreventParentSpill = true,
+        };
+        mainPanel.AddChild(subPanel);
+        system.Add("base panel", mainPanel);
     }
 
-    public override void Draw(GameTime gameTime) { }
+    public override void Draw(GameTime gameTime)
+    {
+        system?.Draw(gameTime, batch);
+    }
 
     public override void Update(GameTime gameTime)
     {
@@ -91,11 +142,20 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
         base.Update(gameTime);
         if (engine.Handler.TryConsumePressed(Keys.Space))
             OnEnabledChanged(new object(), new EventArgs());
+        system.Update(gameTime);
+        if (Settings.Default.Cancel.TryConsumePressed(engine.Handler))
+        {
+            Enabled = false;
+            Visible = false;
+            engine.GameScreen.Enabled = true;
+        }
     }
 
-    private Button MakeButton(Anchor anchor, Vector2 size, string text)
+    private Button MakeButton(Entity entity)
     {
-        Button newButton = new(anchor, size, text);
-        throw new NotImplementedException();
+        string text = entity.Name.value;
+        if (entity.HasComponent<Equipper>())
+            text += " (equipped)";
+        return new Button(Anchor.AutoCenter, buttonSize, text: text);
     }
 }
