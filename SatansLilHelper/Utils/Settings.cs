@@ -11,6 +11,8 @@ internal sealed class Settings
     public bool ShowStatus { get; set; }
     public bool ShowHealthBars { get; set; }
     public bool AutoFinishTurn { get; set; }
+
+    #region KEYBINDS
     public Keybind Movement { get; set; }
     public Keybind MoveUp { get; set; }
     public Keybind MoveUpRight { get; set; }
@@ -31,6 +33,7 @@ internal sealed class Settings
     public Keybind Undo { get; set; }
     public Keybind Redo { get; set; }
     public Keybind EndTurn { get; set; }
+    #endregion KEYBINDS
 
     private Settings()
     {
