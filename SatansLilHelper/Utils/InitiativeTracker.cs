@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Friflo.Engine.ECS;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
@@ -11,6 +9,7 @@ namespace SatansLilHelper.Utils;
 
 internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
 {
+    private SortedList<decimal, Entity> _initiativeSortedList = [];
     private Stack<Entity> _initiativeStack = new();
     private Stack<Entity> _history = new();
     private ArchetypeQuery _query = query;
@@ -18,12 +17,10 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
 
     private void CalculateInitiative()
     {
-        Entity[] entities = new Entity[_query.Count];
-        _query.ToEntityList().CopyTo(entities, 0);
         SortedList<decimal, Entity> list = [];
-        foreach (Entity entity in entities)
+        foreach (Entity entity in _query.ToEntityList().AsEnumerable())
         {
-            decimal initiative = EntityCalcs.GetInitiative(entity, _rng);
+            decimal initiative = EntityCalcs.GetInitiative(entity, _rng) + (entity.Id / 10000m);
             list.Add(initiative, entity);
         }
         foreach ((decimal _, Entity entity) in list.Reverse())
@@ -35,6 +32,7 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
         if (_initiativeStack.Count == 0)
             CalculateInitiative();
         Entity actor = _initiativeStack.Pop();
+        Entity newActor = _initiativeSortedList.Values[0];
         _history.Push(actor);
         return actor;
     }
