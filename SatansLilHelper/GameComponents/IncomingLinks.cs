@@ -28,6 +28,7 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
     private UiStyle? style;
     private Panel? mainPanel,
         subPanel;
+    private Button? close;
     private Vector2 buttonSize;
     private Dictionary<Element, Entity> entities;
 
@@ -91,7 +92,10 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
                 new TextureRegion(
                     Game.Content.Load<Texture2D>(@"Images/UI/Panels/panel_brown_damaged")
                 ),
-                8f,
+                10,
+                9,
+                9,
+                9,
                 NinePatchMode.Tile
             ),
             SelectionIndicator = new NinePatch(
@@ -124,6 +128,9 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
             PanelScrollerSize = new Vector2(16, 24),
         };
         system = new(Game, style);
+        system.Controls.DownButtons.CopyFrom(Settings.Default.MoveDown);
+        system.Controls.UpButtons.CopyFrom(Settings.Default.MoveUp);
+        system.Controls.KeyboardButtons.CopyFrom(Settings.Default.Confirm);
         mainPanel = new(Anchor.Center, new Vector2(550, 450), new Vector2(0));
 
         mainPanel.AddChild(
@@ -135,12 +142,19 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
         );
         subPanel = new(Anchor.AutoCenter, new Vector2(0.9f, 330), scrollOverflow: true)
         {
-            Texture = null,
+            GetTabNextElement = (bool _, Element _) => close,
             PreventParentSpill = true,
+            Texture = null,
         };
+        close = new Button(Anchor.AutoCenter, new Vector2(0.25f, 55), text: "Close")
+        {
+            GetTabNextElement = (bool _, Element _) => subPanel,
+            OnPressed = DoClose,
+        };
+
         mainPanel.AddChild(subPanel);
         mainPanel.AddChild(new VerticalSpace(15));
-        mainPanel.AddChild(new Button(Anchor.AutoCenter, new Vector2(0.25f, 55), text: "Close"));
+        mainPanel.AddChild(close);
         system.Add("base panel", mainPanel);
     }
 
@@ -151,18 +165,30 @@ internal class IncomingLinks<TComponent> : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        if (Game is not Engine engine || system is null)
+        if (Game is not Engine engine)
             return;
         base.Update(gameTime);
         if (engine.Handler.TryConsumePressed(Keys.Space))
             UpdateList(engine);
-        system.Update(gameTime);
+        system?.Update(gameTime);
         if (Settings.Default.Cancel.TryConsumePressed(engine.Handler))
         {
-            Enabled = false;
-            Visible = false;
-            engine.GameScreen.Enabled = true;
+            DoClose();
         }
+    }
+
+    private void DoClose()
+    {
+        if (Game is not Engine engine)
+            return;
+        Enabled = false;
+        Visible = false;
+        engine.GameScreen.Enabled = true;
+    }
+
+    private void DoClose(Element _)
+    {
+        DoClose();
     }
 
     private Button MakeButton(Entity entity)
