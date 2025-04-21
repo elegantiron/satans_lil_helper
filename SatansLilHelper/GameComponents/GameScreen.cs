@@ -8,6 +8,7 @@ using MLEM.Input;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Extensions;
+using SatansLilHelper.Interfaces;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
@@ -38,11 +39,8 @@ internal class GameScreen : DrawableGameComponent
             engine.PauseMenu.Enabled = true;
             engine.PauseMenu.Visible = true;
         }
-
-        if (engine.World.CurrentMap.IsPlayerNext)
-            ProcessPlayerTurn();
-        else
-            ProcessNPCTurns();
+        (engine.World as IRegistry).Update(gameTime);
+        ProcessPlayerTurn();
     }
 
     public override void Draw(GameTime gameTime)
