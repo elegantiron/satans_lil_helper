@@ -64,31 +64,34 @@ internal class PlayerTurn : IAction
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _moves++;
-            return true;
+            if (action.Successful)
+                _moves++;
+            return action.Successful;
         }
         else if (action is IAttackAction && _attacks < _attacksMax)
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _attacks++;
-            return true;
+            if (action.Successful)
+                _attacks++;
+            return action.Successful;
         }
         else if (action is ISwiftAction && !_swift)
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _swift = false;
-            return true;
+            if (action.Successful)
+                _swift = false;
+            return action.Successful;
         }
         else if (action is IFreeAction)
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            return true;
+            return action.Successful;
         }
         return false;
     }
@@ -112,12 +115,15 @@ internal class PlayerTurn : IAction
     {
         if (!_future.TryPop(out IAction? action))
             return false;
-        if (action is IMoveAction)
-            _moves++;
-        else if (action is IAttackAction)
-            _attacks++;
-        else if (action is ISwiftAction)
-            _swift = false;
+        if (action.Successful)
+        {
+            if (action is IMoveAction)
+                _moves++;
+            else if (action is IAttackAction)
+                _attacks++;
+            else if (action is ISwiftAction)
+                _swift = false;
+        }
         action.Perform();
         _history.Push(action);
         return true;
