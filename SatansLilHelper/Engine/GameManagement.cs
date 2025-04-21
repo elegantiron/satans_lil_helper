@@ -30,4 +30,11 @@ internal partial class Engine
     }
 
     public void SaveGame() { }
+
+    public void EndPlayerTurn()
+    {
+        _playerTurn.Finish();
+        _gameWorld.ActionStack.AddAction(_playerTurn);
+        _playerTurn = new(_gameWorld.Player);
+    }
 }
