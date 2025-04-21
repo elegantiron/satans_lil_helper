@@ -59,39 +59,39 @@ internal class PlayerTurn : IAction
             throw new ArgumentException(
                 "You cannot add an Entity's action to another Entity's turn."
             );
-        if (action is IMoveAction && _moves < _movesMax)
+        if (action is IMoveAction && (_moves < _movesMax || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
             if (action.Successful)
                 _moves++;
-            return action.Successful;
+            return true;
         }
-        else if (action is IAttackAction && _attacks < _attacksMax)
+        else if (action is IAttackAction && (_attacks < _attacksMax || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
             if (action.Successful)
                 _attacks++;
-            return action.Successful;
+            return true;
         }
-        else if (action is ISwiftAction && !_swift)
+        else if (action is ISwiftAction && (!_swift || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
             if (action.Successful)
                 _swift = false;
-            return action.Successful;
+            return true;
         }
         else if (action is IFreeAction)
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            return action.Successful;
+            return true;
         }
         return false;
     }
