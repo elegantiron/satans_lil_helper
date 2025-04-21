@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MLEM.Input;
+using SatansLilHelper.Actions;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Extensions;
@@ -39,7 +40,7 @@ internal class GameScreen : DrawableGameComponent
             engine.PauseMenu.Enabled = true;
             engine.PauseMenu.Visible = true;
         }
-        (engine.World as IRegistry).Update(gameTime);
+        (engine.World as IRegistry).Process();
         ProcessPlayerTurn();
     }
 
@@ -176,15 +177,17 @@ internal class GameScreen : DrawableGameComponent
             || Settings.Default.MoveDownLeft.TryConsumePressed(engine.Handler)
         )
             dx = -1;
-
-        engine.PlayerTurn.AddAction(
-            new Actions.BumpAction(
-                engine.World.Player,
-                new Point(dx, dy),
-                engine.World.CurrentMap,
-                engine.World.Generator,
-                true
-            )
+        BumpAction action = new(
+            engine.World.Player,
+            new Point(dx, dy),
+            engine.World.CurrentMap,
+            engine.World.Generator,
+            true
         );
+
+        if (engine.PlayerTurn.AddAction(action) || engine.World.InCombat)
+            return;
+        engine.EndPlayerTurn();
+        (engine.World as IRegistry).Process();
     }
 }
