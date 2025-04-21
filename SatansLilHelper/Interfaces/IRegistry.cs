@@ -1,5 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
+using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Processors;
 using SatansLilHelper.Utils;
@@ -21,6 +22,8 @@ internal interface IRegistry
         while (!IsPlayerNext)
         {
             Entity entity = GetNextActor();
+            if (!entity.Tags.Has<Alive>())
+                continue;
             ActionStack.AddAction(AI.Process(entity, playerLoc, CurrentMap, Generator));
         }
     }
