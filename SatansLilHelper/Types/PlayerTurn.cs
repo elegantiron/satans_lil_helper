@@ -100,14 +100,16 @@ internal class PlayerTurn : IAction
     {
         if (!_history.TryPop(out IAction? action))
             return false;
+        action.Rewind();
+        _future.Push(action);
+        if (!action.Successful)
+            return true;
         if (action is IMoveAction)
             _moves--;
         else if (action is IAttackAction)
             _attacks--;
         else if (action is ISwiftAction)
             _swift = true;
-        action.Rewind();
-        _future.Push(action);
         return true;
     }
 
