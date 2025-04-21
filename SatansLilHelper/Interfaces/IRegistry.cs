@@ -16,7 +16,7 @@ internal interface IRegistry
     bool IsPlayerNext { get; }
     Entity GetNextActor();
     ActionStack ActionStack { get; }
-    void Update(GameTime gameTime)
+    void Process()
     {
         Location playerLoc = Player.GetComponent<Location>();
         while (!IsPlayerNext)
