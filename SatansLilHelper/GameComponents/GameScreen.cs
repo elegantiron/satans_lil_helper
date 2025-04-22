@@ -143,6 +143,10 @@ internal class GameScreen : DrawableGameComponent
             engine.Grimoire.Enabled = true;
             engine.Grimoire.Visible = true;
         }
+        else if (Settings.Default.EndTurn.TryConsumePressed(engine.Handler))
+        {
+            engine.EndPlayerTurn();
+        }
     }
 
     private void ProcessNPCTurns() { }
