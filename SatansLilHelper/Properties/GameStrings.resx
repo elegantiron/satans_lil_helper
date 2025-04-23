@@ -122,6 +122,7 @@
   </data>
   <data name="ConfirmTurnEnd" xml:space="preserve">
     <value>End your turn?</value>
+    <comment>Asks the player if they want to end their turn</comment>
   </data>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
