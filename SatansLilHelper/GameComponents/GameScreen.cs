@@ -145,11 +145,12 @@ internal class GameScreen : DrawableGameComponent
         }
         else if (Settings.Default.EndTurn.TryConsumePressed(engine.Handler))
         {
-            engine.EndPlayerTurn();
+            Enabled = false;
+            engine.ConfirmPopup.SetData(EndTurnConfirmer, Properties.GameStrings.ConfirmTurnEnd);
+            engine.ConfirmPopup.Enabled = true;
+            engine.ConfirmPopup.Visible = true;
         }
     }
-
-    private void ProcessNPCTurns() { }
 
     private void HandleMovement()
     {
@@ -193,5 +194,16 @@ internal class GameScreen : DrawableGameComponent
             return;
         engine.EndPlayerTurn();
         (engine.World as IRegistry).Process();
+        if (engine.PlayerTurn.AddAction(action))
+            throw new System.Exception("I couldn't add an action to a new turn");
+    }
+
+    private void EndTurnConfirmer(bool confirmed)
+    {
+        if (Game is not Engine engine)
+            return;
+        if (confirmed)
+            engine.EndPlayerTurn();
+        Enabled = true;
     }
 }
