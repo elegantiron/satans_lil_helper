@@ -40,6 +40,7 @@ internal partial class Engine : Game
     private Megamap _megaMap;
     private IncomingLinks<Inventory> _inventory;
     private IncomingLinks<Grimoire> _grimoire;
+    private ConfirmPopup _confirmPopup;
 
     private InputHandler _handler;
 
@@ -55,6 +56,7 @@ internal partial class Engine : Game
     public Megamap MegaMap => _megaMap;
     public IncomingLinks<Inventory> Inventory => _inventory;
     public IncomingLinks<Grimoire> Grimoire => _grimoire;
+    public ConfirmPopup ConfirmPopup => _confirmPopup;
 
     public Engine()
     {
@@ -81,6 +83,7 @@ internal partial class Engine : Game
         _megaMap = new(this) { Visible = false, Enabled = false };
         _inventory = new(this) { Visible = false, Enabled = false };
         _grimoire = new(this) { Visible = false, Enabled = false };
+        _confirmPopup = new(this) { Visible = false, Enabled = false };
 
         Components.Add(_titleScreen);
         Components.Add(_mainMenuScreen);
@@ -92,6 +95,7 @@ internal partial class Engine : Game
         Components.Add(_megaMap);
         Components.Add(_inventory);
         Components.Add(_grimoire);
+        Components.Add(_confirmPopup);
 
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
