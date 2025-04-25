@@ -115,60 +115,9 @@ internal partial class Engine : Game
         base.Draw(gameTime);
     }
 
-    public void HandleKeyDown(object? _, InputKeyEventArgs eventArgs)
-    {
-        if (_keyList.Contains(eventArgs.Key))
-            return;
-        _keyList.Add(eventArgs.Key);
-    }
-
-    public void HandleKeyUp(object? _, InputKeyEventArgs eventArgs)
-    {
-        _keyList.Remove(eventArgs.Key);
-    }
-
     public void QuitGame(EventMessage _)
     {
         SaveSettings();
         Exit();
-    }
-
-    private void InitializeECS()
-    {
-        NativeAOT aot = new();
-
-        aot.RegisterRelation<AbilityStat, AbilityID>();
-        aot.RegisterComponent<ActionDelay>();
-        aot.RegisterComponent<Attack>();
-        aot.RegisterComponent<ECSComponents.Effect>();
-        aot.RegisterIndexedComponentEntity<Equipper>();
-        aot.RegisterIndexedComponentEntity<Inventory>();
-        aot.RegisterComponent<ItemSlots>();
-        aot.RegisterIndexedComponentEntity<Grimoire>();
-        aot.RegisterComponent<Level>();
-        aot.RegisterIndexedComponentStruct<Location, (int, int)>();
-        aot.RegisterComponent<Radius>();
-        aot.RegisterComponent<RandomEffect>();
-        aot.RegisterComponent<ECSComponents.Range>();
-        aot.RegisterComponent<TextureIndex>();
-
-        aot.RegisterTag<Activatable>();
-        aot.RegisterTag<Actor>();
-        aot.RegisterTag<Alive>();
-        aot.RegisterTag<Blocking>();
-        aot.RegisterTag<DamagesInterruptor>();
-        aot.RegisterTag<Equippable>();
-        aot.RegisterTag<Hostile>();
-        aot.RegisterTag<Interruptible>();
-        aot.RegisterTag<Invisible>();
-        aot.RegisterTag<Item>();
-        aot.RegisterTag<MovesActor>();
-        aot.RegisterTag<MovesTarget>();
-        aot.RegisterTag<Player>();
-        aot.RegisterTag<Skill>();
-        aot.RegisterTag<Targetable>();
-        aot.RegisterTag<Visible>();
-
-        aot.CreateSchema();
     }
 }
