@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+using Friflo.Engine.ECS;
+using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.GameComponents;
 using SatansLilHelper.Types;
@@ -76,5 +73,44 @@ internal partial class Engine
         Components.Add(_inventory);
         Components.Add(_grimoire);
         Components.Add(_confirmPopup);
+    }
+
+    private void InitializeECS()
+    {
+        NativeAOT aot = new();
+
+        aot.RegisterRelation<AbilityStat, AbilityID>();
+        aot.RegisterComponent<ActionDelay>();
+        aot.RegisterComponent<Attack>();
+        aot.RegisterComponent<ECSComponents.Effect>();
+        aot.RegisterIndexedComponentEntity<Equipper>();
+        aot.RegisterIndexedComponentEntity<Inventory>();
+        aot.RegisterComponent<ItemSlots>();
+        aot.RegisterIndexedComponentEntity<Grimoire>();
+        aot.RegisterComponent<Level>();
+        aot.RegisterIndexedComponentStruct<Location, (int, int)>();
+        aot.RegisterComponent<Radius>();
+        aot.RegisterComponent<RandomEffect>();
+        aot.RegisterComponent<ECSComponents.Range>();
+        aot.RegisterComponent<TextureIndex>();
+
+        aot.RegisterTag<Activatable>();
+        aot.RegisterTag<Actor>();
+        aot.RegisterTag<Alive>();
+        aot.RegisterTag<Blocking>();
+        aot.RegisterTag<DamagesInterruptor>();
+        aot.RegisterTag<Equippable>();
+        aot.RegisterTag<Hostile>();
+        aot.RegisterTag<Interruptible>();
+        aot.RegisterTag<Invisible>();
+        aot.RegisterTag<Item>();
+        aot.RegisterTag<MovesActor>();
+        aot.RegisterTag<MovesTarget>();
+        aot.RegisterTag<Player>();
+        aot.RegisterTag<Skill>();
+        aot.RegisterTag<Targetable>();
+        aot.RegisterTag<Visible>();
+
+        aot.CreateSchema();
     }
 }
