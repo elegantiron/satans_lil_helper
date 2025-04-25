@@ -46,6 +46,4 @@ internal class GameWorld : IRegistry
     {
         _maps[_currentMap].RewindInitiative();
     }
-
-    public bool InCombat => true;
 }
