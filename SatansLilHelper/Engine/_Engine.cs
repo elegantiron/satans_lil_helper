@@ -29,38 +29,13 @@ internal partial class Engine : Game
     private SpriteBatch? _spriteBatch;
     private string _gamePath;
     private List<Keys> _keyList;
-    private GameScreen _gameScreen;
-    private TitleScreen _titleScreen;
-    private MainMenu _mainMenuScreen;
-    private SatanFace _satanScreen;
-    private StatusWindow _statusScreen;
-    private PlayerTurn _playerTurn;
-    private PauseMenu _pauseMenu;
-    private Minimap _miniMap;
-    private Megamap _megaMap;
-    private IncomingLinks<Inventory> _inventory;
-    private IncomingLinks<Grimoire> _grimoire;
-    private ConfirmPopup _confirmPopup;
 
     private InputHandler _handler;
 
     public InputHandler Handler => _handler;
-    public GameScreen GameScreen => _gameScreen;
-    public TitleScreen TitleScreen => _titleScreen;
-    public MainMenu MainMenuScreen => _mainMenuScreen;
-    public SatanFace SatanScreen => _satanScreen;
-    public StatusWindow StatusScreen => _statusScreen;
-    public PlayerTurn PlayerTurn => _playerTurn;
-    public PauseMenu PauseMenu => _pauseMenu;
-    public Minimap MiniMap => _miniMap;
-    public Megamap MegaMap => _megaMap;
-    public IncomingLinks<Inventory> Inventory => _inventory;
-    public IncomingLinks<Grimoire> Grimoire => _grimoire;
-    public ConfirmPopup ConfirmPopup => _confirmPopup;
 
     public Engine()
     {
-        InitializeECS();
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -72,30 +47,8 @@ internal partial class Engine : Game
         );
         Directory.CreateDirectory(_gamePath);
 
-        // Make screen components
-        _titleScreen = new(this) { Visible = false, Enabled = false };
-        _mainMenuScreen = new(this) { Visible = false, Enabled = false };
-        _satanScreen = new(this) { Visible = false, Enabled = false };
-        _gameScreen = new(this) { Visible = false, Enabled = false };
-        _statusScreen = new(this) { Visible = false, Enabled = false };
-        _pauseMenu = new(this) { Visible = false, Enabled = false };
-        _miniMap = new(this) { Visible = false, Enabled = false };
-        _megaMap = new(this) { Visible = false, Enabled = false };
-        _inventory = new(this) { Visible = false, Enabled = false };
-        _grimoire = new(this) { Visible = false, Enabled = false };
-        _confirmPopup = new(this) { Visible = false, Enabled = false };
-
-        Components.Add(_titleScreen);
-        Components.Add(_mainMenuScreen);
-        Components.Add(_satanScreen);
-        Components.Add(_gameScreen);
-        Components.Add(_statusScreen);
-        Components.Add(_pauseMenu);
-        Components.Add(_miniMap);
-        Components.Add(_megaMap);
-        Components.Add(_inventory);
-        Components.Add(_grimoire);
-        Components.Add(_confirmPopup);
+        InitializeECS();
+        SetupGameComponents();
 
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
