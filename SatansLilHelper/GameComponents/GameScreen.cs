@@ -190,7 +190,7 @@ internal class GameScreen : DrawableGameComponent
             true
         );
 
-        if (engine.PlayerTurn.AddAction(action) || engine.World.InCombat)
+        if (engine.PlayerTurn.AddAction(action) || engine.InCombat)
             return;
         engine.EndPlayerTurn();
         (engine.World as IRegistry).Process();
