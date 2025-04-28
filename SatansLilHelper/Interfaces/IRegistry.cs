@@ -1,5 +1,4 @@
 ﻿using Friflo.Engine.ECS;
-using Microsoft.Xna.Framework;
 using SatansLilHelper.Constants;
 using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Processors;

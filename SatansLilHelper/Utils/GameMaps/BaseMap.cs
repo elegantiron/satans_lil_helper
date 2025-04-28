@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.Swift;
 using Apos.Camera;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;

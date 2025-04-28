@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SatansLilHelper.Constants;
-using SatansLilHelper.Types;
-using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
 

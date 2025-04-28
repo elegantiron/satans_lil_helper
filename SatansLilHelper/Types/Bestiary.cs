@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json.Serialization;
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 

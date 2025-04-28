@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using Apos.Camera;
-using Friflo.Engine.ECS;
-using MessagePack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using MLEM.Input;
 using Newtonsoft.Json;
 using SatansLilHelper.Constants;
-using SatansLilHelper.ECSComponents;
 using SatansLilHelper.GameComponents;
-using SatansLilHelper.InputHandlers;
-using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
 using SatansLilHelper.Utils;
 
