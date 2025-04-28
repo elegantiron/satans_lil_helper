@@ -59,28 +59,31 @@ internal class PlayerTurn : IAction
             throw new ArgumentException(
                 "You cannot add an Entity's action to another Entity's turn."
             );
-        if (action is IMoveAction && _moves < _movesMax)
+        if (action is IMoveAction && (_moves < _movesMax || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _moves++;
+            if (action.Successful)
+                _moves++;
             return true;
         }
-        else if (action is IAttackAction && _attacks < _attacksMax)
+        else if (action is IAttackAction && (_attacks < _attacksMax || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _attacks++;
+            if (action.Successful)
+                _attacks++;
             return true;
         }
-        else if (action is ISwiftAction && !_swift)
+        else if (action is ISwiftAction && (!_swift || !action.Successful))
         {
             action.Perform();
             _future.Clear();
             _history.Push(action);
-            _swift = false;
+            if (action.Successful)
+                _swift = false;
             return true;
         }
         else if (action is IFreeAction)
@@ -97,14 +100,16 @@ internal class PlayerTurn : IAction
     {
         if (!_history.TryPop(out IAction? action))
             return false;
+        action.Rewind();
+        _future.Push(action);
+        if (!action.Successful)
+            return true;
         if (action is IMoveAction)
             _moves--;
         else if (action is IAttackAction)
             _attacks--;
         else if (action is ISwiftAction)
             _swift = true;
-        action.Rewind();
-        _future.Push(action);
         return true;
     }
 
@@ -112,12 +117,15 @@ internal class PlayerTurn : IAction
     {
         if (!_future.TryPop(out IAction? action))
             return false;
-        if (action is IMoveAction)
-            _moves++;
-        else if (action is IAttackAction)
-            _attacks++;
-        else if (action is ISwiftAction)
-            _swift = false;
+        if (action.Successful)
+        {
+            if (action is IMoveAction)
+                _moves++;
+            else if (action is IAttackAction)
+                _attacks++;
+            else if (action is ISwiftAction)
+                _swift = false;
+        }
         action.Perform();
         _history.Push(action);
         return true;

@@ -9,8 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SatansLilHelper.Actions;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Extensions;
 using SatansLilHelper.Interfaces;
 
@@ -139,7 +139,7 @@ internal class IncomingLinkInputHandler<TComponent>(GameInputHandler parent, str
 
     private void Activate(Entity ent)
     {
-        Components.Effect effect = ent.GetComponent<Components.Effect>();
+        ECSComponents.Effect effect = ent.GetComponent<ECSComponents.Effect>();
         switch (effect.Type)
         {
             case ItemEffect.None:

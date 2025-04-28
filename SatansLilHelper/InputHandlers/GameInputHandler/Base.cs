@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Types;
@@ -77,7 +75,7 @@ internal partial class GameInputHandler : IInputHandler, Interfaces.IUpdateable
 
     public void Update(GameTime gameTime)
     {
-        (_gameWorld as IRegistry).Update(gameTime);
+        (_gameWorld as IRegistry).Process();
     }
 
     public void ConfirmEndTurn(bool answer)

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Friflo.Engine.ECS;
-
 using SatansLilHelper.Constants;
 using SatansLilHelper.Interfaces;
 
@@ -11,30 +9,27 @@ namespace SatansLilHelper.Utils;
 
 internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
 {
-    private Stack<Entity> _initiativeStack = new();
-    private Stack<Entity> _history = new();
+    private SortedList<decimal, Entity> _initiativeStack = [];
+    private Stack<Entity> _history = new(),
+        _future = new();
     private ArchetypeQuery _query = query;
     private IRandom _rng = rng;
 
     private void CalculateInitiative()
     {
-        Entity[] entities = new Entity[_query.Count];
-        _query.ToEntityList().CopyTo(entities, 0);
-        SortedList<decimal, Entity> list = [];
-        foreach (Entity entity in entities)
+        foreach (Entity entity in _query.ToEntityList().AsEnumerable())
         {
-            decimal initiative = EntityCalcs.GetInitiative(entity, _rng);
-            list.Add(initiative, entity);
+            decimal initiative = EntityCalcs.GetInitiative(entity, _rng) + (entity.Id / 10000m);
+            _initiativeStack.Add(initiative, entity);
         }
-        foreach ((decimal _, Entity entity) in list.Reverse())
-            _initiativeStack.Push(entity);
     }
 
     public Entity GetNextActor()
     {
         if (_initiativeStack.Count == 0)
             CalculateInitiative();
-        Entity actor = _initiativeStack.Pop();
+        (decimal key, Entity actor) = _initiativeStack.Last();
+        _initiativeStack.Remove(key);
         _history.Push(actor);
         return actor;
     }
@@ -43,9 +38,11 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
     {
         get
         {
+            if (_future.Count > 0)
+                return _future.Peek().Tags.Has<Player>();
             if (_initiativeStack.Count == 0)
                 CalculateInitiative();
-            return _initiativeStack.Peek().Tags.Has<Player>();
+            return _initiativeStack.Last().Value.Tags.Has<Player>();
         }
     }
 
@@ -53,7 +50,7 @@ internal class InitiativeTracker(ArchetypeQuery query, IRandom rng)
     {
         if (!_history.TryPop(out Entity entity))
             return false;
-        _initiativeStack.Push(entity);
+        _future.Push(entity);
         return true;
     }
 }

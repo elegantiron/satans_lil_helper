@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
-
-using SatansLilHelper.Components;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Utils;

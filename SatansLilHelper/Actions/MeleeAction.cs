@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Exceptions;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;

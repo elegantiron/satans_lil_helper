@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 [ComponentKey("level")]
 public struct Level(uint value) : IComponent

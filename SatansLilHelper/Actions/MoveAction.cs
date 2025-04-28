@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-
 using Friflo.Engine.ECS;
-
 using Microsoft.Xna.Framework;
-
-using SatansLilHelper.Components;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 using SatansLilHelper.Properties;
 using SatansLilHelper.Types;
@@ -20,25 +17,30 @@ internal class MoveAction : ActionWithDirection, IMessageSender, IMoveAction
     public MoveAction(Entity entity, Point direction, BaseMap gameMap, bool isPlayer)
         : base(entity, direction, gameMap, isPlayer)
     {
-        if (_isBlocked && _isPlayer)
+        if (_isBlocked)
         {
-            if (_isOffMap)
-                _messages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
-            else
-                _messages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
+            if (_isPlayer)
+            {
+                if (_isOffMap)
+                    _messages.Add(new(GameStrings.MapEdge, Constants.Colors.Impossible));
+                else
+                    _messages.Add(new(GameStrings.PathBlocked, Constants.Colors.Impossible));
+            }
         }
+        else
+            _successful = true;
     }
 
     public override void Perform()
     {
-        if (!_isBlocked)
+        if (_successful)
             _entity.AddComponent<Location>(Destination);
         base.Perform();
     }
 
     public override void Rewind()
     {
-        if (!_isBlocked)
+        if (_successful)
             _entity.AddComponent<Location>(Origin);
         base.Rewind();
     }

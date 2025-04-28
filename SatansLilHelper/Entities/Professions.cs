@@ -1,6 +1,6 @@
 ﻿using Friflo.Engine.ECS;
-using SatansLilHelper.Components;
 using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Interfaces;
 
 namespace SatansLilHelper.Entities;
@@ -33,6 +33,7 @@ internal static class Professions
         entity.AddTag<Blocking>();
         entity.AddTag<Alive>();
         entity.AddTag<Player>();
+        entity.AddTag<Visible>();
     }
 
     public static void Warrior(Entity entity)

@@ -10,6 +10,8 @@ internal struct Alive : ITag { }
 
 internal struct Blocking : ITag { }
 
+internal struct Consumable : ITag { }
+
 internal struct DamagesInterruptor : ITag { }
 
 internal struct Equippable : ITag { }

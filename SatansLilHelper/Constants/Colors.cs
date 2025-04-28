@@ -6,6 +6,7 @@ public static class Colors
 {
     // Our colors
     public static readonly Color Impossible = new(0x80, 0x80, 0x80);
+    public static readonly Color Black = new(0x00, 0x00, 0x00, 0xFF);
     public static readonly Color PlayerAttack = new(0xFF, 0x90, 0xFF, 0xFF);
     public static readonly Color EnemyAttack = new(0xFF, 0x70, 0x70, 0xFF);
     public static readonly Color AmericanRose = new(0xFF, 0x03, 0x3E, 0xFF);
@@ -13,8 +14,10 @@ public static class Colors
     public static readonly Color TranslucentBlack = new(0x00, 0x00, 0x00, 0xB0);
     public static readonly Color DeadActor = new(0x80, 0x80, 0x80, 0x80);
     public static readonly Color White = new(0xFF, 0xFF, 0xFF, 0xFF);
-    public static readonly Color Targeting = new(0xFF, 0x00, 0x00, 0x50);
-    public static readonly Color TargetingRange = new(0x80, 0xFF, 0x00, 0x50);
+    public static readonly Color Target = new(0x6F, 0x6F, 0x6F, 0x50);
+    public static readonly Color TargetRange = new(0x80, 0xFF, 0x00, 0x50);
+    public static readonly Color TargetRadius = new(0x00, 0x80, 0xFF, 0x50);
+    public static readonly Color Gray = new(0x80, 0x80, 0x80, 0xFF);
 
     // Color aliases
     public static readonly Color HiddenTile = DeadActor;
@@ -23,4 +26,5 @@ public static class Colors
     public static readonly Color Red = Color.Red;
     public static readonly Color Green = Color.Green;
     public static readonly Color CornflowerBlue = Color.CornflowerBlue;
+    public static readonly Color Grey = Gray;
 }

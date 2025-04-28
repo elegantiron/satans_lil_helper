@@ -1,8 +1,7 @@
 ﻿using Friflo.Engine.ECS;
-
 using SatansLilHelper.Constants;
 
-namespace SatansLilHelper.Components;
+namespace SatansLilHelper.ECSComponents;
 
 [ComponentKey("ability-stat")]
 public struct AbilityStat(AbilityID type, decimal basis, decimal growth) : IRelation<AbilityID>

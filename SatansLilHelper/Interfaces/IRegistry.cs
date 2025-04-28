@@ -1,6 +1,7 @@
 ﻿using Friflo.Engine.ECS;
 using Microsoft.Xna.Framework;
-using SatansLilHelper.Components;
+using SatansLilHelper.Constants;
+using SatansLilHelper.ECSComponents;
 using SatansLilHelper.Processors;
 using SatansLilHelper.Utils;
 using SatansLilHelper.Utils.GameMaps;
@@ -15,12 +16,14 @@ internal interface IRegistry
     bool IsPlayerNext { get; }
     Entity GetNextActor();
     ActionStack ActionStack { get; }
-    void Update(GameTime gameTime)
+    void Process()
     {
         Location playerLoc = Player.GetComponent<Location>();
         while (!IsPlayerNext)
         {
             Entity entity = GetNextActor();
+            if (!entity.Tags.Has<Alive>())
+                continue;
             ActionStack.AddAction(AI.Process(entity, playerLoc, CurrentMap, Generator));
         }
     }
