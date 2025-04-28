@@ -5,7 +5,8 @@
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
-    <PublishAot>true</PublishAot>
+	  <PublishSingleFile>true</PublishSingleFile>
+    <PublishAot>false</PublishAot>
 	<EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
   </PropertyGroup>
   <PropertyGroup>
