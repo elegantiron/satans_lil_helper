@@ -53,6 +53,7 @@ internal partial class Engine : Game
         _handler = new(this);
         _gameWorld = new(new MersenneTwister(), new Point(100));
         _playerTurn = new(_gameWorld.Player);
+        _inCombat = false;
     }
 
     protected override void Initialize()
