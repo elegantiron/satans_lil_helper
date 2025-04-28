@@ -194,7 +194,7 @@ internal class GameScreen : DrawableGameComponent
             return;
         engine.EndPlayerTurn();
         (engine.World as IRegistry).Process();
-        if (engine.PlayerTurn.AddAction(action))
+        if (!engine.PlayerTurn.AddAction(action))
             throw new System.Exception("I couldn't add an action to a new turn");
     }
 
