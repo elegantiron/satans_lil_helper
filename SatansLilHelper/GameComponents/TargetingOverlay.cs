@@ -42,7 +42,7 @@ internal class TargetingOverlay : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        if (batch is null || camera is null || Game is not Engine engine)
+        if (batch is null || camera is null)
             return;
         camera.SetViewport();
         batch.Begin(transformMatrix: camera.View);
