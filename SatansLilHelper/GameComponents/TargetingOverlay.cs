@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Apos.Camera;
+using Apos.Gui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SatansLilHelper.Constants;
 using SatansLilHelper.Utils;
 
 namespace SatansLilHelper.GameComponents;
@@ -13,17 +15,18 @@ namespace SatansLilHelper.GameComponents;
 internal class TargetingOverlay : DrawableGameComponent
 {
     private SpriteBatch? batch;
+    private Texture2D? pixel;
     private int range,
         radius;
-    private Vector2 center,
+    private Point center,
         offset;
     private Camera? camera;
 
     public TargetingOverlay(Game game)
         : base(game)
     {
-        center = Vector2.Zero;
-        offset = Vector2.Zero;
+        center = Point.Zero;
+        offset = Point.Zero;
         range = radius = 0;
     }
 
@@ -31,15 +34,58 @@ internal class TargetingOverlay : DrawableGameComponent
     {
         base.LoadContent();
         batch = new(Game.GraphicsDevice);
+        IVirtualViewport defaultViewport = new DefaultViewport(Game.GraphicsDevice, Game.Window);
+        camera = new(defaultViewport);
+        pixel = new(Game.GraphicsDevice, 1, 1);
+        pixel.SetData([Colors.White]);
     }
 
     public override void Draw(GameTime gameTime)
     {
-        if (batch is null)
+        if (batch is null || camera is null || Game is not Engine engine)
             return;
-        batch.Begin();
+        camera.SetViewport();
+        batch.Begin(transformMatrix: camera.View);
+
+        DrawCenter();
+        DrawRange();
+        DrawRadius();
 
         batch.End();
+    }
+
+    private void DrawRadius()
+    {
+        if (Game is not Engine engine || batch is null)
+            return;
+        List<Point> points = ShadowCast.GetArea(engine.World.CurrentMap, center + offset, radius);
+        foreach (Point cell in points.ToHashSet())
+        {
+            if (!points.Exists((Point point) => point.X == cell.X - 1 && point.Y == cell.Y))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, cell.Y * 32 - 1, 3, 34),
+                    Colors.TargetRadius
+                );
+            if (!points.Exists((Point point) => point.X == cell.X + 1 && point.Y == cell.Y))
+                batch.Draw(
+                    pixel,
+                    new Rectangle((cell.X + 1) * 32 - 1, cell.Y * 32 - 1, 3, 34),
+                    Colors.TargetRadius
+                );
+            if (!points.Exists((Point point) => point.X == cell.X && point.Y == cell.Y - 1))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, cell.Y * 32 - 1, 34, 3),
+                    Colors.TargetRadius
+                );
+            if (!points.Exists((Point point) => point.X == cell.X && point.Y == cell.Y + 1))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, (cell.Y + 1) * 32 - 1, 34, 3),
+                    Colors.TargetRadius
+                );
+        }
     }
 
     public override void Update(GameTime gameTime)
@@ -81,5 +127,70 @@ internal class TargetingOverlay : DrawableGameComponent
             || Settings.Default.MoveUpLeft.TryConsumePressed(engine.Handler)
         )
             dx = -1;
+        if (offset.X + dx < radius)
+            offset.X += dx;
+        if (offset.Y + dy < radius)
+            offset.Y += dy;
+    }
+
+    private void DrawCenter()
+    {
+        if (batch is null || pixel is null)
+            return;
+        List<Rectangle> rects =
+        [
+            new Rectangle((center.X + offset.X) * 32 - 1, (center.Y + offset.Y) * 32 - 1, 3, 34),
+            new Rectangle((center.X + offset.X) * 32 - 1, (center.Y + offset.Y) * 32 - 1, 34, 3),
+            new Rectangle(
+                (center.X + offset.X + 1) * 32 - 1,
+                (center.Y + offset.Y) * 32 - 1,
+                3,
+                34
+            ),
+            new Rectangle(
+                (center.X + offset.X) * 32 - 1,
+                (center.Y + offset.Y + 1) * 32 - 1,
+                34,
+                3
+            ),
+        ];
+        foreach (Rectangle rect in rects)
+        {
+            batch.Draw(pixel, rect, Colors.Target);
+        }
+    }
+
+    private void DrawRange()
+    {
+        if (Game is not Engine engine || batch is null)
+            return;
+        List<Point> points = ShadowCast.GetArea(engine.World.CurrentMap, center, range);
+        foreach (Point cell in points.ToHashSet())
+        {
+            if (!points.Exists((Point point) => point.X == cell.X - 1 && point.Y == cell.Y))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, cell.Y * 32 - 1, 3, 34),
+                    Colors.TargetRange
+                );
+            if (!points.Exists((Point point) => point.X == cell.X + 1 && point.Y == cell.Y))
+                batch.Draw(
+                    pixel,
+                    new Rectangle((cell.X + 1) * 32 - 1, cell.Y * 32 - 1, 3, 34),
+                    Colors.TargetRange
+                );
+            if (!points.Exists((Point point) => point.X == cell.X && point.Y == cell.Y - 1))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, cell.Y * 32 - 1, 34, 3),
+                    Colors.TargetRange
+                );
+            if (!points.Exists((Point point) => point.X == cell.X && point.Y == cell.Y + 1))
+                batch.Draw(
+                    pixel,
+                    new Rectangle(cell.X * 32 - 1, (cell.Y + 1) * 32 - 1, 34, 3),
+                    Colors.TargetRange
+                );
+        }
     }
 }
