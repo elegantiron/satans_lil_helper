@@ -20,7 +20,12 @@ internal class TargetingOverlay : DrawableGameComponent
     private Camera? camera;
 
     public TargetingOverlay(Game game)
-        : base(game) { }
+        : base(game)
+    {
+        center = Vector2.Zero;
+        offset = Vector2.Zero;
+        range = radius = 0;
+    }
 
     protected override void LoadContent()
     {
