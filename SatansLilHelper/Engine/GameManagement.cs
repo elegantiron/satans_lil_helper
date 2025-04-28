@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,8 @@ namespace SatansLilHelper;
 internal partial class Engine
 {
     private GameWorld _gameWorld;
+    private bool _inCombat;
+    public bool InCombat => _inCombat;
     public GameWorld World => _gameWorld;
 
     public void NewGame()
