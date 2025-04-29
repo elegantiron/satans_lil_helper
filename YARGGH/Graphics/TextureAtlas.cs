@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -98,7 +99,12 @@ public class TextureAtlas
 
                 // The <Texture> element contains the content path for the Texture2D to load.
                 // So we'll retrieve that value then use the content manager to load the texture.
-                string texturePath = root.Element("Texture").Value;
+                XAttribute attribute = (
+                    from att in root.Attributes()
+                    where att.Name == "imagePath"
+                    select att
+                ).First();
+                string texturePath = attribute.Value;
                 atlas.Texture = content.Load<Texture2D>(texturePath);
 
                 // The <Regions> element contains individual <Region> elements, each one describing
@@ -112,17 +118,17 @@ public class TextureAtlas
                 //
                 // So we retrieve all of the <Region> elements then loop through each one
                 // and generate a new TextureRegion instance from it and add it to this atlas.
-                var regions = root.Element("Regions")?.Elements("Region");
+                var regions = root.Elements("sprite");
 
                 if (regions != null)
                 {
                     foreach (var region in regions)
                     {
-                        string name = region.Attribute("name")?.Value;
+                        string name = region.Attribute("n")?.Value;
                         int x = int.Parse(region.Attribute("x")?.Value ?? "0");
                         int y = int.Parse(region.Attribute("y")?.Value ?? "0");
-                        int width = int.Parse(region.Attribute("width")?.Value ?? "0");
-                        int height = int.Parse(region.Attribute("height")?.Value ?? "0");
+                        int width = int.Parse(region.Attribute("w")?.Value ?? "0");
+                        int height = int.Parse(region.Attribute("h")?.Value ?? "0");
 
                         if (!string.IsNullOrEmpty(name))
                         {
