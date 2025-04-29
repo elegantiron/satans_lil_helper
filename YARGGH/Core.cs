@@ -47,7 +47,7 @@ public class Core : Game
     /// <param name="width">The initial width, in pixels, of the game window.</param>
     /// <param name="height">The initial height, in pixels, of the game window.</param>
     /// <param name="fullScreen">Indicates if the game should start in fullscreen mode.</param>
-    public Core(string title, int width, int height, bool fullScreen)
+    public Core(string title, int width, int height, bool fullScreen, string directory)
     {
         if (s_instance != null)
             throw new InvalidOperationException($"Only a single instance can be created");
@@ -76,7 +76,7 @@ public class Core : Game
         GamePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SmuB Games",
-            "Satans Lil Helper"
+            directory
         );
         Directory.CreateDirectory(GamePath);
     }
