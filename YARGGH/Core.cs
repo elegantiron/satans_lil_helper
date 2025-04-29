@@ -1,18 +1,20 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MLEM.Input;
 
 namespace YARGGH;
 
-public class Engine : Game
+public class Core : Game
 {
-    internal static Engine s_instance;
+    internal static Core s_instance;
 
     /// <summary>
     /// Gets a reference to the Core instance.
     /// </summary>
-    public static Engine Instance => s_instance;
+    public static Core Instance => s_instance;
 
     /// <summary>
     /// Gets the graphics device manager to control the presentation of graphics.
@@ -34,6 +36,10 @@ public class Engine : Game
     /// </summary>
     public static new ContentManager Content { get; private set; }
 
+    public static InputHandler InputHandler { get; private set; }
+
+    public static string GamePath { get; private set; }
+
     /// <summary>
     /// Creates a new Core instance.
     /// </summary>
@@ -41,18 +47,19 @@ public class Engine : Game
     /// <param name="width">The initial width, in pixels, of the game window.</param>
     /// <param name="height">The initial height, in pixels, of the game window.</param>
     /// <param name="fullScreen">Indicates if the game should start in fullscreen mode.</param>
-    public Engine(string title, int width, int height, bool fullScreen)
+    public Core(string title, int width, int height, bool fullScreen)
     {
         if (s_instance != null)
             throw new InvalidOperationException($"Only a single instance can be created");
 
         s_instance = this;
 
-        Graphics = new(this);
-
-        Graphics.PreferredBackBufferWidth = width;
-        Graphics.PreferredBackBufferHeight = height;
-        Graphics.IsFullScreen = fullScreen;
+        Graphics = new(this)
+        {
+            PreferredBackBufferWidth = width,
+            PreferredBackBufferHeight = height,
+            IsFullScreen = fullScreen,
+        };
 
         Graphics.ApplyChanges();
 
@@ -63,6 +70,15 @@ public class Engine : Game
         Content.RootDirectory = "Content";
 
         IsMouseVisible = true;
+
+        InputHandler = new(this);
+
+        GamePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "SmuB Games",
+            "Satans Lil Helper"
+        );
+        Directory.CreateDirectory(GamePath);
     }
 
     protected override void Initialize()
