@@ -20,17 +20,9 @@ internal class MainMenu : DrawableGameComponent
         _bestiary,
         _quit,
         _continue;
-    private List<Keys> _keyList;
-    private EventHandler<InputKeyEventArgs> _keyDown,
-        _keyUp;
 
     public MainMenu(Game game)
-        : base(game)
-    {
-        _keyList = [];
-        _keyDown = new(HandleKeyDown);
-        _keyUp = new(HandleKeyUp);
-    }
+        : base(game) { }
 
     protected override void LoadContent()
     {
@@ -178,17 +170,5 @@ internal class MainMenu : DrawableGameComponent
             engine.QuitGame(new Types.EventMessage());
             Game.Exit();
         }
-    }
-
-    public void HandleKeyDown(object? sender, InputKeyEventArgs eventArgs)
-    {
-        if (_keyList.Contains(eventArgs.Key))
-            return;
-        _keyList.Add(eventArgs.Key);
-    }
-
-    public void HandleKeyUp(object? sender, InputKeyEventArgs eventArgs)
-    {
-        _keyList.Remove(eventArgs.Key);
     }
 }
