@@ -88,6 +88,9 @@
     <Folder Include="Content\Effects\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YARGGH\YARGGH.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Content\Fonts\CrayonLibre.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
