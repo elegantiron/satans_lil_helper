@@ -33,7 +33,6 @@ internal class SatanFace : DrawableGameComponent
     {
         if (Game is Engine engine)
         {
-            engine.Handler.Update(gameTime);
             if (
                 engine.Handler.TryConsumePressed(Keys.Enter)
                 || engine.Handler.TryConsumePressed(MouseButton.Left)

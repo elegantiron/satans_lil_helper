@@ -136,7 +136,6 @@ internal class MainMenu : DrawableGameComponent
     {
         if (Game is Engine engine)
         {
-            engine.Handler.Update(gameTime);
             _system?.Update(gameTime);
             if (engine.Handler.TryConsumePressed(Keys.Escape))
                 Game.Exit();
