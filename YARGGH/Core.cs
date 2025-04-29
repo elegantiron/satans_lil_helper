@@ -36,8 +36,14 @@ public class Core : Game
     /// </summary>
     public static new ContentManager Content { get; private set; }
 
+    /// <summary>
+    /// Gets the input handler used to handle user inputs.
+    /// </summary>
     public static InputHandler InputHandler { get; private set; }
 
+    /// <summary>
+    /// Get this game's storage directory
+    /// </summary>
     public static string GamePath { get; private set; }
 
     /// <summary>
