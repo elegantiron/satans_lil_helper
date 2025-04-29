@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YARGGH", "YARGGH\YARGGH.csproj", "{38FB3315-E1E0-4F85-837A-D3F505C3B125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,18 @@ Global
 		{FD71036B-AC37-4471-9498-A1E6A7E5C445}.Release|x64.ActiveCfg = Release|x64
 		{FD71036B-AC37-4471-9498-A1E6A7E5C445}.Release|x64.Build.0 = Release|x64
 		{FD71036B-AC37-4471-9498-A1E6A7E5C445}.Release|x86.ActiveCfg = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|x64.Build.0 = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Debug|x86.Build.0 = Debug|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|x64.ActiveCfg = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|x64.Build.0 = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|x86.ActiveCfg = Release|Any CPU
+		{38FB3315-E1E0-4F85-837A-D3F505C3B125}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
