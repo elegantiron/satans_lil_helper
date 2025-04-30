@@ -46,7 +46,7 @@ public class TextureAtlas
     /// <param name="height">The height, in pixels, of the region.</param>
     public void AddRegion(string name, int x, int y, int width, int height)
     {
-        TextureRegion region = new TextureRegion(Texture, x, y, width, height);
+        TextureRegion region = new(Texture, x, y, width, height);
         _regions.Add(name, region);
     }
 
@@ -86,59 +86,55 @@ public class TextureAtlas
     /// <returns>The texture atlas created by this method.</returns>
     public static TextureAtlas FromFile(ContentManager content, string fileName)
     {
-        TextureAtlas atlas = new TextureAtlas();
+        TextureAtlas atlas = new();
 
         string filePath = Path.Combine(content.RootDirectory, fileName);
 
-        using (Stream stream = TitleContainer.OpenStream(filePath))
+        using Stream stream = TitleContainer.OpenStream(filePath);
+        using XmlReader reader = XmlReader.Create(stream);
+        XDocument doc = XDocument.Load(reader);
+        XElement root = doc.Root;
+
+        // The <Texture> element contains the content path for the Texture2D to load.
+        // So we'll retrieve that value then use the content manager to load the texture.
+        XAttribute attribute = (
+            from att in root.Attributes()
+            where att.Name == "imagePath"
+            select att
+        ).First();
+        string texturePath = attribute.Value;
+        atlas.Texture = content.Load<Texture2D>(texturePath);
+
+        // The <Regions> element contains individual <Region> elements, each one describing
+        // a different texture region within the atlas.
+        //
+        // Example:
+        // <Regions>
+        //      <Region name="spriteOne" x="0" y="0" width="32" height="32" />
+        //      <Region name="spriteTwo" x="32" y="0" width="32" height="32" />
+        // </Regions>
+        //
+        // So we retrieve all of the <Region> elements then loop through each one
+        // and generate a new TextureRegion instance from it and add it to this atlas.
+        var regions = root.Elements("sprite");
+
+        if (regions != null)
         {
-            using (XmlReader reader = XmlReader.Create(stream))
+            foreach (var region in regions)
             {
-                XDocument doc = XDocument.Load(reader);
-                XElement root = doc.Root;
+                string name = region.Attribute("n")?.Value;
+                int x = int.Parse(region.Attribute("x")?.Value ?? "0");
+                int y = int.Parse(region.Attribute("y")?.Value ?? "0");
+                int width = int.Parse(region.Attribute("w")?.Value ?? "0");
+                int height = int.Parse(region.Attribute("h")?.Value ?? "0");
 
-                // The <Texture> element contains the content path for the Texture2D to load.
-                // So we'll retrieve that value then use the content manager to load the texture.
-                XAttribute attribute = (
-                    from att in root.Attributes()
-                    where att.Name == "imagePath"
-                    select att
-                ).First();
-                string texturePath = attribute.Value;
-                atlas.Texture = content.Load<Texture2D>(texturePath);
-
-                // The <Regions> element contains individual <Region> elements, each one describing
-                // a different texture region within the atlas.
-                //
-                // Example:
-                // <Regions>
-                //      <Region name="spriteOne" x="0" y="0" width="32" height="32" />
-                //      <Region name="spriteTwo" x="32" y="0" width="32" height="32" />
-                // </Regions>
-                //
-                // So we retrieve all of the <Region> elements then loop through each one
-                // and generate a new TextureRegion instance from it and add it to this atlas.
-                var regions = root.Elements("sprite");
-
-                if (regions != null)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    foreach (var region in regions)
-                    {
-                        string name = region.Attribute("n")?.Value;
-                        int x = int.Parse(region.Attribute("x")?.Value ?? "0");
-                        int y = int.Parse(region.Attribute("y")?.Value ?? "0");
-                        int width = int.Parse(region.Attribute("w")?.Value ?? "0");
-                        int height = int.Parse(region.Attribute("h")?.Value ?? "0");
-
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            atlas.AddRegion(name, x, y, width, height);
-                        }
-                    }
+                    atlas.AddRegion(name, x, y, width, height);
                 }
-
-                return atlas;
             }
         }
+
+        return atlas;
     }
 }
