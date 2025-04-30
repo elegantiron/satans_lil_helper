@@ -95,4 +95,10 @@ public class Core : Game
 
         SpriteBatch = new(GraphicsDevice);
     }
+
+    protected override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
+        InputHandler.Update(gameTime);
+    }
 }
