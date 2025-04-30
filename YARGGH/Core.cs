@@ -3,7 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MLEM.Input;
+using Microsoft.Xna.Framework.Input;
+using YARGGH.Input;
 
 namespace YARGGH;
 
@@ -37,9 +38,14 @@ public class Core : Game
     public static new ContentManager Content { get; private set; }
 
     /// <summary>
-    /// Gets the input handler used to handle user inputs.
+    /// Gets a reference to to the input management system.
     /// </summary>
-    public static InputHandler InputHandler { get; private set; }
+    public static InputManager Input { get; private set; }
+
+    /// <summary>
+    /// Gets or Sets a value that indicates if the game should exit when the esc key on the keyboard is pressed.
+    /// </summary>
+    public static bool ExitOnEscape { get; set; }
 
     /// <summary>
     /// Get this game's storage directory
@@ -77,8 +83,6 @@ public class Core : Game
 
         IsMouseVisible = true;
 
-        InputHandler = new(this);
-
         GamePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SmuB Games",
@@ -91,14 +95,24 @@ public class Core : Game
     {
         base.Initialize();
 
+        // Set the core's graphic device to a reference of the base
+        // Game's graphics device.
         GraphicsDevice = base.GraphicsDevice;
 
+        // Create the sprite batch instance.
         SpriteBatch = new(GraphicsDevice);
+
+        // Create a new input manager
+        Input = new();
     }
 
     protected override void Update(GameTime gameTime)
     {
+        Input.Update(gameTime);
+
+        if (ExitOnEscape && Input.Keyboard.IsKeyDown(Keys.Escape))
+            Exit();
+
         base.Update(gameTime);
-        InputHandler.Update(gameTime);
     }
 }
