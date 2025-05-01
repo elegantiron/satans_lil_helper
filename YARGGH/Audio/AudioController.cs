@@ -89,7 +89,7 @@ public class AudioController : IDisposable
     /// </summary>
     public AudioController()
     {
-        _activeSoundEffectInstances = new List<SoundEffectInstance>();
+        _activeSoundEffectInstances = [];
     }
 
     // Finalizer called when object is collected by the garbage collector
