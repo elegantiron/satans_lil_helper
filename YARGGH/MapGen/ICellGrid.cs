@@ -1,0 +1,32 @@
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
+namespace YARGGH.MapGen;
+
+public interface ICellGrid
+{
+    public interface ICellGrid
+    {
+        bool IsPassable(Point tile)
+        {
+            return Tiles[tile.X, tile.Y].Walkable;
+        }
+        bool PassesLight(Point tile)
+        {
+            return Tiles[tile.X, tile.Y].PassesLight;
+        }
+        void SetLight(Point tile, float distanceSquared)
+        {
+            Tiles[tile.X, tile.Y].Visible = true;
+            Tiles[tile.X, tile.Y].Explored = true;
+            Tiles[tile.X, tile.Y].LightDistance = distanceSquared;
+        }
+        void GenerateMap(Point size);
+
+        int XDim => Tiles.GetLength(0);
+        int YDim => Tiles.GetLength(1);
+        IEnumerable<(int, int)> GetNeighbors((int, int) tile);
+        int GetMovementCost((int X, int Y) tile);
+        Tile[,] Tiles { get; }
+    }
+}
