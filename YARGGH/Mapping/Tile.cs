@@ -1,4 +1,4 @@
-﻿namespace YARGGH.MapGen;
+﻿namespace YARGGH.Mapping;
 
 public struct Tile(bool walkable, bool passesLight)
 {
