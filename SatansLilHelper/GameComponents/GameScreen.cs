@@ -47,7 +47,7 @@ internal class GameScreen : DrawableGameComponent
         if (_spriteBatch is null || _camera is null || Game is not Engine engine)
             return;
         _camera.SetViewport();
-        _spriteBatch.Begin(transformMatrix: _camera.View);
+        _spriteBatch.Begin(transformMatrix: _camera.View, samplerState: SamplerState.PointClamp);
         DrawTiles(engine);
         DrawEntities(engine);
         _spriteBatch.End();

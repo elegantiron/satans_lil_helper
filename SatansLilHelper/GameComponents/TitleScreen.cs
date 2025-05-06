@@ -41,7 +41,7 @@ internal class TitleScreen : DrawableGameComponent
     {
         base.Draw(gameTime);
         Vector2 originVec = _font.MeasureString(Properties.GameStrings.GameTitle);
-        _spriteBatch?.Begin();
+        _spriteBatch?.Begin(samplerState: SamplerState.PointClamp);
         _spriteBatch?.DrawString(
             _font,
             Properties.GameStrings.GameTitle,

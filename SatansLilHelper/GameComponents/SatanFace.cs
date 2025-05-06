@@ -87,7 +87,7 @@ internal class SatanFace : DrawableGameComponent
     public override void Draw(GameTime gameTime)
     {
         base.Draw(gameTime);
-        _spriteBatch?.Begin();
+        _spriteBatch?.Begin(samplerState: SamplerState.PointClamp);
         List<Texture2D> satan = [_satanMain, _satanMouthClosed, _satanEyesOpen];
         foreach (Texture2D texture in satan)
         {

@@ -63,7 +63,7 @@ internal class Minimap : DrawableGameComponent
         Texture2D pixel = new(batch.GraphicsDevice, 1, 1);
         pixel.SetData([Colors.White]);
         camera.SetViewport();
-        batch.Begin(transformMatrix: camera.View);
+        batch.Begin(transformMatrix: camera.View, samplerState: SamplerState.PointClamp);
         batch.Draw(pixel, new Rectangle(-500, -500, 10280, 11720), Colors.TranslucentBlack);
         for (int i = 0; i < engine.World.CurrentMap.Tiles.GetLength(0); i++)
         {

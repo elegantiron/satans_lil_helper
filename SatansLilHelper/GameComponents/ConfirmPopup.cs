@@ -52,7 +52,7 @@ internal class ConfirmPopup : DrawableGameComponent
             || escape is null
         )
             return;
-        batch.Begin();
+        batch.Begin(samplerState: SamplerState.PointClamp);
         batch.Draw(
             pixel,
             new Rectangle(

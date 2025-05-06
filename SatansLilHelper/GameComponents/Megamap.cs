@@ -61,7 +61,7 @@ internal class Megamap : DrawableGameComponent
             return;
         base.Draw(gameTime);
         camera.SetViewport();
-        batch.Begin(transformMatrix: camera.View);
+        batch.Begin(transformMatrix: camera.View, samplerState: SamplerState.PointClamp);
         DrawTiles(engine);
         batch.End();
         camera.ResetViewport();

@@ -38,7 +38,7 @@ internal class StatusWindow : DrawableGameComponent
             return;
         if (_spriteBatch is null || _font is null)
             return;
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _spriteBatch.Draw(
             _whitePixel,

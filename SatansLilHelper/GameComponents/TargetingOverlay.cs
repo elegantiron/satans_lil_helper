@@ -41,7 +41,7 @@ internal class TargetingOverlay : DrawableGameComponent
         if (batch is null || camera is null)
             return;
         camera.SetViewport();
-        batch.Begin(transformMatrix: camera.View);
+        batch.Begin(transformMatrix: camera.View, samplerState: SamplerState.PointClamp);
 
         DrawCenter();
         DrawRange();
