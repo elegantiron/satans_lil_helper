@@ -1,0 +1,11 @@
+InlayHints:
+    Enabled: false
+Hover:
+    ShowAKA: true
+Completion:
+    AllScopes: Yes
+    ArgumentLists: OpenDelimiter
+If:
+    PathExclude:
+        - out/.*
+        # - C:/msys64/.*
