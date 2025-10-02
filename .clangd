@@ -4,7 +4,7 @@ Hover:
     ShowAKA: true
 Completion:
     AllScopes: Yes
-    ArgumentLists: OpenDelimiter
+    ArgumentLists: None
 If:
     PathExclude:
         - out/.*
