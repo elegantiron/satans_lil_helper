@@ -27,4 +27,5 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Core.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Core.impl.cpp"
 )
