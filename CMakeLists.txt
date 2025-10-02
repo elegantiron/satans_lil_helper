@@ -26,3 +26,4 @@ FetchContent_MakeAvailable(
     SDL3_ttf
 )
 add_subdirectory("lib")
+add_subdirectory("game")
