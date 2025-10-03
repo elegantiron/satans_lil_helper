@@ -1,6 +1,6 @@
-#include "libcakes/Clock.hpp"
+#include "libsatan/Clock.hpp"
 
-namespace libcakes {
+namespace libsatan {
     const GameTime& Clock::newFrame()
     {
         auto now            = std::chrono::steady_clock::now();

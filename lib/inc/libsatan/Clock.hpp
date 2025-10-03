@@ -1,6 +1,6 @@
 #pragma once
-#include "libcakes/GameTime.hpp"
-namespace libcakes {
+#include "libsatan/GameTime.hpp"
+namespace libsatan {
     using TimePoint
         = std::chrono::time_point<std::chrono::steady_clock, Duration>;
 

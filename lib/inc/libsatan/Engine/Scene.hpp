@@ -1,9 +1,9 @@
 #pragma once
-#include "libcakes/GameTime.hpp"
+#include "libsatan/GameTime.hpp"
 
 #include <SDL3/SDL.h>
 #include <memory>
-namespace libcakes::Engine {
+namespace libsatan::Engine {
     /**
      * @brief Indicates the result of various Scene functions.
      *
@@ -75,4 +75,4 @@ namespace libcakes::Engine {
      *
      */
     using ScenePtr = std::shared_ptr<Scene>;
-} // namespace libcakes::Engine
+} // namespace libsatan::Engine

@@ -24,7 +24,6 @@ if(Doxygen_FOUND)
     set(DOXYGEN_STRIP_FROM_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     doxygen_add_docs(
         ${PROJECT_NAME}_docs
-        ALL
     )
 endif()
 
@@ -50,5 +49,4 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Core.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Core.impl.cpp"
 )

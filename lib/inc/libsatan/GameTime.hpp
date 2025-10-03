@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace libcakes {
+namespace libsatan {
     using Duration = std::chrono::duration<float, std::ratio<1, 60>>;
 
     /**
