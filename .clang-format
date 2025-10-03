@@ -16,9 +16,14 @@ AllowShortLoopsOnASingleLine: false
 AllowShortNamespacesOnASingleLine: false
 BinPackArguments: false
 BinPackParameters: OnePerLine
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterControlStatement: Never
+  AfterFunction: true
+  AfterEnum: true
 BreakAfterReturnType: ExceptShortType
 BreakBeforeBinaryOperators: All
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
 BreakBeforeConceptDeclarations: Always
 BreakBeforeTernaryOperators: true
 BreakBinaryOperations: RespectPrecedence
