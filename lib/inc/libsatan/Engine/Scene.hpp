@@ -22,7 +22,7 @@ namespace libsatan::Engine {
         CONTINUE,
         /**
          * @brief Indicates a non-recoverable error.
-         * @details Causes the core to initiate a dump.
+         * @details Causes the Core to initiate a dump.
          */
         FAILURE
     };
