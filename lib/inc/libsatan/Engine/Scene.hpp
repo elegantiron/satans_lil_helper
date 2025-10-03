@@ -1,5 +1,5 @@
 #pragma once
-#include "libsatan/GameTime.hpp"
+#include "libsatan/System/GameTime.hpp"
 
 #include <SDL3/SDL.h>
 #include <memory>

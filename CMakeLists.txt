@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-set(BUILD_SHARED_LIBS ON)
+set(BUILD_SHARED_LIBS OFF)
 set(SDLTTF_VENDORED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/package)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -21,9 +21,18 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+FetchContent_Declare(
+    SDL3_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG release-3.2.4
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
 FetchContent_MakeAvailable(
     SDL3
     SDL3_ttf
+    SDL3_image
 )
 add_subdirectory("lib")
 add_subdirectory("assets")

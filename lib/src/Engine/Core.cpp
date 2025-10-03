@@ -5,42 +5,37 @@
 #include <SDL3/SDL_log.h>
 #include <SDL3_ttf/SDL_ttf.h>
 namespace libsatan::Engine {
-    SDL_Window*                 Core::_window{nullptr};
-    SDL_Renderer*               Core::_renderer{nullptr};
-    ScenePtr                    Core::_nextScene{nullptr};
-    std::stack<ScenePtr>        Core::_scenes{};
-    std::bitset<Core::SET_SIZE> Core::_settings{0};
+    std::unique_ptr<Core> Core::_instance{nullptr};
 
-    void Core::run(const char*     title,
-                   int             width,
-                   int             height,
-                   SDL_WindowFlags flags,
-                   ScenePtr        pScene)
+    Core& Core::getInstance()
     {
-        if (!initSDL(title, width, height, flags))
-            return;
-        if (_nextScene != nullptr) {
-            transitionScene();
+        if (_instance == nullptr) {
+            _instance.reset(new Core());
         }
-        if (pScene != nullptr) {
-            _nextScene = pScene;
-            transitionScene();
-        }
-        if (_scenes.empty()) {
-            SDL_Log("You can't have a game without at least one scene!");
-            return;
-        }
-        gameLoop();
+        return *_instance;
     }
 
     void Core::transitionScene()
     {
-        if (_scenes.empty())
-            return;
-        _scenes.top()->onBury();
+        if (!_scenes.empty())
+            _scenes.top()->onBury();
         _nextScene->init();
         _scenes.push(_nextScene);
-        _nextScene = nullptr;
+    }
+
+    void Core::popScene()
+    {
+        _scenes.pop();
+        if (_scenes.empty())
+            return;
+        _scenes.top()->onReveal();
+    }
+
+    void Core::dumpCore()
+    {
+        while (!_scenes.empty()) {
+            _scenes.pop();
+        }
     }
 
     bool Core::initSDL(const char*     title,
@@ -59,46 +54,53 @@ namespace libsatan::Engine {
         }
         _renderer = SDL_CreateRenderer(_window, nullptr);
         if (_renderer == nullptr) {
-            SDL_Log("Couldn't initialize renderer: %s", SDL_GetError());
+            SDL_Log("Couldn't initialize the renderer: %s", SDL_GetError());
             return false;
         }
         if (!TTF_Init()) {
-            SDL_Log("Couldn't initialize SDL_ttf: %s", SDL_GetError());
+            SDL_Log("Couldnt initialzie SDL_ttf: %s", SDL_GetError());
             return false;
         }
         return true;
     }
 
-    void Core::gameLoop()
+    void Core::setNextScene(ScenePtr pScene)
     {
-        if (_scenes.empty())
-            return;
-        switch (_scenes.top()->update(_clock.newFrame())) {
-            using enum libsatan::Engine::SceneResult;
-        case CONTINUE:
-            break;
-        case SUCCESS:
-            popScene();
-            if (_scenes.empty())
-                return;
-            break;
-        case FAILURE:
-            return;
+        if (_settings.test(MULTIPLE_SCENE_STACK) && _nextScene != nullptr) {
+            transitionScene();
         }
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            switch (_scenes.top()->event(&event)) {
-                using enum libsatan::Engine::SceneResult;
-            case CONTINUE:
-                break;
-            case SUCCESS:
-                popScene();
-                if (_scenes.empty())
-                    return;
-                break;
-            case FAILURE:
-                return;
-            }
+        _nextScene = pScene;
+    }
+
+    void Core::setBackgroundColor(Color color)
+    {
+        _backgroundColor = color;
+    }
+
+    void Core::enableSceneMultiset()
+    {
+        _settings.set(MULTIPLE_SCENE_STACK);
+    }
+
+    void Core::run(const char*     title,
+                   int             width,
+                   int             height,
+                   SDL_WindowFlags flags,
+                   ScenePtr        pScene)
+    {
+        initSDL(title, width, height, flags);
+        if (_nextScene != nullptr) {
+            transitionScene();
         }
+        if (pScene != nullptr) {
+            _nextScene = pScene;
+            transitionScene();
+        }
+        gameLoop();
+    }
+
+    void Core::setExitOnEscape(bool value)
+    {
+        _settings.set(CLOSE_ON_ESCAPE, value);
     }
 } // namespace libsatan::Engine

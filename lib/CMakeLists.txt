@@ -14,7 +14,7 @@ if(Doxygen_FOUND)
     set(DOXYGEN_RESOLVE_UNNAMED_PARAMS YES)
     set(DOXYGEN_SORT_MEMBERS_CTORS_1ST YES)
     set(DOXYGEN_RECURSIVE YES)
-    set(DOXYGEN_INLINE_SOURCES YES)
+    set(DOXYGEN_INLINE_SOURCES NO)
     set(DOXYGEN_REFERENCED_BY_RELATION YES)
     set(DOXYGEN_REFERENCES_RELATION YES)
     set(DOXYGEN_HTML_COLORSTYLE DARK)
@@ -38,6 +38,7 @@ target_link_libraries(
     PUBLIC
     SDL3::SDL3
     SDL3_ttf::SDL3_ttf
+    SDL3_image::SDL3_image
 )
 target_include_directories(
     ${PROJECT_NAME}
