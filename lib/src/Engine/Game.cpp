@@ -63,9 +63,9 @@ namespace libsatan::Engine {
         }
     }
 
-    void Game::updateSetting(GameSetting setting, bool value)
+    void Game::updateSetting(GameSetting setting, bool enabled)
     {
-        _settings.set(static_cast<int>(setting), value);
+        _settings.set(static_cast<int>(setting), enabled);
     }
     bool Game::getSetting(GameSetting setting)
     {
