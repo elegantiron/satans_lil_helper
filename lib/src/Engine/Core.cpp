@@ -23,11 +23,13 @@ namespace libsatan::Engine {
 
     void Game::setNextScene(ScenePtr pScene)
     {
-        if (_settings.test(IMMEDIATE_SCENE_TRANSITION)) {
+        if (_settings.test(
+                static_cast<int>(GameSetting::IMMEDIATE_SCENE_TRANSITION))) {
             _scenes.transitionScene(pScene);
             return;
         }
-        if (_settings.test(SCENE_MULTISTACK) && _nextScene != nullptr) {
+        if (_settings.test(static_cast<int>(GameSetting::SCENE_MULTISTACK))
+            && _nextScene != nullptr) {
             _scenes.transitionScene(_nextScene);
             _nextScene = pScene;
         }
@@ -58,13 +60,12 @@ namespace libsatan::Engine {
         }
     }
 
-    void Game::setImmediateSceneTransferEnabled(bool enabled)
+    void Game::updateSetting(GameSetting setting, bool value)
     {
-        _settings.set(IMMEDIATE_SCENE_TRANSITION, enabled);
+        _settings.set(static_cast<int>(setting), value);
     }
-
-    void Game::setSceneMultiStackEnabled(bool enabled)
+    bool Game::getSetting(GameSetting setting)
     {
-        _settings.set(SCENE_MULTISTACK, enabled);
+        return _settings.test(static_cast<int>(setting));
     }
 } // namespace libsatan::Engine
