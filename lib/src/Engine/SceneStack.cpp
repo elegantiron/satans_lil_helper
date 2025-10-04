@@ -22,6 +22,9 @@ namespace libsatan::Engine {
                                           bool&                    successful)
     {
         successful = true;
+        if (_scenes.empty()) {
+            return;
+        }
         switch (_scenes.top()->event(event)) {
             using enum SceneResult;
         case CONTINUE:
@@ -51,5 +54,9 @@ namespace libsatan::Engine {
         }
         nextScene->init();
         _scenes.push(nextScene);
+    }
+
+    bool SceneStack::empty() const{
+        return _scenes.empty();
     }
 } // namespace libsatan::Engine

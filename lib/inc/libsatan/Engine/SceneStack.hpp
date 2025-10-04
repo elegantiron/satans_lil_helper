@@ -23,6 +23,7 @@ namespace libsatan::Engine {
         void handleEventWithScene(std::optional<sf::Event> event,
                                   bool&                    successful);
         void transitionScene(const ScenePtr& nextScene);
+        [[nodiscard]] bool empty() const;
     };
 }
 
