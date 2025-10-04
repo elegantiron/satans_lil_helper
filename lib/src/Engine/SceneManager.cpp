@@ -1,8 +1,11 @@
-#include "libsatan/Engine/SceneStack.hpp"
+#include "libsatan/Engine/SceneManager.hpp"
+
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace libsatan::Engine {
-    void SceneStack::updateCurrentScene(const GameTime& gameTime,
-                                        bool&           successful)
+    void SceneManager::updateCurrentScene(const GameTime& gameTime,
+                                          bool&           successful)
     {
         successful = true;
         switch (_scenes.top()->update(gameTime)) {
@@ -18,8 +21,8 @@ namespace libsatan::Engine {
         }
     }
 
-    void SceneStack::handleEventWithScene(std::optional<sf::Event> event,
-                                          bool&                    successful)
+    void SceneManager::handleEventWithScene(std::optional<sf::Event> event,
+                                            bool&                    successful)
     {
         successful = true;
         if (_scenes.empty()) {
@@ -38,7 +41,7 @@ namespace libsatan::Engine {
         }
     }
 
-    void SceneStack::popScene()
+    void SceneManager::popScene()
     {
         _scenes.pop();
         if (_scenes.empty()) {
@@ -47,7 +50,7 @@ namespace libsatan::Engine {
         _scenes.top()->onReveal();
     }
 
-    void SceneStack::transitionScene(const ScenePtr& nextScene)
+    void SceneManager::transitionScene(const ScenePtr& nextScene)
     {
         if (!_scenes.empty()) {
             _scenes.top()->onBury();
@@ -56,7 +59,14 @@ namespace libsatan::Engine {
         _scenes.push(nextScene);
     }
 
-    bool SceneStack::empty() const{
+    bool SceneManager::empty() const
+    {
         return _scenes.empty();
+    }
+
+    void SceneManager::draw(sf::RenderTarget& target,
+                            sf::RenderStates   /*states*/) const
+    {
+        target.draw(*_scenes.top());
     }
 } // namespace libsatan::Engine
