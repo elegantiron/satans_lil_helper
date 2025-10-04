@@ -5,9 +5,9 @@
 
 namespace libsatan::System {
     class Clock {
-        GameTime _gameTime;
+        GameTime _gameTime{};
         std::chrono::time_point<std::chrono::steady_clock, Duration>
-            _frameStart;
+            _frameStart{std::chrono::steady_clock::now()};
 
     public:
         void            update();
