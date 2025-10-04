@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics/RenderStates.hpp>
 
-
 namespace SatansLilHelper {
     SceneResult Title::update(const GameTime& gameTime)
     {
@@ -18,4 +17,10 @@ namespace SatansLilHelper {
     }
 
     void Title::draw(sf::RenderTarget& target, sf::RenderStates states) const {}
+
+    Title::Title()
+        : _font(FairyDust.data, FairyDust.size), _title(_font),
+          _pressStart(_font)
+    {
+    }
 }
