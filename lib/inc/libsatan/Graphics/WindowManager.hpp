@@ -13,7 +13,7 @@ namespace libsatan::Graphics {
     public:
         void         draw(sf::Drawable& drawable);
         void         init(sf::Vector2u windowSize, sf::String& windowTitle);
-        void         handleEvents(SceneManager& sceneMan, bool& hasScenes);
+        void         processEventQueue(SceneManager& sceneMan);
         sf::Vector2u getWindowSize() const;
     };
 }

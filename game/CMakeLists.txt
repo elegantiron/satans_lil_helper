@@ -8,9 +8,10 @@ add_executable(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
-    libsatan
-    satanassets
+    # libsatan
+    # satanassets
     SFML::Graphics
+    SFML::Main
 )
 target_include_directories(
     ${PROJECT_NAME}
@@ -35,15 +36,15 @@ target_compile_options(
     -glldb
 )
 endif()
-target_precompile_headers(
-    ${PROJECT_NAME}
-    PRIVATE
-    <libsatan/Engine.hpp>
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
-)
+# target_precompile_headers(
+#     ${PROJECT_NAME}
+#     PRIVATE
+#     <libsatan/Engine.hpp>
+#     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
+# )
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "src/main.cpp"
-    "src/Scenes/Title.cpp"
+    # "src/Scenes/Title.cpp"
 )

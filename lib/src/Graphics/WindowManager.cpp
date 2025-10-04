@@ -11,7 +11,16 @@ namespace libsatan::Graphics {
         return _window.getSize();
     }
 
-    void WindowManager::handleEvents(SceneManager& sceneMan, bool& hasScenes) {}
+    void WindowManager::processEventQueue(SceneManager& sceneMan)
+    {
+        bool successful = false;
+        while (std::optional event = _window.pollEvent()) {
+            sceneMan.handleEventWithScene(event, successful);
+            if (!successful) {
+                break;
+            }
+        }
+    }
 
     void WindowManager::draw(sf::Drawable& drawable)
     {

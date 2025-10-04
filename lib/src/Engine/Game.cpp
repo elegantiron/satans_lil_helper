@@ -54,11 +54,7 @@ namespace libsatan::Engine {
             if (!successful) {
                 break;
             }
-            bool hasScenes = false;
-            _winMan.handleEvents(_sceneMan, hasScenes);
-            if (!hasScenes) {
-                break;
-            }
+            _winMan.processEventQueue(_sceneMan);
 
             _winMan.draw(_sceneMan);
         }
