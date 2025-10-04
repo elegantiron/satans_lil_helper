@@ -1,7 +1,6 @@
 #include "libsatan/Engine/Core.hpp"
 
 #include <SFML/Window/VideoMode.hpp>
-#include <iostream>
 
 namespace libsatan::Engine {
     std::unique_ptr<Core> Core::_instance{nullptr};
@@ -19,39 +18,53 @@ namespace libsatan::Engine {
                    ScenePtr     pScene)
     {
         _window.create(sf::VideoMode(windowSize), windowTitle);
-        if (_nextScene != nullptr) {
-            transitionScene();
-        }
-        if (pScene != nullptr) {
-            _nextScene = pScene;
-            transitionScene();
-        }
-        if (_scenes.empty()) {
-            std::cout << "You can't have a game with no scenes!" << std::endl;
+        gameLoop();
+    }
+
+    void Core::setNextScene(ScenePtr pScene)
+    {
+        if (_settings.test(IMMEDIATE_SCENE_TRANSITION)) {
+            _scenes.transitionScene(pScene);
             return;
         }
-        gameLoop();
-        dumpCore();
-    }
-
-    void Core::transitionScene()
-    {
-        if (!_scenes.empty()) {
-            _scenes.top()->onBury();
+        if (_settings.test(SCENE_MULTISTACK) && _nextScene != nullptr) {
+            _scenes.transitionScene(_nextScene);
+            _nextScene = pScene;
         }
-        _nextScene->init();
-        _scenes.push(_nextScene);
-        _nextScene = nullptr;
+        _nextScene = pScene;
     }
 
-    void Core::dumpCore()
+    void Core::gameLoop()
     {
-        while (!_scenes.empty()) {
-            _scenes.pop();
+        while (true) {
+            if (_nextScene != nullptr) {
+                _scenes.transitionScene(_nextScene);
+            }
+            _clock.update();
+            bool successful;
+            _scenes.updateCurrentScene(_clock.getTime(), successful);
+            if (!successful) {
+                break;
+            }
+            while (std::optional event = _window.pollEvent()) {
+                _scenes.handleEventWithScene(event, successful);
+                if (!successful) {
+                    break;
+                }
+            }
+            if (!successful) {
+                break;
+            }
         }
     }
 
-    void Core::gameLoop(){
-        // switch(_scenes.top()->update(_clock.getTime())){}
+    void Core::setImmediateSceneTransferEnabled(bool enabled)
+    {
+        _settings.set(IMMEDIATE_SCENE_TRANSITION, enabled);
+    }
+
+    void Core::setSceneMultiStackEnabled(bool enabled)
+    {
+        _settings.set(SCENE_MULTISTACK, enabled);
     }
 } // namespace libsatan::Engine

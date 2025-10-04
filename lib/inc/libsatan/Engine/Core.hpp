@@ -1,6 +1,7 @@
 #ifndef LIBSATAN_ENGINE_CORE_HPP
 #define LIBSATAN_ENGINE_CORE_HPP
 #include "libsatan/Engine/Scene.hpp"
+#include "libsatan/Engine/SceneStack.hpp"
 #include "libsatan/System/Clock.hpp"
 
 #include <SFML/Graphics/Color.hpp>
@@ -8,7 +9,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <bitset>
 #include <memory>
-#include <stack>
 
 namespace {
     inline constexpr int SETTINGS_BITS{10};
@@ -17,13 +17,18 @@ namespace {
 namespace libsatan::Engine {
     using namespace System;
     class Core {
+        enum Setting
+        {
+            IMMEDIATE_SCENE_TRANSITION,
+            SCENE_MULTISTACK
+        };
         Core() = default;
         static std::unique_ptr<Core> _instance;
         ScenePtr                     _nextScene;
-        std::stack<ScenePtr>         _scenes;
         sf::RenderWindow             _window;
         std::bitset<SETTINGS_BITS>   _settings{0};
         Clock                        _clock;
+        SceneStack                   _scenes;
 
     public:
         static Core& getInstance();
@@ -34,12 +39,14 @@ namespace libsatan::Engine {
         void setNextScene(ScenePtr pScene);
         void setBackgroundColor(sf::Color color);
 
+        // Settings control methods
+        void setImmediateSceneTransferEnabled(bool enabled);
+        void setSceneMultiStackEnabled(bool enabled);
+
     private:
-        void transitionScene();
-        void popScene();
         void dumpCore();
         void gameLoop();
     };
-}
+} // namespace libsatan::Engine
 
 #endif
