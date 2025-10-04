@@ -13,16 +13,21 @@ namespace libsatan::Engine {
      * @brief Used to manage scenes for a Game
      *
      */
-    class SceneManager {
+    class SceneManager : public sf::Drawable {
         std::stack<ScenePtr> _scenes;
 
         void popScene();
+
+    protected:
+        void draw(sf::RenderTarget& target,
+                  sf::RenderStates  states) const override;
 
     public:
         void updateCurrentScene(const GameTime& gameTime, bool& successful);
         void handleEventWithScene(std::optional<sf::Event> event,
                                   bool&                    successful);
         void transitionScene(const ScenePtr& nextScene);
+
         [[nodiscard]] bool empty() const;
     };
 }
