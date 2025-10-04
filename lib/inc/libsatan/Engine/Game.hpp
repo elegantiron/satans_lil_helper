@@ -49,7 +49,7 @@ namespace libsatan::Engine {
          *
          * @param pScene
          */
-        void setNextScene(ScenePtr pScene);
+        void setNextScene(ScenePtr& pScene);
         /**
          * @brief Set the background color
          *

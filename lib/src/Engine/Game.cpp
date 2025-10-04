@@ -21,7 +21,7 @@ namespace libsatan::Engine {
         gameLoop();
     }
 
-    void Game::setNextScene(ScenePtr pScene)
+    void Game::setNextScene(ScenePtr& pScene)
     {
         if (_settings.test(
                 static_cast<int>(GameSetting::IMMEDIATE_SCENE_TRANSITION))) {
