@@ -10,6 +10,7 @@ Checks:
     - '-modernize-use-trailing-return-type'
     - '-*non-private-member-variables-in-classes'
     - '-*owning-memory'
+    - '-*pro-type-vararg'
 CheckOptions:
     - key: AllowSoleDefaultDtor
       value: true
