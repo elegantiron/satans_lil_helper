@@ -44,7 +44,7 @@ namespace libsatan::Engine {
         _scenes.top()->onReveal();
     }
 
-    void SceneStack::transitionScene(ScenePtr nextScene)
+    void SceneStack::transitionScene(const ScenePtr& nextScene)
     {
         if (!_scenes.empty()) {
             _scenes.top()->onBury();

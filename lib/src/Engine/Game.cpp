@@ -13,9 +13,9 @@ namespace libsatan::Engine {
         return *_instance;
     }
 
-    void Game::run(sf::Vector2u windowSize,
-                   sf::String&  windowTitle,
-                   ScenePtr     pScene)
+    void Game::run(sf::Vector2u    windowSize,
+                   sf::String&     windowTitle,
+                   const ScenePtr& pScene)
     {
         _window.create(sf::VideoMode(windowSize), windowTitle);
         if (pScene != nullptr) {

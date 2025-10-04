@@ -40,9 +40,9 @@ namespace libsatan::Engine {
          */
         static Game& getInstance();
 
-        void run(sf::Vector2u windowSize,
-                 sf::String&  windowTitle,
-                 ScenePtr    pScene = nullptr);
+        void run(sf::Vector2u    windowSize,
+                 sf::String&     windowTitle,
+                 const ScenePtr& pScene = nullptr);
 
         /**
          * @brief Set the next Scene for the game to run.

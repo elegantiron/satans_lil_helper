@@ -10,7 +10,7 @@ namespace libsatan::Engine {
     using namespace System;
     /**
      * @brief Used to manage scenes for a Game
-     * 
+     *
      */
     class SceneStack {
         std::stack<ScenePtr> _scenes;
@@ -21,7 +21,7 @@ namespace libsatan::Engine {
         void updateCurrentScene(const GameTime& gameTime, bool& successful);
         void handleEventWithScene(std::optional<sf::Event> event,
                                   bool&                    successful);
-        void transitionScene(ScenePtr nextScene);
+        void transitionScene(const ScenePtr& nextScene);
     };
 }
 
