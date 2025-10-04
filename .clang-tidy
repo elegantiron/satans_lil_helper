@@ -11,4 +11,5 @@ Checks:
     - '-*non-private-member-variables-in-classes'
     - '-*owning-memory'
 CheckOptions:
-    - AllowSoleDefaultDtor: true
+    - key: AllowSoleDefaultDtor
+      value: true
