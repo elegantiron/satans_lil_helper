@@ -1,7 +1,6 @@
 #include "libsatan/Engine/Game.hpp"
 
 #include <SFML/Window/VideoMode.hpp>
-#include <utility>
 
 namespace libsatan::Engine {
     std::unique_ptr<Game> Game::_instance{nullptr};
