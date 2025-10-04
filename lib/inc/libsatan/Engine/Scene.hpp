@@ -17,7 +17,7 @@ namespace libsatan::Engine {
     };
 
     class Scene : public sf::Drawable {
-        friend class SceneStack;
+        friend class SceneManager;
         virtual SceneResult update(const GameTime& gameTime) = 0;
         virtual SceneResult event(std::optional<sf::Event>)  = 0;
         virtual void        init();
