@@ -30,7 +30,7 @@ namespace libsatan::Engine {
         sf::RenderWindow                                  _window;
         std::bitset<static_cast<int>(GameSetting::COUNT)> _settings{0};
         Clock                                             _clock;
-        SceneStack                                        _scenes;
+        SceneManager                                        _sceneMan;
 
     public:
         /**

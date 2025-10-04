@@ -13,7 +13,7 @@ namespace libsatan::Engine {
      * @brief Used to manage scenes for a Game
      *
      */
-    class SceneStack {
+    class SceneManager {
         std::stack<ScenePtr> _scenes;
 
         void popScene();

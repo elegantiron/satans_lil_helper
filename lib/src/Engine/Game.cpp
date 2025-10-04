@@ -21,7 +21,7 @@ namespace libsatan::Engine {
         std::cout << "creating window \n";
         _window.create(sf::VideoMode(windowSize), windowTitle);
         if (pScene != nullptr) {
-            _scenes.transitionScene(pScene);
+            _sceneMan.transitionScene(pScene);
         }
         std::cout << "enterring game loop\n";
         gameLoop();
@@ -31,12 +31,12 @@ namespace libsatan::Engine {
     {
         if (_settings.test(
                 static_cast<int>(GameSetting::IMMEDIATE_SCENE_TRANSITION))) {
-            _scenes.transitionScene(pScene);
+            _sceneMan.transitionScene(pScene);
             return;
         }
         if (_settings.test(static_cast<int>(GameSetting::SCENE_MULTISTACK))
             && _nextScene != nullptr) {
-            _scenes.transitionScene(_nextScene);
+            _sceneMan.transitionScene(_nextScene);
             _nextScene = pScene;
         }
         _nextScene = pScene;
@@ -46,21 +46,21 @@ namespace libsatan::Engine {
     {
         while (true) {
             if (_nextScene != nullptr) {
-                _scenes.transitionScene(_nextScene);
+                _sceneMan.transitionScene(_nextScene);
             }
             _clock.update();
             bool successful = false;
-            _scenes.updateCurrentScene(_clock.getTime(), successful);
+            _sceneMan.updateCurrentScene(_clock.getTime(), successful);
             if (!successful) {
                 break;
             }
             while (std::optional event = _window.pollEvent()) {
-                _scenes.handleEventWithScene(event, successful);
+                _sceneMan.handleEventWithScene(event, successful);
                 if (!successful) {
                     break;
                 }
             }
-            if (!successful||_scenes.empty()) {
+            if (!successful||_sceneMan.empty()) {
                 break;
             }
         }
