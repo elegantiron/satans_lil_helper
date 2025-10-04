@@ -1,6 +1,7 @@
 #include "libsatan/Engine/Game.hpp"
 
 #include <SFML/Window/VideoMode.hpp>
+#include <utility>
 
 namespace libsatan::Engine {
     std::unique_ptr<Game> Game::_instance{nullptr};
@@ -14,10 +15,13 @@ namespace libsatan::Engine {
     }
 
     void Game::run(sf::Vector2u windowSize,
-                   sf::String   windowTitle,
+                   sf::String&  windowTitle,
                    ScenePtr     pScene)
     {
         _window.create(sf::VideoMode(windowSize), windowTitle);
+        if (pScene != nullptr) {
+            _scenes.transitionScene(pScene);
+        }
         gameLoop();
     }
 
