@@ -12,7 +12,7 @@
 
 namespace libsatan::Engine {
     using namespace System;
-    enum class GameSetting
+    enum class GameSetting : uint8_t
     {
         IMMEDIATE_SCENE_TRANSITION,
         SCENE_MULTISTACK,
