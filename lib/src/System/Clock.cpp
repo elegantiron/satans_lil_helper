@@ -1,12 +1,13 @@
-#include "libsatan/Clock.hpp"
+#include "libsatan/System/Clock.hpp"
 
-namespace libsatan {
-    const GameTime& Clock::newFrame()
+#include <chrono>
+
+namespace libsatan::System {
+    void Clock::update()
     {
         auto now            = std::chrono::steady_clock::now();
         _gameTime.lastFrame = now - _frameStart;
         _gameTime.totalElapsedTime += _gameTime.lastFrame;
         _frameStart = now;
-        return _gameTime;
     }
 }

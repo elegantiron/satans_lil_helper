@@ -1,23 +1,15 @@
-#pragma once
+#ifndef LIBSATAN_SYSTEM_GAMETIME_HPP
+#define LIBSATAN_SYSTEM_GAMETIME_HPP
+
 #include <chrono>
 
-namespace libsatan {
-    using Duration = std::chrono::duration<float, std::ratio<1, 60>>;
-
-    /**
-     * @brief Contains information about how long the game has been running.
-     *
-     */
+namespace libsatan::System {
+    using Duration = std::chrono::duration<long double,
+                                           std::chrono::milliseconds::period>;
     struct GameTime {
-        /**
-         * @brief How much time has elapsed since the game started
-         *
-         */
-        Duration totalElapsedTime;
-        /**
-         * @brief How long the previous frame took to calculate and render.
-         *
-         */
         Duration lastFrame;
+        Duration totalElapsedTime;
     };
 }
+
+#endif

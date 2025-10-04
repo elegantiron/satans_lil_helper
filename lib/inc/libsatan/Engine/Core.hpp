@@ -1,101 +1,45 @@
-#pragma once
-#include "libsatan/System/Clock.hpp"
-#include "libsatan/Graphics/Color.hpp"
+#ifndef LIBSATAN_ENGINE_CORE_HPP
+#define LIBSATAN_ENGINE_CORE_HPP
 #include "libsatan/Engine/Scene.hpp"
+#include "libsatan/System/Clock.hpp"
 
-#include <SDL3/SDL_video.h>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <bitset>
+#include <memory>
 #include <stack>
 
+namespace {
+    inline constexpr int SETTINGS_BITS{10};
+}
+
 namespace libsatan::Engine {
-
-    /**
-     * @brief Everything you need to manage a Game.
-     *
-     */
+    using namespace System;
     class Core {
+        Core() = default;
         static std::unique_ptr<Core> _instance;
-        static constexpr int         SET_SIZE{10};
+        ScenePtr                     _nextScene;
+        std::stack<ScenePtr>         _scenes;
+        sf::RenderWindow             _window;
+        std::bitset<SETTINGS_BITS>   _settings{0};
+        Clock                        _clock;
 
-        enum Setting
-        {
-            MULTIPLE_SCENE_STACK,
-            CLOSE_ON_ESCAPE
-        };
+    public:
+        static Core& getInstance();
 
-        SDL_Window*           _window;
-        SDL_Renderer*         _renderer;
-        Color                 _backgroundColor;
-        ScenePtr              _nextScene;
-        std::stack<ScenePtr>  _scenes;
-        std::bitset<SET_SIZE> _settings;
-        Clock                 _clock;
+        void run(sf::Vector2u windowSize,
+                 sf::String   windowTitle,
+                 ScenePtr     pScene = nullptr);
+        void setNextScene(ScenePtr pScene);
+        void setBackgroundColor(sf::Color color);
 
-        Core() {}
+    private:
         void transitionScene();
         void popScene();
         void dumpCore();
         void gameLoop();
-        bool initSDL(const char*     title,
-                     int             width,
-                     int             height,
-                     SDL_WindowFlags flags);
-
-    public:
-        /**
-         * @brief Get the Instance
-         *
-         * @return Core&
-         */
-        static Core& getInstance();
-
-        /**
-         * @brief Run the game
-         *
-         * @param title Title for the window
-         * @param width Width of the window
-         * @param height Height of the window
-         * @param flags SDL_WindowFlags to use when creating the window
-         * @param pScene The first Scene of the game
-         */
-        void run(const char*     title,
-                 int             width,
-                 int             height,
-                 SDL_WindowFlags flags,
-                 ScenePtr        pScene = nullptr);
-
-        /**
-         * @brief Set the Next Scene
-         *
-         * @param pScene
-         */
-        void setNextScene(ScenePtr pScene);
-
-        /**
-         * @brief Set the Background Color
-         *
-         * @param color
-         */
-        void setBackgroundColor(Color color);
-
-        /**
-         * @brief Enable setting multiple scenes at once
-         *
-         * @details With this setting enabled, setting the next scene with one
-         * already set will immediately transition to the first scene set. Any
-         * additional scenes added will cause an immediate transition to the
-         * next scene.
-         *
-         * Without enabling this, setting the next scene when one is
-         * already set will cause the previously set scene to be lost.
-         */
-        void enableSceneMultiset();
-
-        /**
-         * @brief Set whether the Core will exit when escape is pressed.
-         *
-         * @param value
-         */
-        void setExitOnEscape(bool value);
     };
-} // namespace libsatan::Engine
+}
+
+#endif

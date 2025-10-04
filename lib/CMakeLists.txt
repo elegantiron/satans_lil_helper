@@ -24,7 +24,6 @@ if(Doxygen_FOUND)
     set(DOXYGEN_STRIP_FROM_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     doxygen_add_docs(
         ${PROJECT_NAME}_docs
-        ALL
     )
 endif()
 
@@ -36,19 +35,16 @@ target_compile_features(
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
-    SDL3::SDL3
-    SDL3_ttf::SDL3_ttf
-    SDL3_image::SDL3_image
+    SFML::Graphics
 )
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc"
-    PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc-priv"
+    "inc"
 )
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Core.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/System/Clock.cpp"
 )

@@ -9,8 +9,6 @@ target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
     libsatan
-    SDL3::SDL3
-    SDL3_ttf::SDL3_ttf
 )
 target_include_directories(
     ${PROJECT_NAME}
