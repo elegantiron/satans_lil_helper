@@ -3,6 +3,6 @@
 namespace SatansLilHelper {
     struct GameString {
         const char* Text;
-        const float Size;
+        float Size;
     };
 }
