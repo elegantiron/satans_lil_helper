@@ -14,12 +14,12 @@ namespace libsatan::Engine {
         return *_instance;
     }
 
-    void Game::run(sf::Vector2u    windowSize,
-                   sf::String&     windowTitle,
-                   const ScenePtr& pScene)
+    void Game::run(sf::Vector2u windowSize,
+                   sf::String&  windowTitle,
+                   ScenePtr     pScene)
     {
         std::cout << "creating window \n";
-        _window.create(sf::VideoMode(windowSize), windowTitle);
+        _winMan.init(windowSize, windowTitle);
         if (pScene != nullptr) {
             _sceneMan.transitionScene(pScene);
         }
@@ -54,15 +54,13 @@ namespace libsatan::Engine {
             if (!successful) {
                 break;
             }
-            while (std::optional event = _window.pollEvent()) {
-                _sceneMan.handleEventWithScene(event, successful);
-                if (!successful) {
-                    break;
-                }
-            }
-            if (!successful||_sceneMan.empty()) {
+            bool hasScenes = false;
+            _winMan.handleEvents(_sceneMan, hasScenes);
+            if (!hasScenes) {
                 break;
             }
+
+            _winMan.draw(_sceneMan);
         }
     }
 
@@ -78,6 +76,6 @@ namespace libsatan::Engine {
 
     sf::Vector2u Game::getWindowSize() const
     {
-        return _window.getSize();
+        return _winMan.getWindowSize();
     }
 } // namespace libsatan::Engine

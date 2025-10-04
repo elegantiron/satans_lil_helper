@@ -52,6 +52,7 @@ target_sources(
     PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Game.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/Scene.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/SceneStack.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/SceneManager.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/WindowManager.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/System/Clock.cpp"
 )

@@ -1,7 +1,8 @@
 #ifndef LIBSATAN_ENGINE_CORE_HPP
 #define LIBSATAN_ENGINE_CORE_HPP
 #include "libsatan/Engine/Scene.hpp"
-#include "libsatan/Engine/SceneStack.hpp"
+#include "libsatan/Engine/SceneManager.hpp"
+#include "libsatan/Graphics/WindowManager.hpp"
 #include "libsatan/System/Clock.hpp"
 
 #include <SFML/Graphics/Color.hpp>
@@ -12,6 +13,7 @@
 
 namespace libsatan::Engine {
     using namespace System;
+    using namespace Graphics;
     enum class GameSetting : uint8_t
     {
         IMMEDIATE_SCENE_TRANSITION,
@@ -27,10 +29,10 @@ namespace libsatan::Engine {
         Game() = default;
         static std::unique_ptr<Game>                      _instance;
         ScenePtr                                          _nextScene;
-        sf::RenderWindow                                  _window;
+        WindowManager                                     _winMan;
         std::bitset<static_cast<int>(GameSetting::COUNT)> _settings{0};
         Clock                                             _clock;
-        SceneManager                                        _sceneMan;
+        SceneManager                                      _sceneMan;
 
     public:
         /**
@@ -40,9 +42,9 @@ namespace libsatan::Engine {
          */
         static Game& getInstance();
 
-        void run(sf::Vector2u    windowSize,
-                 sf::String&     windowTitle,
-                 const ScenePtr& pScene = nullptr);
+        void run(sf::Vector2u windowSize,
+                 sf::String&  windowTitle,
+                 ScenePtr     pScene = nullptr);
 
         /**
          * @brief Set the next Scene for the game to run.
