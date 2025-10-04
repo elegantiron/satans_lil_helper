@@ -2,7 +2,10 @@
 #include "GameState.hpp"
 
 #include <SDL3/SDL_main.h>
+
 using namespace SatansLilHelper;
+
+extern const Asset FairyDust;
 
 SDL_AppResult SDL_AppInit(void** appstate, int /*argc*/, char* /*argv*/[])
 {
@@ -13,16 +16,16 @@ SDL_AppResult SDL_AppInit(void** appstate, int /*argc*/, char* /*argv*/[])
         return SDL_APP_FAILURE;
     }
 
-    state.Window = SDL_CreateWindow(Constants::Title,
+    state.window = SDL_CreateWindow(Constants::Title,
                                     Constants::Window::Width,
                                     Constants::Window::Height,
                                     0);
-    if (state.Window == nullptr) {
+    if (state.window == nullptr) {
         SDL_Log("Couldn't open winodw: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-    state.Renderer = SDL_CreateRenderer(state.Window, nullptr);
-    if (state.Renderer == nullptr) {
+    state.renderer = SDL_CreateRenderer(state.window, nullptr);
+    if (state.renderer == nullptr) {
         SDL_Log("Couldn't initialize renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
@@ -30,6 +33,17 @@ SDL_AppResult SDL_AppInit(void** appstate, int /*argc*/, char* /*argv*/[])
         SDL_Log("Couldn't initialize the TTF library: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+    state.font
+        = TTF_OpenFontIO(SDL_IOFromConstMem(FairyDust.data, FairyDust.size),
+                         true,
+                         18.0F);
+
+    SDL_Surface* text = TTF_RenderText_Blended(state.font,
+                                               "Satan's Lil Helper",
+                                               0,
+                                               {255, 255, 255, 255});
+    state.texture     = SDL_CreateTextureFromSurface(state.renderer, text);
+    SDL_DestroySurface(text);
 
     return SDL_APP_CONTINUE;
 }
@@ -39,11 +53,12 @@ SDL_AppResult SDL_AppIterate(void* appstate)
     GameState& state = *static_cast<GameState*>(appstate);
     // NOLINTNEXTLINE
     uint8_t r, g, b, a;
-    SDL_GetRenderDrawColor(state.Renderer, &r, &g, &b, &a);
-    SDL_SetRenderDrawColor(state.Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(state.Renderer);
-    SDL_SetRenderDrawColor(state.Renderer, r, g, b, a);
-    SDL_RenderPresent(state.Renderer);
+    SDL_GetRenderDrawColor(state.renderer, &r, &g, &b, &a);
+    SDL_SetRenderDrawColor(state.renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(state.renderer);
+
+    SDL_SetRenderDrawColor(state.renderer, r, g, b, a);
+    SDL_RenderPresent(state.renderer);
     return SDL_APP_CONTINUE;
 }
 
@@ -60,7 +75,7 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
     return SDL_APP_CONTINUE;
 }
 
-void SDL_AppQuit(void* appstate, SDL_AppResult result)
+void SDL_AppQuit(void* appstate, SDL_AppResult /*result*/)
 {
     auto* state = static_cast<GameState*>(appstate);
     delete state;

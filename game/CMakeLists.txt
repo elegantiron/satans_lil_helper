@@ -41,6 +41,7 @@ target_precompile_headers(
     <SDL3/SDL.h>
     <SDL3_ttf/SDL_ttf.h>
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
+    <SatanAssets.h>
 )
 target_sources(
     ${PROJECT_NAME}
