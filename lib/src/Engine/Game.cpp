@@ -46,7 +46,7 @@ namespace libsatan::Engine {
                 _scenes.transitionScene(_nextScene);
             }
             _clock.update();
-            bool successful;
+            bool successful = false;
             _scenes.updateCurrentScene(_clock.getTime(), successful);
             if (!successful) {
                 break;
