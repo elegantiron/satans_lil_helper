@@ -67,6 +67,7 @@ namespace libsatan::Engine {
     {
         _settings.set(static_cast<int>(setting), enabled);
     }
+
     bool Game::getSetting(GameSetting setting)
     {
         return _settings.test(static_cast<int>(setting));

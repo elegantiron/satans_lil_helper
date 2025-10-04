@@ -58,7 +58,7 @@ PenaltyReturnTypeOnItsOwnLine: 250
 PointerAlignment: Left
 ReferenceAlignment: Pointer
 RequiresClausePosition: OwnLine
-SeparateDefinitionBlocks: Leave
+SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 25
 SortIncludes: true
 UseTab: Never

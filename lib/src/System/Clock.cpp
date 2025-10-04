@@ -11,7 +11,8 @@ namespace libsatan::System {
         _frameStart = now;
     }
 
-    const GameTime& Clock::getTime(){
+    const GameTime& Clock::getTime()
+    {
         return _gameTime;
     }
 }

@@ -8,6 +8,7 @@
 
 namespace libsatan::Engine {
     using namespace System;
+
     /**
      * @brief Used to manage scenes for a Game
      *
