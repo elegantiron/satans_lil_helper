@@ -9,7 +9,7 @@
 
 namespace libsatan::Engine {
     using namespace System;
-    enum class SceneResult
+    enum class SceneResult : uint8_t
     {
         SUCCESS,
         CONTINUE,
