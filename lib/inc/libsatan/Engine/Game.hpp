@@ -55,7 +55,8 @@ namespace libsatan::Engine {
          *
          * @param color
          */
-        void setBackgroundColor(sf::Color color);
+        void         setBackgroundColor(sf::Color color);
+        sf::Vector2u getWindowSize() const;
 
         void updateSetting(GameSetting setting, bool enabled);
         bool getSetting(GameSetting setting);

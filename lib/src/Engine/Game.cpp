@@ -1,4 +1,4 @@
-#include "libsatan/Engine/Core.hpp"
+#include "libsatan/Engine/Game.hpp"
 
 #include <SFML/Window/VideoMode.hpp>
 
@@ -67,5 +67,10 @@ namespace libsatan::Engine {
     bool Game::getSetting(GameSetting setting)
     {
         return _settings.test(static_cast<int>(setting));
+    }
+
+    sf::Vector2u Game::getWindowSize() const
+    {
+        return _window.getSize();
     }
 } // namespace libsatan::Engine
