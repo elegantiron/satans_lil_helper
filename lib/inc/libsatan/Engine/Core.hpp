@@ -16,14 +16,14 @@ namespace {
 
 namespace libsatan::Engine {
     using namespace System;
-    class Core {
+    class Game {
         enum Setting
         {
             IMMEDIATE_SCENE_TRANSITION,
             SCENE_MULTISTACK
         };
-        Core() = default;
-        static std::unique_ptr<Core> _instance;
+        Game() = default;
+        static std::unique_ptr<Game> _instance;
         ScenePtr                     _nextScene;
         sf::RenderWindow             _window;
         std::bitset<SETTINGS_BITS>   _settings{0};
@@ -31,7 +31,7 @@ namespace libsatan::Engine {
         SceneStack                   _scenes;
 
     public:
-        static Core& getInstance();
+        static Game& getInstance();
 
         void run(sf::Vector2u windowSize,
                  sf::String   windowTitle,

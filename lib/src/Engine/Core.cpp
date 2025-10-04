@@ -3,17 +3,17 @@
 #include <SFML/Window/VideoMode.hpp>
 
 namespace libsatan::Engine {
-    std::unique_ptr<Core> Core::_instance{nullptr};
+    std::unique_ptr<Game> Game::_instance{nullptr};
 
-    Core& Core::getInstance()
+    Game& Game::getInstance()
     {
         if (_instance == nullptr) {
-            _instance.reset(new Core);
+            _instance.reset(new Game);
         }
         return *_instance;
     }
 
-    void Core::run(sf::Vector2u windowSize,
+    void Game::run(sf::Vector2u windowSize,
                    sf::String   windowTitle,
                    ScenePtr     pScene)
     {
@@ -21,7 +21,7 @@ namespace libsatan::Engine {
         gameLoop();
     }
 
-    void Core::setNextScene(ScenePtr pScene)
+    void Game::setNextScene(ScenePtr pScene)
     {
         if (_settings.test(IMMEDIATE_SCENE_TRANSITION)) {
             _scenes.transitionScene(pScene);
@@ -34,7 +34,7 @@ namespace libsatan::Engine {
         _nextScene = pScene;
     }
 
-    void Core::gameLoop()
+    void Game::gameLoop()
     {
         while (true) {
             if (_nextScene != nullptr) {
@@ -58,12 +58,12 @@ namespace libsatan::Engine {
         }
     }
 
-    void Core::setImmediateSceneTransferEnabled(bool enabled)
+    void Game::setImmediateSceneTransferEnabled(bool enabled)
     {
         _settings.set(IMMEDIATE_SCENE_TRANSITION, enabled);
     }
 
-    void Core::setSceneMultiStackEnabled(bool enabled)
+    void Game::setSceneMultiStackEnabled(bool enabled)
     {
         _settings.set(SCENE_MULTISTACK, enabled);
     }
