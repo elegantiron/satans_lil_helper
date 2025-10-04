@@ -16,6 +16,10 @@ namespace {
 
 namespace libsatan::Engine {
     using namespace System;
+    /**
+     * @brief Used to coordinate a game.
+     *
+     */
     class Game {
         enum Setting
         {
@@ -31,12 +35,28 @@ namespace libsatan::Engine {
         SceneStack                   _scenes;
 
     public:
+        /**
+         * @brief Get the singleton instance
+         *
+         * @return Core&
+         */
         static Game& getInstance();
 
         void run(sf::Vector2u windowSize,
                  sf::String   windowTitle,
                  ScenePtr     pScene = nullptr);
+
+        /**
+         * @brief Set the next Scene for the game to run.
+         *
+         * @param pScene
+         */
         void setNextScene(ScenePtr pScene);
+        /**
+         * @brief Set the background color
+         * 
+         * @param color 
+         */
         void setBackgroundColor(sf::Color color);
 
         // Settings control methods
