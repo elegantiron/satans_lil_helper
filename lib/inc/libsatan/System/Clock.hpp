@@ -10,6 +10,7 @@ namespace libsatan::System {
             _frameStart;
 
     public:
-        void update();
+        void            update();
+        const GameTime& getTime();
     };
 }

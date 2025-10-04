@@ -10,4 +10,8 @@ namespace libsatan::System {
         _gameTime.totalElapsedTime += _gameTime.lastFrame;
         _frameStart = now;
     }
+
+    const GameTime& Clock::getTime(){
+        return _gameTime;
+    }
 }
