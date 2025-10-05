@@ -23,7 +23,7 @@ BraceWrapping:
   AfterEnum: true
 BreakAfterReturnType: ExceptShortType
 BreakBeforeBinaryOperators: All
-BreakBeforeBraces: Custom
+BreakBeforeBraces: Attach
 BreakBeforeConceptDeclarations: Always
 BreakBeforeTernaryOperators: true
 BreakBinaryOperations: RespectPrecedence
