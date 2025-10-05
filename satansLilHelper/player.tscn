@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3 uid="uid://bfra01b2uc4d5"]
+
+[ext_resource type="Script" uid="uid://dpf77t8chxtrc" path="res://Player.cs" id="1_dw050"]
+[ext_resource type="Texture2D" uid="uid://dr6kvvsi21ovw" path="res://Assets/Sprites/Players/character_pink_climb_a.png" id="1_hqtel"]
+[ext_resource type="Texture2D" uid="uid://b7vcuuhej6glw" path="res://Assets/Sprites/Players/character_pink_walk_a.png" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://cprq63ybnrh8d" path="res://Assets/Sprites/Players/character_pink_walk_b.png" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://c3h4abjt1wr3v" path="res://Assets/Sprites/Players/character_pink_climb_b.png" id="2_sweqy"]
+[ext_resource type="Texture2D" uid="uid://6i6iwskops4o" path="res://Assets/Sprites/Players/character_pink_front.png" id="3_sweqy"]
+[ext_resource type="Texture2D" uid="uid://cii7t4m7362eq" path="res://Assets/Sprites/Players/character_pink_hit.png" id="4_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://bwkisltsevmel" path="res://Assets/Sprites/Players/character_pink_jump.png" id="6_b26j0"]
+[ext_resource type="Script" uid="uid://c40o4bj3a8755" path="res://AnimatedSprite2d.cs" id="8_b26j0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hqtel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sweqy")
+}],
+"loop": true,
+"name": &"climb",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_sweqy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_2hs0m")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_b26j0")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_i3pqv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_onrkg")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i3pqv"]
+radius = 39.0
+height = 100.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 65
+platform_floor_layers = 4294967169
+platform_wall_layers = 64
+script = ExtResource("1_dw050")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_onrkg")
+animation = &"jump"
+script = ExtResource("8_b26j0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i3pqv")
