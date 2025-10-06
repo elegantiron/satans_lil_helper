@@ -45,4 +45,9 @@ namespace SatansLilHelper::Scenes {
         _pressStart.setPosition(
             sf::Vector2f((float)windowSize.x / 2, pressStartYPos));
     }
-}
+
+    void Title::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+        target.draw(_title, states);
+        target.draw(_pressStart, states);
+    }
+} // namespace SatansLilHelper::Scenes
