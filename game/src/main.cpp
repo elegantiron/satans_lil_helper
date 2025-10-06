@@ -1,4 +1,5 @@
 #include "Engine/Core.hpp"
+#include "Scenes/Title.hpp"
 using namespace SatansLilHelper;
 
 int main() {
@@ -10,6 +11,8 @@ int main() {
     if (!successful) {
         return 1;
     }
+    std::shared_ptr<Scenes::Title> pTitle;
+    core.setNextScene(pTitle);
     core.run();
     return 0;
 }
