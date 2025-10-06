@@ -9,7 +9,6 @@ target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
     satanassets
-    libslh
     SFML::Graphics
 )
 target_include_directories(
@@ -39,12 +38,10 @@ target_precompile_headers(
     ${PROJECT_NAME}
     PRIVATE
     <SatanAssets.h>
-    <libslh/Engine/Core.hpp>
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
 )
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "src/main.cpp"
-    "src/Scenes/Title.cpp"
 )

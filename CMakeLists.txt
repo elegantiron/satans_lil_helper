@@ -15,6 +15,5 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(
     SFML
 )
-add_subdirectory("lib")
 add_subdirectory("assets")
 add_subdirectory("game")
