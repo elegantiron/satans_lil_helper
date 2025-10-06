@@ -47,6 +47,7 @@ target_sources(
     "src/Core.cpp"
     "src/Engine/GameSettings.cpp"
     "src/Engine/SceneManager.cpp"
+    "src/Graphics/Sprite.cpp"
     "src/Scenes/Title.cpp"
     "src/Utils/Clock.cpp"
 )
