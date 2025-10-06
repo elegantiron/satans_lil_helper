@@ -39,6 +39,7 @@ target_precompile_headers(
     PRIVATE
     <SatanAssets.h>
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
 )
 target_sources(
     ${PROJECT_NAME}
