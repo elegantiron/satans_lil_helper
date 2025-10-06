@@ -6,7 +6,6 @@
 #include <SFMl/Window/Event.hpp>
 #include <optional>
 
-
 namespace SatansLilHelper::Engine {
 
     class Core {
