@@ -53,4 +53,8 @@ namespace SatansLilHelper::Engine {
     const sf::RenderWindow& Core::getWindow() const {
         return _window;
     }
+
+    void Core::setNextScene(ScenePtr pScene) {
+        _sceneMan.setNextScene(std::move(pScene));
+    }
 } // namespace SatansLilHelper::Engine

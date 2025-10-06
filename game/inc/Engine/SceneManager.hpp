@@ -20,5 +20,6 @@ namespace SatansLilHelper::Engine {
         void handleEvent(std::optional<sf::Event> event,
                          bool&                    successful,
                          bool&                    keepRunning);
+        void setNextScene(ScenePtr pScene);
     };
 }

@@ -44,4 +44,8 @@ namespace SatansLilHelper::Engine {
         }
         _scenes.top()->onReveal();
     }
-} // namespace Engine
+
+    void SceneManager::setNextScene(ScenePtr pScene) {
+        _nextScene = std::move(pScene);
+    }
+} // namespace SatansLilHelper::Engine
