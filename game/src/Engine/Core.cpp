@@ -45,6 +45,7 @@ namespace SatansLilHelper::Engine {
                     return;
                 }
             }
+            _window.draw(_sceneMan);
         }
     }
 
