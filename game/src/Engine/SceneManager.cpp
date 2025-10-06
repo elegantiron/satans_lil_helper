@@ -47,5 +47,13 @@ namespace SatansLilHelper::Engine {
 
     void SceneManager::setNextScene(ScenePtr pScene) {
         _nextScene = std::move(pScene);
+        if (_scenes.empty()) {
+            transitionScene();
+        }
+    }
+
+    void SceneManager::draw(sf::RenderTarget& target,
+                            sf::RenderStates  states) const {
+        target.draw(*_scenes.top(), states);
     }
 } // namespace SatansLilHelper::Engine
