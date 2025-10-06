@@ -12,8 +12,17 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+FetchContent_Declare(
+    TinyXML
+    GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git
+    GIT_TAG 11.0.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
 FetchContent_MakeAvailable(
     SFML
+    TinyXML
 )
 add_subdirectory("assets")
 add_subdirectory("game")

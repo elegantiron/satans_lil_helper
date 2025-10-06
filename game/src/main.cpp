@@ -1,14 +1,15 @@
-#include "Scenes/Title.hpp"
+#include "Engine/Core.hpp"
+using namespace SatansLilHelper;
 
-#include <libslh/Engine/Core.hpp>
-
-int main()
-{
-    using namespace SatansLilHelper;
-    using Core = libslh::Engine::Core;
-    std::shared_ptr<Scenes::Title> pTitle{std::make_shared<Scenes::Title>()};
-    Core&                          core = Core::getInstance();
-    core.run(Constants::Title, Constants::WindowSize, pTitle);
-
+int main() {
+    Engine::Core& core       = Engine::Core::getInstance();
+    bool          successful = false;
+    core.init(sf::VideoMode(Constants::WindowSize),
+              Constants::Title,
+              successful);
+    if (!successful) {
+        return 1;
+    }
+    core.run();
     return 0;
 }

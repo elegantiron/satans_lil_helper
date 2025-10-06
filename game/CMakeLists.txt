@@ -43,5 +43,8 @@ target_precompile_headers(
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
+    "src/Engine/Core.cpp"
+    "src/Engine/SceneManager.cpp"
+    "src/Scenes/Title.cpp"
     "src/main.cpp"
 )

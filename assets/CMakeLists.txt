@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 project(satanassets)
-add_library(${PROJECT_NAME})
+add_library(${PROJECT_NAME} SHARED)
 target_compile_features(
     ${PROJECT_NAME}
     PRIVATE
