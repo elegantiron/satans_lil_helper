@@ -11,8 +11,10 @@ namespace SatansLilHelper::Scenes {
         sf::Text _title;
         sf::Text _pressStart;
 
+        void setTextPositions();
         void init() override;
-        public:
+
+    public:
         Title();
     };
 }
