@@ -47,5 +47,6 @@ target_sources(
     "src/Engine/Core.cpp"
     "src/Engine/SceneManager.cpp"
     "src/Scenes/Title.cpp"
+    "src/Clock.cpp"
     "src/main.cpp"
 )
