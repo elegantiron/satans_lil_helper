@@ -1,0 +1,6 @@
+Checks:
+    - 'cppcoreguidelines*'
+    - '-cppcoreguidelines-pro-type-vararg'
+CheckOptions:
+    - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+      value: true

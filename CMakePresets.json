@@ -1,0 +1,21 @@
+{
+    "version": 7,
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Ninja"
+        },
+        {
+            "name": "debug",
+            "hidden": false,
+            "displayName": "Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "inherits": [
+                "base"
+            ]
+        }
+    ]
+}

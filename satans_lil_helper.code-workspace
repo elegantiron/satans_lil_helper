@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+	}
+}

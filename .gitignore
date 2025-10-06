@@ -15,3 +15,5 @@ dist
 obj
 bin
 SatansLilHelper/Content/Content.mgcb
+out
+.cache
