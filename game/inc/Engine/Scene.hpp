@@ -1,10 +1,11 @@
 #pragma once
 #include "GameTime.hpp"
 
+#include <SFML/Graphics/Drawable.hpp>
 #include <memory>
 
 namespace SatansLilHelper::Engine {
-    class Scene {
+    class Scene : public sf::Drawable {
         friend class SceneManager;
         virtual void iterate(const GameTime& gameTime,
                              bool&           successful,
