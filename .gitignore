@@ -17,3 +17,4 @@ bin
 SatansLilHelper/Content/Content.mgcb
 out
 .cache
+compile_commands.json
