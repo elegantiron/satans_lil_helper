@@ -80,3 +80,10 @@ script = ExtResource("8_b26j0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_i3pqv")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+drag_horizontal_enabled = true
+drag_left_margin = 0.4
+drag_right_margin = 0.4
+editor_draw_limits = true
+editor_draw_drag_margin = true

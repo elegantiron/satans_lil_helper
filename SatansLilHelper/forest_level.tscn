@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://bggv8oqmtqgyu"]
+
+[ext_resource type="PackedScene" uid="uid://cfwjo38hgyc6h" path="res://grass_tile.tscn" id="1_bbnc1"]
+[ext_resource type="PackedScene" uid="uid://cpbftho7q17om" path="res://dirt_tile.tscn" id="2_1geof"]
+
+[node name="ForestLevel" type="Node2D"]
+
+[node name="GrassTile" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(101, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile2" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(228, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile3" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(356, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile4" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(484, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile5" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(612, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile6" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(740, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile7" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(868, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile8" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(996, 695)
+metadata/_edit_lock_ = true
+
+[node name="GrassTile9" parent="." instance=ExtResource("1_bbnc1")]
+position = Vector2(1124, 631)
+
+[node name="Dirt Tile" parent="." instance=ExtResource("2_1geof")]
+position = Vector2(1124, 695)
