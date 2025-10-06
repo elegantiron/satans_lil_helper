@@ -30,8 +30,8 @@ namespace SatansLilHelper::Engine {
     }
 
     void Core::run() {
-        bool keepRunning = false;
-        bool successful  = false;
+        bool keepRunning = true;
+        bool successful  = true;
         while (successful && keepRunning) {
             iterate(_clock.newFrame(), successful, keepRunning);
             if (!successful || !keepRunning) {
