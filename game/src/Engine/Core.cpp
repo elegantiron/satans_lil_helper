@@ -33,8 +33,7 @@ namespace SatansLilHelper::Engine {
         bool keepRunning = false;
         bool successful  = false;
         while (successful && keepRunning) {
-            GameTime gameTime;
-            iterate(gameTime, successful, keepRunning);
+            iterate(_clock.newFrame(), successful, keepRunning);
             if (!successful || !keepRunning) {
                 quit(successful);
                 return;
