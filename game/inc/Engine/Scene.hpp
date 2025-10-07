@@ -5,8 +5,12 @@
 #include <SFML/Window/Event.hpp>
 #include <memory>
 #include <optional>
+#include <utility>
 
 namespace SatansLilHelper::Engine {
+    class Scene;
+    using ScenePtr = std::shared_ptr<Scene>;
+
     class Scene : public sf::Drawable {
         friend class SceneManager;
         virtual void iterate(const GameTime& gameTime,
@@ -24,9 +28,13 @@ namespace SatansLilHelper::Engine {
 
         virtual void init() {}
 
+    protected:
+        ScenePtr _parent;
+
     public:
         virtual ~Scene() = default;
+
+        Scene(ScenePtr parent) : _parent(std::move(parent)) {}
     };
 
-    using ScenePtr = std::shared_ptr<Scene>;
 }
