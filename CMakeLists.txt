@@ -24,5 +24,4 @@ FetchContent_MakeAvailable(
     SFML
     TinyXML
 )
-add_subdirectory("assets")
 add_subdirectory("game")
