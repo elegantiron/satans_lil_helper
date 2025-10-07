@@ -85,10 +85,12 @@ namespace SatansLilHelper::Scenes {
     void Title::handleEvent(std::optional<sf::Event> event,
                             bool&                    successful,
                             bool&                    keepRunning) {
+        auto& core = Engine::Core::getInstance();
         successful = keepRunning = true;
         if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
             if (keyEvent->scancode != sf::Keyboard::Scancode::Escape) {
                 Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>();
+                core.setNextScene(pMain);
             }
         }
     }
