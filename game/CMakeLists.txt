@@ -46,6 +46,7 @@ target_sources(
     PRIVATE
     "src/Engine/Core.cpp"
     "src/Engine/SceneManager.cpp"
+    "src/Scenes/MainMenu.cpp"
     "src/Scenes/Title.cpp"
     "src/Clock.cpp"
     "src/main.cpp"
