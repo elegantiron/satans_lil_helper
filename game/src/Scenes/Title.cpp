@@ -91,7 +91,8 @@ namespace SatansLilHelper::Scenes {
         successful = keepRunning = true;
         if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
             if (keyEvent->scancode != sf::Keyboard::Scancode::Escape) {
-                Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>();
+                Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>(
+                    core.getCurrentScene());
                 core.setNextScene(pMain);
             }
         }
