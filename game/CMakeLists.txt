@@ -25,7 +25,8 @@ target_compile_features(
 target_compile_options(
     ${PROJECT_NAME}
     PRIVATE
-    -Wall -pedantic
+    -Werror -pedantic-errors -Weffc++
+    -Wconversion -Wsign-conversion
 )
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 target_compile_options(
