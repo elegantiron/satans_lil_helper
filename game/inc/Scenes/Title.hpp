@@ -4,27 +4,16 @@
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
-
-extern const Asset FairyDust;
-extern const Asset CrayonLibre;
-extern const Asset SatanMain;
-extern const Asset SatanEyesOpen;
-extern const Asset SatanMouthClosed;
+#include <utility>
 
 namespace SatansLilHelper::Scenes {
     class Title : public Engine::Scene {
-        sf::Font    _titleFont{FairyDust.data, FairyDust.size};
-        sf::Text    _title{_titleFont};
-        sf::Font    _startFont{CrayonLibre.data, CrayonLibre.size};
-        sf::Text    _pressStart{_startFont};
-        sf::Texture _satanMainText{SatanMain.data, SatanMain.size};
-        sf::Sprite  _satanMain{_satanMainText};
-        sf::Texture _satanEyesOpenText{SatanEyesOpen.data, SatanEyesOpen.size};
-        sf::Sprite  _satanEyesOpen{_satanEyesOpenText};
-        sf::Texture _satanMouthClosedText{SatanMouthClosed.data,
-                                          SatanMouthClosed.size};
-        sf::Sprite  _satanMouthClosed{_satanMouthClosedText};
-        bool        isActive{true};
+        sf::Text   _title{Assets::Fonts::FairyDustB};
+        sf::Text   _pressStart{Assets::Fonts::CrayonLibre};
+        sf::Sprite _satanMain{Assets::Textures::Satan::Main};
+        sf::Sprite _satanEyesOpen{Assets::Textures::Satan::EyesOpen};
+        sf::Sprite _satanMouthClosed{Assets::Textures::Satan::MouthClosed};
+        bool       isActive{true};
 
         void configureTexts();
         void configureSprites();
@@ -43,6 +32,6 @@ namespace SatansLilHelper::Scenes {
                          bool&                    keepRunning) override;
 
     public:
-        Title() = default;
+        Title(Engine::ScenePtr parent = nullptr) : Scene(std::move(parent)) {}
     };
-}
+} // namespace SatansLilHelper::Scenes
