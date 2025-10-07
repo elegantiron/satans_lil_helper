@@ -5,7 +5,9 @@
 namespace SatansLilHelper::Engine {
     void SceneManager::handleEvent(std::optional<sf::Event> event,
                                    bool&                    successful,
-                                   bool&                    keepRunning) {}
+                                   bool&                    keepRunning) {
+        _scenes.top()->handleEvent(event, successful, keepRunning);
+    }
 
     void SceneManager::iterate(const GameTime& gameTime,
                                bool&           successful,
