@@ -12,6 +12,7 @@ namespace SatansLilHelper::Engine {
         static Core* _instance;
         Core() = default;
         sf::RenderWindow _window;
+        sf::Color        _backgroundColor{sf::Color::Black};
         SceneManager     _sceneMan;
         Clock            _clock;
 
