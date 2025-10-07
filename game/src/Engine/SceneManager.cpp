@@ -6,7 +6,19 @@ namespace SatansLilHelper::Engine {
     void SceneManager::handleEvent(std::optional<sf::Event> event,
                                    bool&                    successful,
                                    bool&                    keepRunning) {
+        if (_scenes.empty()) {
+            keepRunning = false;
+            return;
+        }
         _scenes.top()->handleEvent(event, successful, keepRunning);
+        bool nowEmpty = true;
+        if (!keepRunning) {
+            popScene(nowEmpty);
+
+            if (!nowEmpty) {
+                keepRunning = true;
+            }
+        }
     }
 
     void SceneManager::iterate(const GameTime& gameTime,
@@ -39,6 +51,7 @@ namespace SatansLilHelper::Engine {
     }
 
     void SceneManager::popScene(bool& nowEmpty) {
+        nowEmpty = false;
         _scenes.pop();
         if (_scenes.empty()) {
             nowEmpty = true;
@@ -57,5 +70,9 @@ namespace SatansLilHelper::Engine {
     void SceneManager::draw(sf::RenderTarget& target,
                             sf::RenderStates  states) const {
         target.draw(*_scenes.top(), states);
+    }
+
+    ScenePtr SceneManager::getCurrentScene() {
+        return _scenes.top();
     }
 } // namespace SatansLilHelper::Engine

@@ -65,4 +65,8 @@ namespace SatansLilHelper::Engine {
     void Core::setNextScene(ScenePtr pScene) {
         _sceneMan.setNextScene(std::move(pScene));
     }
+
+    ScenePtr Core::getCurrentScene(){
+        return _sceneMan.getCurrentScene();
+    }
 } // namespace SatansLilHelper::Engine
