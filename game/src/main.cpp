@@ -11,7 +11,7 @@ int main() {
     if (!successful) {
         return 1;
     }
-    std::shared_ptr<Scenes::Title> pTitle;
+    std::shared_ptr<Scenes::Title> pTitle{std::make_shared<Scenes::Title>()};
     core.setNextScene(pTitle);
     core.run();
     return 0;
