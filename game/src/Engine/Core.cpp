@@ -2,7 +2,8 @@
 
 namespace SatansLilHelper::Engine {
     void Core::init(sf::VideoMode mode, const char* title, bool& successful) {
-        _window.create(mode, title);
+        _window.create(mode, title, sf::Style::Titlebar | sf::Style::Close);
+
         successful = true;
     }
 
