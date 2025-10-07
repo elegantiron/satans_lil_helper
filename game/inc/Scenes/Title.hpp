@@ -24,12 +24,15 @@ namespace SatansLilHelper::Scenes {
         sf::Texture _satanMouthClosedText{SatanMouthClosed.data,
                                           SatanMouthClosed.size};
         sf::Sprite  _satanMouthClosed{_satanMouthClosedText};
+        bool        isActive{true};
 
         void configureTexts();
         void configureSprites();
         void setSpritePositions();
         void setTextPositions();
         void init() override;
+        void onBury() override;
+        void onReveal() override;
         void draw(sf::RenderTarget& target,
                   sf::RenderStates  states) const override;
         void iterate(const GameTime& gameTime,

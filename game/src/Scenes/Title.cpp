@@ -70,10 +70,12 @@ namespace SatansLilHelper::Scenes {
 
     void Title::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(_title, states);
-        target.draw(_pressStart, states);
-        target.draw(_satanMain, states);
-        target.draw(_satanEyesOpen, states);
-        target.draw(_satanMouthClosed, states);
+        if (isActive) {
+            target.draw(_pressStart, states);
+            target.draw(_satanMain, states);
+            target.draw(_satanEyesOpen, states);
+            target.draw(_satanMouthClosed, states);
+        }
     }
 
     void Title::iterate(const GameTime& /*gameTime*/,
@@ -93,6 +95,14 @@ namespace SatansLilHelper::Scenes {
                 core.setNextScene(pMain);
             }
         }
+    }
+
+    void Title::onBury() {
+        isActive = false;
+    }
+
+    void Title::onReveal() {
+        isActive = true;
     }
 
 } // namespace SatansLilHelper::Scenes
