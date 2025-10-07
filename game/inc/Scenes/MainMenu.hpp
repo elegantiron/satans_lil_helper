@@ -2,6 +2,8 @@
 
 #include "Engine/Scene.hpp"
 
+#include <utility>
+
 namespace SatansLilHelper::Scenes {
     class MainMenu : public Engine::Scene {
         void iterate(const GameTime& gameTime,
@@ -12,5 +14,9 @@ namespace SatansLilHelper::Scenes {
                          bool&                    keepRunning) override;
         void draw(sf::RenderTarget& target,
                   sf::RenderStates  states) const override;
+
+    public:
+        MainMenu(Engine::ScenePtr parent = nullptr)
+            : Scene(std::move(parent)) {}
     };
 }
