@@ -27,6 +27,10 @@ namespace SatansLilHelper::Engine {
     void Core::handleEvent(std::optional<sf::Event> event,
                            bool&                    successful,
                            bool&                    keepRunning) {
+        if (event->is<sf::Event::Closed>()) {
+            keepRunning = false;
+            return;
+        }
         _sceneMan.handleEvent(event, successful, keepRunning);
     }
 

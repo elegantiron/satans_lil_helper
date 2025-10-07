@@ -1,5 +1,7 @@
 #include "Scenes/Title.hpp"
 
+#include "Scenes/MainMenu.hpp"
+
 namespace { // Local constants
     constexpr unsigned int TITLE_CHAR_SIZE      = 85;
     constexpr int          TITLE_Y_POS          = 15;
@@ -84,13 +86,10 @@ namespace SatansLilHelper::Scenes {
                             bool&                    successful,
                             bool&                    keepRunning) {
         successful = keepRunning = true;
-        if (event->is<sf::Event::Closed>()) {
-            keepRunning = false;
-            return;
-        }
-        if (event->is<sf::Event::Resized>()) {
-            // setSpritePositions();
-            // setTextPositions();
+        if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
+            if (keyEvent->scancode != sf::Keyboard::Scancode::Escape) {
+                Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>();
+            }
         }
     }
 
