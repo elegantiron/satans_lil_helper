@@ -33,6 +33,7 @@ namespace SatansLilHelper {
     }
 
     void Menu::calculatePositions() {
+        // TODO check items' actual sizes
         auto        count      = _items.size();
         auto&       core       = Engine::Core::getInstance();
         const auto& window     = core.getWindow();
