@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <utility>
 
+namespace {
+    constexpr float HEIGHT_MOD = 1.5F;
+}
+
 namespace SatansLilHelper {
     Menu::Menu(sf::Font  font,
                int       characterHeight,
@@ -35,8 +39,12 @@ namespace SatansLilHelper {
         auto        windowSize = window.getSize();
         auto        xPos       = (float)windowSize.x / 2;
         float       offset     = (float)count / 2;
-        float       startYPos
-            = ((float)windowSize.y / 2) - (1.5F * offset * (float)_lineHeight);
+        float       startYPos  = ((float)windowSize.y / 2)
+                        - (HEIGHT_MOD * offset * (float)_lineHeight);
         sf::Vector2f position = {xPos, startYPos};
+        for (auto& text : _items) {
+            text.setPosition(position);
+            position.y += HEIGHT_MOD * (float)_lineHeight;
+        }
     }
 } // namespace SatansLilHelper
