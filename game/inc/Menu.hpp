@@ -3,11 +3,16 @@
 
 namespace SatansLilHelper {
     class Menu {
-        sf::Font            _font;
-        int                 _characterHeight;
-        sf::Color           _fillColor;
-        sf::Color           _outlineColor;
-        float               _outlineThickness;
+        sf::Font     _font;
+        unsigned int _characterHeight;
+        sf::Color    _defaultFillColor;
+        float        _defaultOutlineThickness;
+        sf::Color    _defaultOutlineColor;
+        sf::Color    _selectedFillColor;
+        float        _selectedOutlineThickness;
+        sf::Color    _selectedOutlineColor;
+        int          _selectedIdx{0};
+
         std::vector<sf::Text> _items;
 
         int _lineHeight{0};
