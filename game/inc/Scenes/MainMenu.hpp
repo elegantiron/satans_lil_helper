@@ -2,10 +2,12 @@
 
 #include "Engine/Scene.hpp"
 
-#include <utility>
+#include "Menu.hpp"
 
 namespace SatansLilHelper::Scenes {
     class MainMenu : public Engine::Scene {
+        Menu _menu;
+
         void iterate(const GameTime& gameTime,
                      bool&           successful,
                      bool&           keepRunning) override;
@@ -16,7 +18,7 @@ namespace SatansLilHelper::Scenes {
                   sf::RenderStates  states) const override;
 
     public:
-        MainMenu(Engine::ScenePtr parent = nullptr)
-            : Scene(std::move(parent)) {}
+        MainMenu(Engine::ScenePtr parent = nullptr);
+        void addItem(const char* text);
     };
 }
