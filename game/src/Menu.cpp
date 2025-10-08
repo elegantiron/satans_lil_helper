@@ -47,4 +47,86 @@ namespace SatansLilHelper {
             position.y += HEIGHT_MOD * (float)_lineHeight;
         }
     }
+
+    void Menu::setCharacterHeight(unsigned int height) {
+        _characterHeight = height;
+        for (auto& text : _items) {
+            text.setCharacterSize(_characterHeight);
+        }
+        calculatePositions();
+    }
+
+    unsigned int Menu::getCharacterHeight() const {
+        return _characterHeight;
+    }
+
+    void Menu::setDefaultFillColor(sf::Color color) {
+        _defaultFillColor = color;
+        for (int i = 0; i < _items.size(); ++i) {
+            if (i == _selectedIdx) {
+                continue;
+            }
+            _items[i].setFillColor(_defaultFillColor);
+        }
+    }
+
+    sf::Color Menu::getDefaultFillColor() const {
+        return _defaultFillColor;
+    }
+
+    void Menu::setDefaultOutlineThickness(float thickness) {
+        _defaultOutlineThickness = thickness;
+        for (int i = 0; i < _items.size(); ++i) {
+            if (i == _selectedIdx) {
+                continue;
+            }
+            _items[i].setOutlineThickness(_defaultOutlineThickness);
+        }
+        calculatePositions();
+    }
+
+    float Menu::getDefaultOutlineThickness() const {
+        return _defaultOutlineThickness;
+    }
+
+    void Menu::setDefaultOutlineColor(sf::Color color) {
+        for (int i = 0; i < _items.size(); ++i) {
+            if (i == _selectedIdx) {
+                continue;
+            }
+            _items[i].setOutlineColor(color);
+        }
+    }
+
+    sf::Color Menu::getDefaultOutlineColor() const {
+        return _defaultOutlineColor;
+    }
+
+    void Menu::setSelectedFillColor(sf::Color color) {
+        _selectedFillColor = color;
+        _items[_selectedIdx].setFillColor(_selectedFillColor);
+    }
+
+    sf::Color Menu::getSelectedFillColor() const {
+        return _selectedFillColor;
+    }
+
+    void Menu::setSelectedOutlineThickness(float thickness) {
+        _selectedOutlineThickness = thickness;
+        _items[_selectedIdx].setOutlineThickness(_selectedOutlineThickness);
+        calculatePositions();
+    }
+
+    float Menu::getSelectedOutlineThickness() const {
+        return _selectedOutlineThickness;
+    }
+
+    void Menu::setSelectedOutlineColor(sf::Color color) {
+        _selectedOutlineColor = color;
+        _items[_selectedIdx].setOutlineColor(color);
+    }
+
+    sf::Color Menu::getSelectedOutlineColor() const {
+        return _selectedOutlineColor;
+    }
 } // namespace SatansLilHelper
