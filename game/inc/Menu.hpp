@@ -50,4 +50,4 @@ namespace SatansLilHelper {
         void         setSelectedOutlineColor(sf::Color color);
         sf::Color    getSelectedOutlineColor() const;
     };
-}
+} // namespace SatansLilHelper
