@@ -103,6 +103,8 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::onReveal() {
+        auto& core = Engine::Core::getInstance();
+        core.setOption(Engine::GameSetting::EXIT_ON_ESCAPE, true);
         isActive = true;
     }
 
