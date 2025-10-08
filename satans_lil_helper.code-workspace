@@ -6,7 +6,6 @@
 	],
 	"settings": {
 		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
-		"todo-tree.general.rootFolder": "${workspaceFolder}/game",
 		"todo-tree.general.showActivityBarBadge": true,
 		"todo-tree.tree.hideTreeWhenEmpty": true,
 		"todo-tree.tree.labelFormat": "${after}",
