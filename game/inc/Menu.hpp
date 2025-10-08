@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+#include <vector>
 
 namespace SatansLilHelper {
     class Menu {
@@ -8,7 +8,7 @@ namespace SatansLilHelper {
         sf::Color           _fillColor;
         sf::Color           _outlineColor;
         float               _outlineThickness;
-        std::list<sf::Text> _items;
+        std::vector<sf::Text> _items;
 
         int _lineHeight{0};
 
