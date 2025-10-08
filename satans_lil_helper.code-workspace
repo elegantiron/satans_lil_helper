@@ -5,6 +5,20 @@
 		}
 	],
 	"settings": {
-		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+		"todo-tree.general.rootFolder": "${workspaceFolder}/game",
+		"todo-tree.general.showActivityBarBadge": true,
+		"todo-tree.tree.hideTreeWhenEmpty": true,
+		"todo-tree.tree.labelFormat": "${after}",
+		"todo-tree.tree.showCountsInTree": true,
+		"todo-tree.tree.showCurrentScanMode": false
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"xaver.clang-format",
+			"llvm-vs-code-extensions.vscode-clangd",
+			"ms-vscode.cmake-tools"
+		]
 	}
 }
