@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics/Font.hpp>
 
 namespace {
     const unsigned char fairy_dust_b[] = {

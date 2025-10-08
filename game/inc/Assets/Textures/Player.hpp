@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics/Texture.hpp>
 
 namespace {
     const unsigned char player[] = {
