@@ -42,9 +42,8 @@ namespace SatansLilHelper {
         sf::Text newItem(_font);
         newItem.setString(text);
         newItem.setCharacterSize(_characterHeight);
-        newItem.setFillColor(_fillColor);
-        newItem.setOutlineColor(_outlineColor);
-        newItem.setOutlineThickness(_outlineThickness);
+        newItem.setFillColor(_defaultFillColor);
+        newItem.setOutlineThickness(_defaultOutlineThickness);
         auto bounds = newItem.getLocalBounds();
         newItem.setOrigin({bounds.size.x / 2, bounds.size.y / 2});
         _lineHeight = std::max<int>((int)bounds.size.y, _lineHeight);
