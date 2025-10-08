@@ -5,6 +5,7 @@ project(
     LANGUAGES C CXX
 )
 add_executable(${PROJECT_NAME})
+find_package(SFML COMPONENTS Graphics REQUIRED)
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
