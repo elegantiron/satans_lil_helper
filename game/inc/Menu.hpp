@@ -17,9 +17,17 @@ namespace SatansLilHelper {
     public:
         Menu(sf::Font  font,
              int       characterHeight,
-             sf::Color fillColor,
-             sf::Color outlineColor     = sf::Color::Black,
-             float     outlineThickness = 0);
+             sf::Color defaultFillColor,
+             sf::Color selectedFillColor);
+        Menu(sf::Font  font,
+             int       characterHeight,
+             sf::Color defaultFillColor,
+             float     defaultOutlineThickness,
+             sf::Color defaultoutlineColor,
+             sf::Color selectedFillColor,
+             float     selectedOutlineThickness,
+             sf::Color selectedOutlineColor);
+
         void addItem(const char* text);
 
         void         setCharacterHeight(unsigned int height);

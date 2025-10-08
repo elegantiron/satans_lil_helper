@@ -10,12 +10,33 @@ namespace {
 namespace SatansLilHelper {
     Menu::Menu(sf::Font  font,
                int       characterHeight,
-               sf::Color fillColor,
-               sf::Color outlineColor,
-               float     outlineThickness)
-        : _font(std::move(font)), _characterHeight(characterHeight),
-          _fillColor(fillColor), _outlineColor(outlineColor),
-          _outlineThickness(outlineThickness) {}
+               sf::Color defaultFillColor,
+               sf::Color selectedFillColor)
+        : Menu(std::move(font),
+               characterHeight,
+               defaultFillColor,
+               0,
+               sf::Color::Black,
+               selectedFillColor,
+               0,
+               sf::Color::Black) {}
+
+    Menu::Menu(sf::Font  font,
+               int       characterHeight,
+               sf::Color defaultFillColor,
+               float     defaultOutlineThickness,
+               sf::Color defaultOutlineColor,
+               sf::Color selectedFillColor,
+               float     selectedOutlineThickness,
+               sf::Color selectedOutlineColor)
+        : _font(std::move(font)),
+          _characterHeight(characterHeight),
+          _defaultFillColor(defaultFillColor),
+          _defaultOutlineThickness(defaultOutlineThickness),
+          _defaultOutlineColor(defaultOutlineColor),
+          _selectedFillColor(selectedFillColor),
+          _selectedOutlineThickness(selectedOutlineThickness),
+          _selectedOutlineColor(selectedOutlineColor) {}
 
     void Menu::addItem(const char* text) {
         sf::Text newItem(_font);
