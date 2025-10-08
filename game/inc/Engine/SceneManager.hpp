@@ -15,15 +15,16 @@ namespace SatansLilHelper::Engine {
         void                 popScene(bool& nowEmpty);
 
     public:
-        void     iterate(const GameTime& gameTime,
-                         bool&           successful,
-                         bool&           keepRunning);
-        void     handleEvent(std::optional<sf::Event> event,
-                             bool&                    successful,
-                             bool&                    keepRunning);
-        void     setNextScene(ScenePtr pScene);
-        void     draw(sf::RenderTarget& target,
-                      sf::RenderStates  states) const override;
-        ScenePtr getCurrentScene();
+        void iterate(const GameTime& gameTime,
+                     bool&           successful,
+                     bool&           keepRunning);
+        void handleEvent(std::optional<sf::Event> event,
+                         bool&                    successful,
+                         bool&                    keepRunning);
+        void setNextScene(ScenePtr pScene);
+        void draw(sf::RenderTarget& target,
+                  sf::RenderStates  states) const override;
+        [[nodiscard]]
+        ScenePtr getCurrentScene() const;
     };
 }

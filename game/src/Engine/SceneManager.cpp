@@ -72,7 +72,7 @@ namespace SatansLilHelper::Engine {
         target.draw(*_scenes.top(), states);
     }
 
-    ScenePtr SceneManager::getCurrentScene() {
+    ScenePtr SceneManager::getCurrentScene() const {
         return _scenes.top();
     }
 } // namespace SatansLilHelper::Engine

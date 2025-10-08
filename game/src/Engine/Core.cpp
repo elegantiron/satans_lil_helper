@@ -1,6 +1,7 @@
 #include "Engine/Core.hpp"
 
 namespace SatansLilHelper::Engine {
+
     void Core::init(sf::VideoMode mode, const char* title, bool& successful) {
         _window.create(mode, title, sf::Style::Titlebar | sf::Style::Close);
 
@@ -31,6 +32,7 @@ namespace SatansLilHelper::Engine {
             keepRunning = false;
             return;
         }
+
         _sceneMan.handleEvent(event, successful, keepRunning);
     }
 
@@ -66,7 +68,19 @@ namespace SatansLilHelper::Engine {
         _sceneMan.setNextScene(std::move(pScene));
     }
 
-    ScenePtr Core::getCurrentScene(){
+    ScenePtr Core::getCurrentScene() const {
         return _sceneMan.getCurrentScene();
+    }
+
+    void Core::setOption(GameSetting optionID, bool value) {
+        _settings.set(getInt(optionID), value);
+    }
+
+    const bitset<getInt(GameSetting::COUNT)>& Core::getSettings() const {
+        return _settings;
+    }
+
+    bool Core::testOption(GameSetting optionID) const {
+        return _settings.test(getInt(optionID));
     }
 } // namespace SatansLilHelper::Engine
