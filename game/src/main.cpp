@@ -6,7 +6,7 @@ int main() {
     Engine::Core& core       = Engine::Core::getInstance();
     bool          successful = false;
     core.init(sf::VideoMode(Constants::WindowSize),
-              Constants::Title,
+              Constants::Strings::Title,
               successful);
     if (!successful) {
         return 1;
