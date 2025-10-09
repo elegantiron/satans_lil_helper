@@ -1,14 +1,19 @@
 #include "Timer.hpp"
 
 namespace SatansLilHelper {
-    Timer::Timer(TimerCallback callback, Duration interval)
-        : _callback(callback), _interval(interval), _runningClock(interval) {}
 
-    void Timer::update(const GameTime& gameTime) {
+    template <typename T>
+    void Timer<T>::setInterval(Duration interval) {
+        _interval = _runningClock = interval;
+    }
+
+    template <typename T>
+    void Timer<T>::update(const GameTime& gameTime) {
         update(gameTime.lastFrame);
     }
 
-    void Timer::update(const Duration& elapsedTime) {
+    template <typename T>
+    void Timer<T>::update(const Duration& elapsedTime) {
         if (_running) {
             _runningClock -= elapsedTime;
             if (_runningClock <= Duration::zero()) {
@@ -21,8 +26,8 @@ namespace SatansLilHelper {
         }
     }
 
-    void Timer::restart() {
-        _running      = true;
-        _runningClock = _interval;
-    }
+    template <typename T>
+    Timer<T>::Timer(T* object, TimerCallback<T> callback)
+        : _object(object), _callback(callback) {}
+
 }

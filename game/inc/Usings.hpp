@@ -8,4 +8,5 @@ namespace {
 using Duration
     = std::chrono::duration<long double, std::ratio<1, MILLIS_PER_SECOND>>;
 
-using TimerCallback = void (*)(bool& runAgain, Duration& nextInterval);
+template <typename T>
+using TimerCallback = void (T::*)(bool& runAgain, Duration& nextInterval);
