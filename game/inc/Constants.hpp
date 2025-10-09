@@ -2,7 +2,10 @@
 #include <SFML/System/Vector2.hpp>
 
 namespace SatansLilHelper::Constants {
-    inline const char* const      Title      = {"Satan's Lil Helper"};
-    inline const char* const      PressStart = {"Press START"};
-    inline constexpr sf::Vector2u WindowSize = {1280, 720};
+    namespace Strings {
+        extern const char* const Title;
+        extern const char* const PressStart;
+    }
+
+    extern const sf::Vector2u WindowSize;
 }

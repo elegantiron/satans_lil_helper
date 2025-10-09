@@ -49,6 +49,8 @@ target_precompile_headers(
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
+    "src/Constants/Numbers.cpp"
+    "src/Constants/Strings.cpp"
     "src/Engine/Core.cpp"
     "src/Engine/SceneManager.cpp"
     "src/Scenes/MainMenu.cpp"
