@@ -70,7 +70,7 @@ namespace SatansLilHelper::Scenes {
 
     void Title::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(_title, states);
-        if (isActive) {
+        if (_isActive) {
             target.draw(_pressStart, states);
             target.draw(_satanMain, states);
             if (_eyesOpen) {
@@ -82,11 +82,12 @@ namespace SatansLilHelper::Scenes {
         }
     }
 
-    void Title::iterate(const GameTime& /*gameTime*/,
-                        bool& successful,
-                        bool& keepRunning) {
+    void Title::iterate(const GameTime& gameTime,
+                        bool&           successful,
+                        bool&           keepRunning) {
         successful = keepRunning = true;
         // TODO have satan blink every so often
+        _blinkTimer.update(gameTime);
     }
 
     void Title::handleEvent(std::optional<sf::Event> event,
@@ -104,15 +105,20 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::onBury() {
-        isActive = false;
+        _isActive = false;
     }
 
     void Title::onReveal() {
         auto& core = Engine::Core::getInstance();
         core.setOption(Engine::GameSetting::EXIT_ON_ESCAPE, true);
-        isActive = true;
+        _isActive = true;
     }
 
     Title::Title(Engine::ScenePtr parent)
         : Scene(std::move(parent)), _blinkTimer(this, &Title::blinkCallback) {}
+
+    void Title::blinkCallback(bool& runAgain, Duration& nextInterval) {
+        runAgain  = true;
+        _eyesOpen = true;
+    }
 } // namespace SatansLilHelper::Scenes
