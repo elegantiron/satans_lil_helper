@@ -32,6 +32,12 @@ target_compile_options(
     PRIVATE
     -glldb
 )
+elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+target_compile_options(
+    ${PROJECT_NAME}
+    PRIVATE
+    -O3 -DNDEBUG
+)
 endif()
 target_precompile_headers(
     ${PROJECT_NAME}

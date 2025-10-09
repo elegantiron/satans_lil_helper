@@ -19,6 +19,17 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
+        },
+        {
+            "name": "release",
+            "description": "",
+            "displayName": "Release",
+            "inherits": [
+                "base"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
         }
     ]
 }
