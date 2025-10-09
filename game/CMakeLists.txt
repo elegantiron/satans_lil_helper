@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
+    slhassets
     SFML::Graphics
 )
 target_include_directories(
@@ -42,9 +43,9 @@ endif()
 target_precompile_headers(
     ${PROJECT_NAME}
     PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Assets.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
+    <SLHAssets.hpp>
 )
 target_sources(
     ${PROJECT_NAME}
