@@ -16,7 +16,7 @@ namespace SatansLilHelper::Scenes {
         sf::Sprite _satanEyesClosed{Assets::Textures::Satan::EyesClosed};
         Duration   _blinkTime{0};
         bool       _eyesOpen{true};
-        bool       isActive{true};
+        bool       _isActive{true};
 
         void configureTexts();
         void configureSprites();
@@ -34,7 +34,7 @@ namespace SatansLilHelper::Scenes {
                          bool&                    successful,
                          bool&                    keepRunning) override;
 
-        void blinkCallback(bool& restart, Duration& nextInterval);
+        void blinkCallback(bool& runAgain, Duration& nextInterval);
 
     public:
         Title(Engine::ScenePtr parent = nullptr);
