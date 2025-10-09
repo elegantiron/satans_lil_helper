@@ -59,5 +59,6 @@ target_sources(
     "src/Scenes/Title.cpp"
     "src/Clock.cpp"
     "src/Menu.cpp"
+    "src/Timer.cpp"
     "src/main.cpp"
 )
