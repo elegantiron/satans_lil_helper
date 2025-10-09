@@ -19,5 +19,6 @@ target_include_directories(
 target_sources(
     ${PROJECT_NAME}
     PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/assets.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/fonts.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/satan.cpp"
 )

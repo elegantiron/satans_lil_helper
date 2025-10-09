@@ -9,8 +9,10 @@ namespace Assets{
     namespace Textures{
         namespace Satan{
             extern const sf::Texture Main;
+            extern const sf::Texture EyesClosed;
             extern const sf::Texture EyesOpen;
             extern const sf::Texture MouthClosed;
+            extern const sf::Texture MouthOpen;
         }
     }
 }
