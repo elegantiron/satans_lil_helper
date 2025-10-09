@@ -16,7 +16,6 @@ include(FetchContent)
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/elegantiron/SFML.git
-    GIT_TAG patch-1
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM
