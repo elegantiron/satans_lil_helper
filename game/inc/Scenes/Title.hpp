@@ -13,6 +13,9 @@ namespace SatansLilHelper::Scenes {
         sf::Sprite _satanMain{Assets::Textures::Satan::Main};
         sf::Sprite _satanEyesOpen{Assets::Textures::Satan::EyesOpen};
         sf::Sprite _satanMouthClosed{Assets::Textures::Satan::MouthClosed};
+        sf::Sprite _satanEyesClosed{Assets::Textures::Satan::EyesClosed};
+        Duration   _blinkTime{0};
+        bool       _eyesOpen{true};
         bool       isActive{true};
 
         void configureTexts();

@@ -73,7 +73,11 @@ namespace SatansLilHelper::Scenes {
         if (isActive) {
             target.draw(_pressStart, states);
             target.draw(_satanMain, states);
-            target.draw(_satanEyesOpen, states);
+            if (_eyesOpen) {
+                target.draw(_satanEyesOpen, states);
+            } else {
+                target.draw(_satanEyesClosed, states);
+            }
             target.draw(_satanMouthClosed, states);
         }
     }
