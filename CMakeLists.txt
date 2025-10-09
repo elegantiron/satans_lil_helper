@@ -3,6 +3,8 @@ set(BUILD_SHARED_LIBS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/package)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/package)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(BOOST_INCLUDE_LIBRARIES locale json)
+set(BOOST_ENABLE_CMAKE ON)
 project(game)
 include(FetchContent)
 # FetchContent_Declare(
@@ -28,8 +30,17 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+FetchContent_Declare(
+    boost
+    GIT_REPOSITORY https://github.com/boostorg/boost.git
+    GIT_TAG boost-1.89.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
 FetchContent_MakeAvailable(
     SFML
     TinyXML
+    boost
 )
 add_subdirectory("game")
