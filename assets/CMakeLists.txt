@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.30)
+project(slhassets)
+add_library(${PROJECT_NAME})
+target_compile_features(
+    ${PROJECT_NAME}
+    PRIVATE
+    cxx_std_23
+)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+    SFML::Graphics
+)
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC
+    inc
+)
+target_sources(
+    ${PROJECT_NAME}
+    PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets.cpp"
+)
