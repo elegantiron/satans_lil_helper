@@ -82,6 +82,7 @@ namespace SatansLilHelper::Scenes {
                         bool& successful,
                         bool& keepRunning) {
         successful = keepRunning = true;
+        // TODO have satan blink every so often
     }
 
     void Title::handleEvent(std::optional<sf::Event> event,
