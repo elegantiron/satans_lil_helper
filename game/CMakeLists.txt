@@ -43,6 +43,7 @@ endif()
 target_precompile_headers(
     ${PROJECT_NAME}
     PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Usings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
     <SLHAssets.hpp>
