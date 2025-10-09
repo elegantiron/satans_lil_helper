@@ -14,5 +14,8 @@ namespace Assets{
             extern const sf::Texture MouthClosed;
             extern const sf::Texture MouthOpen;
         }
+        namespace Items{
+            extern const sf::Texture Sack;
+        }
     }
 }
