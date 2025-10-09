@@ -113,4 +113,6 @@ namespace SatansLilHelper::Scenes {
         isActive = true;
     }
 
+    Title::Title(Engine::ScenePtr parent)
+        : Scene(std::move(parent)), _blinkTimer(this, &Title::blinkCallback) {}
 } // namespace SatansLilHelper::Scenes

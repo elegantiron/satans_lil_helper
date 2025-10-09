@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Engine/Scene.hpp"
+#include "Timer.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <utility>
 
 namespace SatansLilHelper::Scenes {
     class Title : public Engine::Scene {
@@ -34,7 +34,12 @@ namespace SatansLilHelper::Scenes {
                          bool&                    successful,
                          bool&                    keepRunning) override;
 
+        void blinkCallback(bool& restart, Duration& nextInterval);
+
     public:
-        Title(Engine::ScenePtr parent = nullptr) : Scene(std::move(parent)) {}
+        Title(Engine::ScenePtr parent = nullptr);
+
+    private:
+        Timer<Title> _blinkTimer;
     };
 } // namespace SatansLilHelper::Scenes
