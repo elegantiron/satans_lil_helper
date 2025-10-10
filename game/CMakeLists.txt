@@ -71,12 +71,13 @@ configure_gettext(
     DOMAIN ${DOMAIN_NAME}
     TARGET_NAME "slh_i18n"
     SOURCES ${SOURCES}
-    POTFILE_DESTINATION "i18n"
+    POTFILE_DESTINATION "../i18n"
     GMOFILE_DESTINATION "../bin/l10n"
     XGETTEXT_ARGS
-        "--keyword=translate"
+        "--keyword=translate" "--keyword=translate:1c,2"
+        "--keyword=translate:1,2" "-F"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
-        "--copyright-holder=SmuB Design" "-F" 
+        "--copyright-holder=SmuB Design"
     LANGUAGES "en_US"
     ALL
 )
