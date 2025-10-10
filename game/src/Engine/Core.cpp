@@ -10,7 +10,8 @@ namespace SatansLilHelper::Engine {
 
     Core& Core::getInstance() {
         if (_instance == nullptr) {
-            _instance = new Core();
+            std::random_device dev;
+            _instance = new Core(dev);
         }
         return *_instance;
     }
