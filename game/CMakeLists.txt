@@ -74,8 +74,8 @@ configure_gettext(
     POTFILE_DESTINATION "../i18n"
     GMOFILE_DESTINATION "../bin/l10n"
     XGETTEXT_ARGS
-        "--keyword=translate" "--keyword=translate:1c,2"
-        "--keyword=translate:1,2" "-F"
+        "--keyword=_" "--keyword=C_:1c,2"
+        "--keyword=P_:1,2" "-F"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
         "--copyright-holder=SmuB Design"
     LANGUAGES "en_US"
