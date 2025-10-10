@@ -27,6 +27,7 @@ namespace SatansLilHelper::Engine {
         Clock                              _clock;
         sf::Color                          _backgroundColor = sf::Color::Black;
         RNG                                _rng;
+        boost::locale::generator           _gen;
 
         Core(std::random_device& dev) : _rng(dev) {}
 
@@ -52,6 +53,7 @@ namespace SatansLilHelper::Engine {
         const bitset<getInt(GameSetting::COUNT)>& getSettings() const;
         [[nodiscard]]
         ScenePtr    getCurrentScene() const;
+        std::locale gen(const char* locale = "");
 
         template <typename T>
             requires std::integral<T> || std::floating_point<T>

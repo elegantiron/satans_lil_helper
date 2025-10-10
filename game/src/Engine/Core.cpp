@@ -84,4 +84,8 @@ namespace SatansLilHelper::Engine {
     bool Core::testOption(GameSetting optionID) const {
         return _settings.test(getInt(optionID));
     }
+
+    std::locale Core::gen(const char* locale) {
+        return _gen(locale);
+    }
 } // namespace SatansLilHelper::Engine
