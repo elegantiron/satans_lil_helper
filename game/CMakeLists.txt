@@ -72,7 +72,7 @@ configure_gettext(
     TARGET_NAME "slh_i18n"
     SOURCES ${SOURCES}
     POTFILE_DESTINATION "i18n"
-    GMOFILE_DESTINATION "../bin/i18n"
+    GMOFILE_DESTINATION "../bin/l10n"
     XGETTEXT_ARGS
         "--keyword=translate"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"

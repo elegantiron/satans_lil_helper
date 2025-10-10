@@ -1,15 +1,13 @@
 #include "Engine/Core.hpp"
 #include "Scenes/Title.hpp"
-
-#include <boost/locale.hpp>
-
 using namespace SatansLilHelper;
+using namespace boost::locale;
 
 int main() {
-    using namespace boost::locale;
     generator gen;
-    gen.add_messages_path("./i18n");
+    gen.add_messages_path("./l10n");
     gen.add_messages_domain("slh");
+    gen.set_default_messages_domain("slh");
     std::locale::global(gen(""));
     Engine::Core& core       = Engine::Core::getInstance();
     bool          successful = false;
