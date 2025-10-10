@@ -11,6 +11,10 @@ namespace { // Local constants
     constexpr float        PSTART_Y_POS_FACTOR  = 4.F / 5.F;
     constexpr sf::Color    PSTART_FILL_COLOR    = {0x60, 0x60, 0x60, 0xFF};
     constexpr sf::Color    PSTART_OUTLINE_COLOR = {0x60, 0x00, 0x00, 0xFF};
+    constexpr int          OPEN_MIN             = 1250;
+    constexpr int          OPEN_MAX             = 3500;
+    constexpr int          CLOSED_MIN           = 250;
+    constexpr int          CLOSED_MAX           = 2250;
 } // namespace
 
 namespace SatansLilHelper::Scenes {
@@ -86,7 +90,6 @@ namespace SatansLilHelper::Scenes {
                         bool&           successful,
                         bool&           keepRunning) {
         successful = keepRunning = true;
-        // TODO have satan blink every so often
         _blinkTimer.update(gameTime);
     }
 
@@ -118,7 +121,15 @@ namespace SatansLilHelper::Scenes {
         : Scene(std::move(parent)), _blinkTimer(this, &Title::blinkCallback) {}
 
     void Title::blinkCallback(bool& runAgain, Duration& nextInterval) {
-        runAgain  = true;
-        _eyesOpen = true;
+        Engine::Core& core = Engine::Core::getInstance();
+        runAgain           = true;
+        if (_eyesOpen) {
+            nextInterval
+                = std::chrono::milliseconds(core.next(CLOSED_MIN, CLOSED_MAX));
+        } else {
+            nextInterval
+                = std::chrono::milliseconds(core.next(OPEN_MIN, OPEN_MAX));
+        }
+        _eyesOpen = !_eyesOpen;
     }
 } // namespace SatansLilHelper::Scenes
