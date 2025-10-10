@@ -50,6 +50,8 @@ namespace SatansLilHelper::Scenes {
         _satanEyesOpen.setOrigin({bounds.size.x / 2, bounds.size.y / 2});
         bounds = _satanMouthClosed.getLocalBounds();
         _satanMouthClosed.setOrigin({bounds.size.x / 2, bounds.size.y / 2});
+        bounds = _satanEyesClosed.getLocalBounds();
+        _satanEyesClosed.setOrigin({bounds.size.x / 2, bounds.size.y / 2});
     }
 
     void Title::setSpritePositions() {
@@ -59,6 +61,8 @@ namespace SatansLilHelper::Scenes {
         _satanMain.setPosition({(float)bounds.x / 2, (float)bounds.y / 2});
         _satanEyesOpen.setPosition({(float)bounds.x / 2, (float)bounds.y / 2});
         _satanMouthClosed.setPosition(
+            {(float)bounds.x / 2, (float)bounds.y / 2});
+        _satanEyesClosed.setPosition(
             {(float)bounds.x / 2, (float)bounds.y / 2});
     }
 
