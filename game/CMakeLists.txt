@@ -10,6 +10,8 @@ target_link_libraries(
     PRIVATE
     slhassets
     SFML::Graphics
+    Intl::Intl
+    Boost::locale
 )
 target_include_directories(
     ${PROJECT_NAME}
@@ -48,9 +50,8 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
     <SLHAssets.hpp>
 )
-target_sources(
-    ${PROJECT_NAME}
-    PRIVATE
+set(
+    SOURCES
     "src/Constants/Numbers.cpp"
     "src/Constants/Strings.cpp"
     "src/Engine/Core.cpp"
@@ -60,4 +61,23 @@ target_sources(
     "src/Clock.cpp"
     "src/Menu.cpp"
     "src/main.cpp"
+)
+target_sources(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${SOURCES}
+)
+set(DOMAIN_NAME "slh")
+configure_gettext(
+    DOMAIN ${DOMAIN_NAME}
+    TARGET_NAME "slh_i18n"
+    SOURCES ${SOURCES}
+    POTFILE_DESTINATION "i18n"
+    GMOFILE_DESTINATION "../bin/i18n"
+    XGETTEXT_ARGS
+        "--keyword=translate"
+        "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
+        "--copyright-holder=SmuB Design" "-F" 
+    LANGUAGES "en_US.UTF-8"
+    ALL
 )

@@ -3,10 +3,14 @@ set(BUILD_SHARED_LIBS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_LIST_DIR}/deps)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(BOOST_INCLUDE_LIBRARIES locale json)
+set(BOOST_INCLUDE_LIBRARIES locale)
 set(BOOST_ENABLE_CMAKE ON)
 project(game)
 include(FetchContent)
+find_package(Gettext REQUIRED)
+find_package(Intl REQUIRED)
+find_package(ICU COMPONENTS i18n REQUIRED)
+include(Gettext_helpers.cmake)
 # FetchContent_Declare(
 #     SFML
 #     GIT_REPOSITORY https://github.com/SFML/SFML.git

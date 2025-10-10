@@ -1,12 +1,20 @@
 #include "Engine/Core.hpp"
 #include "Scenes/Title.hpp"
+
+#include <boost/locale.hpp>
+
 using namespace SatansLilHelper;
 
 int main() {
+    using namespace boost::locale;
+    generator gen;
+    gen.add_messages_path("./i18n");
+    gen.add_messages_domain("slh");
+    std::locale::global(gen(""));
     Engine::Core& core       = Engine::Core::getInstance();
     bool          successful = false;
     core.init(sf::VideoMode(Constants::WindowSize),
-              Constants::Strings::Title,
+              Constants::Strings::Title.str(),
               successful);
     if (!successful) {
         return 1;

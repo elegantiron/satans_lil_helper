@@ -1,6 +1,6 @@
 #include "Constants.hpp"
 
-namespace SatansLilHelper::Constants::Strings{
-    extern const char* const Title = "Satan's Lil Helper";
-    extern const char* const PressStart = "Press START";
+namespace SatansLilHelper::Constants::Strings {
+    extern const basic_message<char> Title = translate("Satan's Lil Helper");
+    extern const basic_message<char> PressStart = translate("Press START");
 }

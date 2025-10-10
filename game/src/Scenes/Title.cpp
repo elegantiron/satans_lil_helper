@@ -2,6 +2,8 @@
 
 #include "Scenes/MainMenu.hpp"
 
+#include <libintl.h>
+
 namespace { // Local constants
     constexpr unsigned int TITLE_CHAR_SIZE      = 85;
     constexpr int          TITLE_Y_POS          = 15;
@@ -27,14 +29,14 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::configureTexts() {
-        _title.setString(Constants::Strings::Title);
+        _title.setString(Constants::Strings::Title.str());
         _title.setCharacterSize(TITLE_CHAR_SIZE);
         auto bounds = _title.getLocalBounds();
         _title.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));
         _title.setFillColor(TITLE_FILL_COLOR);
         _title.setOutlineColor(TITLE_OUTLINE_COLOR);
 
-        _pressStart.setString(Constants::Strings::PressStart);
+        _pressStart.setString(Constants::Strings::PressStart.str());
         _pressStart.setCharacterSize(PSTART_CHAR_SIZE);
         bounds = _pressStart.getLocalBounds();
         _pressStart.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));

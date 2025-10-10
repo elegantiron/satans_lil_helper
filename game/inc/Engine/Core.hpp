@@ -41,7 +41,7 @@ namespace SatansLilHelper::Engine {
     public:
         static Core&            getInstance();
         const sf::RenderWindow& getWindow() const;
-        void init(sf::VideoMode mode, const char* title, bool& successful);
+        void init(sf::VideoMode mode, const sf::String& title, bool& successful);
         void setNextScene(ScenePtr pScene);
         void run();
         void quit(bool successful);
