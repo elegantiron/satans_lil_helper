@@ -1,5 +1,6 @@
 #pragma once
 #include "Clock.hpp"
+#include "Engine/RNG.hpp"
 #include "Engine/SceneManager.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -25,8 +26,9 @@ namespace SatansLilHelper::Engine {
         SceneManager                       _sceneMan;
         Clock                              _clock;
         sf::Color                          _backgroundColor = sf::Color::Black;
+        RNG                                _rng;
 
-        Core() = default;
+        Core(std::random_device& dev) : _rng(dev) {}
 
         void handleEvent();
         void iterate(const GameTime& gameTime,
@@ -48,5 +50,24 @@ namespace SatansLilHelper::Engine {
         const bitset<getInt(GameSetting::COUNT)>& getSettings() const;
         [[nodiscard]]
         ScenePtr getCurrentScene() const;
+
+        template <typename T>
+            requires std::integral<T> || std::floating_point<T>
+        T next() {
+            return next(std::numeric_limits<T>::min(),
+                        std::numeric_limits<T>::max());
+        }
+
+        template <typename T>
+            requires std::integral<T> || std::floating_point<T>
+        T next(T max) {
+            return next(0, max);
+        }
+
+        template <typename T>
+            requires std::integral<T> || std::floating_point<T>
+        T next(T min, T max) {
+            return _rng.next(min, max);
+        }
     };
 } // namespace SatansLilHelper::Engine
