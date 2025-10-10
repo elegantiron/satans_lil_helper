@@ -41,15 +41,17 @@ namespace SatansLilHelper::Engine {
     public:
         static Core&            getInstance();
         const sf::RenderWindow& getWindow() const;
-        void init(sf::VideoMode mode, const sf::String& title, bool& successful);
-        void setNextScene(ScenePtr pScene);
-        void run();
-        void quit(bool successful);
-        void setOption(GameSetting optionID, bool value);
-        bool testOption(GameSetting optionID) const;
+        void                    init(sf::VideoMode     mode,
+                                     const sf::String& title,
+                                     bool&             successful);
+        void                    setNextScene(ScenePtr pScene);
+        void                    run();
+        void                    quit(bool successful);
+        void                    setOption(GameSetting optionID, bool value);
+        bool                    testOption(GameSetting optionID) const;
         const bitset<getInt(GameSetting::COUNT)>& getSettings() const;
         [[nodiscard]]
-        ScenePtr getCurrentScene() const;
+        ScenePtr    getCurrentScene() const;
 
         template <typename T>
             requires std::integral<T> || std::floating_point<T>
