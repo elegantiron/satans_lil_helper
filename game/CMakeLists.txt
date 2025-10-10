@@ -10,7 +10,6 @@ target_link_libraries(
     PRIVATE
     slhassets
     SFML::Graphics
-    Intl::Intl
     Boost::locale
 )
 target_include_directories(
