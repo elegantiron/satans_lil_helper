@@ -11,10 +11,10 @@ namespace { // Local constants
     constexpr float        PSTART_Y_POS_FACTOR  = 4.F / 5.F;
     constexpr sf::Color    PSTART_FILL_COLOR    = {0x60, 0x60, 0x60, 0xFF};
     constexpr sf::Color    PSTART_OUTLINE_COLOR = {0x60, 0x00, 0x00, 0xFF};
-    constexpr int          OPEN_MIN             = 1250;
-    constexpr int          OPEN_MAX             = 3500;
-    constexpr int          CLOSED_MIN           = 250;
-    constexpr int          CLOSED_MAX           = 2250;
+    constexpr int          OPEN_MIN             = 1050;
+    constexpr int          OPEN_MAX             = 2000;
+    constexpr int          CLOSED_MIN           = 100;
+    constexpr int          CLOSED_MAX           = 450;
 } // namespace
 
 namespace SatansLilHelper::Scenes {
