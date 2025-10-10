@@ -11,7 +11,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64/bin;c:/msys64/ucrt64/include;c:/msys64/ucrt64/lib")
 endif()
 find_package(Gettext REQUIRED)
-find_package(Boost REQUIRED COMPONENTS locale)
+# find_package(Boost REQUIRED COMPONENTS locale)
 # find_package(Intl REQUIRED)
 # find_package(ICU COMPONENTS i18n REQUIRED)
 include(Gettext_helpers.cmake)
@@ -49,7 +49,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(
     SFML
     TinyXML
-    # boost
+    boost
 )
 add_subdirectory("assets")
 add_subdirectory("game")
