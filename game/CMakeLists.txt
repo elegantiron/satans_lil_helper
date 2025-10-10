@@ -77,7 +77,7 @@ configure_gettext(
         "--keyword=translate"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
         "--copyright-holder=SmuB Design" "-F" 
-    LANGUAGES "en_US.UTF-8"
+    LANGUAGES "en_US"
     ALL
 )
 add_dependencies(
