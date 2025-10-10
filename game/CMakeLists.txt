@@ -80,3 +80,7 @@ configure_gettext(
     LANGUAGES "en_US.UTF-8"
     ALL
 )
+add_dependencies(
+    ${PROJECT_NAME}
+    slh_i18n
+)
