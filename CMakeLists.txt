@@ -1,55 +1,98 @@
 cmake_minimum_required(VERSION 3.30)
-set(BUILD_SHARED_LIBS ON)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
-set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_LIST_DIR}/deps)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(BOOST_INCLUDE_LIBRARIES locale)
-set(BOOST_ENABLE_CMAKE ON)
-project(game)
+
+project(
+    SatansLilHelper
+    VERSION 0.0.1
+    LANGUAGES C CXX
+)
+
+if(${PROJECT_IS_TOP_LEVEL})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
+endif()
+
 include(FetchContent)
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64/bin;c:/msys64/ucrt64/include;c:/msys64/ucrt64/lib")
 endif()
-find_package(Gettext REQUIRED)
-# find_package(Boost REQUIRED COMPONENTS locale)
-# find_package(Intl REQUIRED)
-# find_package(ICU COMPONENTS i18n REQUIRED)
-include(Gettext_helpers.cmake)
-# FetchContent_Declare(
-#     SFML
-#     GIT_REPOSITORY https://github.com/SFML/SFML.git
-#     GIT_TAG 3.0.2
-#     GIT_SHALLOW ON
-#     EXCLUDE_FROM_ALL
-#     SYSTEM
-# )
-FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/elegantiron/SFML.git
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
+find_package(Boost COMPONENTS locale REQUIRED)
+find_package(SFML 3.0.2 COMPONENTS Graphics REQUIRED)
+add_executable(${PROJECT_NAME})
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+    SFML::Graphics
+    Boost::locale
 )
-FetchContent_Declare(
-    TinyXML
-    GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git
-    GIT_TAG 11.0.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE
+    inc
 )
-FetchContent_Declare(
-    boost
-    GIT_REPOSITORY https://github.com/boostorg/boost.git
-    GIT_TAG boost-1.89.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
+target_compile_features(
+    ${PROJECT_NAME}
+    PRIVATE
+    c_std_23
+    cxx_std_26
 )
-FetchContent_MakeAvailable(
-    SFML
-    TinyXML
-    boost
+target_compile_options(
+    ${PROJECT_NAME}
+    PRIVATE
+    -Wall -pedantic
 )
-add_subdirectory("assets")
-add_subdirectory("game")
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+target_compile_options(
+    ${PROJECT_NAME}
+    PRIVATE
+    -glldb
+)
+elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+target_compile_options(
+    ${PROJECT_NAME}
+    PRIVATE
+    -O3 -DNDEBUG
+)
+endif()
+target_precompile_headers(
+    ${PROJECT_NAME}
+    PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Usings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
+    <SLHAssets.hpp>
+)
+set(
+    SOURCES
+    "src/Constants/Numbers.cpp"
+    "src/Constants/Strings.cpp"
+    "src/Engine/Core.cpp"
+    "src/Engine/SceneManager.cpp"
+    "src/Scenes/MainMenu.cpp"
+    "src/Scenes/Title.cpp"
+    "src/Clock.cpp"
+    "src/Menu.cpp"
+    "src/main.cpp"
+)
+target_sources(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${SOURCES}
+)
+set(DOMAIN_NAME "slh")
+configure_gettext(
+    DOMAIN ${DOMAIN_NAME}
+    TARGET_NAME "slh_i18n"
+    SOURCES ${SOURCES}
+    POTFILE_DESTINATION "../i18n"
+    GMOFILE_DESTINATION "../bin/l10n"
+    XGETTEXT_ARGS
+        "--keyword=_" "--keyword=C_:1c,2"
+        "--keyword=P_:1,2" "-F"
+        "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
+        "--copyright-holder=SmuB Design"
+    LANGUAGES "en_US"
+)
+add_dependencies(
+    ${PROJECT_NAME}
+    slh_i18n
+)
