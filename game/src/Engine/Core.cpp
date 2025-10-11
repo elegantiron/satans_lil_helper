@@ -87,7 +87,7 @@ namespace SatansLilHelper::Engine {
         return _settings.test(getInt(optionID));
     }
 
-    std::locale Core::gen(const char* locale) {
-        return _gen(locale);
+    std::basic_string<char> Core::localize(const boost::locale::basic_message<char>& string) {
+        return string.str(_gen(_locale));
     }
 } // namespace SatansLilHelper::Engine

@@ -29,14 +29,15 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::configureTexts() {
-        _title.setString(Constants::Strings::Title.str());
+        Engine::Core& core = Engine::Core::getInstance();
+        _title.setString(core.localize(Constants::Strings::Title));
         _title.setCharacterSize(TITLE_CHAR_SIZE);
         auto bounds = _title.getLocalBounds();
         _title.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));
         _title.setFillColor(TITLE_FILL_COLOR);
         _title.setOutlineColor(TITLE_OUTLINE_COLOR);
 
-        _pressStart.setString(Constants::Strings::PressStart.str());
+        _pressStart.setString(core.localize(Constants::Strings::PressStart));
         _pressStart.setCharacterSize(PSTART_CHAR_SIZE);
         bounds = _pressStart.getLocalBounds();
         _pressStart.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));

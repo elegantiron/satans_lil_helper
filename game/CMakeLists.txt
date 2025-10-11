@@ -79,7 +79,6 @@ configure_gettext(
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
         "--copyright-holder=SmuB Design"
     LANGUAGES "en_US"
-    ALL
 )
 add_dependencies(
     ${PROJECT_NAME}

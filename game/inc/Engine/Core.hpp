@@ -28,8 +28,12 @@ namespace SatansLilHelper::Engine {
         sf::Color                          _backgroundColor = sf::Color::Black;
         RNG                                _rng;
         boost::locale::generator           _gen;
+        std::basic_string<char>            _locale = "es_MX";
 
-        Core(std::random_device& dev) : _rng(dev) {}
+        Core(std::random_device& dev) : _rng(dev) {
+            _gen.add_messages_domain("slh");
+            _gen.add_messages_path("./l10n");
+        }
 
         void handleEvent();
         void iterate(const GameTime& gameTime,
@@ -52,8 +56,9 @@ namespace SatansLilHelper::Engine {
         bool                    testOption(GameSetting optionID) const;
         const bitset<getInt(GameSetting::COUNT)>& getSettings() const;
         [[nodiscard]]
-        ScenePtr    getCurrentScene() const;
-        std::locale gen(const char* locale = "");
+        ScenePtr                getCurrentScene() const;
+        std::basic_string<char> localize(
+            const boost::locale::basic_message<char>& string);
 
         template <typename T>
             requires std::integral<T> || std::floating_point<T>

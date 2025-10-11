@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SatansLilHelper 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 18:25-0400\n"
-"PO-Revision-Date: 2025-10-10 18:29-0400\n"
+"POT-Creation-Date: 2025-10-11 09:22-0400\n"
+"PO-Revision-Date: 2025-10-10 19:09-0400\n"
 "Last-Translator: <EMAIL@ADDRESS>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -17,31 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/Constants/Strings.cpp:5
+#: src/Constants/Strings.cpp:8
 msgid "Satan's Lil Helper"
-msgstr "Satan's Lil Helper"
+msgstr "en_US Satan's Lil Helper"
 
-#: src/Constants/Strings.cpp:6
+#: src/Constants/Strings.cpp:9
 msgid "Press START"
 msgstr "Press START"
 
-#: src/Constants/Strings.cpp:9
+#: src/Constants/Strings.cpp:13
+msgctxt "section header"
 msgid "new game"
 msgstr "new game"
 
-#: src/Constants/Strings.cpp:10
+#: src/Constants/Strings.cpp:15
+msgctxt "section header"
 msgid "bestiary"
 msgstr "bestiary"
 
-#: src/Constants/Strings.cpp:11
+#: src/Constants/Strings.cpp:17
+msgctxt "section header"
 msgid "settings"
 msgstr "settings"
-
-#: src/Constants/Strings.cpp:14
-msgid "inventory"
-msgstr "inventory"
-
-#: src/Constants/Strings.cpp:16
-msgctxt "section"
-msgid "inventory"
-msgstr "inventory"
