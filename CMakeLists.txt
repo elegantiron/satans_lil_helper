@@ -78,6 +78,8 @@ target_sources(
     PRIVATE
     ${SOURCES}
 )
+
+include(Gettext_helpers.cmake)
 set(DOMAIN_NAME "slh")
 configure_gettext(
     DOMAIN ${DOMAIN_NAME}
