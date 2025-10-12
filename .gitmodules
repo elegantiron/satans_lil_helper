@@ -1,0 +1,3 @@
+[submodule "libslh"]
+	path = libslh
+	url = https://github.com/elegantiron/libslh.git
