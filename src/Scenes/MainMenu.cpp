@@ -1,5 +1,7 @@
 #include "Scenes/MainMenu.hpp"
 
+#include <SFML/Graphics/RenderTarget.hpp>
+
 namespace {
     constexpr int CHAR_HEIGHT = 55;
 }
@@ -30,9 +32,10 @@ namespace SatansLilHelper::Scenes {
     }
 
     MainMenu::MainMenu(Engine::ScenePtr parent)
-        : Scene(std::move(parent)),
-          _menu(Assets::Fonts::CrayonLibre,
-                CHAR_HEIGHT,
-                sf::Color::White,
-                sf::Color::Red) {}
+        : Scene(std::move(parent)) //,
+                                   //   _menu(Assets::Fonts::CrayonLibre,
+                                   //         CHAR_HEIGHT,
+                                   //         sf::Color::White,
+                                   //         sf::Color::Red)
+    {}
 }

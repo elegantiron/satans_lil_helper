@@ -1,12 +1,15 @@
 #pragma once
 
-#include "Engine/Scene.hpp"
-#include "Timer.hpp"
-
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <libslh/Engine/Scene.hpp>
+#include <libslh/Engine/Timer.hpp>
+
+using namespace libslh;
 
 namespace SatansLilHelper::Scenes {
+
     class Title : public Engine::Scene {
         sf::Text   _title{Assets::Fonts::FairyDustB};
         sf::Text   _pressStart{Assets::Fonts::CrayonLibre};
@@ -39,6 +42,6 @@ namespace SatansLilHelper::Scenes {
         Title(Engine::ScenePtr parent = nullptr);
 
     private:
-        Timer<Title> _blinkTimer;
+        Engine::Timer<Title> _blinkTimer;
     };
 } // namespace SatansLilHelper::Scenes

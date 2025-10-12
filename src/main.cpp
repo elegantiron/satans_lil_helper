@@ -1,14 +1,13 @@
-#include "Engine/Core.hpp"
+#include <SFML/Window/VideoMode.hpp>
+#include <libslh/Engine/Core.hpp>
+#include <libslh/Engine/Scene.hpp>
+#include <memory>
 #include "Scenes/Title.hpp"
 using namespace SatansLilHelper;
 using namespace boost::locale;
+using namespace libslh;
 
 int main() {
-    generator gen;
-    gen.add_messages_path("./l10n");
-    gen.add_messages_domain("slh");
-    gen.set_default_messages_domain("slh");
-    std::locale::global(gen(""));
     Engine::Core& core       = Engine::Core::getInstance();
     bool          successful = false;
     core.init(sf::VideoMode(Constants::WindowSize),

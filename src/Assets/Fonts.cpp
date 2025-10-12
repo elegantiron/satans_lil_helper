@@ -1,4 +1,3 @@
-#pragma clang diagnostic ignored "-Wc23-extensions"
 #include "Assets/Fonts.hpp"
 
 // NOLINTBEGIN(*c-arrays,*pointer-decay)

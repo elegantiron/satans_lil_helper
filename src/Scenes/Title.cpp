@@ -3,6 +3,7 @@
 #include "Scenes/MainMenu.hpp"
 
 #include <libintl.h>
+#include <libslh/Engine/Core.hpp>
 
 namespace { // Local constants
     constexpr unsigned int TITLE_CHAR_SIZE      = 85;
@@ -119,8 +120,6 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::onReveal() {
-        auto& core = Engine::Core::getInstance();
-        core.setOption(Engine::GameSetting::EXIT_ON_ESCAPE, true);
         _isActive = true;
     }
 

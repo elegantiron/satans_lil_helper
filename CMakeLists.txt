@@ -89,7 +89,7 @@ configure_gettext(
         "--keyword=P_:1,2" "-F" "--sentence-end=single-space"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
         "--copyright-holder=SmuB Design" "--msgid-bugs-address=elegant.iron3167@fastmail.com"
-    LANGUAGES "en_US"
+    LANGUAGES "en_US.UTF-8"
 )
 add_dependencies(
     ${PROJECT_NAME}

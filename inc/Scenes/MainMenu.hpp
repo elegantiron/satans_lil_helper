@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Engine/Scene.hpp"
+#include <libslh/Engine/Scene.hpp>
 
 #include "Menu.hpp"
 
 namespace SatansLilHelper::Scenes {
-    class MainMenu : public Engine::Scene {
-        Menu _menu;
+    using namespace libslh;
+    class MainMenu : public libslh::Engine::Scene {
+        // Menu _menu;
 
         void iterate(const GameTime& gameTime,
                      bool&           successful,

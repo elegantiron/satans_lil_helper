@@ -1,4 +1,7 @@
 #pragma once
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <vector>
 
 namespace SatansLilHelper {
