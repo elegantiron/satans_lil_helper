@@ -11,18 +11,15 @@ if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
 
-include(FetchContent)
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64/bin;c:/msys64/ucrt64/include;c:/msys64/ucrt64/lib")
-endif()
-find_package(Boost COMPONENTS locale REQUIRED)
-find_package(SFML 3.0.2 COMPONENTS Graphics REQUIRED)
+find_package(Boost 1.84 COMPONENTS locale REQUIRED)
+find_package(SFML 3.0 COMPONENTS Graphics CONFIG REQUIRED)
 add_executable(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
     SFML::Graphics
     Boost::locale
+    libslh
 )
 target_include_directories(
     ${PROJECT_NAME}
@@ -44,7 +41,7 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 target_compile_options(
     ${PROJECT_NAME}
     PRIVATE
-    -glldb
+    -ggdb
 )
 elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
 target_compile_options(
@@ -56,27 +53,27 @@ endif()
 target_precompile_headers(
     ${PROJECT_NAME}
     PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Usings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Engine/Core.hpp"
-    <SLHAssets.hpp>
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Assets.hpp"
 )
 set(
     SOURCES
     "src/Constants/Numbers.cpp"
     "src/Constants/Strings.cpp"
-    "src/Engine/Core.cpp"
-    "src/Engine/SceneManager.cpp"
     "src/Scenes/MainMenu.cpp"
     "src/Scenes/Title.cpp"
-    "src/Clock.cpp"
-    "src/Menu.cpp"
     "src/main.cpp"
+)
+set(
+    ASSETS
+    "src/Assets/Fonts.cpp"
+    "src/Assets/Textures/Satan.cpp"
 )
 target_sources(
     ${PROJECT_NAME}
     PRIVATE
     ${SOURCES}
+    ${ASSETS}
 )
 
 include(Gettext_helpers.cmake)
@@ -85,13 +82,13 @@ configure_gettext(
     DOMAIN ${DOMAIN_NAME}
     TARGET_NAME "slh_i18n"
     SOURCES ${SOURCES}
-    POTFILE_DESTINATION "../i18n"
-    GMOFILE_DESTINATION "../bin/l10n"
+    POTFILE_DESTINATION "i18n"
+    GMOFILE_DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/l10n"
     XGETTEXT_ARGS
         "--keyword=_" "--keyword=C_:1c,2"
-        "--keyword=P_:1,2" "-F"
+        "--keyword=P_:1,2" "-F" "--sentence-end=single-space"
         "--package-name=${PROJECT_NAME}" "--package-version=${PROJECT_VERSION}"
-        "--copyright-holder=SmuB Design"
+        "--copyright-holder=SmuB Design" "--msgid-bugs-address=elegant.iron3167@fastmail.com"
     LANGUAGES "en_US"
 )
 add_dependencies(
