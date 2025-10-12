@@ -125,7 +125,7 @@ function(configure_gettext)
                 COMMAND "${GETTEXT_MSGINIT_COMMAND}" ${GETTEXT_MSGINIT_ARGS}
                     "--input=${GETTEXT_POTFILE_DESTINATION}/${GETTEXT_DOMAIN}.pot"
                     "--output-file=${GETTEXT_POFILE_DESTINATION}/${lang}/${GETTEXT_DOMAIN}.po"
-                    "--locale=${lang}"
+                    "--locale=${lang}" "--no-translator"
                 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
         endif()
         add_custom_command(
