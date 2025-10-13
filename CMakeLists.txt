@@ -12,6 +12,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
 find_package(Boost 1.89 COMPONENTS locale REQUIRED)
 find_package(Gettext REQUIRED)
+find_package(EnTT REQUIRED)
+find_package(TinyXML2 REQUIRED)
+find_package(msgpack-cxx REQUIRED)
 include(FetchContent)
 FetchContent_Declare(
     SFML
