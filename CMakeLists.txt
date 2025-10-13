@@ -48,7 +48,7 @@ target_compile_options(
     PRIVATE
     -Wall -pedantic
 )
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 target_compile_options(
     ${PROJECT_NAME}
     PRIVATE
