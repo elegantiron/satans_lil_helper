@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
+set(SFML_USE_SYSTEM_DEPS OFF)
 project(
     SatansLilHelper
     VERSION 0.0.1
@@ -10,9 +10,20 @@ project(
 if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
-
-find_package(Boost 1.84 COMPONENTS locale REQUIRED)
-find_package(SFML 3.0 COMPONENTS Graphics CONFIG REQUIRED)
+find_package(Boost 1.80 COMPONENTS locale REQUIRED)
+find_package(Gettext REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.2
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
+FetchContent_MakeAvailable(
+    SFML
+)
 add_executable(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME}
@@ -76,7 +87,7 @@ target_sources(
     ${ASSETS}
 )
 
-include(Gettext_helpers.cmake)
+include(cmake/Gettext_helpers.cmake)
 set(DOMAIN_NAME "slh")
 configure_gettext(
     DOMAIN ${DOMAIN_NAME}
@@ -95,3 +106,4 @@ add_dependencies(
     ${PROJECT_NAME}
     slh_i18n
 )
+add_subdirectory("libslh")
