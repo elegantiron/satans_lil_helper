@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"xaver.clang-format",
+			"llvm-vs-code-extensions.vscode-clangd",
+			"ms-vscode.cmake-tools"
+		]
+	}
+}
