@@ -4,7 +4,22 @@ Hover:
     ShowAKA: true
 Completion:
     AllScopes: Yes
-    # ArgumentLists: None
+    ArgumentLists: None
 If:
     PathExclude:
         - out/.*
+Diagnostics:
+    ClangTidy:
+        Add:
+            - 'bugprone*'
+            - 'cppcoreguidelines*'
+            - 'misc*'
+            - 'modernize*'
+            - 'performance*'
+            - 'portability*'
+        Remove:
+            - '*owning-memory'
+            - 'modernize-use-trailing-return-type'
+            - '*non-private-member-variables-in-classes'
+            - '*pro-type-vararg'
+            - '*easily-swappable-parameters'
