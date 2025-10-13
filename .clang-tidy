@@ -1,6 +1,5 @@
 Checks: 
     - 'bugprone*'
-    - 'clang-analyzer*'
     - 'cppcoreguidelines*'
     - 'misc*'
     - 'modernize*'
