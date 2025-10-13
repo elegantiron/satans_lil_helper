@@ -6,7 +6,7 @@ project(
     VERSION 0.0.1
     LANGUAGES C CXX
 )
-
+set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64")
 if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
