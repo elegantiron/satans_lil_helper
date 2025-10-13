@@ -1,11 +1,11 @@
 #pragma once
 
 #include <libslh/Engine/Scene.hpp>
-
-#include "Menu.hpp"
+#include <libslh/Utils/Menu.hpp>
 
 namespace SatansLilHelper::Scenes {
     using namespace libslh;
+
     class MainMenu : public libslh::Engine::Scene {
         // Menu _menu;
 
