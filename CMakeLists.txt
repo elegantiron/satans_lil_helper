@@ -106,4 +106,4 @@ configure_gettext(
     LANGUAGES "en_US.UTF-8"
 )
 
-add_subdirectory("libslh")
+add_subdirectory("deps/libslh")
