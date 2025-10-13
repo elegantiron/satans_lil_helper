@@ -10,7 +10,7 @@ set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64")
 if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
-find_package(Boost 1.80 COMPONENTS locale REQUIRED)
+find_package(Boost 1.88 COMPONENTS locale REQUIRED)
 find_package(Gettext REQUIRED)
 include(FetchContent)
 FetchContent_Declare(
