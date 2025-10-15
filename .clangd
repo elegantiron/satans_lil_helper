@@ -5,6 +5,13 @@ Hover:
 Completion:
     AllScopes: Yes
     # ArgumentLists: None
+CompileFlags:
+    Add:
+        - '-Wno-c23-extensions'
+    Remove:
+        - '-fmodules-ts'
+        - '-fmodule-mapper=*'
+        - '-fdeps-format=*'
 If:
     PathExclude:
         - out/.*
