@@ -13,9 +13,9 @@ AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
-AllowShortNamespacesOnASingleLine: false
+# AllowShortNamespacesOnASingleLine: false
 BinPackArguments: false
-BinPackParameters: OnePerLine
+# BinPackParameters: OnePerLine
 BraceWrapping:
   AfterCaseLabel: false
   AfterControlStatement: Never
@@ -27,7 +27,7 @@ BreakBeforeBinaryOperators: All
 BreakBeforeBraces: Attach
 BreakBeforeConceptDeclarations: Always
 BreakBeforeTernaryOperators: true
-BreakBinaryOperations: RespectPrecedence
+# BreakBinaryOperations: RespectPrecedence
 BreakConstructorInitializers: BeforeColon
 BreakTemplateDeclarations: Yes
 ColumnLimit: 80
