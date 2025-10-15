@@ -29,9 +29,18 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+FetchContent_Declare(
+    tweeny
+    GIT_REPOSITORY https://github.com/mobius3/tweeny.git
+    GIT_TAG v3.2.1
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
 FetchContent_MakeAvailable(
     SFML
     EnTT
+    tweeny
 )
 add_executable(${PROJECT_NAME})
 set_target_properties(
