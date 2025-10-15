@@ -10,11 +10,8 @@ set(CMAKE_PREFIX_PATH "c:/msys64/ucrt64")
 if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
-find_package(Boost 1.89 COMPONENTS locale REQUIRED)
+find_package(Boost 1.80 COMPONENTS locale REQUIRED)
 find_package(Gettext REQUIRED)
-find_package(EnTT REQUIRED)
-find_package(TinyXML2 REQUIRED)
-find_package(msgpack-cxx REQUIRED)
 include(FetchContent)
 FetchContent_Declare(
     SFML
@@ -24,10 +21,24 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+FetchContent_Declare(
+    EnTT
+    GIT_REPOSITORY https://github.com/skypjack/entt.git
+    GIT_TAG v3.15.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
 FetchContent_MakeAvailable(
     SFML
+    EnTT
 )
 add_executable(${PROJECT_NAME})
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+    CXX_EXTENSIONS OFF
+)
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
@@ -49,7 +60,7 @@ target_compile_features(
 target_compile_options(
     ${PROJECT_NAME}
     PRIVATE
-    -Wall -pedantic
+    -Wall -pedantic-errors
 )
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 target_compile_options(
