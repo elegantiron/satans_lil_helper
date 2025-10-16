@@ -18,15 +18,6 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 3.0.2
     GIT_SHALLOW ON
-    OVERRIDE_FIND_PACKAGE
-    EXCLUDE_FROM_ALL
-    SYSTEM
-)
-FetchContent_Declare(
-    imgui-SFML
-    GIT_REPOSITORY https://github.com/SFML/imgui-sfml
-    GIT_TAG v3.0
-    GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM
 )
@@ -46,11 +37,11 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
     SYSTEM
 )
+
 FetchContent_MakeAvailable(
     SFML
     EnTT
     tweeny
-    imgui-SFML
 )
 add_executable(${PROJECT_NAME})
 set_target_properties(
