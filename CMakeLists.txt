@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(SFML_USE_SYSTEM_DEPS OFF)
 project(
     SatansLilHelper
     VERSION 0.0.1
