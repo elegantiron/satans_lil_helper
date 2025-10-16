@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
 project(
     SatansLilHelper
     VERSION 0.0.1
