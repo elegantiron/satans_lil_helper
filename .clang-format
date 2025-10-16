@@ -43,7 +43,7 @@ IncludeCategories:
     CaseSensitive:   true
   - Regex:           '^((<|")(gtest|gmock|isl|json)/)'
     Priority:        3
-  - Regex:           '<[[:alnum:]._\/]+>'
+  - Regex:           '<[[:alnum:]._\/-]+>'
     Priority:        4
   - Regex:           '.*'
     Priority:        1
