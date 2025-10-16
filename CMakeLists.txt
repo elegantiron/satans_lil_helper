@@ -12,37 +12,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
 find_package(Boost 1.80 COMPONENTS locale REQUIRED)
 find_package(Gettext REQUIRED)
-include(FetchContent)
-FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.2
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
-)
-FetchContent_Declare(
-    EnTT
-    GIT_REPOSITORY https://github.com/skypjack/entt.git
-    GIT_TAG v3.15.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
-)
-FetchContent_Declare(
-    tweeny
-    GIT_REPOSITORY https://github.com/mobius3/tweeny.git
-    GIT_TAG v3.2.1
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
-)
-
-FetchContent_MakeAvailable(
-    SFML
-    EnTT
-    tweeny
-)
+find_package(SFML 3.0 COMPONENTS Graphics REQUIRED)
+find_package(EnTT 3.15 REQUIRED)
 add_executable(${PROJECT_NAME})
 set_target_properties(
     ${PROJECT_NAME}
