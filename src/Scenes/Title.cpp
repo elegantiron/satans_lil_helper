@@ -59,25 +59,29 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::setSpritePositions() {
-        auto&       core   = Engine::Core::getInstance();
-        const auto& window = core.getWindow();
-        auto        bounds = window.getSize();
-        _satanMain.setPosition({(float)bounds.x / 2, (float)bounds.y / 2});
-        _satanEyesOpen.setPosition({(float)bounds.x / 2, (float)bounds.y / 2});
-        _satanMouthClosed.setPosition(
-            {(float)bounds.x / 2, (float)bounds.y / 2});
-        _satanEyesClosed.setPosition(
-            {(float)bounds.x / 2, (float)bounds.y / 2});
+        // auto& core = Engine::Core::getInstance();
+        // const auto& window = core.getWindow();
+        // auto        bounds = window.getSize();
+        _satanMain.setPosition({(float)Constants::WindowSize.x / 2,
+                                (float)Constants::WindowSize.y / 2});
+        _satanEyesOpen.setPosition({(float)Constants::WindowSize.x / 2,
+                                    (float)Constants::WindowSize.y / 2});
+        _satanMouthClosed.setPosition({(float)Constants::WindowSize.x / 2,
+                                       (float)Constants::WindowSize.y / 2});
+        _satanEyesClosed.setPosition({(float)Constants::WindowSize.x / 2,
+                                      (float)Constants::WindowSize.y / 2});
     }
 
     void Title::setTextPositions() {
-        auto&       core       = Engine::Core::getInstance();
-        const auto& window     = core.getWindow();
-        auto        windowSize = window.getSize();
-        _title.setPosition(sf::Vector2f((float)windowSize.x / 2, TITLE_Y_POS));
-        float pressStartYPos = (float)windowSize.y * PSTART_Y_POS_FACTOR;
+        // auto&       core       = Engine::Core::getInstance();
+        // const auto& window     = core.getWindow();
+        // auto        windowSize = window.getSize();
+        _title.setPosition(
+            sf::Vector2f((float)Constants::WindowSize.x / 2, TITLE_Y_POS));
+        float pressStartYPos
+            = (float)Constants::WindowSize.y * PSTART_Y_POS_FACTOR;
         _pressStart.setPosition(
-            sf::Vector2f((float)windowSize.x / 2, pressStartYPos));
+            sf::Vector2f((float)Constants::WindowSize.x / 2, pressStartYPos));
     }
 
     void Title::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -94,16 +98,14 @@ namespace SatansLilHelper::Scenes {
         }
     }
 
-    void Title::iterate(const GameTime& gameTime,
-                        bool&           successful,
-                        bool&           keepRunning) {
+    void Title::iterate(const GameTime& gameTime, bool& successful,
+                        bool& keepRunning) {
         successful = keepRunning = true;
         _blinkTimer.update(gameTime);
     }
 
-    void Title::handleEvent(std::optional<sf::Event> event,
-                            bool&                    successful,
-                            bool&                    keepRunning) {
+    void Title::handleEvent(std::optional<sf::Event> event, bool& successful,
+                            bool& keepRunning) {
         auto& core = Engine::Core::getInstance();
         successful = keepRunning = true;
         if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
