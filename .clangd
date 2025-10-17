@@ -8,6 +8,7 @@ Completion:
 CompileFlags:
     Add:
         - '-Wno-c23-extensions'
+        - '-Wno-c++11-narrowing'
     Remove:
         - '-fmodules-ts'
         - '-fmodule-mapper=*'
