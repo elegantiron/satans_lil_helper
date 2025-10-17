@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(BUILD_SHARED_LIBS OFF)
 set(SFML_STATIC_LIBRARIES ON)
 project(
     SatansLilHelper
@@ -13,8 +12,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
 find_package(Boost 1.80 COMPONENTS locale REQUIRED)
 find_package(Gettext REQUIRED)
-find_package(SFML 3.0 COMPONENTS Graphics REQUIRED)
-find_package(EnTT 3.15 REQUIRED)
+find_package(SFML 3.0 COMPONENTS Graphics CONFIG REQUIRED)
+find_package(EnTT 3.15 CONFIG REQUIRED)
 add_executable(${PROJECT_NAME})
 set_target_properties(
     ${PROJECT_NAME}

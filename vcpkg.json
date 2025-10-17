@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "boost-locale",
+    "entt",
+    "sfgui",
+    "sfml",
+    "msgpack"
+  ]
+}
