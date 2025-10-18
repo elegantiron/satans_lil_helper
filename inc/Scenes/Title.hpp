@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <libslh/Engine/Scene.hpp>
 #include <libslh/Engine/Timer.hpp>
+#include <libslh/Types/GameTime.hpp>
 
 using namespace libslh;
 
@@ -29,7 +30,7 @@ namespace SatansLilHelper::Scenes {
         void onReveal() override;
         void draw(sf::RenderTarget& target,
                   sf::RenderStates  states) const override;
-        void iterate(const GameTime& gameTime,
+        void iterate(const libslh::GameTime& gameTime,
                      bool&           successful,
                      bool&           keepRunning) override;
         void handleEvent(std::optional<sf::Event> event,
