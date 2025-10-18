@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "boost-locale",
+    "boost-serialization",
     "entt",
     "sfgui",
     "sfml",
