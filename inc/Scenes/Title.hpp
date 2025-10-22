@@ -5,7 +5,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <libslh/Engine/Scene.hpp>
 #include <libslh/Engine/Timer.hpp>
-#include <libslh/Types/GameTime.hpp>
+#include <libslh/System/GameTime.hpp>
 
 using namespace libslh;
 
