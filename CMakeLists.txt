@@ -84,13 +84,12 @@ target_sources(
 )
 
 include(cmake/Gettext_helpers.cmake)
-set(DOMAIN_NAME "slh")
-configure_gettext(
-    DOMAIN ${DOMAIN_NAME}
+add_gettext_domain(
+    DOMAIN "slh"
     TARGET_NAME "slh_i18n"
     SOURCES ${SOURCES}
     POTFILE_DESTINATION "i18n"
-    GMOFILE_DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/l10n"
+    MOFILE_DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/l10n"
     XGETTEXT_ARGS
         "--keyword=_" "--keyword=C_:1c,2"
         "--keyword=P_:1,2" "-F" "--sentence-end=single-space"
