@@ -5,6 +5,7 @@
     "entt",
     "sfgui",
     "sfml",
+    "tweeny",
     "msgpack"
   ]
 }
