@@ -126,17 +126,17 @@ namespace SatansLilHelper::Scenes {
     }
 
     Title::Title(Engine::ScenePtr parent)
-        : Scene(std::move(parent)), _blinkTimer(this, &Title::blinkCallback) {}
+        : Scene(std::move(parent)){}
 
     void Title::blinkCallback(bool& runAgain, Duration& nextInterval) {
         Engine::Core& core = Engine::Core::getInstance();
         runAgain           = true;
         if (_eyesOpen) {
             nextInterval
-                = std::chrono::milliseconds(core.next(CLOSED_MIN, CLOSED_MAX));
+                = std::chrono::milliseconds(core.getRandom(CLOSED_MIN, CLOSED_MAX));
         } else {
             nextInterval
-                = std::chrono::milliseconds(core.next(OPEN_MIN, OPEN_MAX));
+                = std::chrono::milliseconds(core.getRandom(OPEN_MIN, OPEN_MAX));
         }
         _eyesOpen = !_eyesOpen;
     }

@@ -4,8 +4,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <libslh/Engine/Scene.hpp>
-#include <libslh/Engine/Timer.hpp>
 #include <libslh/System/GameTime.hpp>
+#include <libslh/System/Timer.hpp>
 
 using namespace libslh;
 
@@ -31,8 +31,8 @@ namespace SatansLilHelper::Scenes {
         void draw(sf::RenderTarget& target,
                   sf::RenderStates  states) const override;
         void iterate(const libslh::GameTime& gameTime,
-                     bool&           successful,
-                     bool&           keepRunning) override;
+                     bool&                   successful,
+                     bool&                   keepRunning) override;
         void handleEvent(std::optional<sf::Event> event,
                          bool&                    successful,
                          bool&                    keepRunning) override;
@@ -43,6 +43,6 @@ namespace SatansLilHelper::Scenes {
         Title(Engine::ScenePtr parent = nullptr);
 
     private:
-        Engine::Timer<Title> _blinkTimer;
+        Timer _blinkTimer;
     };
 } // namespace SatansLilHelper::Scenes
