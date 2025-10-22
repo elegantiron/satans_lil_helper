@@ -3,9 +3,10 @@
     "boost-locale",
     "boost-serialization",
     "entt",
+    "msgpack",
     "sfgui",
     "sfml",
     "tweeny",
-    "msgpack"
+    "tgui"
   ]
 }
