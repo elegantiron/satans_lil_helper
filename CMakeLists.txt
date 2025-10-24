@@ -26,7 +26,6 @@ target_link_libraries(
     PRIVATE
     SFML::Graphics
     Boost::locale
-    libslh
 )
 target_include_directories(
     ${PROJECT_NAME}
@@ -97,5 +96,3 @@ add_gettext_domain(
         "--copyright-holder=SmuB Design" "--msgid-bugs-address=elegant.iron3167@fastmail.com"
     LANGUAGES "en_US.UTF-8"
 )
-
-add_subdirectory("deps/libslh")
