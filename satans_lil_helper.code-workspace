@@ -5,7 +5,8 @@
 		}
 	],
 	"settings": {
-		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+		"cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+		"C_Cpp.intelliSenseEngine": "disabled"
 	},
 	"extensions": {
 		"recommendations": [

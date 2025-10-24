@@ -19,11 +19,11 @@ namespace SatansLilHelper::Scenes {
         successful = keepRunning = true;
     }
 
-    void MainMenu::handleEvent(std::optional<sf::Event> event,
-                               bool&                    successful,
-                               bool&                    keepRunning) {
+    void MainMenu::handleEvent(const sf::Event& event,
+                               bool&            successful,
+                               bool&            keepRunning) {
         successful = keepRunning = true;
-        if (const auto& keyEvent = event->getIf<sf::Event::KeyPressed>()) {
+        if (const auto& keyEvent = event.getIf<sf::Event::KeyPressed>()) {
             if (keyEvent->scancode == sf::Keyboard::Scancode::Escape) {
                 keepRunning = false;
                 return;
@@ -31,7 +31,7 @@ namespace SatansLilHelper::Scenes {
         }
     }
 
-    MainMenu::MainMenu(Engine::ScenePtr parent)
+    MainMenu::MainMenu(ScenePtr parent)
         : Scene(std::move(parent)) //,
                                    //   _menu(Assets::Fonts::CrayonLibre,
                                    //         CHAR_HEIGHT,

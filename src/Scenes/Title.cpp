@@ -2,8 +2,9 @@
 
 #include "Scenes/MainMenu.hpp"
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <libintl.h>
-#include <libslh/Engine/Core.hpp>
+
 
 namespace { // Local constants
     constexpr unsigned int TITLE_CHAR_SIZE      = 85;
@@ -30,15 +31,15 @@ namespace SatansLilHelper::Scenes {
     }
 
     void Title::configureTexts() {
-        Engine::Core& core = Engine::Core::getInstance();
-        _title.setString(core.localize(Constants::Strings::Title));
+        // Engine::Core& core = Engine::Core::getInstance();
+        // _title.setString(core.localize(Constants::Strings::Title));
         _title.setCharacterSize(TITLE_CHAR_SIZE);
         auto bounds = _title.getLocalBounds();
         _title.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));
         _title.setFillColor(TITLE_FILL_COLOR);
         _title.setOutlineColor(TITLE_OUTLINE_COLOR);
 
-        _pressStart.setString(core.localize(Constants::Strings::PressStart));
+        // _pressStart.setString(core.localize(Constants::Strings::PressStart));
         _pressStart.setCharacterSize(PSTART_CHAR_SIZE);
         bounds = _pressStart.getLocalBounds();
         _pressStart.setOrigin(sf::Vector2f(bounds.size.x / 2, 0));
@@ -98,21 +99,23 @@ namespace SatansLilHelper::Scenes {
         }
     }
 
-    void Title::iterate(const GameTime& gameTime, bool& successful,
-                        bool& keepRunning) {
+    void Title::iterate(const GameTime& gameTime,
+                        bool&           successful,
+                        bool&           keepRunning) {
         successful = keepRunning = true;
-        _blinkTimer.update(gameTime);
+        // _blinkTimer.update(gameTime);
     }
 
-    void Title::handleEvent(std::optional<sf::Event> event, bool& successful,
-                            bool& keepRunning) {
-        auto& core = Engine::Core::getInstance();
+    void Title::handleEvent(const sf::Event& event,
+                            bool&            successful,
+                            bool&            keepRunning) {
+        // auto& core = Engine::Core::getInstance();
         successful = keepRunning = true;
-        if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>()) {
+        if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>()) {
             if (keyEvent->scancode != sf::Keyboard::Scancode::Escape) {
-                Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>(
-                    core.getCurrentScene());
-                core.setNextScene(pMain);
+                // Engine::ScenePtr pMain = std::make_shared<Scenes::MainMenu>(
+                // core.getCurrentScene());
+                // core.setNextScene(pMain);
             }
         }
     }
@@ -125,19 +128,18 @@ namespace SatansLilHelper::Scenes {
         _isActive = true;
     }
 
-    Title::Title(Engine::ScenePtr parent)
-        : Scene(std::move(parent)){}
+    Title::Title(ScenePtr parent) : Scene(std::move(parent)) {}
 
-    void Title::blinkCallback(bool& runAgain, Duration& nextInterval) {
-        Engine::Core& core = Engine::Core::getInstance();
-        runAgain           = true;
-        if (_eyesOpen) {
-            nextInterval
-                = std::chrono::milliseconds(core.getRandom(CLOSED_MIN, CLOSED_MAX));
-        } else {
-            nextInterval
-                = std::chrono::milliseconds(core.getRandom(OPEN_MIN, OPEN_MAX));
-        }
-        _eyesOpen = !_eyesOpen;
-    }
+    // void Title::blinkCallback(bool& runAgain, Duration& nextInterval) {
+    // Core& core = Core::getInstance();
+    // runAgain           = true;
+    // if (_eyesOpen) {
+    // nextInterval
+    // = std::chrono::milliseconds(core.getRandom(CLOSED_MIN, CLOSED_MAX));
+    // } else {
+    // nextInterval
+    // = std::chrono::milliseconds(core.getRandom(OPEN_MIN, OPEN_MAX));
+    // }
+    // _eyesOpen = !_eyesOpen;
+    // }
 } // namespace SatansLilHelper::Scenes

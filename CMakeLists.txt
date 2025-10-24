@@ -6,7 +6,18 @@ project(
     VERSION 0.0.1
     LANGUAGES C CXX
 )
-
+set(
+    SOURCES
+    "src/Constants/Numbers.cpp"
+    "src/Constants/Strings.cpp"
+    "src/Engine/Core.cpp"
+    "src/Engine/Scene.cpp"
+    "src/Engine/SceneManager.cpp"
+    "src/Graphics/WindowManager.cpp"
+    "src/Scenes/MainMenu.cpp"
+    "src/Scenes/Title.cpp"
+    "src/main.cpp"
+)
 if(${PROJECT_IS_TOP_LEVEL})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 endif()
@@ -62,14 +73,7 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/inc/Assets.hpp"
 )
-set(
-    SOURCES
-    "src/Constants/Numbers.cpp"
-    "src/Constants/Strings.cpp"
-    "src/Scenes/MainMenu.cpp"
-    "src/Scenes/Title.cpp"
-    "src/main.cpp"
-)
+
 set(
     ASSETS
     "src/Assets/Fonts.cpp"
