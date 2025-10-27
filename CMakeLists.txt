@@ -70,8 +70,8 @@ endif()
 target_precompile_headers(
     ${PROJECT_NAME}
     PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Constants.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/inc/Assets.hpp"
+    "inc/Constants.hpp"
+    "inc/Assets.hpp"
 )
 
 set(
