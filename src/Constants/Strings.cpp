@@ -10,11 +10,11 @@ namespace SatansLilHelper::Constants::Strings {
 
     namespace Menu {
         extern const basic_message<char> NewGame
-            = C_("section header", "new game");
+            = _("new game");
         extern const basic_message<char> Bestiary
-            = C_("section header", "bestiary");
+            = _("bestiary");
         extern const basic_message<char> Settings
-            = C_("section header", "settings");
+            = _("settings");
     }
 
 }
