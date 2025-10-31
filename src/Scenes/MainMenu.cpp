@@ -38,5 +38,8 @@ namespace SatansLilHelper::Scenes {
         _menu.addItem(core.localize(Constants::Strings::Menu::NewGame));
         _menu.addItem(core.localize(Constants::Strings::Menu::Bestiary));
         _menu.addItem(core.localize(Constants::Strings::Menu::Settings));
+        auto windowSize = core.getWindowSize();
+        _menu.setPosition(sf::Vector2f(static_cast<float>(windowSize.x) / 2,
+                                       static_cast<float>(windowSize.y) / 2));
     }
 }
