@@ -7,7 +7,7 @@ namespace SatansLilHelper::Scenes {
     using namespace libslh;
 
     class MainMenu : public libslh::Engine::Scene {
-        // Menu _menu;
+        Menu _menu;
 
         void iterate(const GameTime& gameTime,
                      bool&           successful,

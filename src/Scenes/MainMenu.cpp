@@ -1,15 +1,15 @@
 #include "Scenes/MainMenu.hpp"
 
-#include <SFML/Graphics/RenderTarget.hpp>
+#include "Constants.hpp"
 
-namespace {
-    constexpr int CHAR_HEIGHT = 55;
-}
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <libslh/Engine/Core.hpp>
 
 namespace SatansLilHelper::Scenes {
     void MainMenu::draw(sf::RenderTarget& target,
                         sf::RenderStates  states) const {
         target.draw(*_parent, states);
+        target.draw(_menu, states);
     }
 
     void MainMenu::iterate(const GameTime& gameTime,
@@ -32,10 +32,11 @@ namespace SatansLilHelper::Scenes {
     }
 
     MainMenu::MainMenu(Engine::ScenePtr parent)
-        : Scene(std::move(parent)) //,
-                                   //   _menu(Assets::Fonts::CrayonLibre,
-                                   //         CHAR_HEIGHT,
-                                   //         sf::Color::White,
-                                   //         sf::Color::Red)
-    {}
+        : Scene(std::move(parent)),
+          _menu(Assets::Fonts::Menu::Default, Assets::Fonts::Menu::Selected) {
+        auto& core = libslh::Engine::Core::getInstance();
+        _menu.addItem(core.localize(Constants::Strings::Menu::NewGame));
+        _menu.addItem(core.localize(Constants::Strings::Menu::Bestiary));
+        _menu.addItem(core.localize(Constants::Strings::Menu::Settings));
+    }
 }
