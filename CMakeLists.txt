@@ -50,6 +50,7 @@ target_compile_options(
     PRIVATE
     -ggdb
 )
+add_compile_definitions(DEBUG=1)
 elseif("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 target_compile_options(
     ${PROJECT_NAME}
